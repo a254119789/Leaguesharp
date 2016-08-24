@@ -155,7 +155,7 @@ namespace Dark_Star_Thresh.Update
             {
                 if (rTarget != null && !rTarget.IsDead && rTarget.IsValidTarget())
                 {
-                    if (MenuConfig.ComboR >= rTarget.CountEnemiesInRange(Spells.R.Range - 45))
+                    if (MenuConfig.ComboR >= Player.CountEnemiesInRange(Spells.R.Range - 45))
                     {
                         Spells.R.Cast();
                     }
