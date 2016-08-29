@@ -9,25 +9,20 @@ namespace Dark_Star_Thresh.Update
     {
         public static void Skinchanger(EventArgs args)
         {
-            if (!MenuConfig.UseSkin)
-            {
-                Player.SetSkin(Player.CharData.BaseSkinName, Player.BaseSkinId);
-                return;
-            }
-            Player.SetSkin(Player.CharData.BaseSkinName, MenuConfig.Config.Item("Skin").GetValue<StringList>().SelectedIndex);
+            Player.SetSkin(Player.CharData.BaseSkinName, MenuConfig.UseSkin ? MenuConfig.Config.Item("Skin").GetValue<StringList>().SelectedIndex : Player.BaseSkinId);
         }
 
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
-            if (!MenuConfig.Interrupt || sender.IsInvulnerable) return;
-
-            if (sender.IsValidTarget(Spells.E.Range))
+            if (!MenuConfig.Interrupt
+                || sender.IsInvulnerable
+                || !sender.IsValidTarget(Spells.E.Range)
+                || !Spells.E.IsReady())
             {
-                if (Spells.E.IsReady())
-                {
-                    Spells.E.Cast(sender);
-                }
+                return;
             }
+
+                Spells.E.Cast(sender);
         }
 
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
@@ -35,13 +30,10 @@ namespace Dark_Star_Thresh.Update
             if (!MenuConfig.Gapcloser) return;
 
             var sender = gapcloser.Sender;
-            if (sender.IsEnemy && Spells.E.IsReady() && sender.IsValidTarget())
-            {
-                if (sender.IsValidTarget(Spells.E.Range))
-                {
-                    Spells.E.Cast(sender);
-                }
-            }
+
+            if (!sender.IsEnemy || !Spells.E.IsReady() || !sender.IsValidTarget(Spells.E.Range)) return;
+
+            Spells.E.Cast(sender);
         }
     }
 }

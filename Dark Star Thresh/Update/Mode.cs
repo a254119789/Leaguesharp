@@ -10,21 +10,21 @@ namespace Dark_Star_Thresh.Update
 {
     internal class Mode : Core.Core
     {
-        public static Vector3 qPred(Obj_AI_Hero Target)
+        public static Vector3 QPred(Obj_AI_Hero target)
         {
-            var pos = Spells.Q.GetPrediction(Target).CastPosition.To2D();
+            var pos = Spells.Q.GetPrediction(target).CastPosition.To2D();
 
             return pos.To3D2();
         }
 
         public static void GetActiveMode(EventArgs args)
         {
-            switch (_orbwalker.ActiveMode)
+            switch (Orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.None:
                     FlashCombo();
                     Flee();
-                    _orbwalker.SetAttack(true);
+                    Orbwalker.SetAttack(true);
                     break;
                 case Orbwalking.OrbwalkingMode.Combo:
                     Combo();
@@ -32,15 +32,13 @@ namespace Dark_Star_Thresh.Update
                 case Orbwalking.OrbwalkingMode.Mixed:
                     Harass();
                     break;
-                case Orbwalking.OrbwalkingMode.LaneClear:
-                    break;
                 case Orbwalking.OrbwalkingMode.LastHit:
                     LastHit();
                     break;
             }
         }
 
-        public static bool ThreshQ(Obj_AI_Base t)
+        public static bool ThreshQ(Obj_AI_Base t) // In case of inheritance
         {
             return t.HasBuff("ThreshQ");
         }
@@ -91,7 +89,7 @@ namespace Dark_Star_Thresh.Update
 
                     if (Spells.Q.WillHit(qTarget, qPrediction.CastPosition))
                     {
-                        Spells.Q.Cast(qPred(qTarget));
+                        Spells.Q.Cast(QPred(qTarget));
                     }
                 }
 
@@ -107,16 +105,18 @@ namespace Dark_Star_Thresh.Update
 
                             foreach (var m in minions)
                             {
-                                if (m == null || !m.IsValidTarget() 
+                                if (m == null 
+                                    || !m.IsValidTarget() 
                                     || !(m.Health > Spells.Q.GetDamage(m))
                                     ||!qTarget.IsFacing(Player)) continue;
 
                                 if (!ThreshQ(m) && !(m.Distance(Player) >= 900f)) continue;
+
                                 if (!(m.Distance(Player) <= Spells.Q.Range) || !(qTarget.Distance(Player) <= Spells.Q.Range + Spells.E.Range - 50)) continue;
 
                                 if (MenuConfig.Debug) Game.PrintChat("Taxi Mode Active...");
 
-                                Spells.Q.Cast(m.ServerPosition);
+                                Spells.Q.Cast(m);
                             }
                         }
                     }
@@ -141,27 +141,23 @@ namespace Dark_Star_Thresh.Update
                 }
             }
 
-            if (Spells.R.IsReady())
+            if (!Spells.R.IsReady() || rTarget == null || rTarget.IsDead || !rTarget.IsValidTarget()) return;
+          
+            if (Player.CountEnemiesInRange(Spells.R.Range - 45) >= MenuConfig.ComboR)
             {
-                if (rTarget != null && !rTarget.IsDead && rTarget.IsValidTarget())
-                {
-                    if (Player.CountEnemiesInRange(Spells.R.Range - 45) >= MenuConfig.ComboR)
-                    {
-                        Spells.R.Cast();
-                    }
-                }
+                Spells.R.Cast();
             }
         }
 
         public static void Harass()
         {
-            if (_orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && MenuConfig.HarassAA)
+            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && MenuConfig.HarassAa)
             {
-                _orbwalker.SetAttack(false);
+                Orbwalker.SetAttack(false);
             }
-            else // Not needed, but you'll never know.
+            else
             {
-                _orbwalker.SetAttack(true);
+                Orbwalker.SetAttack(true);
             }
 
             var qTarget = TargetSelector.GetTarget(Spells.Q.Range, TargetSelector.DamageType.Physical);
@@ -191,7 +187,7 @@ namespace Dark_Star_Thresh.Update
 
             if (Spells.Q.WillHit(qTarget, qPrediction.CastPosition))
             {
-                Spells.Q.Cast(qPred(qTarget));
+                Spells.Q.Cast(QPred(qTarget));
             }
         }
 
@@ -223,24 +219,23 @@ namespace Dark_Star_Thresh.Update
 
             var qTarget = TargetSelector.GetTarget(Spells.Q.Range + 300, TargetSelector.DamageType.Physical);
 
-            if (qTarget != null && qTarget.IsValidTarget())
+            if (qTarget == null || !qTarget.IsValidTarget()) return;
+
+            var qPrediction = Spells.Q.GetPrediction(qTarget);
+
+            if (qPrediction.Hitchance == HitChance.Collision) return;
+
+            var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
+
+            if (wAlly != null)
             {
-                var qPrediction = Spells.Q.GetPrediction(qTarget);
-
-                var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
-
-                if (wAlly != null)
-                {
-                    Spells.W.Cast(wAlly);
-                }
-                if (qPrediction.Hitchance == HitChance.Collision) return;
-
-                if (Spells.Flash != SpellSlot.Unknown && Player.Spellbook.CanUseSpell(Spells.Flash) == SpellState.Ready)
-                {
-                    Player.Spellbook.CastSpell(Spells.Flash, qPrediction.CastPosition);
-                    Spells.Q.Cast(qPrediction.CastPosition);
-                }
+                Spells.W.Cast(wAlly);
             }
+
+            if (Spells.Flash == SpellSlot.Unknown || Player.Spellbook.CanUseSpell(Spells.Flash) != SpellState.Ready) return;
+
+            Player.Spellbook.CastSpell(Spells.Flash, qPrediction.CastPosition);
+            Spells.Q.Cast(qPrediction.CastPosition);
         }
         public static void Flee() // Snippet From Nechrito Diana
         {
@@ -273,12 +268,11 @@ namespace Dark_Star_Thresh.Update
 
             var m = mobs.MaxOrDefault(x => x.MaxHealth);
 
-            if (m.Distance(Game.CursorPos) <= Spells.Q.Range && m.Distance(Player) >= 475)
+            if (!(m.Distance(Game.CursorPos) <= Spells.Q.Range) || !(m.Distance(Player) >= 475)) return;
+
+            if (m.Health > Spells.Q.GetDamage(m))
             {
-                if (m.Health > Spells.Q.GetDamage(m))
-                {
-                    Spells.Q.Cast(m.Position);
-                }
+                Spells.Q.Cast(m.Position);
             }
         }
         public static readonly Dictionary<string, Vector3> JumpPos = new Dictionary<String, Vector3>()

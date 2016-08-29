@@ -27,11 +27,11 @@ namespace Dark_Star_Thresh.Drawings
 
             if(MenuConfig.DrawPred)
             {
-                var Target = TargetSelector.GetSelectedTarget();
+                var target = TargetSelector.GetSelectedTarget();
 
-                if (Target != null && !Target.IsDead && Target.IsValidTarget(Spells.Q.Range))
+                if (target != null && !target.IsDead && target.IsValidTarget(Spells.Q.Range))
                 {
-                    Render.Circle.DrawCircle(Mode.qPred(Target), 50, System.Drawing.Color.GhostWhite);
+                    Render.Circle.DrawCircle(Mode.QPred(target), 50, System.Drawing.Color.GhostWhite);
                 }
             }
         }

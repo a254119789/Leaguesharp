@@ -6,18 +6,18 @@ namespace Dark_Star_Thresh
     {
         public static Menu Config;
         public static Menu TargetSelectorMenu;
-        public static string menuName = "Dark Star Thresh";
+        public static string MenuName = "Dark Star Thresh";
 
         public static void LoadMenu()
         {
-            Config = new Menu(menuName, menuName, true);
+            Config = new Menu(MenuName, MenuName, true);
             #region TargetSelector & Orbwalker
             TargetSelectorMenu = new Menu("Target Selector", "Target Selector");
             TargetSelector.AddToMenu(TargetSelectorMenu);
             Config.AddSubMenu(TargetSelectorMenu);
 
             var orbwalker = new Menu("Orbwalker", "rorb");
-            _orbwalker = new Orbwalking.Orbwalker(orbwalker);
+            Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
             #endregion
 
@@ -28,29 +28,29 @@ namespace Dark_Star_Thresh
             combo.AddItem(new MenuItem("ComboTaxi", "Taxi Mode (Beta!)").SetValue(true).SetTooltip("Will Cast Q To Minions, Logic implented ofc."));
             Config.AddSubMenu(combo);
 
-            var Harass = new Menu("Harass", "Harass");
-            Harass.AddItem(new MenuItem("HarassAA", "Disable AA In Harass").SetValue(false).SetTooltip("Wont Use AA"));
-            Harass.AddItem(new MenuItem("HarassQ", "Use Q").SetValue(true).SetTooltip("Wont cast Q2"));
-            Harass.AddItem(new MenuItem("HarassE", "Use E").SetValue(true).SetTooltip("Throws the target away from you"));
-            Config.AddSubMenu(Harass);
+            var harass = new Menu("Harass", "Harass");
+            harass.AddItem(new MenuItem("HarassAA", "Disable AA In Harass").SetValue(false).SetTooltip("Wont Use AA"));
+            harass.AddItem(new MenuItem("HarassQ", "Use Q").SetValue(true).SetTooltip("Wont cast Q2"));
+            harass.AddItem(new MenuItem("HarassE", "Use E").SetValue(true).SetTooltip("Throws the target away from you"));
+            Config.AddSubMenu(harass);
 
-            var Misc = new Menu("Misc", "Misc");
-            Misc.AddItem(new MenuItem("Interrupt", "Interrupter").SetValue(true));
-            Misc.AddItem(new MenuItem("Gapcloser", "Gapcloser").SetValue(true));
-            Misc.AddItem(new MenuItem("UseSkin", "Use Skinchanger").SetValue(false));
-            Misc.AddItem(new MenuItem("Skin", "Skin").SetValue(new StringList(new[] { "Default", "Deep Terror Thresh", "Championship Thresh", "Blood Moon Thresh", "SSW Thresh", "Dark Star Thresh" })));
-            Misc.AddItem(new MenuItem("Flee", "Flee").SetValue(new KeyBind('A', KeyBindType.Press))).SetTooltip("Flee To Minion / Mobs");
-            Config.AddSubMenu(Misc);
+            var misc = new Menu("Misc", "Misc");
+            misc.AddItem(new MenuItem("Interrupt", "Interrupter").SetValue(true));
+            misc.AddItem(new MenuItem("Gapcloser", "Gapcloser").SetValue(true));
+            misc.AddItem(new MenuItem("UseSkin", "Use Skinchanger").SetValue(false));
+            misc.AddItem(new MenuItem("Skin", "Skin").SetValue(new StringList(new[] { "Default", "Deep Terror Thresh", "Championship Thresh", "Blood Moon Thresh", "SSW Thresh", "Dark Star Thresh" })));
+            misc.AddItem(new MenuItem("Flee", "Flee").SetValue(new KeyBind('A', KeyBindType.Press))).SetTooltip("Flee To Minion / Mobs");
+            Config.AddSubMenu(misc);
 
 
-            var Draw = new Menu("Draw", "Draw");
-            Draw.AddItem(new MenuItem("DrawDmg", "Draw Damage").SetValue(true).SetTooltip("Somewhat Fps Heavy, Be Careful"));
-            Draw.AddItem(new MenuItem("DrawPred", "Draw Q Prediction").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawQ", "Draw Q Range").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawW", "Draw W Range").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawE", "Draw E Range").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawR", "Draw R Range").SetValue(true));
-            Config.AddSubMenu(Draw);
+            var draw = new Menu("Draw", "Draw");
+            draw.AddItem(new MenuItem("DrawDmg", "Draw Damage").SetValue(true).SetTooltip("Somewhat Fps Heavy, Be Careful"));
+            draw.AddItem(new MenuItem("DrawPred", "Draw Q Prediction").SetValue(true));
+            draw.AddItem(new MenuItem("DrawQ", "Draw Q Range").SetValue(true));
+            draw.AddItem(new MenuItem("DrawW", "Draw W Range").SetValue(true));
+            draw.AddItem(new MenuItem("DrawE", "Draw E Range").SetValue(true));
+            draw.AddItem(new MenuItem("DrawR", "Draw R Range").SetValue(true));
+            Config.AddSubMenu(draw);
 
             Config.AddItem(new MenuItem("Debug", "Debug Mode").SetValue(false).SetTooltip("Prints In Chat What's Going On"));
 
@@ -70,7 +70,7 @@ namespace Dark_Star_Thresh
         // Bool
         public static bool ComboTaxi => Config.Item("ComboTaxi").GetValue<bool>();
 
-        public static bool HarassAA => Config.Item("HarassAA").GetValue<bool>();
+        public static bool HarassAa => Config.Item("HarassAA").GetValue<bool>();
         public static bool HarassQ => Config.Item("HarassQ").GetValue<bool>();
         public static bool HarassE => Config.Item("HarassE").GetValue<bool>();
 
