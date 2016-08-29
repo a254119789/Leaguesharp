@@ -6,7 +6,7 @@ using LeagueSharp.Common;
 
 namespace Dark_Star_Thresh
 {
-    class Load
+    internal class Load
     {
         public static void LoadAssembly()
         {

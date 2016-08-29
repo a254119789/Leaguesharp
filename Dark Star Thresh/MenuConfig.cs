@@ -2,7 +2,7 @@
 
 namespace Dark_Star_Thresh
 {
-    class MenuConfig : Core.Core
+    internal class MenuConfig : Core.Core
     {
         public static Menu Config;
         public static Menu TargetSelectorMenu;

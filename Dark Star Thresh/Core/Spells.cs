@@ -3,7 +3,7 @@ using LeagueSharp.Common;
 
 namespace Dark_Star_Thresh.Core
 {
-    class Spells 
+    internal class Spells 
     {
         public static SpellSlot Ignite { get; set;}
         public static SpellSlot Flash { get; set; }

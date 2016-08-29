@@ -4,24 +4,16 @@ using LeagueSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpDX;
-using LeagueSharp.Common.Data;
 
 namespace Dark_Star_Thresh.Update
 {
-    class Mode : Core.Core
+    internal class Mode : Core.Core
     {
         public static Vector3 qPred(Obj_AI_Hero Target)
         {
             var pos = Spells.Q.GetPrediction(Target).CastPosition.To2D();
 
-            if(Spells.Q.MinHitChance >= HitChance.High)
-            {
-                return pos.To3D2();
-            }
-           
             return pos.To3D2();
         }
 
@@ -62,17 +54,17 @@ namespace Dark_Star_Thresh.Update
             var rTarget = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
             // Credits to DanZ for this line of code.
-            var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).Where(x => x.Distance(Player.Position) <= Spells.W.Range + 250).FirstOrDefault();
+            var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
 
             if (Spells.E.IsReady())
             {
                 if (eTarget != null && !eTarget.IsDashing() && !eTarget.IsDead && eTarget.IsValidTarget(Spells.E.Range))
                 {
-                    if(eTarget.Distance(Player) <= Spells.E.Range)
+                    if (eTarget.Distance(Player) <= Spells.E.Range)
                     {
                         if (wAlly == null && !eTarget.UnderAllyTurret())
                         {
-                            if(MenuConfig.Debug)
+                            if (MenuConfig.Debug)
                             {
                                 Game.PrintChat("Pushing");
                             }
@@ -91,7 +83,7 @@ namespace Dark_Star_Thresh.Update
                 }
             }
 
-            if(Spells.Q.IsReady())
+            if (Spells.Q.IsReady())
             {
                 if (qTarget != null && !qTarget.IsDashing() && !qTarget.IsDead && qTarget.IsValidTarget())
                 {
@@ -103,9 +95,9 @@ namespace Dark_Star_Thresh.Update
                     }
                 }
 
-                if(MenuConfig.ComboTaxi && Spells.E.IsReady())
+                if (MenuConfig.ComboTaxi && Spells.E.IsReady())
                 {
-                    if(qTarget != null && qTarget.IsValidTarget())
+                    if (qTarget != null && qTarget.IsValidTarget())
                     {
                         var qPrediction = Spells.Q.GetPrediction(qTarget);
 
@@ -115,18 +107,16 @@ namespace Dark_Star_Thresh.Update
 
                             foreach (var m in minions)
                             {
-                                if (m != null && m.IsValidTarget() && m.Health > Spells.Q.GetDamage(m) && qTarget.IsFacing(Player))
-                                {
-                                    if(ThreshQ(m) || m.Distance(Player) >= 900f)
-                                    {
-                                        if (m.Distance(Player) <= Spells.Q.Range && qTarget.Distance(Player) <= Spells.Q.Range + Spells.E.Range - 50)
-                                        {
-                                            if (MenuConfig.Debug) Game.PrintChat("Taxi Mode Active...");
+                                if (m == null || !m.IsValidTarget() 
+                                    || !(m.Health > Spells.Q.GetDamage(m))
+                                    ||!qTarget.IsFacing(Player)) continue;
 
-                                            Spells.Q.Cast(m.ServerPosition);
-                                        }
-                                    }
-                                }
+                                if (!ThreshQ(m) && !(m.Distance(Player) >= 900f)) continue;
+                                if (!(m.Distance(Player) <= Spells.Q.Range) || !(qTarget.Distance(Player) <= Spells.Q.Range + Spells.E.Range - 50)) continue;
+
+                                if (MenuConfig.Debug) Game.PrintChat("Taxi Mode Active...");
+
+                                Spells.Q.Cast(m.ServerPosition);
                             }
                         }
                     }
@@ -135,7 +125,7 @@ namespace Dark_Star_Thresh.Update
 
             if (wAlly != null)
             {
-                if(qTarget.IsValidTarget() && qTarget != null && ThreshQ(qTarget))
+                if (qTarget.IsValidTarget() && qTarget != null && ThreshQ(qTarget))
                 {
                     if (Spells.W.IsReady())
                     {
@@ -144,14 +134,14 @@ namespace Dark_Star_Thresh.Update
                 }
                 else if (eTarget.IsValidTarget() && eTarget != null && eTarget.Distance(Player) <= Spells.E.Range)
                 {
-                    if(Spells.W.IsReady())
+                    if (Spells.W.IsReady())
                     {
                         Spells.W.Cast(wAlly);
                     }
                 }
             }
 
-          if(Spells.R.IsReady())
+            if (Spells.R.IsReady())
             {
                 if (rTarget != null && !rTarget.IsDead && rTarget.IsValidTarget())
                 {
@@ -165,7 +155,7 @@ namespace Dark_Star_Thresh.Update
 
         public static void Harass()
         {
-            if(_orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && MenuConfig.HarassAA)
+            if (_orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && MenuConfig.HarassAA)
             {
                 _orbwalker.SetAttack(false);
             }
@@ -178,7 +168,7 @@ namespace Dark_Star_Thresh.Update
 
             var eTarget = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
 
-            if(MenuConfig.HarassE)
+            if (MenuConfig.HarassE)
             {
                 if (Spells.E.IsReady())
                 {
@@ -194,7 +184,7 @@ namespace Dark_Star_Thresh.Update
 
             // The reason we can return here is because we wont go further. Better code and we don't have to put unecessary if statements
             if (!MenuConfig.HarassQ) return;
-            
+
             if (qTarget == null || qTarget.IsDashing() || qTarget.IsDead || !qTarget.IsValidTarget() || !Spells.Q.IsReady()) return;
 
             var qPrediction = Spells.Q.GetPrediction(qTarget);
@@ -212,27 +202,14 @@ namespace Dark_Star_Thresh.Update
 
             foreach (var m in minions)
             {
-                if (m.IsValidTarget(1050) && m != null && !m.IsDead)
-                {
-                    var range = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).Where(x => x.Distance(Player.Position) <= 1050).FirstOrDefault();
+                if (!m.IsValidTarget(1050) || m == null || m.IsDead) continue;
+                var range = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= 1050);
 
-                    if (Player.GetAutoAttackDamage(m, true) > m.Health && range != null)
-                    {
-                        if (MenuConfig.Debug)
-                        {
-                            Game.PrintChat("Damage = " + (float)Player.GetAutoAttackDamage(m, true) + " | Minion Hp = " + m.Health);
+                if (!(Player.GetAutoAttackDamage(m, true) > m.Health) || range == null) continue;
+                if (!MenuConfig.Debug) continue;
+                Game.PrintChat("Damage = " + (float)Player.GetAutoAttackDamage(m, true) + " | Minion Hp = " + m.Health);
 
-                            if (m.Distance(Player) <= 225f)
-                            {
-                                Render.Circle.DrawCircle(m.Position, 75, System.Drawing.Color.Green);
-                            }
-                            else
-                            {
-                                Render.Circle.DrawCircle(m.Position, 75, System.Drawing.Color.Red);
-                            }
-                        }
-                    }
-                }
+                Render.Circle.DrawCircle(m.Position, 75, m.Distance(Player) <= 225f ? System.Drawing.Color.Green : System.Drawing.Color.Red);
             }
         }
 
@@ -246,11 +223,11 @@ namespace Dark_Star_Thresh.Update
 
             var qTarget = TargetSelector.GetTarget(Spells.Q.Range + 300, TargetSelector.DamageType.Physical);
 
-            if(qTarget != null && qTarget.IsValidTarget())
+            if (qTarget != null && qTarget.IsValidTarget())
             {
                 var qPrediction = Spells.Q.GetPrediction(qTarget);
-               
-                var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).Where(x => x.Distance(Player.Position) <= Spells.W.Range + 250).FirstOrDefault();
+
+                var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
 
                 if (wAlly != null)
                 {
@@ -262,18 +239,18 @@ namespace Dark_Star_Thresh.Update
                 {
                     Player.Spellbook.CastSpell(Spells.Flash, qPrediction.CastPosition);
                     Spells.Q.Cast(qPrediction.CastPosition);
-                } 
-            }   
+                }
+            }
         }
         public static void Flee() // Snippet From Nechrito Diana
         {
             if (!MenuConfig.Flee) return;
 
-            var jump = JumpPos.Where(x => x.Value.Distance(ObjectManager.Player.Position) < 300f && x.Value.Distance(Game.CursorPos) < Spells.Q.Range).FirstOrDefault();
+            var jump = JumpPos.FirstOrDefault(x => x.Value.Distance(ObjectManager.Player.Position) < 300f && x.Value.Distance(Game.CursorPos) < Spells.Q.Range);
             var monster = MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.Health).FirstOrDefault();
             var mobs = MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.NotAlly);
-            
-            if(jump.Value.IsValid() && Spells.Q.IsReady())
+
+            if (jump.Value.IsValid() && Spells.Q.IsReady())
             {
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, jump.Value);
 
@@ -296,15 +273,15 @@ namespace Dark_Star_Thresh.Update
 
             var m = mobs.MaxOrDefault(x => x.MaxHealth);
 
-            if(m.Distance(Game.CursorPos) <= Spells.Q.Range && m.Distance(Player) >= 475)
+            if (m.Distance(Game.CursorPos) <= Spells.Q.Range && m.Distance(Player) >= 475)
             {
-                if(m.Health > Spells.Q.GetDamage(m))
+                if (m.Health > Spells.Q.GetDamage(m))
                 {
                     Spells.Q.Cast(m.Position);
                 }
             }
         }
-        public static readonly Dictionary<String, Vector3> JumpPos = new Dictionary<String, Vector3>()
+        public static readonly Dictionary<string, Vector3> JumpPos = new Dictionary<String, Vector3>()
         {
             { "mid_Dragon" , new Vector3 (9122f, 4058f, 53.95995f) },
             { "left_dragon" , new Vector3 (9088f, 4544f, 52.24316f) },

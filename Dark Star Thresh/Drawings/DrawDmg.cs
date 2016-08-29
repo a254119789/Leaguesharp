@@ -7,7 +7,7 @@ using Dark_Star_Thresh.Core;
 
 namespace Dark_Star_Thresh.Drawings
 {
-    class DrawDmg : Core.Core
+    internal class DrawDmg : Core.Core
     {
         private static readonly HpBarIndicator Indicator = new HpBarIndicator();
 

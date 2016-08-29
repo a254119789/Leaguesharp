@@ -9,7 +9,7 @@ using Dark_Star_Thresh.Update;
 
 namespace Dark_Star_Thresh.Drawings
 {
-    class DrawRange : Core.Core
+    internal class DrawRange : Core.Core
     {
         public static void OnDraw(EventArgs args)
         {

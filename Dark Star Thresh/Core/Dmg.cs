@@ -6,7 +6,7 @@ using LeagueSharp.Common.Data;
 
 namespace Dark_Star_Thresh.Core
 {
-    class Dmg
+    internal class Dmg
     {
         public static float Damage(Obj_AI_Base target)
         {

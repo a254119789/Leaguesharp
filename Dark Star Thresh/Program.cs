@@ -4,9 +4,9 @@ using LeagueSharp.Common;
 
 namespace Dark_Star_Thresh
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             CustomEvents.Game.OnGameLoad += OnLoad;
         }

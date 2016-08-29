@@ -5,7 +5,7 @@ using System;
 
 namespace Dark_Star_Thresh.Update
 {
-    class Misc : Core.Core
+    internal class Misc : Core.Core
     {
         public static void Skinchanger(EventArgs args)
         {
