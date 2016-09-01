@@ -3,7 +3,7 @@ using LeagueSharp.Common.Data;
 
 namespace Nechrito_Twitch
 {
-    class Usables
+    internal class Usables
     {
         public static void CastYoumoo()
         {

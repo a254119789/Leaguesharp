@@ -9,22 +9,19 @@ namespace Nechrito_Twitch
     internal class MenuConfig
     {
         public static Menu Config;
-        public static Menu TargetSelectorMenu;
         public static Orbwalking.Orbwalker Orbwalker;
+
         public static string MenuName = "Nechrito Twitch";
 
         public static void LoadMenu()
         {
             Config = new Menu(MenuName, MenuName, true);
-            TargetSelectorMenu = new Menu("Target Selector", "Target Selector");
-            TargetSelector.AddToMenu(TargetSelectorMenu);
-            Config.AddSubMenu(TargetSelectorMenu);
+
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
 
             var combo = new Menu("Combo", "Combo");
-
             combo.AddItem(new MenuItem("UseW", "Use W").SetValue(true));
             combo.AddItem(new MenuItem("KsE", "Killsecure E").SetValue(true).SetTooltip("Might interfere with Exploit"));
             Config.AddSubMenu(combo);
@@ -38,10 +35,10 @@ namespace Nechrito_Twitch
             lane.AddItem(new MenuItem("laneW", "Use W").SetValue(true).SetTooltip("Will only W if 4 minions can be hit"));
             Config.AddSubMenu(lane);
 
-            var Jungle = new Menu("Jungle", "Jungle");
-            Jungle.AddItem(new MenuItem("JungleE", "Use E").SetValue(true));
-            Jungle.AddItem(new MenuItem("JungleW", "Use W").SetValue(false));
-            Config.AddSubMenu(Jungle);
+            var jungle = new Menu("Jungle", "Jungle");
+            jungle.AddItem(new MenuItem("JungleE", "Use E").SetValue(true));
+            jungle.AddItem(new MenuItem("JungleW", "Use W").SetValue(false));
+            Config.AddSubMenu(jungle);
 
             var steal = new Menu("Steal", "Steal");
             steal.AddItem(new MenuItem("StealEpic", "Dragons & Baron").SetValue(true));
