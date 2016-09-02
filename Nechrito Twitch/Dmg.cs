@@ -19,6 +19,9 @@ namespace Nechrito_Twitch
             return eDmg;
         }
 
-
+        public static int Stacks(Obj_AI_Base target)
+        {
+            return target.GetBuffCount("TwitchDeadlyVenom");
+        }
     }
 }

@@ -201,16 +201,12 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
                 return;
             }
 
-            if (MenuConfig.KsE) // If Menu => Combo => Killsecure E is "Off", return
+            if (MenuConfig.KsE) // If Menu => Combo => Killsecure E is "On", do the following code
             {
-                var target = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
-
-                if (target == null || dmg.GetDamage(target) < target.Health || target.IsInvulnerable)
+                foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(enemy => enemy.IsValidTarget(Spells.E.Range) && enemy.Health <= dmg.GetDamage(enemy)))
                 {
-                    return;
+                    Spells.E.Cast(enemy); // Executes enemy with Twitch's E spell
                 }
-
-                Spells.E.Cast(); // Executes enemy with Twitch's E spell    
             }
 
             // Looks for mobs within Twitch's E spell range, prioritizes the mob with most health
