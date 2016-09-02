@@ -1,3 +1,5 @@
 # Leaguesharp
-I'm Nechrito
-I still haven't figured out Github so it looks messy. Live with it.
+This repo contains L# Common 
+
+Outdated: Nechrito Rengar, Nechrito Gragas & Nechrito Diana
+Instead use Reformeed AIO OR PrideStalker Rengar in my SDK repo.
