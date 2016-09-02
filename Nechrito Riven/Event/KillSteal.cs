@@ -1,8 +1,6 @@
 ﻿#region
 
 using System;
-using System.Linq;
-using LeagueSharp;
 using LeagueSharp.Common;
 using NechritoRiven.Core;
 using NechritoRiven.Menus;

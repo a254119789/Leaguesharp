@@ -4,9 +4,49 @@ using NechritoRiven.Menus;
 
 namespace NechritoRiven.Event
 {
-    class Anim : Core.Core
+    using Core;
+
+    internal class Anim : Core
     {
-        private static int ExtraDelay => Game.Ping/2;
+        private static int Ping()
+        {
+            int ping;
+
+            if (!MenuConfig.CancelPing)
+            {
+                ping = 0;
+            }
+            else
+            {
+                ping = Game.Ping/2;
+            }
+
+            return ping;
+        }
+
+        private static void Emotes()
+        {
+            if (!MenuConfig.Qstrange)
+            {
+                return;
+            }
+
+            switch (MenuConfig.EmoteList.SelectedIndex)
+            {
+                case 0:
+                    Game.SendEmote(Emote.Laugh);
+                    break;
+                case 1:
+                    Game.SendEmote(Emote.Taunt);
+                    break;
+                case 2:
+                    Game.SendEmote(Emote.Joke);
+                    break;
+                case 3:
+                    Game.SendEmote(Emote.Dance);
+                    break;
+            }
+        }
 
         private static bool SafeReset =>
                 Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Flee &&
@@ -15,34 +55,35 @@ namespace NechritoRiven.Event
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
             if (!sender.IsMe) return;
-
+            
             switch (args.Animation)
             {
+               
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
-
+                    Emotes();
                     if (SafeReset)
                     {
-                        Utility.DelayAction.Add(MenuConfig.Qd * 10 + ExtraDelay, Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qd * 10 + Ping(), Reset);
                     }
                     break;
                 case "Spell1b":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
-
+                    Emotes();
                     if (SafeReset)
                     {
-                        Utility.DelayAction.Add(MenuConfig.Qd * 10 + ExtraDelay, Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qd * 10 + Ping(), Reset);
                     }
                     break;
                 case "Spell1c":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
-
+                    Emotes();
                     if (SafeReset)
                     {
-                        Utility.DelayAction.Add(MenuConfig.Qld * 10 + ExtraDelay, Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qld * 10 + Ping(), Reset);
                     }
                     break;
             }
@@ -51,7 +92,7 @@ namespace NechritoRiven.Event
         {
             Game.SendEmote(Emote.Dance);
             Orbwalking.LastAaTick = 0;
-            Player.IssueOrder(GameObjectOrder.MoveTo, Player.Position.Extend(Game.CursorPos, Player.Distance(Game.CursorPos) + 10));
+            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10);
         }
     }
 }

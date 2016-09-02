@@ -1,5 +1,4 @@
 ﻿using LeagueSharp;
-using LeagueSharp.Common;
 
 namespace NechritoRiven.Core
 {
@@ -9,7 +8,7 @@ namespace NechritoRiven.Core
 
         public const string IsFirstR = "RivenFengShuiEngine";
         public const string IsSecondR = "RivenIzunaBlade";
-
+       
         public static int Qstack = 1;
 
         public static Orbwalking.Orbwalker Orbwalker;

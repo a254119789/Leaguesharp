@@ -3,7 +3,7 @@ using NechritoRiven.Core;
 
 namespace NechritoRiven.Event
 {
-    class Gapclose : Core.Core
+    internal class Gapclose : Core.Core
     {
         public static void Gapcloser(ActiveGapcloser gapcloser)
         {

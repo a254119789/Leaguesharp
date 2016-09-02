@@ -1,5 +1,4 @@
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\Nechrito Riven.exe.config
-C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.csprojResolveAssemblyReference.cache
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\Nechrito Riven.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\Nechrito Riven.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\LeagueSharp.Common.dll
@@ -11,5 +10,7 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\Newtonsoft.Json.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\LeagueSharp.Common.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\LeagueSharp.Data.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\clipper_library.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.csprojResolveAssemblyReference.cache
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.pdb

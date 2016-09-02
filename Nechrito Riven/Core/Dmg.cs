@@ -3,7 +3,7 @@ using LeagueSharp.Common;
 
 namespace NechritoRiven.Core
 {
-    class Dmg : Core
+    internal class Dmg : Core
     {
         public static float IgniteDamage(Obj_AI_Hero target)
         {

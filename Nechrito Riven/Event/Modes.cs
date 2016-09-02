@@ -1,6 +1,5 @@
 ﻿#region
 
-using System;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -16,7 +15,7 @@ namespace NechritoRiven.Event
         // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsMe) return;
+            if (!sender.IsMe || !args.SData.IsAutoAttack()) return;
 
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
@@ -34,6 +33,7 @@ namespace NechritoRiven.Event
                         if (!Spells.Q.IsReady() || !MenuConfig.LaneQ || m.UnderTurret()) continue;
 
                         ForceItem();
+                       
                         ForceCastQ(m);
                     }
                 }
@@ -43,7 +43,7 @@ namespace NechritoRiven.Event
                 {
                     if (objAiTurret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
                     {
-                        ForceCastQ(objAiTurret);
+                        Spells.Q.Cast(objAiTurret.Position - 250);
                     }
                 }
 
@@ -53,12 +53,16 @@ namespace NechritoRiven.Event
 
                 foreach (var m in mobs)
                 {
-                    if (!m.IsValid) return;
-
+                    if (m.Health < Player.GetAutoAttackDamage(m))
+                    {
+                        return;
+                    }
                     if (Spells.Q.IsReady() && MenuConfig.JnglQ)
                     {
                         ForceItem();
-                        ForceCastQ(m);
+                        // ForceCastQ(m);
+                       
+                        Spells.Q.Cast(m);
                     }
 
                     else if (!Spells.W.IsReady() || !MenuConfig.JnglW) return;
@@ -79,7 +83,9 @@ namespace NechritoRiven.Event
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
                     ForceItem();
-                    ForceCastQ(target);
+                   // ForceCastQ(target);
+                   
+                    Spells.Q.Cast(target.Position + 80); // This is for magnet mode kiting :p
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
@@ -184,7 +190,7 @@ namespace NechritoRiven.Event
                 }
             }
 
-            if (Spells.E.IsReady() && !InWRange(target))
+            if (Spells.E.IsReady())
             {
                 Spells.E.Cast(target.Position);
             }

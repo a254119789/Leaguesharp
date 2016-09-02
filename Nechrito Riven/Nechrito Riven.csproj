@@ -54,19 +54,19 @@
   <ItemGroup>
     <Reference Include="LeagueSharp, Version=1.0.0.25, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Software\XoKn7ol1m\References\LeagueSharp.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common, Version=1.0.0.23, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Software\XoKn7ol1m\References\LeagueSharp.Common.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Software\XoKn7ol1m\References\SharpDX.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Software\XoKn7ol1m\References\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

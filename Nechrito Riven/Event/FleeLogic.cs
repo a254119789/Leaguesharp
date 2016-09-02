@@ -2,7 +2,6 @@
 
 using LeagueSharp;
 using LeagueSharp.Common;
-using NechritoRiven.Menus;
 using SharpDX;
 
 #endregion

@@ -8,7 +8,7 @@ using SharpDX;
 
 namespace NechritoRiven.Draw
 {
-    class DrawDmg
+    internal class DrawDmg
     {
         private static readonly HpBarIndicator Indicator = new HpBarIndicator();
         public static void DmgDraw(EventArgs args)

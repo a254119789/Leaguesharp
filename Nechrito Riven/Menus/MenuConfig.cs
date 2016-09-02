@@ -9,16 +9,13 @@ namespace NechritoRiven.Menus
     internal class MenuConfig : Core.Core
     {
         public static Menu Config;
-        public static Menu TargetSelectorMenu;
         public static string MenuName = "Nechrito Riven";
 
         public static void LoadMenu()
         {
             Config = new Menu(MenuName, MenuName, true);
 
-            TargetSelectorMenu = new Menu("target Selector", "target Selector");
-            TargetSelector.AddToMenu(TargetSelectorMenu);
-            Config.AddSubMenu(TargetSelectorMenu);
+            Config.AddItem(new MenuItem("version", "Version: 6.17"));
 
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
@@ -27,11 +24,9 @@ namespace NechritoRiven.Menus
             var animation = new Menu("Animation", "Animation");
             animation.AddItem(new MenuItem("QD", "Q1, Q2 Delay").SetValue(new Slider(23, 23, 43)));
             animation.AddItem(new MenuItem("QLD", "Q3 Delay").SetValue(new Slider(36, 36, 53)));
+            animation.AddItem(new MenuItem("CancelPing", "Include Ping?").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
             animation.AddItem(new MenuItem("Qstrange", "Enable").SetValue(false)).SetTooltip("Enables Emote");
-            animation.AddItem(new MenuItem("animLaugh", "Laugh").SetValue(false));
-            animation.AddItem(new MenuItem("animTaunt", "Taunt").SetValue(false));
-            animation.AddItem(new MenuItem("animTalk", "Joke").SetValue(false));
-            animation.AddItem(new MenuItem("animDance", "Dance").SetValue(false));
+            animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" })));
             Config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
@@ -57,6 +52,7 @@ namespace NechritoRiven.Menus
             misc.AddItem(new MenuItem("GapcloserMenu", "Anti-Gapcloser").SetValue(true));
             misc.AddItem(new MenuItem("InterruptMenu", "Interrupter").SetValue(true));
             misc.AddItem(new MenuItem("KeepQ", "Keep Q Alive").SetValue(true));
+            misc.AddItem(new MenuItem("QMove", "Q Move").SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Will Q Move to mouse");
             Config.AddSubMenu(misc);
 
             var draw = new Menu("Draw", "Draw");
@@ -77,12 +73,8 @@ namespace NechritoRiven.Menus
 
             var skin = new Menu("SkinChanger", "SkinChanger");
             skin.AddItem(new MenuItem("UseSkin", "Use SkinChanger").SetValue(false)).SetTooltip("Toggles Skinchanger");
-            skin.AddItem(new MenuItem("Skin", "Skin").SetValue(new StringList(new[] { "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade" })));
+            skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[] { "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade" })));
             Config.AddSubMenu(skin);
-
-            var qmove = new Menu("Q Move", "Q Move");
-            qmove.AddItem(new MenuItem("QMove", "Q Move").SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Will Q Move to mouse");
-            Config.AddSubMenu(qmove);
 
             Config.AddToMainMenu();
         }
@@ -92,11 +84,13 @@ namespace NechritoRiven.Menus
 
         public static bool QMove => Config.Item("QMove").GetValue<KeyBind>().Active;
 
-        public static StringList ItemList => Config.Item("ItemList").GetValue<StringList>();
+        public static StringList SkinList => Config.Item("SkinList").GetValue<StringList>();
+        public static StringList EmoteList => Config.Item("EmoteList").GetValue<StringList>();
 
         public static int Qd => Config.Item("QD").GetValue<Slider>().Value;
         public static int Qld => Config.Item("QLD").GetValue<Slider>().Value;
 
+        public static bool CancelPing => Config.Item("CancelPing").GetValue<bool>();
         public static bool FleeYomuu => Config.Item("FleeYoumuu").GetValue<bool>();
         public static bool OverKillCheck => Config.Item("OverKillCheck").GetValue<bool>();
         public static bool FleeSpot => Config.Item("FleeSpot").GetValue<bool>();

@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Collections.Generic;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -9,7 +10,7 @@ namespace NechritoRiven.Core
 {
    internal partial class Core
     {
-        public static AttackableUnit QTarget;
+       public static AttackableUnit QTarget;
        private static bool _forceQ;
        private static bool _forceW;
        private static bool _forceR;
@@ -117,5 +118,38 @@ namespace NechritoRiven.Core
             Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
             Utility.DelayAction.Add(11, ()=> Spells.W.Cast(target));
         }
+
+        public static List<string> TargetedAntiSpell = new List<string>()
+        {
+            "MonkeyKingQAttack", "YasuoDash",
+            "FizzPiercingStrike", "RengarQ",
+            "GarenQAttack", "GarenRPreCast",
+            "PoppyPassiveAttack", "viktorqbuff" ,
+            "FioraEAttack",
+        };
+
+        public static List<string> EAntiSpell = new List<string>()
+        {
+           "MonkeyKingSpinToWin",  "KatarinaRTrigger",
+            "HungeringStrike", "TwitchEParticle",
+            "RengarPassiveBuffDashAADummy", "RengarPassiveBuffDash",
+            "IreliaEquilibriumStrike", "BraumBasicAttackPassiveOverride",
+            "gnarwproc", "hecarimrampattack",
+            "illaoiwattack", "JaxEmpowerTwo",
+            "JayceThunderingBlow", "RenektonSuperExecute",
+            "vaynesilvereddebuff",
+
+        };
+
+        public static List<string> WAntiSpell = new List<string>()
+        {
+            "RenektonPreExecute",
+            "TalonCutthroat",
+            "IreliaEquilibriumStrike",
+            "XenZhaoThrust3",
+            "KatarinaRTrigger",
+            "KatarinaE",
+            "MonkeyKingSpinToWin"
+        };
     }
 }

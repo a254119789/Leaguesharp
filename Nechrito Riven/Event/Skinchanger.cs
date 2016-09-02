@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using LeagueSharp.Common;
 using NechritoRiven.Menus;
 
 #endregion
@@ -12,12 +11,7 @@ namespace NechritoRiven.Event
     {
         public static void Update(EventArgs args)
         {
-            if (!MenuConfig.UseSkin)
-            {
-                Player.SetSkin(Player.CharData.BaseSkinName, Player.BaseSkinId);
-                return;
-            }
-                Player.SetSkin(Player.CharData.BaseSkinName, MenuConfig.Config.Item("Skin").GetValue<StringList>().SelectedIndex);
+            Player.SetSkin(Player.CharData.BaseSkinName, MenuConfig.UseSkin ? MenuConfig.SkinList.SelectedIndex : Player.BaseSkinId);
         }
     }
 }

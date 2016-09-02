@@ -2,7 +2,7 @@
 
 namespace NechritoRiven.Core
 {
-    class Usables : Core
+    internal class Usables : Core
     {
         public static void CastHydra()
         {

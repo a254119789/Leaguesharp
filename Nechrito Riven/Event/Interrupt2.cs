@@ -5,7 +5,7 @@ using NechritoRiven.Menus;
 
 namespace NechritoRiven.Event
 {
-    class Interrupt2 : Core.Core
+    internal class Interrupt2 : Core.Core
     {
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {

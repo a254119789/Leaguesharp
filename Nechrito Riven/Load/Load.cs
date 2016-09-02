@@ -23,6 +23,7 @@ namespace NechritoRiven.Load
             Obj_AI_Base.OnProcessSpellCast += Core.Core.OnCast;
             Obj_AI_Base.OnPlayAnimation += Anim.OnPlay;
 
+
             Drawing.OnEndScene += DrawDmg.DmgDraw;
             Drawing.OnDraw += DrawRange.RangeDraw;
             Drawing.OnDraw += DrawWallSpot.WallDraw;
@@ -34,7 +35,7 @@ namespace NechritoRiven.Load
             Interrupter2.OnInterruptableTarget += Interrupt2.OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += Gapclose.Gapcloser;
 
-            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Version: 71</font></b>");
+            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Loaded!</font></b>");
         }
     }
 }
