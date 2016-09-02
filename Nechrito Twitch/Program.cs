@@ -203,9 +203,9 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
 
             if (MenuConfig.KsE) // If Menu => Combo => Killsecure E is "Off", return
             {
-                var target = ObjectManager.Get<Obj_AI_Hero>().FirstOrDefault(x => x.IsValidTarget(Spells.E.Range) && x.HasBuff("twitchdeadlyvenom"));
+                var target = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
 
-                if (target == null)
+                if (target == null || dmg.GetDamage(target) < target.Health || target.IsInvulnerable)
                 {
                     return;
                 }

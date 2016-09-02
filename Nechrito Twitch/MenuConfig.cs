@@ -23,7 +23,7 @@ namespace Nechrito_Twitch
 
             var combo = new Menu("Combo", "Combo");
             combo.AddItem(new MenuItem("UseW", "Use W").SetValue(true));
-            combo.AddItem(new MenuItem("KsE", "Killsecure E").SetValue(true).SetTooltip("Might interfere with Exploit"));
+            combo.AddItem(new MenuItem("KsE", "Killsecure E").SetValue(true));
             Config.AddSubMenu(combo);
 
             var harass = new Menu("Harass", "Harass");
