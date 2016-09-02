@@ -51,27 +51,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LeagueSharp">
-      <HintPath>C:\Software\XoKn7ol1m\References\LeagueSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Software\LeagueSharp\System\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>C:\Software\XoKn7ol1m\References\LeagueSharp.Common.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.Common.dll</HintPath>
     </Reference>
-    <Reference Include="LeagueSharp.SDKEx, Version=3.0.1.2, Culture=neutral, PublicKeyToken=ae325b57d943987e, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Software\XoKn7ol1m\References\LeagueSharp.SDKEx.dll</HintPath>
+    <Reference Include="LeagueSharp.Data">
+      <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.Data.dll</HintPath>
     </Reference>
-    <Reference Include="RethoughtLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Software\XoKn7ol1m\References\RethoughtLib.dll</HintPath>
+    <Reference Include="LeagueSharp.SDKEx">
+      <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.SDKEx.dll</HintPath>
+    </Reference>
+    <Reference Include="RethoughtLib">
+      <HintPath>C:\Software\rP1k9gpY1\References\RethoughtLib.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>C:\Software\XoKn7ol1m\References\SharpDX.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9">
-      <HintPath>C:\Software\XoKn7ol1m\References\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="SPrediction">
-      <HintPath>C:\Software\XoKn7ol1m\References\SPrediction.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\SPrediction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

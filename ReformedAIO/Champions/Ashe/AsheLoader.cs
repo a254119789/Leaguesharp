@@ -43,7 +43,7 @@
             var laneParent = new Parent("LaneClear");
             var drawingParent = new Parent("Drawings");
 
-            superParent.AddChildren(new[]
+            superParent.Add(new[]
             {
                 comboParent, mixedParent, laneParent, jungleParent, drawingParent
             });
@@ -56,34 +56,34 @@
             var eCombo = new ECombo("[E]");
             var rCombo = new RCombo("[R]");
 
-            comboParent.AddChild(qCombo);
-            comboParent.AddChild(eCombo);
-            comboParent.AddChild(wCombo);
-            comboParent.AddChild(rCombo);
+            comboParent.Add(qCombo);
+            comboParent.Add(eCombo);
+            comboParent.Add(wCombo);
+            comboParent.Add(rCombo);
 
             var qMixed = new QMixed("[Q]");
             var wMixed = new WMixed("[W]");
 
-            mixedParent.AddChild(qMixed);
-            mixedParent.AddChild(wMixed);
+            mixedParent.Add(qMixed);
+            mixedParent.Add(wMixed);
 
             var qJungle = new QJungle("[Q]");
             var wJungle = new WJungle("[W]");
 
-            jungleParent.AddChild(qJungle);
-            jungleParent.AddChild(wJungle);
+            jungleParent.Add(qJungle);
+            jungleParent.Add(wJungle);
 
             var qLane = new QLane("[Q]");
             var wLane = new WLane("[W]");
 
-            laneParent.AddChild(qLane);
-            laneParent.AddChild(wLane);
+            laneParent.Add(qLane);
+            laneParent.Add(wLane);
 
             var wDraw = new WDraw("[W] Draw");
             var dmgDraw = new DmgDraw("Damage Indicator");
 
-            drawingParent.AddChild(wDraw);
-            drawingParent.AddChild(dmgDraw);
+            drawingParent.Add(wDraw);
+            drawingParent.Add(dmgDraw);
 
             var orbWalkingMenu = new Menu("Orbwalker", "Orbwalking");
             Variable.Orbwalker = new Orbwalking.Orbwalker(orbWalkingMenu);

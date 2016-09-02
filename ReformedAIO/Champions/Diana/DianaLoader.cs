@@ -49,36 +49,36 @@ namespace ReformedAIO.Champions.Diana
             var draw = new Parent("Drawings");
             var flee = new Parent("Flee");
 
-            superParent.AddChildren(new[]
+            superParent.Add(new[]
             {
                 combo, misaya, mixed, lane, jungle, ks, draw, flee
             });
 
-            combo.AddChild(new CrescentStrike());
-            combo.AddChild(new Moonfall());
-            combo.AddChild(new LunarRush());
-            combo.AddChild(new PaleCascade());
-            combo.AddChild(new MisayaCombo());
+            combo.Add(new CrescentStrike());
+            combo.Add(new Moonfall());
+            combo.Add(new LunarRush());
+            combo.Add(new PaleCascade());
+            combo.Add(new MisayaCombo());
 
-            mixed.AddChild(new MixedCrescentStrike());
+            mixed.Add(new MixedCrescentStrike());
 
-            lane.AddChild(new LaneCrescentStrike());
-            lane.AddChild(new LaneLunarRush());
+            lane.Add(new LaneCrescentStrike());
+            lane.Add(new LaneLunarRush());
 
-            jungle.AddChild(new JungleCrescentStrike());
-            jungle.AddChild(new JungleLunarRush());
-            jungle.AddChild(new JungleMoonfall());
-            jungle.AddChild(new JunglePaleCascade());
+            jungle.Add(new JungleCrescentStrike());
+            jungle.Add(new JungleLunarRush());
+            jungle.Add(new JungleMoonfall());
+            jungle.Add(new JunglePaleCascade());
 
-            ks.AddChild(new KsPaleCascade());
-            ks.AddChild(new KsCrescentStrike());
+            ks.Add(new KsPaleCascade());
+            ks.Add(new KsCrescentStrike());
 
-            draw.AddChild(new DrawQ());
-            draw.AddChild(new DrawE());
-            draw.AddChild(new DrawDmg());
-            draw.AddChild(new DrawPred());
+            draw.Add(new DrawQ());
+            draw.Add(new DrawE());
+            draw.Add(new DrawDmg());
+            draw.Add(new DrawPred());
 
-            flee.AddChild(new FleeMode());
+            flee.Add(new FleeMode());
 
             superParent.OnLoadInvoker();
 

@@ -8,8 +8,6 @@
     using LeagueSharp.Common;
 
     using ReformedAIO.Champions.Ryze.Logic;
-
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion

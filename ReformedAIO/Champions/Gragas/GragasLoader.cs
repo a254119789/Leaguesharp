@@ -47,30 +47,30 @@ namespace ReformedAIO.Champions.Gragas
             var qLogic = new QLogic();
             qLogic.Load();
 
-            superParent.AddChildren(new[]
+            superParent.Add(new[]
             {
                 combo, mixed, lane, jungle, draw
             });
 
-            combo.AddChild(new QCombo());
-            combo.AddChild(new WCombo());
-            combo.AddChild(new ECombo());
-            combo.AddChild(new RCombo());
+            combo.Add(new QCombo());
+            combo.Add(new WCombo());
+            combo.Add(new ECombo());
+            combo.Add(new RCombo());
 
-            lane.AddChild(new LaneQ());
-            lane.AddChild(new LaneW());
-            lane.AddChild(new LaneE());
+            lane.Add(new LaneQ());
+            lane.Add(new LaneW());
+            lane.Add(new LaneE());
 
-            mixed.AddChild(new QMixed());
+            mixed.Add(new QMixed());
 
-            jungle.AddChild(new QJungle());
-            jungle.AddChild(new WJungle());
-            jungle.AddChild(new EJungle());
+            jungle.Add(new QJungle());
+            jungle.Add(new WJungle());
+            jungle.Add(new EJungle());
 
-            draw.AddChild(new DrawIndicator());
-            draw.AddChild(new DrawQ());
-            draw.AddChild(new DrawE());
-            draw.AddChild(new DrawR());
+            draw.Add(new DrawIndicator());
+            draw.Add(new DrawQ());
+            draw.Add(new DrawE());
+            draw.Add(new DrawR());
 
             superParent.OnLoadInvoker();
 

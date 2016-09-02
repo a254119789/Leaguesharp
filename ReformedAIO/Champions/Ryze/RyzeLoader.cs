@@ -48,28 +48,28 @@ namespace ReformedAIO.Champions.Ryze
             var killstealParent = new Parent("Killsteal");
             var drawParent = new Parent("Drawings");
 
-            superParent.AddChild(new RyzeCombo("Combo"));
+            superParent.Add(new RyzeCombo("Combo"));
 
-            superParent.AddChildren(new[] { laneParent, jungleParent, mixedParent, killstealParent, drawParent });
+            superParent.Add(new[] { laneParent, jungleParent, mixedParent, killstealParent, drawParent });
 
-            mixedParent.AddChild(new QMixed());
-            mixedParent.AddChild(new WMixed());
-            mixedParent.AddChild(new EMixed());
+            mixedParent.Add(new QMixed());
+            mixedParent.Add(new WMixed());
+            mixedParent.Add(new EMixed());
 
-            laneParent.AddChild(new QLane());
-            laneParent.AddChild(new WLane());
-            laneParent.AddChild(new ELane());
+            laneParent.Add(new QLane());
+            laneParent.Add(new WLane());
+            laneParent.Add(new ELane());
 
-            jungleParent.AddChild(new QJungle());
-            jungleParent.AddChild(new WJungle());
-            jungleParent.AddChild(new EJungle());
+            jungleParent.Add(new QJungle());
+            jungleParent.Add(new WJungle());
+            jungleParent.Add(new EJungle());
 
-            killstealParent.AddChild(new KillstealMenu());
+            killstealParent.Add(new KillstealMenu());
 
-            drawParent.AddChild(new QDraw());
-            drawParent.AddChild(new EDraw());
-            drawParent.AddChild(new RDraw());
-            drawParent.AddChild(new DmgDraw());
+            drawParent.Add(new QDraw());
+            drawParent.Add(new EDraw());
+            drawParent.Add(new RDraw());
+            drawParent.Add(new DmgDraw());
 
             var orbWalkingMenu = new Menu("Orbwalker", "Orbwalker");
             Variable.Orbwalker = new Orbwalking.Orbwalker(orbWalkingMenu);

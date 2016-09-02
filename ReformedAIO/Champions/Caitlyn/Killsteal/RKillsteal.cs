@@ -1,5 +1,4 @@
-﻿using LeagueSharp.SDK;
-using LeagueSharp.SDK.Utils;
+﻿using LeagueSharp.SDK.Utils;
 
 namespace ReformedAIO.Champions.Caitlyn.Killsteal
 {

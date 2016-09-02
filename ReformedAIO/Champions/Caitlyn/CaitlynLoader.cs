@@ -36,7 +36,7 @@ namespace ReformedAIO.Champions.Caitlyn
             var setSpells = new Spells();
             setSpells.OnLoad();
 
-            superParent.AddChildren(new[]
+            superParent.Add(new[]
           {
                 comboParent,
                 laneParent,
@@ -45,7 +45,7 @@ namespace ReformedAIO.Champions.Caitlyn
                 drawParent,
             });
 
-            comboParent.AddChildren(new ChildBase[]
+            comboParent.Add(new ChildBase[]
             {
              //   new Ewqr("EWQR Execute"), 
                 new QCombo("[Q]"),
@@ -53,21 +53,21 @@ namespace ReformedAIO.Champions.Caitlyn
                 new ECombo("[E]"),   
             });
 
-            laneParent.AddChild(new QLane("[Q]"));
+            laneParent.Add(new QLane("[Q]"));
 
-            jungleParent.AddChildren(new ChildBase[]
+            jungleParent.Add(new ChildBase[]
             {
                 new QJungle("[Q]"),
                 new EJungle("[E]"),
             });
 
-            killstealParent.AddChildren(new ChildBase[]
+            killstealParent.Add(new ChildBase[]
             {
                 new QKillsteal("[Q]"),
                 new RKillsteal("[R]"),  
             });
           
-            drawParent.AddChildren(new ChildBase[]
+            drawParent.Add(new ChildBase[]
             {
                 new DmgDraw("Damage"), 
                 new QDraw("[Q]"),

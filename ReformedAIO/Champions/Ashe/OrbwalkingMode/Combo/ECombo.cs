@@ -60,7 +60,7 @@
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Menu.AddItem(new MenuItem(Menu.Name + "EDistance", "Distance").SetValue(new Slider(1500, 0, 1500)).SetTooltip("Only for enemeis & not objectives"));
+            Menu.AddItem(new MenuItem(Menu.Name + "EDistance", "Distance").SetValue(new Slider(2500, 0, 2500)).SetTooltip("Only for enemeis & not objectives"));
 
             Menu.AddItem(new MenuItem(Menu.Name + "ECount", "Save 1 Charge").SetValue(true));
 
@@ -84,14 +84,11 @@
         {
             var target = TargetSelector.GetTarget(Variable.Player.AttackRange, TargetSelector.DamageType.Physical);
 
-            if (target == null
-                || !target.IsValid
-                || target.Distance(Variable.Player)
-                > Menu.Item(Menu.Name + "EDistance").GetValue<Slider>().Value || target.IsVisible) return;
+            if (target == null) return;
 
             if (!eLogic.ComboE(target)) return;
 
-            foreach (var position in HeroManager.Enemies.Where(x => !x.IsDead && x.Distance(Variable.Player) < 1500))
+            foreach (var position in HeroManager.Enemies.Where(x => !x.IsDead && x.Distance(Variable.Player) < Menu.Item(Menu.Name + "EDistance").GetValue<Slider>().Value))
             {
                 var path = position.GetWaypoints().LastOrDefault().To3D();
 
@@ -99,7 +96,7 @@
 
                 //if (position.Distance(path) > 1500) return;
 
-                if (NavMesh.IsWallOfGrass(Variable.Player.Position, 1)) return; // Stil no proof wether or not this work yet.
+               // if (NavMesh.IsWallOfGrass(Variable.Player.Position, 1)) return; // Stil no proof wether or not this work yet.
 
                 Variable.Spells[SpellSlot.E].Cast(path);
             }

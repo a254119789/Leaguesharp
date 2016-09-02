@@ -11,10 +11,7 @@ namespace ReformedAIO
     using ReformedAIO.Champions.Diana;
     using ReformedAIO.Champions.Gragas;
     using ReformedAIO.Champions.Ryze;
-
-    using RethoughtLib;
     using RethoughtLib.Bootstraps.Abstract_Classes;
-    using RethoughtLib.Classes.General_Intefaces;
 
     #endregion
 
@@ -24,9 +21,10 @@ namespace ReformedAIO
 
         private static void Main(string[] args)
         {
-            RethoughtLib.Instance.Load();
-
-            var bootstrap = new Bootstrap(new List<LoadableBase> { new DianaLoader(), new GragasLoader(), new AsheLoader(), new RyzeLoader(), new CaitlynLoader() });
+            var bootstrap = new Bootstrap(new List<LoadableBase>
+            {
+                new DianaLoader(), new GragasLoader(), new AsheLoader(), new RyzeLoader(), new CaitlynLoader()
+            });
 
             bootstrap.Run();
         }
