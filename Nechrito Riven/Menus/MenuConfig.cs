@@ -1,6 +1,8 @@
 ﻿#region
 
+using System.Drawing;
 using LeagueSharp.Common;
+using Color = SharpDX.Color;
 
 #endregion
 
@@ -13,19 +15,20 @@ namespace NechritoRiven.Menus
 
         public static void LoadMenu()
         {
-            Config = new Menu(MenuName, MenuName, true);
+            Config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
-            Config.AddItem(new MenuItem("version", "Version: 6.17"));
+            Config.AddItem(new MenuItem("version", "Version: 6.17.1"));
 
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animation", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1, Q2 Delay").SetValue(new Slider(23, 23, 43)));
-            animation.AddItem(new MenuItem("QLD", "Q3 Delay").SetValue(new Slider(36, 36, 53)));
-            animation.AddItem(new MenuItem("CancelPing", "Include Ping?").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
-            animation.AddItem(new MenuItem("Qstrange", "Enable").SetValue(false)).SetTooltip("Enables Emote");
+            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 215, 350)).SetTooltip("Below 230 CAN be buggy!"));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(340, 340, 400)));
+            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
+            animation.AddItem(new MenuItem("EmoteEnable", "Enable").SetValue(false)).SetTooltip("Enables Emote");
             animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" })));
             Config.AddSubMenu(animation);
 
@@ -88,7 +91,8 @@ namespace NechritoRiven.Menus
         public static StringList EmoteList => Config.Item("EmoteList").GetValue<StringList>();
 
         public static int Qd => Config.Item("QD").GetValue<Slider>().Value;
-        public static int Qld => Config.Item("QLD").GetValue<Slider>().Value;
+        public static int Q2d => Config.Item("Q2D").GetValue<Slider>().Value;
+        public static int Qld => Config.Item("Q3D").GetValue<Slider>().Value;
 
         public static bool CancelPing => Config.Item("CancelPing").GetValue<bool>();
         public static bool FleeYomuu => Config.Item("FleeYoumuu").GetValue<bool>();
@@ -119,7 +123,7 @@ namespace NechritoRiven.Menus
         public static int WallWidth => Config.Item("WallWidth").GetValue<Slider>().Value;
         public static bool LaneW => Config.Item("LaneW").GetValue<bool>();
         public static bool LaneE => Config.Item("LaneE").GetValue<bool>();
-        public static bool Qstrange => Config.Item("Qstrange").GetValue<bool>();
+        public static bool EmoteEnable => Config.Item("EmoteEnable").GetValue<bool>();
         public static bool LaneQ => Config.Item("LaneQ").GetValue<bool>();
     }
 }

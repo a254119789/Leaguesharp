@@ -30,7 +30,12 @@ namespace NechritoRiven.Event
 
                     foreach (var m in minions)
                     {
-                        if (!Spells.Q.IsReady() || !MenuConfig.LaneQ || m.UnderTurret()) continue;
+                        if (!Spells.Q.IsReady()
+                            || !MenuConfig.LaneQ
+                            || m.UnderTurret(true))
+                        {
+                            continue;
+                        }
 
                         ForceItem();
                        
@@ -55,14 +60,14 @@ namespace NechritoRiven.Event
                 {
                     if (m.Health < Player.GetAutoAttackDamage(m))
                     {
-                        return;
+                        continue;
                     }
+
                     if (Spells.Q.IsReady() && MenuConfig.JnglQ)
                     {
                         ForceItem();
-                        // ForceCastQ(m);
-                       
-                        Spells.Q.Cast(m);
+                        Player.IssueOrder(GameObjectOrder.AttackTo, m); // <-- just testing something
+                        ForceCastQ(m);
                     }
 
                     else if (!Spells.W.IsReady() || !MenuConfig.JnglW) return;
@@ -72,8 +77,6 @@ namespace NechritoRiven.Event
                 }
             }
 
-            if(!Spells.Q.IsReady()) return;
-
             var a = HeroManager.Enemies.Where(x => x.IsValidTarget(Player.AttackRange + 360));
 
             var targets = a as Obj_AI_Hero[] ?? a.ToArray();
@@ -82,10 +85,17 @@ namespace NechritoRiven.Event
             {
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
+                    if (!Spells.Q.IsReady()) return;
+
                     ForceItem();
-                   // ForceCastQ(target);
-                   
-                    Spells.Q.Cast(target.Position + 80); // This is for magnet mode kiting :p
+                    if (target.IsFacing(Player))
+                    {
+                        Spells.Q.Cast(Player.Position.Extend(target.Position, -250)); // This is for magnet mode kiting :p
+                    }
+                    else
+                    {
+                        ForceCastQ(target);
+                    }
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
@@ -228,7 +238,7 @@ namespace NechritoRiven.Event
 
             if (!(target.Health < Dmg.GetComboDamage(target)) && !MenuConfig.AlwaysF) return;
 
-            if (!(Player.Distance(target.Position) >= 600)) return;
+            if (Player.Distance(target.Position) < 585) return;
 
             if (!Spells.R.IsReady() || !Spells.E.IsReady() || !Spells.W.IsReady() || Spells.R.Instance.Name != IsFirstR) return;
 

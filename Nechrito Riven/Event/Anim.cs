@@ -26,7 +26,7 @@ namespace NechritoRiven.Event
 
         private static void Emotes()
         {
-            if (!MenuConfig.Qstrange)
+            if (!MenuConfig.EmoteEnable)
             {
                 return;
             }
@@ -54,18 +54,20 @@ namespace NechritoRiven.Event
 
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
-            if (!sender.IsMe) return;
+            if (!sender.IsMe)
+            {
+                return;
+            }
             
             switch (args.Animation)
             {
-               
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
                     Emotes();
                     if (SafeReset)
                     {
-                        Utility.DelayAction.Add(MenuConfig.Qd * 10 + Ping(), Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
                     }
                     break;
                 case "Spell1b":
@@ -74,7 +76,7 @@ namespace NechritoRiven.Event
                     Emotes();
                     if (SafeReset)
                     {
-                        Utility.DelayAction.Add(MenuConfig.Qd * 10 + Ping(), Reset);
+                        Utility.DelayAction.Add(MenuConfig.Q2d + Ping(), Reset);
                     }
                     break;
                 case "Spell1c":
@@ -83,7 +85,7 @@ namespace NechritoRiven.Event
                     Emotes();
                     if (SafeReset)
                     {
-                        Utility.DelayAction.Add(MenuConfig.Qld * 10 + Ping(), Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
                     }
                     break;
             }
@@ -91,8 +93,8 @@ namespace NechritoRiven.Event
         private static void Reset()
         {
             Game.SendEmote(Emote.Dance);
-            Orbwalking.LastAaTick = 0;
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10);
+            Orbwalking.LastAaTick = 0;
         }
     }
 }
