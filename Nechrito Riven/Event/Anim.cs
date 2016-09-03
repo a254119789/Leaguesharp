@@ -64,7 +64,7 @@ namespace NechritoRiven.Event
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
-                    Emotes();
+                //    Emotes();
                     if (SafeReset)
                     {
                         Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
@@ -73,7 +73,7 @@ namespace NechritoRiven.Event
                 case "Spell1b":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
-                    Emotes();
+                  //  Emotes();
                     if (SafeReset)
                     {
                         Utility.DelayAction.Add(MenuConfig.Q2d + Ping(), Reset);
@@ -82,7 +82,7 @@ namespace NechritoRiven.Event
                 case "Spell1c":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
-                    Emotes();
+               //     Emotes();
                     if (SafeReset)
                     {
                         Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
@@ -92,7 +92,8 @@ namespace NechritoRiven.Event
         }
         private static void Reset()
         {
-            Game.SendEmote(Emote.Dance);
+            Emotes();
+            //  Game.SendEmote(Emote.Dance);
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10);
             Orbwalking.LastAaTick = 0;
         }

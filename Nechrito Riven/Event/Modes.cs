@@ -66,7 +66,6 @@ namespace NechritoRiven.Event
                     if (Spells.Q.IsReady() && MenuConfig.JnglQ)
                     {
                         ForceItem();
-                        Player.IssueOrder(GameObjectOrder.AttackTo, m); // <-- just testing something
                         ForceCastQ(m);
                     }
 
@@ -88,9 +87,10 @@ namespace NechritoRiven.Event
                     if (!Spells.Q.IsReady()) return;
 
                     ForceItem();
-                    if (target.IsFacing(Player))
+                    Usables.CastYoumoo();
+                    if (!target.IsFacing(Player) && target.IsMoving)
                     {
-                        Spells.Q.Cast(Player.Position.Extend(target.Position, -250)); // This is for magnet mode kiting :p
+                        Spells.Q.Cast(Player.Position.Extend(target.Position, -125)); // This is for magnet mode kiting :p
                     }
                     else
                     {
@@ -103,7 +103,19 @@ namespace NechritoRiven.Event
                     if (Qstack == 2)
                     {
                         ForceItem();
-                        Utility.DelayAction.Add(1, () => ForceCastQ(target));
+                        ForceCastQ(target);
+                    }
+                }
+
+                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.FastHarass)
+                {
+                    if (Spells.Q.IsReady() && InQRange(target))
+                    {
+                        ForceCastQ(target);
+                    }
+                    if (Spells.W.IsReady() && !Spells.Q.IsReady() && InWRange(target))
+                    {
+                        Spells.W.Cast(target);
                     }
                 }
 
@@ -275,7 +287,7 @@ namespace NechritoRiven.Event
                 if (target.IsValidTarget() && !target.IsZombie)
                 {
                     ForceCastQ(target);
-                    Utility.DelayAction.Add(1, ForceW);
+                    ForceW();
                 }
             }
 

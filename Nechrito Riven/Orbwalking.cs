@@ -354,7 +354,7 @@ namespace NechritoRiven
             var myRange = GetRealAutoAttackRange(target);
             return
                 Vector2.DistanceSquared(
-                    (target is Obj_AI_Base) ? ((Obj_AI_Base)target).ServerPosition.To2D() : target.Position.To2D(),
+                    (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
                     Player.ServerPosition.To2D()) <= myRange * myRange;
         }
 
@@ -618,9 +618,10 @@ namespace NechritoRiven
                     _missileLaunched = false;
                     LastMoveCommandT = 0;
 
-                    if (spell.Target is Obj_AI_Base)
+                    var @base = spell.Target as Obj_AI_Base;
+                    if (@base != null)
                     {
-                        var target = (Obj_AI_Base)spell.Target;
+                        var target = @base;
                         if (target.IsValid)
                         {
                             FireOnTargetSwitch(target);
