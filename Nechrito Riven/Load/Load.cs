@@ -23,7 +23,6 @@ namespace NechritoRiven.Load
             Obj_AI_Base.OnProcessSpellCast += Core.Core.OnCast;
             Obj_AI_Base.OnPlayAnimation += Anim.OnPlay;
 
-
             Drawing.OnEndScene += DrawDmg.DmgDraw;
             Drawing.OnDraw += DrawRange.RangeDraw;
             Drawing.OnDraw += DrawWallSpot.WallDraw;

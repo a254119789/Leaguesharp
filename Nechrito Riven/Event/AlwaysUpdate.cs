@@ -46,12 +46,6 @@ namespace NechritoRiven.Event
                     Modes.Jungleclear();
                     Modes.Laneclear();
                     break;
-                case Orbwalking.OrbwalkingMode.LastHit:
-                    break;
-                case Orbwalking.OrbwalkingMode.CustomMode:
-                    break;
-                case Orbwalking.OrbwalkingMode.None:
-                    break;
             }
         }
     }

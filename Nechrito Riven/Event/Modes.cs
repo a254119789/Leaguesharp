@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -88,14 +89,14 @@ namespace NechritoRiven.Event
 
                     ForceItem();
                     Usables.CastYoumoo();
-                    if (!target.IsFacing(Player) && target.IsMoving)
-                    {
-                        Spells.Q.Cast(Player.Position.Extend(target.Position, -125)); // This is for magnet mode kiting :p
-                    }
-                    else
-                    {
-                        ForceCastQ(target);
-                    }
+                    //if (!target.IsFacing(Player) && target.IsMoving)
+                    //{
+                    //    Spells.Q.Cast(Player.Position.Extend(target.Position, 75)); // This is for magnet mode kiting :p
+                    //}
+                    //else
+                    //{
+                        Spells.Q.Cast(target);
+                    //}
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
@@ -111,7 +112,8 @@ namespace NechritoRiven.Event
                 {
                     if (Spells.Q.IsReady() && InQRange(target))
                     {
-                        ForceCastQ(target);
+                        var qpred = Spells.Q.GetPrediction(target);
+                        Spells.Q.Cast(qpred.CastPosition);
                     }
                     if (Spells.W.IsReady() && !Spells.Q.IsReady() && InWRange(target))
                     {
@@ -130,23 +132,17 @@ namespace NechritoRiven.Event
 
                 ForceItem();
                 ForceCastQ(target);
-
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
-                {
-                    Spells.R.Cast(target.Position);
-                }
             }
         }
 
+       
         public static void QMove()
         {
             if (!MenuConfig.QMove || !Spells.Q.IsReady())
             {
                 return;
             }
-
-            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-           
+ 
             Utility.DelayAction.Add(Game.Ping + 2, () => Spells.Q.Cast(Player.Position -15));
         }
 
@@ -178,7 +174,7 @@ namespace NechritoRiven.Event
 
             foreach (var m in minions)
             {
-                if (m.UnderTurret()) continue;
+                if (m.UnderTurret(true)) continue;
 
                 if (Spells.E.IsReady() && MenuConfig.LaneE)
                 {
@@ -197,9 +193,14 @@ namespace NechritoRiven.Event
 
             if(target == null || target.IsDead || !target.IsValidTarget() || target.IsInvulnerable) return;
 
-            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
             {
                 var pred = Spells.R.GetPrediction(target);
+
+                if (pred.Hitchance < HitChance.Medium)
+                {
+                    return;
+                }
 
                 if (Qstack > 1 && !MenuConfig.OverKillCheck)
                 {
@@ -217,24 +218,17 @@ namespace NechritoRiven.Event
                 Spells.E.Cast(target.Position);
             }
 
-            if (Spells.W.IsReady() && Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR && (MenuConfig.AlwaysR || Dmg.GetComboDamage(target) > target.Health))
+            if ((Spells.W.IsReady() || Spells.Q.IsReady())
+                && Spells.R.IsReady()
+                && Spells.R.Instance.Name == IsFirstR
+                && MenuConfig.AlwaysR
+                && InWRange(target))
             {
-                if (InWRange(target)) return;
-
-                Spells.E.Cast(target.Position);
                 ForceR();
-                Utility.DelayAction.Add(190, ForceW);
+                Utility.DelayAction.Add(190, ForceW); // Doublecasts with E ^
             }
 
-           else if (Spells.W.IsReady() && Spells.Q.IsReady() && Spells.E.IsReady())
-            {
-                Usables.CastYoumoo();
-
-                Utility.DelayAction.Add(10, ForceItem);
-                Utility.DelayAction.Add(190, () => Spells.W.Cast());
-            }
-
-            else if (Spells.W.IsReady() && InWRange(target))
+            if (Spells.W.IsReady() && InWRange(target) && (Qstack > 1 || !Spells.Q.IsReady()))
             {
                 ForceW();
             }

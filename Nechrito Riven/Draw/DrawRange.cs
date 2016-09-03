@@ -55,17 +55,17 @@ namespace NechritoRiven.Draw
 
             if (MenuConfig.DrawAlwaysR)
             {
-                Drawing.DrawText(pos.X - 15, pos.Y + 20, System.Drawing.Color.Cyan, "Force R  (     )");
+                Drawing.DrawText(pos.X - 10, pos.Y + 20, Color.Cyan, "Use R1  (     )");
                 Drawing.DrawText(pos.X + 53, pos.Y + 20,
-                    MenuConfig.AlwaysR ? System.Drawing.Color.White : System.Drawing.Color.Red, MenuConfig.AlwaysR ? "On" : "Off");
+                    MenuConfig.AlwaysR ? Color.White : Color.Red, MenuConfig.AlwaysR ? "On" : "Off");
             }
 
             if (!MenuConfig.ForceFlash) return;
 
-            Drawing.DrawText(pos.X - 15, pos.Y + 40, System.Drawing.Color.Cyan, "Force Flash  (     )");
+            Drawing.DrawText(pos.X - 15, pos.Y + 40, Color.Cyan, "Force Flash  (     )");
             Drawing.DrawText(pos.X + 83, pos.Y + 40, MenuConfig.AlwaysF 
-                ? System.Drawing.Color.White
-                : System.Drawing.Color.Red,
+                ? Color.White
+                : Color.Red,
                 MenuConfig.AlwaysF ? "On" : "Off");
         }
     }

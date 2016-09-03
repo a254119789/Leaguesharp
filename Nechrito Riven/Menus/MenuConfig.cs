@@ -17,7 +17,7 @@ namespace NechritoRiven.Menus
         {
             Config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
-            Config.AddItem(new MenuItem("version", "Version: 6.17.1"));
+            Config.AddItem(new MenuItem("version", "Version: 6.17.2"));
 
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
@@ -26,14 +26,15 @@ namespace NechritoRiven.Menus
             var animation = new Menu("Animation", "Animation");
             animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 215, 350)).SetTooltip("Below 230 CAN be buggy!"));
             animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(340, 340, 400)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 340, 400)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
-            animation.AddItem(new MenuItem("EmoteEnable", "Enable").SetValue(false)).SetTooltip("Enables Emote");
+            animation.AddItem(new MenuItem("EmoteEnable", "Enable").SetValue(true)).SetTooltip("Enables Emote").SetTooltip("On For Fastest Reset!").SetFontStyle(FontStyle.Regular, Color.Cyan);
             animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" })));
             Config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
             combo.AddItem(new MenuItem("ignite", "Auto Ignite").SetValue(true)).SetTooltip("Auto Ignite When target is killable");
+            combo.AddItem(new MenuItem("DisableR2", "Manual R2").SetValue(false)).SetTooltip("Blocks Script From Casting R");
             combo.AddItem(new MenuItem("OverKillCheck", "R Max Damage").SetValue(true)).SetTooltip("Will save R for max damage");
             combo.AddItem(new MenuItem("AlwaysR", "Force R").SetValue(new KeyBind('G', KeyBindType.Toggle))).SetTooltip("Off will only use R when target is killable");
             combo.AddItem(new MenuItem("AlwaysF", "Force Flash").SetValue(new KeyBind('L', KeyBindType.Toggle))).SetTooltip("Off Will only use Flash when target is killable");
@@ -94,6 +95,7 @@ namespace NechritoRiven.Menus
         public static int Q2d => Config.Item("Q2D").GetValue<Slider>().Value;
         public static int Qld => Config.Item("Q3D").GetValue<Slider>().Value;
 
+        public static bool DisableR2 => Config.Item("DisableR2").GetValue<bool>();
         public static bool CancelPing => Config.Item("CancelPing").GetValue<bool>();
         public static bool FleeYomuu => Config.Item("FleeYoumuu").GetValue<bool>();
         public static bool OverKillCheck => Config.Item("OverKillCheck").GetValue<bool>();

@@ -1074,7 +1074,7 @@ namespace NechritoRiven
                         ObjectManager.Get<Obj_AI_Minion>()
                             .Where(
                                 mob =>
-                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && this.InAutoAttackRange(mob)
+                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && InAutoAttackRange(mob)
                                 && mob.CharData.BaseSkinName != "gangplankbarrel");
 
                     result = _config.Item("Smallminionsprio").GetValue<bool>()
