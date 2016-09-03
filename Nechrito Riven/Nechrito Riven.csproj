@@ -97,7 +97,6 @@
     <Compile Include="Event\Modes.cs" />
     <Compile Include="Event\OnCasted.cs" />
     <Compile Include="Event\Skinchanger.cs" />
-    <Compile Include="Load\AssemblyVersion.cs" />
     <Compile Include="Load\Load.cs" />
     <Compile Include="Menus\MenuConfig.cs" />
     <Compile Include="Orbwalking.cs" />

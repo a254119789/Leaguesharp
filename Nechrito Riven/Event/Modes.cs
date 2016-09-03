@@ -15,7 +15,7 @@ namespace NechritoRiven.Event
         // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsMe || !args.SData.IsAutoAttack()) return;
+            if (!sender.IsMe) return;
 
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
