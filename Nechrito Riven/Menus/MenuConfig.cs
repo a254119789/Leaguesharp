@@ -17,7 +17,7 @@ namespace NechritoRiven.Menus
         {
             Config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
-            Config.AddItem(new MenuItem("version", "Version: 6.17.2"));
+            Config.AddItem(new MenuItem("version", "Version: 6.17.3"));
 
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
@@ -29,7 +29,7 @@ namespace NechritoRiven.Menus
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 340, 400)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
             animation.AddItem(new MenuItem("EmoteEnable", "Enable").SetValue(true)).SetTooltip("Enables Emote").SetTooltip("On For Fastest Reset!").SetFontStyle(FontStyle.Regular, Color.Cyan);
-            animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" })));
+            animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 4)));
             Config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");

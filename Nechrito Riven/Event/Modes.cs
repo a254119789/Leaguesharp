@@ -44,12 +44,21 @@ namespace NechritoRiven.Event
                     }
                 }
 
-                var objAiTurret = args.Target as Obj_AI_Turret;
-                if (objAiTurret != null)
+                var inhib = args.Target as Obj_BarracksDampener; // OR Obj_Barrack
+                if (inhib != null)
                 {
-                    if (objAiTurret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+                    if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
                     {
-                        Spells.Q.Cast(objAiTurret.Position - 250);
+                        Spells.Q.Cast(inhib.Position - 250);
+                    }
+                }
+
+                var turret = args.Target as Obj_AI_Turret;
+                if (turret != null)
+                {
+                    if (turret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+                    {
+                        Spells.Q.Cast(turret.Position - 250);
                     }
                 }
 
@@ -236,23 +245,75 @@ namespace NechritoRiven.Event
 
         public static void Burst()
         {
-            var target = TargetSelector.GetSelectedTarget();
-
-            if (target == null || !target.IsValidTarget(425 + Spells.W.Range) || target.IsInvulnerable) return;
-
-            if (!Spells.Flash.IsReady()) return;
-
-            if (!(target.Health < Dmg.GetComboDamage(target)) && !MenuConfig.AlwaysF) return;
-
-            if (Player.Distance(target.Position) < 585) return;
-
-            if (!Spells.R.IsReady() || !Spells.E.IsReady() || !Spells.W.IsReady() || Spells.R.Instance.Name != IsFirstR) return;
-
             Usables.CastYoumoo();
-            Spells.E.Cast(target.Position);
-            ForceR();
-            Utility.DelayAction.Add(170 + Game.Ping / 2, FlashW);
-            ForceItem();
+
+            var Target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
+            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
+            {
+                var pred = Spells.R.GetPrediction(Target);
+
+                if (pred.Hitchance < HitChance.Medium)
+                {
+                    return;
+                }
+
+                if (Qstack > 1 && !MenuConfig.OverKillCheck)
+                {
+                    Spells.R.Cast(pred.CastPosition);
+                }
+
+                if (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1)
+                {
+                    Spells.R.Cast(pred.CastPosition);
+                }
+            }
+
+            if (Spells.Flash.IsReady() && Spells.Q.IsReady() && Spells.R.IsReady())
+            {
+                var target = TargetSelector.GetSelectedTarget();
+
+                if (target == null || !target.IsValidTarget(425 + Spells.W.Range) || target.IsInvulnerable) return;
+
+                if (!Spells.E.IsReady() ||
+                    !Spells.W.IsReady() ||
+                    Spells.R.Instance.Name != IsFirstR
+                    || Player.Distance(target.Position) < 585)
+                {
+                    return;
+                }
+
+                Usables.CastYoumoo();
+                Spells.E.Cast(target.Position);
+                ForceR();
+
+                if (MenuConfig.AlwaysF)
+                {
+                    Utility.DelayAction.Add(170 + Game.Ping/2, FlashW);
+                }
+
+                ForceItem();
+            }
+            else
+            {
+                if (!Target.IsValidTarget() || Target == null) return;
+
+                if (Spells.E.IsReady())
+                {
+                    Spells.E.Cast(Target.Position);
+                }
+
+                if (Spells.R.IsReady())
+                {
+                    Spells.R.Cast();
+                }
+                while (Qstack == 1 && Spells.Q.IsReady() && !Orbwalking.InAutoAttackRange(Target))
+                {
+
+                    Utility.DelayAction.Add(10, ForceItem);
+                    Utility.DelayAction.Add(170, () => ForceCastQ(Target));
+                    return;
+                }
+            }
         }
 
         public static void FastHarass()
@@ -275,6 +336,11 @@ namespace NechritoRiven.Event
         public static void Harass()
         {
             var target = TargetSelector.GetTarget(400, TargetSelector.DamageType.Physical);
+
+            if (target == null)
+            {
+                return;
+            }
 
             if (Spells.Q.IsReady() && Spells.W.IsReady() && Spells.E.IsReady() && Qstack == 1)
             {
