@@ -28,7 +28,6 @@ namespace NechritoRiven.Menus
             animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 340, 400)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
-            animation.AddItem(new MenuItem("EmoteEnable", "Enable").SetValue(true)).SetTooltip("Enables Emote").SetTooltip("On For Fastest Reset!").SetFontStyle(FontStyle.Regular, Color.Cyan);
             animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 4)));
             Config.AddSubMenu(animation);
 
@@ -125,7 +124,6 @@ namespace NechritoRiven.Menus
         public static int WallWidth => Config.Item("WallWidth").GetValue<Slider>().Value;
         public static bool LaneW => Config.Item("LaneW").GetValue<bool>();
         public static bool LaneE => Config.Item("LaneE").GetValue<bool>();
-        public static bool EmoteEnable => Config.Item("EmoteEnable").GetValue<bool>();
         public static bool LaneQ => Config.Item("LaneQ").GetValue<bool>();
     }
 }

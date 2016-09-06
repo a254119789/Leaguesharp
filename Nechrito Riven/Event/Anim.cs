@@ -26,11 +26,6 @@ namespace NechritoRiven.Event
 
         private static void Emotes()
         {
-            if (!MenuConfig.EmoteEnable)
-            {
-                return;
-            }
-
             switch (MenuConfig.EmoteList.SelectedIndex)
             {
                 case 0:
