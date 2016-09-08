@@ -62,7 +62,7 @@ namespace NechritoRiven.Event
                     }
                 }
 
-                var mobs = MinionManager.GetMinions(Player.Position, 600f, MinionTypes.All, MinionTeam.Neutral);
+                var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
 
                 if (mobs == null) return;
 
@@ -79,10 +79,11 @@ namespace NechritoRiven.Event
                         ForceCastQ(m);
                     }
 
-                    else if (!Spells.W.IsReady() || !MenuConfig.JnglW) return;
+                    if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint") || Qstack > 2) return;
 
                     ForceItem();
                     Spells.W.Cast(m);
+
                 }
             }
 
@@ -94,7 +95,7 @@ namespace NechritoRiven.Event
             {
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
-                    if (!Spells.Q.IsReady()) return;
+                    if (!Spells.Q.IsReady()) continue;
 
                     Usables.CastYoumoo();
 
@@ -147,7 +148,7 @@ namespace NechritoRiven.Event
 
         public static void Jungleclear()
         {
-            var mobs = MinionManager.GetMinions(Player.Position, 600f, MinionTypes.All, MinionTeam.Neutral);
+            var mobs = MinionManager.GetMinions(Player.Position, 350f, MinionTypes.All, MinionTeam.Neutral);
 
             if (mobs == null) return;
 
@@ -180,7 +181,7 @@ namespace NechritoRiven.Event
                     Spells.E.Cast(m);
                 }
 
-                if(!Spells.W.IsReady() || !MenuConfig.LaneW || !InWRange(m) || Player.IsWindingUp || m.Health > Spells.W.GetDamage(m)) continue;
+                if(!Spells.W.IsReady() || !MenuConfig.LaneW || !InWRange(m) || Player.IsWindingUp || m.Health > Spells.W.GetDamage(m)) return;
 
                 Spells.W.Cast(m);
             }
@@ -188,6 +189,7 @@ namespace NechritoRiven.Event
 
         public static void Combo()
         {
+          
             var target = TargetSelector.GetTarget(Player.AttackRange + 310, TargetSelector.DamageType.Physical);
 
             if(target == null || target.IsDead || !target.IsValidTarget() || target.IsInvulnerable) return;
@@ -217,20 +219,38 @@ namespace NechritoRiven.Event
                 Spells.E.Cast(target.Position);
             }
 
+            //if (!Spells.R.IsReady() && target.Distance(Player) > Player.AttackRange + 65 && Player.IsCastingInterruptableSpell())
+            //{
+            //    ForceItem();
+            //}
+
             if ((Spells.W.IsReady() || Spells.Q.IsReady())
-                && Spells.R.IsReady()
-                && Spells.R.Instance.Name == IsFirstR
                 && MenuConfig.AlwaysR
                 && InWRange(target))
             {
-                ForceR();
-                Utility.DelayAction.Add(190, ForceW); 
-            }
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
+                {
+                    ForceR();
+                }
 
-            if (Spells.W.IsReady() && InWRange(target) && (Qstack > 2 || !Spells.Q.IsReady()))
-            {
-                ForceW();
+                if (InWRange(target))
+                {
+                    Utility.DelayAction.Add(45, () => Spells.W.Cast());
+                }
+              
+                if (Qstack != 1 || !Spells.Q.IsReady())
+                {
+                    return;
+                }
+                Utility.DelayAction.Add(160, () => ForceCastQ(target));
+
+                return;
             }
+            
+
+            if (!Spells.W.IsReady() || !InWRange(target) || Qstack <= 2 || Player.HasBuff("RivenFeint")) return; // We can save W for instantly after E shield is off
+ 
+            ForceW();
         }
 
         public static void Burst()

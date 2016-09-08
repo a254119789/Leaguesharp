@@ -59,7 +59,6 @@ namespace NechritoRiven.Event
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
-                //    Emotes();
                     if (SafeReset)
                     {
                         Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
@@ -68,7 +67,6 @@ namespace NechritoRiven.Event
                 case "Spell1b":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
-                  //  Emotes();
                     if (SafeReset)
                     {
                         Utility.DelayAction.Add(MenuConfig.Q2d + Ping(), Reset);
@@ -77,18 +75,11 @@ namespace NechritoRiven.Event
                 case "Spell1c":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
-               //     Emotes();
                     if (SafeReset)
                     {
                         Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
                     }
                     break;
-                //case "Spell3":
-                //    if(Qstack != 1) break;
-
-                //    var target = TargetSelector.GetSelectedTarget();
-                //    if (Spells.Q.IsReady() && target.IsValidTarget()) ForceCastQ(target);
-                //    break;
             }
         }
 
