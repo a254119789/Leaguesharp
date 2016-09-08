@@ -8,7 +8,8 @@ using Color = SharpDX.Color;
 
 namespace NechritoRiven.Menus
 {
-    internal class MenuConfig : Core.Core
+    using Core;
+    internal class MenuConfig : Core
     {
         public static Menu Config;
         public static string MenuName = "Nechrito Riven";
@@ -17,18 +18,16 @@ namespace NechritoRiven.Menus
         {
             Config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
-            Config.AddItem(new MenuItem("version", "Version: 6.17.3"));
-
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
 
-            var animation = new Menu("Animation", "Animation");
+            var animation = new Menu("Animations", "Animation");
             animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 215, 350)).SetTooltip("Below 230 CAN be buggy!"));
             animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 340, 400)));
-            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping In Mind When Cancel");
-            animation.AddItem(new MenuItem("EmoteList", "Emote").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 4)));
+            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping / 2 In Mind When Cancel");
+            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" } , 3)));
             Config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
@@ -79,6 +78,8 @@ namespace NechritoRiven.Menus
             skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[] { "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade" })));
             Config.AddSubMenu(skin);
 
+            Config.AddItem(new MenuItem("version", "Version: 6.17.3"));
+
             Config.AddToMainMenu();
         }
 
@@ -120,8 +121,11 @@ namespace NechritoRiven.Menus
         public static bool DrawFh => Config.Item("DrawFH").GetValue<bool>();
         public static bool DrawHs => Config.Item("DrawHS").GetValue<bool>();
         public static bool DrawBt => Config.Item("DrawBT").GetValue<bool>();
+
         public static bool AlwaysR => Config.Item("AlwaysR").GetValue<KeyBind>().Active;
+
         public static int WallWidth => Config.Item("WallWidth").GetValue<Slider>().Value;
+
         public static bool LaneW => Config.Item("LaneW").GetValue<bool>();
         public static bool LaneE => Config.Item("LaneE").GetValue<bool>();
         public static bool LaneQ => Config.Item("LaneQ").GetValue<bool>();

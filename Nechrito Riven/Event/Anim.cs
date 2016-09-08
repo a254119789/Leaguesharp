@@ -44,8 +44,8 @@ namespace NechritoRiven.Event
         }
 
         private static bool SafeReset =>
-                Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Flee &&
-                Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None;
+                Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Flee
+                && Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None;
 
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
@@ -83,13 +83,19 @@ namespace NechritoRiven.Event
                         Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
                     }
                     break;
+                //case "Spell3":
+                //    if(Qstack != 1) break;
+
+                //    var target = TargetSelector.GetSelectedTarget();
+                //    if (Spells.Q.IsReady() && target.IsValidTarget()) ForceCastQ(target);
+                //    break;
             }
         }
+
         private static void Reset()
         {
             Emotes();
-            //  Game.SendEmote(Emote.Dance);
-            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10);
+            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, false);
             Orbwalking.LastAaTick = 0;
         }
     }

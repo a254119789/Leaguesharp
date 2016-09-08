@@ -16,7 +16,7 @@ namespace NechritoRiven.Event
         // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsMe) return;
+            if (!sender.IsMe || !LeagueSharp.Common.Orbwalking.IsAutoAttack(args.SData.Name)) return;
 
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
@@ -96,24 +96,18 @@ namespace NechritoRiven.Event
                 {
                     if (!Spells.Q.IsReady()) return;
 
-                    ForceItem();
                     Usables.CastYoumoo();
-                    //if (!target.IsFacing(Player) && target.IsMoving)
-                    //{
-                    //    Spells.Q.Cast(Player.Position.Extend(target.Position, 75)); // This is for magnet mode kiting :p
-                    //}
-                    //else
-                    //{
-                        Spells.Q.Cast(target);
-                    //}
+
+                    Spells.Q.CastOnUnit(target);
+                    ForceItem();
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
                 {
                     if (Qstack == 2)
                     {
-                        ForceItem();
                         ForceCastQ(target);
+                        ForceItem();
                     }
                 }
 
@@ -132,15 +126,10 @@ namespace NechritoRiven.Event
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
 
-                if (!InWRange(target)) return;
-
-                if (Spells.W.IsReady())
-                {
-                    Spells.W.Cast(target);
-                }
+                if (!Orbwalker.InAutoAttackRange(target)) return;
 
                 ForceItem();
-                ForceCastQ(target);
+                Spells.Q.CastOnUnit(target);
             }
         }
 
@@ -151,7 +140,8 @@ namespace NechritoRiven.Event
             {
                 return;
             }
- 
+
+          
             Utility.DelayAction.Add(Game.Ping + 2, () => Spells.Q.Cast(Player.Position -15));
         }
 
@@ -206,7 +196,7 @@ namespace NechritoRiven.Event
             {
                 var pred = Spells.R.GetPrediction(target);
 
-                if (pred.Hitchance < HitChance.Medium)
+                if (pred.Hitchance < HitChance.High)
                 {
                     return;
                 }
@@ -234,10 +224,10 @@ namespace NechritoRiven.Event
                 && InWRange(target))
             {
                 ForceR();
-                Utility.DelayAction.Add(190, ForceW); // Doublecasts with E ^
+                Utility.DelayAction.Add(190, ForceW); 
             }
 
-            if (Spells.W.IsReady() && InWRange(target) && (Qstack > 1 || !Spells.Q.IsReady()))
+            if (Spells.W.IsReady() && InWRange(target) && (Qstack > 2 || !Spells.Q.IsReady()))
             {
                 ForceW();
             }
@@ -268,7 +258,7 @@ namespace NechritoRiven.Event
                 }
             }
 
-            if (Spells.Flash.IsReady() && Spells.Q.IsReady() && Spells.R.IsReady())
+            if (Spells.Flash.IsReady() && Spells.Q.IsReady() && Spells.R.IsReady() && MenuConfig.AlwaysF)
             {
                 var target = TargetSelector.GetSelectedTarget();
 
@@ -285,12 +275,7 @@ namespace NechritoRiven.Event
                 Usables.CastYoumoo();
                 Spells.E.Cast(target.Position);
                 ForceR();
-
-                if (MenuConfig.AlwaysF)
-                {
-                    Utility.DelayAction.Add(170 + Game.Ping/2, FlashW);
-                }
-
+                Utility.DelayAction.Add(170 + Game.Ping/2, FlashW);
                 ForceItem();
             }
             else
@@ -304,13 +289,17 @@ namespace NechritoRiven.Event
 
                 if (Spells.R.IsReady())
                 {
-                    Spells.R.Cast();
+                    Spells.R.CastCancelSpell();
                 }
+
+                if (Spells.W.IsReady() && InWRange(Target))
+                {
+                    Spells.W.Cast();
+                }
+
                 while (Qstack == 1 && Spells.Q.IsReady() && !Orbwalking.InAutoAttackRange(Target))
                 {
-
-                    Utility.DelayAction.Add(10, ForceItem);
-                    Utility.DelayAction.Add(170, () => ForceCastQ(Target));
+                    Spells.Q.CastCancelSpell(Target.Position);
                     return;
                 }
             }
