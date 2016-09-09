@@ -18,74 +18,6 @@ namespace NechritoRiven.Event
         {
             if (!sender.IsMe || !LeagueSharp.Common.Orbwalking.IsAutoAttack(args.SData.Name)) return;
 
-            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
-            {
-                if (args.Target is Obj_AI_Minion)
-                {
-                    var minions = MinionManager.GetMinions(Player.AttackRange + 380);
-
-                    if (minions == null)
-                    {
-                        return;
-                    }
-
-                    foreach (var m in minions)
-                    {
-                        if (!Spells.Q.IsReady()
-                            || !MenuConfig.LaneQ
-                            || m.UnderTurret(true))
-                        {
-                            continue;
-                        }
-
-                        ForceItem();
-                       
-                        ForceCastQ(m);
-                    }
-                }
-
-                var inhib = args.Target as Obj_BarracksDampener; // OR Obj_Barrack
-                if (inhib != null)
-                {
-                    if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
-                    {
-                        Spells.Q.Cast(inhib.Position - 250);
-                    }
-                }
-
-                var turret = args.Target as Obj_AI_Turret;
-                if (turret != null)
-                {
-                    if (turret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
-                    {
-                        Spells.Q.Cast(turret.Position - 250);
-                    }
-                }
-
-                var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
-
-                if (mobs == null) return;
-
-                foreach (var m in mobs)
-                {
-                    if (m.Health < Player.GetAutoAttackDamage(m))
-                    {
-                        continue;
-                    }
-
-                    if (Spells.Q.IsReady() && MenuConfig.JnglQ)
-                    {
-                        ForceItem();
-                        ForceCastQ(m);
-                    }
-
-                    if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint") || Qstack > 2) return;
-
-                    ForceItem();
-                    Spells.W.Cast(m);
-
-                }
-            }
 
             var a = HeroManager.Enemies.Where(x => x.IsValidTarget(Player.AttackRange + 360));
 
@@ -95,7 +27,7 @@ namespace NechritoRiven.Event
             {
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
-                    if (!Spells.Q.IsReady()) continue;
+                    if (!Spells.Q.IsReady()) return;
 
                     Usables.CastYoumoo();
 
@@ -131,6 +63,74 @@ namespace NechritoRiven.Event
 
                 ForceItem();
                 Spells.Q.CastOnUnit(target);
+            }
+
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear) return;
+
+            if (args.Target is Obj_AI_Minion)
+            {
+                var minions = MinionManager.GetMinions(Player.AttackRange + 450);
+
+                if (minions == null)
+                {
+                    return;
+                }
+
+                foreach (var m in minions)
+                {
+                    if (!Spells.Q.IsReady()
+                        || !MenuConfig.LaneQ
+                        || m.UnderTurret(true))
+                    {
+                        return;
+                    }
+
+                    ForceItem();
+                       
+                    ForceCastQ(m);
+                }
+            }
+
+            var inhib = args.Target as Obj_BarracksDampener; // OR Obj_Barrack
+            if (inhib != null)
+            {
+                if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+                {
+                    Spells.Q.Cast(inhib.Position - 250);
+                }
+            }
+
+            var turret = args.Target as Obj_AI_Turret;
+            if (turret != null)
+            {
+                if (turret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+                {
+                    Spells.Q.Cast(turret.Position - 250);
+                }
+            }
+
+            var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
+
+            if (mobs == null) return;
+
+            foreach (var m in mobs)
+            {
+                if (m.Health < Player.GetAutoAttackDamage(m))
+                {
+                    continue;
+                }
+
+                if (Spells.Q.IsReady() && MenuConfig.JnglQ)
+                {
+                    ForceItem();
+                    ForceCastQ(m);
+                }
+
+                if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint") || Qstack > 2) return;
+
+                ForceItem();
+                Spells.W.Cast(m);
+
             }
         }
 
@@ -217,18 +217,12 @@ namespace NechritoRiven.Event
             if (Spells.E.IsReady())
             {
                 Spells.E.Cast(target.Position);
-                Utility.DelayAction.Add(10, ForceItem);
             }
-
-            //if (!Spells.R.IsReady() && target.Distance(Player) > Player.AttackRange + 65 && Player.IsCastingInterruptableSpell())
-            //{
-            //    ForceItem();
-            //}
 
             if ((Spells.Q.IsReady() || Player.HasBuff("RivenFeint"))
                 && MenuConfig.AlwaysR
-                && Spells.R.IsReady() &&
-                Spells.R.Instance.Name == IsFirstR)
+                && Spells.R.IsReady()
+                && Spells.R.Instance.Name == IsFirstR)
             {
                 ForceR();
                 
@@ -239,20 +233,18 @@ namespace NechritoRiven.Event
                     Spells.W.Cast();
                 }
 
-                //if (Qstack != 1 || !Spells.Q.IsReady())
-                //{
-                //    return;
-                //}
-
-                //Utility.DelayAction.Add(160, () => ForceCastQ(target));
-
                 return;
             }
-            
 
-            if (!Spells.W.IsReady() || !InWRange(target) || Qstack <= 2 || Player.HasBuff("RivenFeint")) return; // We can save W for instantly after E shield is off
- 
-            ForceW();
+
+            if (!Spells.W.IsReady()
+                || !InWRange(target)
+                || (Player.HasBuff("RivenFeint") && target.IsFacing(Player))) // We can save W for instantly after E shield is off
+            {
+                return;
+            }
+
+            Spells.W.Cast();
         }
 
         public static void Burst()

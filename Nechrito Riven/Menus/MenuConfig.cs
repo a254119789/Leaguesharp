@@ -78,7 +78,7 @@ namespace NechritoRiven.Menus
             skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[] { "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade" })));
             Config.AddSubMenu(skin);
 
-            Config.AddItem(new MenuItem("version", "Version: 6.17.3"));
+            Config.AddItem(new MenuItem("version", "Version: 6.18"));
 
             Config.AddToMainMenu();
         }
