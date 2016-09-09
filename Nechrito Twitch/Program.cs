@@ -91,7 +91,7 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
                 Usables.CastYoumoo();
             }
 
-            if (MenuConfig.DisableW && Player.HasBuff("TwitchUlt"))
+            if (MenuConfig.DisableW && (Player.HasBuff("TwitchUlt") || Player.HasBuff("TwitchFullAutomatic")))
             {
                 return;
             }
