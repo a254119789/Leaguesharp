@@ -42,7 +42,7 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
             if (Player.ChampionName != "Twitch") return; // If our champion name isn't Twitch, we will return and we will not load the script
 
             // Printing chat with our message when starting the loading process
-            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Twitch</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Version: 6.17</font></b>");
+            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Twitch</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Version: 6.18</font></b>");
 
             MenuConfig.LoadMenu(); // Loads the Menu
             Spells.Initialise();   // Loads the Spells
@@ -64,6 +64,7 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
             SkinChanger(); // Updates skinchanger void
             EDeath();  // Updates EDeath void
             Trinket(); // Updates Trinket void
+
             switch (MenuConfig.Orbwalker.ActiveMode) // Switch for our current pressed keybind / Mode
             {
                 case Orbwalking.OrbwalkingMode.Combo: // If we press the combo keybind
@@ -192,7 +193,7 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
                 Spells.Q.Cast(); // Cast Twitch's Q spell
 
                 // Delays the action with Q Delay + 0.3 seconds, then cast Recall
-                Utility.DelayAction.Add((int) Spells.Q.Delay + 300, () => ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Recall));
+                Utility.DelayAction.Add((int) Spells.Q.Delay + 300 + Game.Ping/2, () => ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Recall));
                 eventArgs.Process = false; // It's as return or bool, the code has been executed 
             };
         }
@@ -251,7 +252,7 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
 
         private static void EDeath()
         {
-            if (!MenuConfig.EOnDeath || !Spells.E.IsReady() || Player.HealthPercent <= 10) return;
+            if (!MenuConfig.EOnDeath || !Spells.E.IsReady() || Player.HealthPercent > 8) return;
 
             var target = ObjectManager.Get<Obj_AI_Hero>().FirstOrDefault(x => x.IsValidTarget(Spells.E.Range) && x.HasBuff("twitchdeadlyvenom"));
 
@@ -290,7 +291,7 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
             // This variable checks wether or not we are in stealth by Twitch's Q
             var hasPassive = Player.HasBuff("TwitchHideInShadows");
 
-            if (!hasPassive) return; // If we don't have the passive, go back.
+            if (!hasPassive || !MenuConfig.DrawQ) return; // If we don't have the passive, go back.
 
             var passiveTime = Math.Max(0, Player.GetBuff("TwitchHideInShadows").EndTime) - Game.Time; // Checks for Q Passive time - Game Time
 

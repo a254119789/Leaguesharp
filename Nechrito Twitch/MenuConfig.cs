@@ -47,6 +47,7 @@ namespace Nechrito_Twitch
             Config.AddSubMenu(steal);
 
             var draw = new Menu("Draw", "Draw");
+            draw.AddItem(new MenuItem("DrawQ", "DrawQ").SetValue(true));
             draw.AddItem(new MenuItem("dind", "Dmg Indicator").SetValue(true));
             Config.AddSubMenu(draw);
 
@@ -64,6 +65,7 @@ namespace Nechrito_Twitch
         }
 
         // Menu Items
+        public static bool DrawQ => Config.Item("DrawQ").GetValue<bool>();
         public static bool DisableW => Config.Item("DisableW").GetValue<bool>();
         public static bool StealEpic => Config.Item("StealEpic").GetValue<bool>();
         public static bool StealBuff => Config.Item("StealBuff").GetValue<bool>();
