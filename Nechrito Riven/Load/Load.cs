@@ -31,6 +31,7 @@ namespace NechritoRiven.Load
             Game.OnUpdate += AlwaysUpdate.Update;
             Game.OnUpdate += Skinchanger.Update;
 
+          
             Interrupter2.OnInterruptableTarget += Interrupt2.OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += Gapclose.Gapcloser;
 

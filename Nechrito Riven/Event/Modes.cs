@@ -148,7 +148,7 @@ namespace NechritoRiven.Event
 
         public static void Jungleclear()
         {
-            var mobs = MinionManager.GetMinions(Player.Position, 350f, MinionTypes.All, MinionTeam.Neutral);
+            var mobs = MinionManager.GetMinions(Player.Position, Player.AttackRange + Spells.E.Range + 50, MinionTypes.All, MinionTeam.Neutral);
 
             if (mobs == null) return;
 
@@ -156,10 +156,10 @@ namespace NechritoRiven.Event
             {
                 if (!m.IsValid) return;
 
-                if (Spells.E.IsReady() && MenuConfig.JnglE && !Player.IsWindingUp)
-                {
-                    Spells.E.Cast(m.Position);
-                }
+                if (!Spells.E.IsReady() || !MenuConfig.JnglE || Player.IsWindingUp) return;
+
+                Spells.E.Cast(m.Position);
+                Utility.DelayAction.Add(10, ForceItem);
             }
         }
 
@@ -217,6 +217,7 @@ namespace NechritoRiven.Event
             if (Spells.E.IsReady())
             {
                 Spells.E.Cast(target.Position);
+                Utility.DelayAction.Add(10, ForceItem);
             }
 
             //if (!Spells.R.IsReady() && target.Distance(Player) > Player.AttackRange + 65 && Player.IsCastingInterruptableSpell())
@@ -224,25 +225,26 @@ namespace NechritoRiven.Event
             //    ForceItem();
             //}
 
-            if ((Spells.W.IsReady() || Spells.Q.IsReady())
+            if ((Spells.Q.IsReady() || Player.HasBuff("RivenFeint"))
                 && MenuConfig.AlwaysR
-                && InWRange(target))
+                && Spells.R.IsReady() &&
+                Spells.R.Instance.Name == IsFirstR)
             {
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
-                {
-                    ForceR();
-                }
+                ForceR();
+                
 
                 if (InWRange(target))
                 {
-                    Utility.DelayAction.Add(45, () => Spells.W.Cast());
+                    ForceItem();
+                    Spells.W.Cast();
                 }
-              
-                if (Qstack != 1 || !Spells.Q.IsReady())
-                {
-                    return;
-                }
-                Utility.DelayAction.Add(160, () => ForceCastQ(target));
+
+                //if (Qstack != 1 || !Spells.Q.IsReady())
+                //{
+                //    return;
+                //}
+
+                //Utility.DelayAction.Add(160, () => ForceCastQ(target));
 
                 return;
             }
