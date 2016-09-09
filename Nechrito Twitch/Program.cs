@@ -64,7 +64,6 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
             SkinChanger(); // Updates skinchanger void
             EDeath();  // Updates EDeath void
             Trinket(); // Updates Trinket void
-
             switch (MenuConfig.Orbwalker.ActiveMode) // Switch for our current pressed keybind / Mode
             {
                 case Orbwalking.OrbwalkingMode.Combo: // If we press the combo keybind
@@ -92,7 +91,12 @@ namespace Nechrito_Twitch // Namespace, if we'd put this class in a folder it'd 
                 Usables.CastYoumoo();
             }
 
-            if (!MenuConfig.UseW || target.Health < Player.GetAutoAttackDamage(target, true)*2)
+            if (MenuConfig.DisableW && Player.HasBuff("TwitchUlt"))
+            {
+                return;
+            }
+
+            if (!MenuConfig.UseW  || target.Health < Player.GetAutoAttackDamage(target, true)*2)
             {
                 return; // If our Combo W Menu is "Off" or targets health is more than 2 AA, return. 
             }

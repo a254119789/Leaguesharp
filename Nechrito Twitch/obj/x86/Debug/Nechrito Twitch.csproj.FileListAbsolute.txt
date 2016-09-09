@@ -1,0 +1,17 @@
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\Nechrito Twitch.exe.config
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\Nechrito Twitch.exe
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\Nechrito Twitch.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\LeagueSharp.Common.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\LeagueSharp.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\SharpDX.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\LeagueSharp.Data.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\clipper_library.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\LeagueSharp.Sandbox.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\LeagueSharp.Common.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\LeagueSharp.Data.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\bin\Debug\clipper_library.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\obj\x86\Debug\Nechrito Twitch.csprojResolveAssemblyReference.cache
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\obj\x86\Debug\Nechrito Twitch.exe
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Twitch\Nechrito Twitch\obj\x86\Debug\Nechrito Twitch.pdb

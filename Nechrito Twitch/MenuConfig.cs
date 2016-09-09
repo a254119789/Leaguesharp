@@ -22,6 +22,7 @@ namespace Nechrito_Twitch
             Config.AddSubMenu(orbwalker);
 
             var combo = new Menu("Combo", "Combo");
+            combo.AddItem(new MenuItem("DisableW", "Disable W If R Active").SetValue(true));
             combo.AddItem(new MenuItem("UseW", "Use W").SetValue(true));
             combo.AddItem(new MenuItem("KsE", "Killsecure E").SetValue(true));
             Config.AddSubMenu(combo);
@@ -63,7 +64,7 @@ namespace Nechrito_Twitch
         }
 
         // Menu Items
-
+        public static bool DisableW => Config.Item("DisableW").GetValue<bool>();
         public static bool StealEpic => Config.Item("StealEpic").GetValue<bool>();
         public static bool StealBuff => Config.Item("StealBuff").GetValue<bool>();
         public static bool UseW => Config.Item("UseW").GetValue<bool>();
