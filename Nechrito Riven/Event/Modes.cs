@@ -16,7 +16,7 @@ namespace NechritoRiven.Event
         // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsMe || !LeagueSharp.Common.Orbwalking.IsAutoAttack(args.SData.Name)) return;
+            if (!sender.IsMe) return;
 
 
             var a = HeroManager.Enemies.Where(x => x.IsValidTarget(Player.AttackRange + 360));
@@ -27,12 +27,23 @@ namespace NechritoRiven.Event
             {
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
-                    if (!Spells.Q.IsReady()) return;
+                    if (Spells.Q.IsReady())
+                    {
+                        Usables.CastYoumoo();
 
-                    Usables.CastYoumoo();
+                        Spells.Q.CastOnUnit(target);
+                        ForceItem();
+                    }
 
-                    Spells.Q.CastOnUnit(target);
-                    ForceItem();
+                    if (!Spells.W.IsReady()
+                        || !MenuConfig.NechLogic
+                        || !InWRange(target)
+                        || Qstack == 1)
+                    {
+                        continue;
+                    }
+                   
+                    Spells.W.Cast();
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
@@ -188,8 +199,7 @@ namespace NechritoRiven.Event
         }
 
         public static void Combo()
-        {
-          
+        { 
             var target = TargetSelector.GetTarget(Player.AttackRange + 310, TargetSelector.DamageType.Physical);
 
             if(target == null || target.IsDead || !target.IsValidTarget() || target.IsInvulnerable) return;
@@ -225,7 +235,11 @@ namespace NechritoRiven.Event
                 && Spells.R.Instance.Name == IsFirstR)
             {
                 ForceR();
-                
+
+                if (MenuConfig.NechLogic && Qstack < 2)
+                {
+                    return;
+                }
 
                 if (InWRange(target))
                 {
@@ -236,14 +250,14 @@ namespace NechritoRiven.Event
                 return;
             }
 
+            if (!Spells.W.IsReady() || MenuConfig.NechLogic) return;
 
-            if (!Spells.W.IsReady()
-                || !InWRange(target)
-                || (Player.HasBuff("RivenFeint") && target.IsFacing(Player))) // We can save W for instantly after E shield is off
+            if (!InWRange(target)
+                || (Player.HasBuff("RivenFeint")
+                && target.IsFacing(Player))) // We can save W for instantly after E shield is off
             {
                 return;
             }
-
             Spells.W.Cast();
         }
 
