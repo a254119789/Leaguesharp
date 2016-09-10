@@ -9,7 +9,7 @@
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using Logic;
 
-    sealed class QDraw : ChildBase
+    internal sealed class QDraw : ChildBase
     {
         public QDraw(string name)
         {

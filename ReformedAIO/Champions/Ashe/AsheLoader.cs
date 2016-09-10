@@ -1,12 +1,13 @@
-﻿namespace ReformedAIO.Champions.Ashe
+﻿using LeagueSharp;
+using LeagueSharp.Common;
+
+namespace ReformedAIO.Champions.Ashe
 {
     #region Using Directives
 
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using System.Collections.Generic;
     using RethoughtLib.Utility;
-
-    using LeagueSharp.Common;
-
     using Drawings;
     using Logic;
     using OrbwalkingMode.Combo;
@@ -27,7 +28,7 @@
 
         public override string InternalName { get; set; } = "Ashe";
 
-        public override IEnumerable<string> Tags { get; set; } = new[] {"Ashe"};
+        public override IEnumerable<string> Tags { get; set; } = new List<string>() { "Ashe" };
 
         #endregion
 
@@ -36,63 +37,64 @@
         public override void Load()
         {
             var superParent = new SuperParent(DisplayName);
+            superParent.Initialize();
 
-            var comboParent = new Parent("Combo");
-            var mixedParent = new Parent("Mixed");
-            var jungleParent = new Parent("JungleClear");
-            var laneParent = new Parent("LaneClear");
+            var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
+
+            var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
+            var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var mixedParent = new OrbwalkingParent("Mixed", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var drawingParent = new Parent("Drawings");
-
-            superParent.Add(new[]
-            {
-                comboParent, mixedParent, laneParent, jungleParent, drawingParent
-            });
 
             var setSpell = new SetSpells();
             setSpell.Load();
 
-            var qCombo = new QCombo("[Q]");
-            var wCombo = new WCombo("[W]");
-            var eCombo = new ECombo("[E]");
-            var rCombo = new RCombo("[R]");
+            comboParent.Add(new ChildBase[]
+            {
+                new QCombo("[Q]", orbwalker),
+                new WCombo("[W]", orbwalker),
+                new ECombo("[E]", orbwalker),
+                new RCombo("[R]", orbwalker)
+            });
 
-            comboParent.Add(qCombo);
-            comboParent.Add(eCombo);
-            comboParent.Add(wCombo);
-            comboParent.Add(rCombo);
+            mixedParent.Add(new ChildBase[]
+            {
+                new QMixed("[Q]", orbwalker),
+                new WMixed("[W]", orbwalker), 
+            });
 
-            var qMixed = new QMixed("[Q]");
-            var wMixed = new WMixed("[W]");
+            jungleParent.Add(new ChildBase[]
+            {
+                new QJungle("[Q]", orbwalker),
+                new WJungle("[W]", orbwalker)
+            });
 
-            mixedParent.Add(qMixed);
-            mixedParent.Add(wMixed);
+           laneParent.Add(new ChildBase[]
+           {
+               new QLane("[Q]", orbwalker),
+               new WLane("[W]", orbwalker),  
+           });
 
-            var qJungle = new QJungle("[Q]");
-            var wJungle = new WJungle("[W]");
+            drawingParent.Add(new ChildBase[]
+            {
+               new WDraw("[W]"),
+               new DmgDraw("Damage Indicator"), 
+            });
+           
+            superParent.Add(new Base[]
+            {
+                 comboParent, mixedParent, laneParent, jungleParent, drawingParent
+            });
 
-            jungleParent.Add(qJungle);
-            jungleParent.Add(wJungle);
+            superParent.Load();
 
-            var qLane = new QLane("[Q]");
-            var wLane = new WLane("[W]");
 
-            laneParent.Add(qLane);
-            laneParent.Add(wLane);
-
-            var wDraw = new WDraw("[W] Draw");
-            var dmgDraw = new DmgDraw("Damage Indicator");
-
-            drawingParent.Add(wDraw);
-            drawingParent.Add(dmgDraw);
-
-            var orbWalkingMenu = new Menu("Orbwalker", "Orbwalking");
-            Variable.Orbwalker = new Orbwalking.Orbwalker(orbWalkingMenu);
-
-            superParent.Menu.AddSubMenu(orbWalkingMenu);
-
-            superParent.OnLoadInvoker();
+            if (superParent.Loaded)
+            {
+                Game.PrintChat("Reformed Ashe - Loaded");
+            }
         }
-
         #endregion
     }
 }

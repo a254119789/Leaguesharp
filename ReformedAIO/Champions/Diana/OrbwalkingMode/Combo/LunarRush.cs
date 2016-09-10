@@ -7,7 +7,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -33,22 +33,22 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
 
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
             
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            logic = new LogicAll();
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    logic = new LogicAll();
+        //}
 
-        protected sealed override void OnLoad(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu = new Menu(Name, Name);
 
@@ -59,7 +59,7 @@
 
             Menu.AddItem(new MenuItem(Name + "Enabled", "Enabled").SetValue(true));
 
-            
+            logic = new LogicAll();
         }
 
         private void Lunarrush()

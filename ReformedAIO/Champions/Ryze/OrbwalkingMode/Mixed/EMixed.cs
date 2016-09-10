@@ -7,9 +7,9 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Ryze.Logic;
+    using Logic;
 
-    using RethoughtLib.Events;
+   
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -27,34 +27,41 @@
         public override string Name { get; set; } = "[E] Spell Flux";
 
         #endregion
+        private readonly Orbwalking.Orbwalker Orbwalker;
 
+        public EMixed(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            eLogic = new ELogic();
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    eLogic = new ELogic();
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "ERange", "E Range ").SetValue(new Slider(600, 0, 600)));
 
             Menu.AddItem(new MenuItem(Menu.Name + "EMana", "Mana %").SetValue(new Slider(45, 0, 100)));
+
+            eLogic = new ELogic();
         }
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || !Variable.Spells[SpellSlot.E].IsReady()) return;
 
             var target = TargetSelector.GetTarget(

@@ -9,7 +9,7 @@
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using Logic;
 
-    sealed class RDraw : ChildBase
+    internal sealed class RDraw : ChildBase
     {
         public RDraw(string name)
         {

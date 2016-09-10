@@ -21,17 +21,17 @@
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.E].Range, TargetSelector.DamageType.Physical);
 
-        protected override void OnDisable(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
-        protected override void OnEnable(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             _ewqrLogic = new EwqrLogic();
         }

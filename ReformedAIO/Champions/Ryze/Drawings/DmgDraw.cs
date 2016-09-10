@@ -58,18 +58,21 @@
             Drawing.OnEndScene += OnEndScene;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            dmg = new Damage();
-            drawDamage = new HpBarIndicator();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    dmg = new Damage();
+        //    drawDamage = new HpBarIndicator();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu = new Menu(Name, Name);
 
             Menu.AddItem(new MenuItem(Name + "Enabled", "Enabled").SetValue(true));
+
+            dmg = new Damage();
+            drawDamage = new HpBarIndicator();
         }
 
         #endregion

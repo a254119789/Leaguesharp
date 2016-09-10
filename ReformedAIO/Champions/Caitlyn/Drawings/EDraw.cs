@@ -9,7 +9,7 @@
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using Logic;
 
-    sealed class EDraw : ChildBase
+    internal sealed class EDraw : ChildBase
     {
         public EDraw(string name)
         {

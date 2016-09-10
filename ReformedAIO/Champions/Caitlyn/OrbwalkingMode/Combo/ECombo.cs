@@ -21,13 +21,13 @@
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             AntiGapcloser.OnEnemyGapcloser -= Gapcloser;
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             AntiGapcloser.OnEnemyGapcloser += Gapcloser;
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)

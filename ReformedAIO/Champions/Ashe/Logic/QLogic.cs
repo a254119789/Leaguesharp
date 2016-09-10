@@ -1,4 +1,6 @@
-﻿namespace ReformedAIO.Champions.Ashe.Logic
+﻿using LeagueSharp.Common;
+
+namespace ReformedAIO.Champions.Ashe.Logic
 {
     #region Using Directives
 
@@ -9,12 +11,12 @@
     internal class QLogic
     {
         #region Public Methods and Operators
-
+        private readonly Orbwalking.Orbwalker Orbwalker;
         public void Kite(Obj_AI_Base x)
         {
             if (x == null || x.HasBuffOfType(BuffType.PhysicalImmunity)) return;
 
-            Variable.Orbwalker.ForceTarget(x);
+            Orbwalker.ForceTarget(x);
         }
 
         public int QCount()

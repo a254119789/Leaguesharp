@@ -7,7 +7,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Ashe.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -24,9 +24,12 @@
 
         #region Constructors and Destructors
 
-        public RCombo(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public RCombo(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
+            Orbwalker = orbwalker;
         }
 
         #endregion
@@ -43,20 +46,20 @@
         {
             Interrupter2.OnInterruptableTarget -= Interrupt;
             AntiGapcloser.OnEnemyGapcloser -= Gapcloser;
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Interrupter2.OnInterruptableTarget += Interrupt;
             AntiGapcloser.OnEnemyGapcloser += Gapcloser;
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            rLogic = new RLogic();
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    rLogic = new RLogic();
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -79,6 +82,8 @@
             Menu.AddItem(new MenuItem(Menu.Name + "Interrupt", "Interrupt").SetValue(true));
 
             Menu.AddItem(new MenuItem(Menu.Name + "Gapclose", "Gapcloser").SetValue(true));
+
+            rLogic = new RLogic();
         }
 
         private void CrystalArrow()
@@ -125,7 +130,7 @@
 
             SemiR();
 
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
 
             if (Menu.Item(Menu.Name + "RMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 

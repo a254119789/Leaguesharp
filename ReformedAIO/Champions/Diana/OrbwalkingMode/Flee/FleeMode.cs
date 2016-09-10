@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -33,19 +33,19 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            fleeLogic = new FleeLogic();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    fleeLogic = new FleeLogic();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -59,6 +59,8 @@
             Menu.AddItem(
                 new MenuItem(Name + "FleeVector", "Flee To Vector").SetValue(true)
                     .SetTooltip("Flee's To Jungle Camps"));
+
+            fleeLogic = new FleeLogic();
         }
 
         private void OnUpdate(EventArgs args)

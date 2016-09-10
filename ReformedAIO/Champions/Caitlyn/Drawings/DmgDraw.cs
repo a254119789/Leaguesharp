@@ -48,16 +48,12 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
 
-        }
-
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             _ewqrLogic = new EwqrLogic();
             _drawDamage = new HpBarIndicator();
-            base.OnInitialize(sender, featureBaseEventArgs);
+            base.OnLoad(sender, featureBaseEventArgs);
         }
 
        

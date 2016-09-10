@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana;
+    using Diana;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 

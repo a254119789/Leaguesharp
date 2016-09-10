@@ -43,7 +43,7 @@
 
         }
 
-        protected override void OnEnable(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Drawing.OnDraw += OnDraw;
             

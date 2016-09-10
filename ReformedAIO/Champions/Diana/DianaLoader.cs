@@ -7,14 +7,14 @@ namespace ReformedAIO.Champions.Diana
 
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic.Killsteal;
-    using ReformedAIO.Champions.Diana.Menus.Draw;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Flee;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Jungleclear;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Laneclear;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Misaya;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Mixed;
+    using Logic.Killsteal;
+    using Menus.Draw;
+    using OrbwalkingMode.Combo;
+    using OrbwalkingMode.Flee;
+    using OrbwalkingMode.Jungleclear;
+    using OrbwalkingMode.Laneclear;
+    using OrbwalkingMode.Misaya;
+    using OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;

@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Gragas.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -43,22 +43,22 @@
         {
             Drawing.OnDraw -= OnDraw;
             //  Obj_AI_Base.OnProcessSpellCast -= OnProcessSpellCast;
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Drawing.OnDraw += OnDraw;
             //   Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            qLogic = new QLogic();
-            rLogic = new RLogic();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    qLogic = new QLogic();
+        //    rLogic = new RLogic();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -89,6 +89,9 @@
             Menu.AddItem(new MenuItem(Menu.Name + "RDraw", "Draw R Prediction").SetValue(false));
 
             Menu.AddItem(new MenuItem(Menu.Name + "Enabled", "Enabled").SetValue(false));
+
+            qLogic = new QLogic();
+            rLogic = new RLogic();
         }
 
         // Need to fix this to make better QRQ Combo

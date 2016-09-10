@@ -7,7 +7,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -36,7 +36,7 @@
 
             AntiGapcloser.OnEnemyGapcloser -= Gapcloser;
 
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -45,15 +45,15 @@
 
             AntiGapcloser.OnEnemyGapcloser += Gapcloser;
 
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            logic = new LogicAll();
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    logic = new LogicAll();
 
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -69,6 +69,8 @@
                 new MenuItem(Name + "MinTargets", "Min Targets In Range").SetValue(new Slider(2, 0, 5)));
 
             Menu.AddItem(new MenuItem(Name + "EMana", "Mana %").SetValue(new Slider(45, 0, 100)));
+
+            logic = new LogicAll();
         }
 
         private void Gapcloser(ActiveGapcloser gapcloser)

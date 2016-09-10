@@ -65,17 +65,12 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             logic = new RLogic();
             drawDamage = new HpBarIndicator();
-            base.OnInitialize(sender, featureBaseEventArgs);
+            base.OnLoad(sender, featureBaseEventArgs);
         }
-
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-        }
-
         #endregion
     }
 }

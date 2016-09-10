@@ -17,9 +17,12 @@
     {
         #region Constructors and Destructors
 
-        public WLane(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public WLane(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
+            Orbwalker = orbwalker;
         }
 
         #endregion
@@ -34,12 +37,12 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -80,7 +83,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Variable.Spells[SpellSlot.W].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "LaneWMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

@@ -1,4 +1,6 @@
-﻿using ReformedAIO.Champions.Ryze.OrbwalkingMode.Combo;
+﻿using LeagueSharp;
+using ReformedAIO.Champions.Ryze.OrbwalkingMode.Combo;
+using RethoughtLib.FeatureSystem.Abstract_Classes;
 
 namespace ReformedAIO.Champions.Ryze
 {
@@ -37,45 +39,64 @@ namespace ReformedAIO.Champions.Ryze
         public override void Load()
         { 
             var superParent = new SuperParent(DisplayName);
+            superParent.Initialize();
 
-            var setSpells = new SetSpells();
+            var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
+
+            var setSpells = new SetSpells(); // lazy af
             setSpells.Load();
 
-            var comboParent = new Parent("Combo");
-            var laneParent = new Parent("Lane");
-            var jungleParent = new Parent("Jungle");
-            var mixedParent = new Parent("Mixed");
+            var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
+            var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var mixedParent = new OrbwalkingParent("Mixed", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var killstealParent = new Parent("Killsteal");
             var drawParent = new Parent("Drawings");
 
-            superParent.Add(new RyzeCombo("Combo"));
+            comboParent.Add(new ChildBase[]
+            {
+             new RyzeCombo(orbwalker)
+            });
 
-            superParent.Add(new[] { laneParent, jungleParent, mixedParent, killstealParent, drawParent });
+            mixedParent.Add(new ChildBase[]
+            {
+                new QMixed(orbwalker),
+                new WMixed(orbwalker),
+                new EMixed(orbwalker)
+            });
 
-            mixedParent.Add(new QMixed());
-            mixedParent.Add(new WMixed());
-            mixedParent.Add(new EMixed());
+            laneParent.Add(new ChildBase[]
+            {
+                new QLane(orbwalker),
+                new WLane(orbwalker),
+                new ELane(orbwalker)
+            });
+          
+            jungleParent.Add(new ChildBase[]
+            {
+                new QJungle(orbwalker),
+                new WJungle(orbwalker),
+                new EJungle(orbwalker), 
+            });
+           
+            killstealParent.Add(new ChildBase[]
+            {
+                new KillstealMenu(), 
+            });
+          
+            drawParent.Add(new ChildBase[]
+            {
+                new QDraw(), new EDraw(), new RDraw(), new DmgDraw(), 
+            });
 
-            laneParent.Add(new QLane());
-            laneParent.Add(new WLane());
-            laneParent.Add(new ELane());
+            superParent.Add(new Base[] { comboParent, laneParent, jungleParent, mixedParent, killstealParent, drawParent, });
 
-            jungleParent.Add(new QJungle());
-            jungleParent.Add(new WJungle());
-            jungleParent.Add(new EJungle());
+            superParent.Load();
 
-            killstealParent.Add(new KillstealMenu());
-
-            drawParent.Add(new QDraw());
-            drawParent.Add(new EDraw());
-            drawParent.Add(new RDraw());
-            drawParent.Add(new DmgDraw());
-
-            var orbWalkingMenu = new Menu("Orbwalker", "Orbwalker");
-            Variable.Orbwalker = new Orbwalking.Orbwalker(orbWalkingMenu);
-            superParent.Menu.AddSubMenu(orbWalkingMenu);
-
-            superParent.OnLoadInvoker();
+            if (superParent.Loaded)
+            {
+                Game.PrintChat("Reformed Ryze - Loaded");
+            }
         }
 
         #endregion

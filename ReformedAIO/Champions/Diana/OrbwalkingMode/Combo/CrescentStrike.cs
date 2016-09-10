@@ -72,7 +72,7 @@
         /// <param name="featureBaseEventArgs">The <see cref="FeatureBaseEventArgs" /> instance containing the event data.</param>
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@
         /// <param name="featureBaseEventArgs">The <see cref="FeatureBaseEventArgs" /> instance containing the event data.</param>
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
         /// <summary>
@@ -90,12 +90,12 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="featureBaseEventArgs">The <see cref="FeatureBaseEventArgs" /> instance containing the event data.</param>
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            logic = new LogicAll();
-            qLogic = new CrescentStrikeLogic();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    logic = new LogicAll();
+        //    qLogic = new CrescentStrikeLogic();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         /// <summary>
         ///     Called when [load].
@@ -113,6 +113,8 @@
 
             Menu.AddItem(new MenuItem(Menu.Name + "QMana", "Mana %").SetValue(new Slider(10, 0, 100)));
 
+            qLogic = new CrescentStrikeLogic();
+            logic = new LogicAll();
             Prediction.Initialize(Menu);
         }
 

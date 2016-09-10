@@ -51,7 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LeagueSharp">
-      <HintPath>..\..\..\..\..\..\Software\LeagueSharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
       <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.Common.dll</HintPath>
@@ -91,7 +91,7 @@
     <Compile Include="Champions\Ashe\Logic\ELogic.cs" />
     <Compile Include="Champions\Ashe\Logic\QLogic.cs" />
     <Compile Include="Champions\Ashe\Logic\RLogic.cs" />
-    <Compile Include="Champions\Ashe\Logic\SetSpells.cs" />
+    <Compile Include="Champions\Ashe\Core\SetSpells.cs" />
     <Compile Include="Champions\Ashe\Logic\WLogic.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Combo\ECombo.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Combo\QCombo.cs" />
@@ -123,6 +123,24 @@
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Jungle\EJungle.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Jungle\QJungle.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Lane\QLane.cs" />
+    <Compile Include="Champions\Gnar\Core\Dmg.cs" />
+    <Compile Include="Champions\Gnar\Core\GnarState.cs" />
+    <Compile Include="Champions\Gnar\Core\Spells.cs" />
+    <Compile Include="Champions\Gnar\Drawings\SpellRange\ERange.cs" />
+    <Compile Include="Champions\Gnar\Drawings\SpellRange\QRange.cs" />
+    <Compile Include="Champions\Gnar\Drawings\SpellRange\RRange.cs" />
+    <Compile Include="Champions\Gnar\Drawings\SpellRange\WRange.cs" />
+    <Compile Include="Champions\Gnar\GnarLoader.cs" />
+    <Compile Include="Champions\Gnar\Logic\ELogic.cs" />
+    <Compile Include="Champions\Gnar\Logic\QLogic.cs" />
+    <Compile Include="Champions\Gnar\Logic\RLogic.cs" />
+    <Compile Include="Champions\Gnar\Logic\WallDetection.cs" />
+    <Compile Include="Champions\Gnar\Logic\WLogic.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\ECombo.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\QCombo.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\RCombo.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Misaya\MisayaCombo.cs" />
@@ -200,7 +218,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Champions\Gnar\OrbwalkingMode\Harass\" />
+    <Folder Include="Champions\Gnar\OrbwalkingMode\Jungle\" />
+    <Folder Include="Champions\Gnar\OrbwalkingMode\Lane\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic;
+    using Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
@@ -59,11 +59,11 @@
             
         }
 
-        protected override void OnInitialize(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            qLogic = new CrescentStrikeLogic();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    qLogic = new CrescentStrikeLogic();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -71,7 +71,7 @@
 
             Menu.AddItem(new MenuItem(Name + "Enabled", "Enabled").SetValue(true));
 
-            
+            qLogic = new CrescentStrikeLogic();
         }
 
         #endregion

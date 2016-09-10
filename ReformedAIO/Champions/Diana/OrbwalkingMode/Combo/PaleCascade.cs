@@ -7,7 +7,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -35,22 +35,22 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
 
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
             
         }
 
-        protected override void OnInitialize(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            rLogic = new PaleCascadeLogic();
-            logic = new LogicAll();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    rLogic = new PaleCascadeLogic();
+        //    logic = new LogicAll();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -64,7 +64,9 @@
             Menu.AddItem(new MenuItem(Name + "RKillable", "Only If Killable").SetValue(true));
 
             Menu.AddItem(new MenuItem(Name + "Enabled", "Enabled").SetValue(true));
-            
+
+            rLogic = new PaleCascadeLogic();
+            logic = new LogicAll();
         }
 
         private void OnUpdate(EventArgs args)

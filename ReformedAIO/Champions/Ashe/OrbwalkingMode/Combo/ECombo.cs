@@ -9,7 +9,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Ashe.Logic;
+    using Logic;
 
     using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -26,9 +26,12 @@
 
         #region Constructors and Destructors
 
-        public ECombo(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public ECombo(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
+            Orbwalker = orbwalker;
         }
 
         #endregion
@@ -44,19 +47,19 @@
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Drawing.OnDraw -= OnDraw;
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Drawing.OnDraw += OnDraw;
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            eLogic = new ELogic();
-        }
+        //protected override void OnInitalize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    eLogic = new ELogic();
+        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -67,6 +70,8 @@
             Menu.AddItem(new MenuItem(Name + "EToVector", "E To Objectives").SetValue(true));
 
             Menu.AddItem(new MenuItem(Name + "VectorDraw", "Draw Objective Position").SetValue(true));
+
+            eLogic = new ELogic();
         }
 
         private void EToCamp()
@@ -119,12 +124,12 @@
 
             if (Menu.Item(Menu.Name + "ECount").GetValue<bool>() && eLogic.GetEAmmo() == 1) return;
 
-            if (Variable.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
+            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
             {
                 EToCamp();
             }
 
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
 
             Hawkshot();
         }

@@ -16,9 +16,12 @@
     {
         #region Constructors and Destructors
 
-        public WCombo(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public WCombo(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
+            Orbwalker = orbwalker;
         }
 
         #endregion
@@ -33,28 +36,31 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(
-                new MenuItem(Menu.Name + "WDistance", "Max Distance").SetValue(new Slider(1100, 0, 1200)));
+            Menu.AddItem(new MenuItem(Menu.Name + "WDistance", "Max Distance").SetValue(new Slider(1100, 0, 1200)));
 
             Menu.AddItem(new MenuItem(Menu.Name + "WMana", "Mana %").SetValue(new Slider(10, 0, 100)));
         }
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || !Variable.Spells[SpellSlot.W].IsReady() || Variable.Player.IsWindingUp) return;
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+                || !Variable.Spells[SpellSlot.W].IsReady()
+                || Variable.Player.IsWindingUp)
+            {
+                return;
+            }
 
             Volley();
         }

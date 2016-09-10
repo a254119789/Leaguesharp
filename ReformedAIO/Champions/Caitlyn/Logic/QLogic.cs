@@ -3,7 +3,7 @@ using LeagueSharp.SDK;
 
 namespace ReformedAIO.Champions.Caitlyn.Logic
 {
-    class QLogic
+    internal class QLogic
     {
         public float QDelay(Obj_AI_Hero target)
         {

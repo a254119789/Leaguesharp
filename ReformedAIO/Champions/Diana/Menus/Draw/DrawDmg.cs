@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic;
+    using Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
@@ -65,20 +65,22 @@
             
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            logic = new LogicAll();
-            drawDamage = new HpBarIndicator();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    logic = new LogicAll();
+        //    drawDamage = new HpBarIndicator();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
-        protected sealed override void OnLoad(object sender, Base.FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu = new Menu(Name, Name);
 
             Menu.AddItem(new MenuItem(Name + "Enabled", "Enabled").SetValue(true));
 
-            
+            logic = new LogicAll();
+            drawDamage = new HpBarIndicator();
+            base.OnLoad(sender, featureBaseEventArgs);
         }
 
         #endregion

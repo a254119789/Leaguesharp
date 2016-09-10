@@ -31,24 +31,25 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnInitialize(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        {
-            rLogic = new PaleCascadeLogic();
-            base.OnInitialize(sender, featureBaseEventArgs);
-        }
+        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        //{
+        //    rLogic = new PaleCascadeLogic();
+        //    base.OnLoad(sender, featureBaseEventArgs);
+        //}
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-            // TODO Add Dmg Multiplier(?)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "RRange", "R Range ").SetValue(new Slider(825, 0, 825)));
+
+            rLogic = new PaleCascadeLogic();
         }
 
         private void OnUpdate(EventArgs args)

@@ -1,4 +1,5 @@
 ﻿using ReformedAIO.Champions.Caitlyn;
+using ReformedAIO.Champions.Gnar;
 
 namespace ReformedAIO
 {
@@ -6,11 +7,11 @@ namespace ReformedAIO
 
     using System.Collections.Generic;
 
-    using ReformedAIO.Champions;
-    using ReformedAIO.Champions.Ashe;
-    using ReformedAIO.Champions.Diana;
-    using ReformedAIO.Champions.Gragas;
-    using ReformedAIO.Champions.Ryze;
+    using Champions;
+    using Champions.Ashe;
+    using Champions.Diana;
+    using Champions.Gragas;
+    using Champions.Ryze;
     using RethoughtLib.Bootstraps.Abstract_Classes;
 
     #endregion
@@ -23,7 +24,7 @@ namespace ReformedAIO
         {
             var bootstrap = new Bootstrap(new List<LoadableBase>
             {
-                new DianaLoader(), new GragasLoader(), new AsheLoader(), new RyzeLoader(), new CaitlynLoader()
+                new DianaLoader(), new GragasLoader(), new AsheLoader(), new RyzeLoader(), new CaitlynLoader(), new GnarLoader()
             });
 
             bootstrap.Run();

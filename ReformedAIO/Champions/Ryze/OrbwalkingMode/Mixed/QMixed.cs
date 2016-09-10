@@ -7,7 +7,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
+    
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -19,17 +19,22 @@
         public override string Name { get; set; } = "[Q] Overload";
 
         #endregion
+        private readonly Orbwalking.Orbwalker Orbwalker;
 
+        public QMixed(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -41,10 +46,8 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || !Variable.Spells[SpellSlot.Q].IsReady()) return;
-
-            Console.WriteLine("Harasshh");
 
             var target = TargetSelector.GetTarget(
                 Menu.Item(Menu.Name + "QRange").GetValue<Slider>().Value,

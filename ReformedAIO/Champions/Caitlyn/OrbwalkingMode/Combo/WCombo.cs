@@ -26,14 +26,14 @@
         {
             Obj_AI_Base.OnProcessSpellCast -= OnProcessSpellCast;
             AntiGapcloser.OnEnemyGapcloser -= Gapcloser;
-            Events.OnUpdate -= OnUpdate;
+            Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             AntiGapcloser.OnEnemyGapcloser += Gapcloser;
-            Events.OnUpdate += OnUpdate;
+            Game.OnUpdate += OnUpdate;
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)

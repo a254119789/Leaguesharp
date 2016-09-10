@@ -6,12 +6,12 @@ namespace ReformedAIO.Champions.Gragas
 
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Gragas.Logic;
-    using ReformedAIO.Champions.Gragas.Menus.Draw;
-    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Jungle;
-    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Lane;
-    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Mixed;
+    using Logic;
+    using Menus.Draw;
+    using OrbwalkingMode.Combo;
+    using OrbwalkingMode.Jungle;
+    using OrbwalkingMode.Lane;
+    using OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
