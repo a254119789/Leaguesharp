@@ -35,15 +35,10 @@ namespace NechritoRiven.Event
                         ForceItem();
                     }
 
-                    if (!Spells.W.IsReady()
-                        || !MenuConfig.NechLogic
-                        || !InWRange(target)
-                        || Qstack == 1)
-                    {
-                        continue;
-                    }
-                   
-                    Spells.W.Cast();
+                    //if (Spells.W.IsReady() && MenuConfig.NechLogic && InWRange(target) && (Qstack != 1 || !Spells.Q.IsReady()))
+                    //{
+                    //    ForceW();
+                    //}
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
@@ -250,15 +245,19 @@ namespace NechritoRiven.Event
                 return;
             }
 
-            if (!Spells.W.IsReady() || MenuConfig.NechLogic) return;
+          
 
-            if (!InWRange(target)
-                || (Player.HasBuff("RivenFeint")
-                && target.IsFacing(Player))) // We can save W for instantly after E shield is off
+            if (!Spells.W.IsReady() || !InWRange(target)) return;
+
+            if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
             {
-                return;
+                ForceW();
             }
-            Spells.W.Cast();
+
+            if (!MenuConfig.NechLogic && (!Player.HasBuff("RivenFeint") || !target.IsFacing(Player)))
+            {
+                Spells.W.Cast();
+            }
         }
 
         public static void Burst()

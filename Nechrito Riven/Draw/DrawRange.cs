@@ -20,6 +20,7 @@ namespace NechritoRiven.Draw
 
             var pos = Drawing.WorldToScreen(Player.Position);
 
+           
             if (MenuConfig.DrawCb)
             {
                 Render.Circle.DrawCircle(Player.Position, 250 + Player.AttackRange + 70,

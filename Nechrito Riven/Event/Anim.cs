@@ -1,4 +1,5 @@
-﻿using LeagueSharp;
+﻿using System;
+using LeagueSharp;
 using LeagueSharp.Common;
 using NechritoRiven.Menus;
 
@@ -43,9 +44,18 @@ namespace NechritoRiven.Event
             }
         }
 
-        private static bool SafeReset =>
-                Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Flee
-                && Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None;
+        private static bool SafeReset()
+        {
+            bool shouldReset = !(Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None && !MenuConfig.SemiReset);
+
+            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Flee)
+            {
+                shouldReset = false;
+            }
+
+            return shouldReset;
+        } 
+              
 
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
@@ -59,7 +69,7 @@ namespace NechritoRiven.Event
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
-                    if (SafeReset)
+                    if (SafeReset())
                     {
                         Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
                     }
@@ -67,7 +77,7 @@ namespace NechritoRiven.Event
                 case "Spell1b":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
-                    if (SafeReset)
+                    if (SafeReset())
                     {
                         Utility.DelayAction.Add(MenuConfig.Q2d + Ping(), Reset);
                     }
@@ -75,7 +85,7 @@ namespace NechritoRiven.Event
                 case "Spell1c":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
-                    if (SafeReset)
+                    if (SafeReset())
                     {
                         Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
                     }
@@ -86,7 +96,7 @@ namespace NechritoRiven.Event
         private static void Reset()
         {
             Emotes();
-            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, false);
+             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, false);
             Orbwalking.LastAaTick = 0;
         }
     }
