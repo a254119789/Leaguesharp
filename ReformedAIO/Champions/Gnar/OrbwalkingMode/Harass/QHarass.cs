@@ -1,37 +1,32 @@
-﻿using RethoughtLib.FeatureSystem.Abstract_Classes;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using LeagueSharp;
+using LeagueSharp.Common;
+using ReformedAIO.Champions.Gnar.Core;
+using RethoughtLib.FeatureSystem.Abstract_Classes;
+using RethoughtLib.Menu;
+using RethoughtLib.Menu.Presets;
 
-namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
+namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Harass
 {
-    using System.Linq;
-    using System.Collections.Generic;
-    using System;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
-    using Core;
-    using RethoughtLib.Menu;
-    using RethoughtLib.Menu.Presets;
-   
-
-    internal sealed class QCombo : ChildBase
+    internal sealed class QHarass: ChildBase
     {
         private GnarState gnarState;
 
-      
+
         public override string Name { get; set; } = "Q";
 
         private readonly Orbwalking.Orbwalker Orbwalker;
 
-        public QCombo(Orbwalking.Orbwalker orbwalker)
+        public QHarass(Orbwalking.Orbwalker orbwalker)
         {
             Orbwalker = orbwalker;
         }
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || !Vars.Player.IsWindingUp
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || (Menu.SubMenu("Menu").Item("BlockIfTransforming").GetValue<bool>()
                 && gnarState.TransForming))
             {
@@ -43,7 +38,7 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
                 Mini();
             }
 
-            if(gnarState.Mega)
+            if (gnarState.Mega)
             {
                 Mega();
             }
@@ -51,7 +46,7 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 
         private void Mini()
         {
-            if (!Spells.Q.IsReady())
+            if (!Spells.Q.IsReady() || !Vars.Player.IsWindingUp)
             {
                 return;
             }
@@ -62,12 +57,12 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
             {
                 if (target == null)
                 {
-                   return;
+                    return;
                 }
 
                 var prediction = Spells.Q.GetPrediction(target);
 
-                if ((config.Item("QHighHitChance").GetValue<bool>() && prediction.Hitchance >= HitChance.High)
+                if (prediction.Hitchance >= HitChance.VeryHigh
                     || (config.Item("BetaQ").GetValue<bool>()
                     && prediction.CollisionObjects.Count > 0
                     && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0))
@@ -79,11 +74,6 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 
         private void Mega()
         {
-            if (!Spells.Q2.IsReady())
-            {
-                return;
-            }
-
             var config = Menu.SubMenu("Menu");
 
             foreach (var target in HeroManager.Enemies.Where(x => x.IsValidTarget(config.Item("Q2Range").GetValue<Slider>().Value)))
@@ -116,7 +106,6 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
             var mini = new List<MenuItem>()
              {
                  new MenuItem("Q1Range", "Range").SetValue(new Slider(1100, 0, 1100)),
-                 new MenuItem("QHighHitchance", "Only High Hitchance").SetValue(false),
                  new MenuItem("BetaQ", "Allow Collision").SetValue(true).SetTooltip("Will Q On Minions Near Target"),
                  new MenuItem("BlockIfTransforming", "Block If Transforming").SetValue(true),
              };
@@ -132,7 +121,7 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
             menuGenerator.Generate();
         }
 
-       
+
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Game.OnUpdate -= GameOnUpdate;

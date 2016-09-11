@@ -1,5 +1,6 @@
 ﻿using LeagueSharp;
 using LeagueSharp.Common;
+using ReformedAIO.Champions.Ashe.Core;
 
 namespace ReformedAIO.Champions.Ashe
 {

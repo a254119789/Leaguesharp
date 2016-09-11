@@ -24,7 +24,5 @@ namespace ReformedAIO.Champions.Gnar.Logic
 
             return kek;
         }
-
-        
     }
 }

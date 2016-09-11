@@ -1,4 +1,6 @@
-﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
+﻿using RethoughtLib.FeatureSystem.Abstract_Classes;
+
+namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 {
     using System.Linq;
     using System;
@@ -7,17 +9,26 @@
     using LeagueSharp.Common;
 
     using Core;
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
+   
 
-    class WCombo : ChildBase
+    internal sealed class WCombo : ChildBase
     {
         private GnarState gnarState;
 
         public override string Name { get; set; } = "W";
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public WCombo(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
+
         private void GameOnUpdate(EventArgs args)
         {
-            if (gnarState.Mini || !Spells.W.IsReady())
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+                || gnarState.Mini || 
+                !Spells.W2.IsReady())
             {
                 return;
             }
@@ -31,7 +42,9 @@
 
                 var prediction = Spells.W2.GetPrediction(target);
 
-                if(prediction.Hitchance >= HitChance.High || prediction.AoeTargetsHitCount > 0)
+                if(prediction.Hitchance >= HitChance.High
+                    || prediction.AoeTargetsHitCount > 1
+                    || Vars.Player.IsCastingInterruptableSpell())
                 {
                     Spells.W2.Cast(prediction.CastPosition);
                 }

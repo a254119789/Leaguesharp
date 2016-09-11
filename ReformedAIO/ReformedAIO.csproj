@@ -139,6 +139,11 @@
     <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\RCombo.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Harass\QHarass.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Jungle\QJungle.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Jungle\W2Jungle.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Lane\QLane.cs" />
+    <Compile Include="Champions\Gnar\OrbwalkingMode\Lane\W2Lane.cs" />
     <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />
@@ -217,11 +222,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Champions\Gnar\OrbwalkingMode\Harass\" />
-    <Folder Include="Champions\Gnar\OrbwalkingMode\Jungle\" />
-    <Folder Include="Champions\Gnar\OrbwalkingMode\Lane\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

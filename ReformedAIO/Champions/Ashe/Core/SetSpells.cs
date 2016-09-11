@@ -1,11 +1,12 @@
-﻿namespace ReformedAIO.Champions.Ashe.Logic
+﻿using System;
+using LeagueSharp;
+using LeagueSharp.Common;
+
+namespace ReformedAIO.Champions.Ashe.Core
 {
     #region Using Directives
 
-    using System;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
+    
 
     #endregion
 

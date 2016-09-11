@@ -1,6 +1,7 @@
-﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
+﻿using RethoughtLib.FeatureSystem.Abstract_Classes;
+
+namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 {
-    using System.Collections.Generic;
     using System;
 
     using LeagueSharp;
@@ -8,18 +9,20 @@
 
     using Core;
     using Logic;
+   
 
-    using RethoughtLib.Menu;
-    using RethoughtLib.Menu.Presets;
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-    internal class RCombo : ChildBase
+    internal sealed class RCombo : ChildBase
     {
-        private GnarState gnarState;
-
-        private WallDetection wallDetection;
+        private WallDetection _wallDetection;
 
         public override string Name { get; set; } = "R";
+
+        private readonly Orbwalking.Orbwalker _orbwalker;
+
+        public RCombo(Orbwalking.Orbwalker orbwalker)
+        {
+            _orbwalker = orbwalker;
+        }
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.R2.Range, TargetSelector.DamageType.Physical);
 
@@ -30,25 +33,31 @@
                 return;
             }
 
-            if(Menu.SubMenu("Menu").Item("HitCount").GetValue<Slider>().Value < Vars.Player.CountEnemiesInRange(Spells.R2.Range))
+            //var prediction = Spells.R2.GetPrediction(Target);
+
+            if (Menu.SubMenu("Menu").Item("HitCount").GetValue<Slider>().Value
+                >= Vars.Player.CountEnemiesInRange(Spells.R2.Range)
+                && _wallDetection.IsWall(Target))
             {
-                
+                Spells.R2.Cast(_wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position));
+            }
+
+            if (_orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            {
+                return;
             }
 
             if (Target.IsInvulnerable 
                 || (Vars.Player.CountEnemiesInRange(Spells.R2.Range) < 2 
                 && Target.IsStunned)
-                || !wallDetection.IsWall(Target))
+                || !_wallDetection.IsWall(Target))
             {
                 return;
             }
 
-          
-            var prediction = Spells.R2.GetPrediction(Target);
-            Spells.R2.Cast(prediction.CastPosition);
+            Spells.R2.Cast(_wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position));
         }
 
-       
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
@@ -56,15 +65,8 @@
             Menu.AddItem(new MenuItem("RRange", "Range").SetValue(new Slider(590, 0, 590)));
             Menu.AddItem(new MenuItem("HitCount", "Auto If x Count").SetValue(new Slider(3, 0, 5)));
 
-            gnarState = new GnarState();
-            wallDetection = new WallDetection();
+            _wallDetection = new WallDetection();
         }
-
-        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        //{
-        //    wallDetection = new WallDetection();
-        //    gnarState = new GnarState();
-        //}
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
