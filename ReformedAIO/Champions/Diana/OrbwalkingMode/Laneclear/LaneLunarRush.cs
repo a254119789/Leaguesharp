@@ -21,6 +21,13 @@
 
         #endregion
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public LaneLunarRush(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
+
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -61,7 +68,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Variables.Spells[SpellSlot.W].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "LaneWMana").GetValue<Slider>().Value > Variables.Player.ManaPercent) return;

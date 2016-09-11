@@ -27,7 +27,12 @@
         public override string Name { get; set; } = "[Q] Barrel Roll";
 
         #endregion
+        private readonly Orbwalking.Orbwalker Orbwalker;
 
+        public QMixed(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -78,7 +83,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || !Variable.Spells[SpellSlot.Q].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "QMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

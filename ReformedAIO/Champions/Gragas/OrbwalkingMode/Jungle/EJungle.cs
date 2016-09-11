@@ -20,7 +20,12 @@
         public override string Name { get; set; } = "[E] Body Slam";
 
         #endregion
+        private readonly Orbwalking.Orbwalker Orbwalker;
 
+        public EJungle(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -51,7 +56,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Variable.Spells[SpellSlot.E].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "EMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

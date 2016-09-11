@@ -10,9 +10,11 @@
 
     internal sealed class QCombo : ChildBase
     {
-        public QCombo(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public QCombo(Orbwalking.Orbwalker orbwalker)
         {
-            Name = name;
+            Orbwalker = orbwalker;
         }
 
         public override string Name { get; set; } 
@@ -54,7 +56,7 @@
                 Spells.Spell[SpellSlot.Q].CastIfWillHit(Target, 2);
             }
 
-            if (Vars.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 return;
             }

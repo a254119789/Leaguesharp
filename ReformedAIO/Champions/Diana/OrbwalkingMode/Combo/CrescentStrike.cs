@@ -33,6 +33,13 @@
 
         #endregion
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public CrescentStrike(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
+
         #region Public Properties
 
         /// <summary>
@@ -53,7 +60,7 @@
         /// <param name="args">The <see cref="EventArgs" /> instance containing the event data.</param>
         public void OnUpdate(EventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variables.Spells[SpellSlot.Q].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "QMana").GetValue<Slider>().Value > Variables.Player.ManaPercent) return;

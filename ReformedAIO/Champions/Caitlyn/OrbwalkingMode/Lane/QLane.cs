@@ -13,10 +13,13 @@
 
     internal sealed class QLane : ChildBase
     {
-        public QLane(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public QLane(Orbwalking.Orbwalker orbwalker)
         {
-            Name = name;
+            Orbwalker = orbwalker;
         }
+
 
         public override string Name { get; set; }
 
@@ -44,7 +47,7 @@
       
         private void OnUpdate(EventArgs args)
         {
-            if (Vars.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.Q].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "LaneQMana").GetValue<Slider>().Value > Vars.Player.ManaPercent) return;

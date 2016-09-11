@@ -22,6 +22,13 @@
 
         #endregion
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public Moonfall(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
+
         #region Public Properties
 
         public override string Name { get; set; } = "[E] Moonfall";
@@ -121,7 +128,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variables.Spells[SpellSlot.E].IsReady()) return;
 
             // if (Menu.Item(Menu.Name + "EMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

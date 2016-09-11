@@ -22,6 +22,12 @@
 
         #endregion
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public LunarRush(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
 
         #region Public Properties
 
@@ -80,7 +86,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variables.Spells[SpellSlot.W].IsReady()) return;
 
             Lunarrush();

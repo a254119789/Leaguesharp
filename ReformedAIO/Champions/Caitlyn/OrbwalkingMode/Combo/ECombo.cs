@@ -9,10 +9,13 @@
 
     internal sealed class ECombo : ChildBase
     {
-        public ECombo(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public ECombo(Orbwalking.Orbwalker orbwalker)
         {
-            Name = name;
+            Orbwalker = orbwalker;
         }
+
 
         public override string Name { get; set; }
 
@@ -56,7 +59,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Vars.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || Vars.Player.IsWindingUp
                 || !Spells.Spell[SpellSlot.E].IsReady()
                 || Target == null

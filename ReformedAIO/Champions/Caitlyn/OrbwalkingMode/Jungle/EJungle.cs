@@ -12,10 +12,13 @@
 
     internal class EJungle : ChildBase
     {
-        public EJungle(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public EJungle(Orbwalking.Orbwalker orbwalker)
         {
-            Name = name;
+            Orbwalker = orbwalker;
         }
+
 
         public sealed override string Name { get; set; }
 
@@ -36,7 +39,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Vars.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.E].IsReady()
                 || Vars.Player.IsWindingUp)
             {

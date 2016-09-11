@@ -1,11 +1,7 @@
-﻿using LeagueSharp;
-using ReformedAIO.Champions.Ryze.OrbwalkingMode.Combo;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Ryze
+﻿namespace ReformedAIO.Champions.Ryze
 {
     #region Using Directives
-
+    using LeagueSharp;
     using LeagueSharp.Common;
     using System.Collections.Generic;
     using RethoughtLib.Utility;
@@ -19,6 +15,8 @@ namespace ReformedAIO.Champions.Ryze
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
+    using OrbwalkingMode.Combo;
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
 

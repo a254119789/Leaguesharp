@@ -19,7 +19,7 @@
         public override string Name { get; set; } = "Combo";
 
         private readonly Orbwalking.Orbwalker Orbwalker;
-       
+
         public RyzeCombo(Orbwalking.Orbwalker orbwalker)
         {
             Orbwalker = orbwalker;
@@ -34,6 +34,7 @@
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+
             Game.OnUpdate += OnUpdate;
         }
 

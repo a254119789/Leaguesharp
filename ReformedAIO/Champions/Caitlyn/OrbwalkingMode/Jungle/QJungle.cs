@@ -13,10 +13,13 @@ namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
 
     internal class QJungle : ChildBase
     {
-        public QJungle(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public QJungle(Orbwalking.Orbwalker orbwalker)
         {
-            Name = name;
+            Orbwalker = orbwalker;
         }
+
 
         public sealed override string Name { get; set; }
 
@@ -39,7 +42,7 @@ namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
 
         private void OnUpdate(EventArgs args)
         {
-            if (Vars.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.Q].IsReady()
                 || Vars.Player.IsWindingUp)
             {

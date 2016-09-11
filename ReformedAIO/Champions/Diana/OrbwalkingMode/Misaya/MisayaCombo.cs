@@ -19,8 +19,13 @@
         #region Fields
 
         private LogicAll logic;
-
+        private Orbwalking.Orbwalker orbwalker;
         private CrescentStrikeLogic qLogic;
+
+        public MisayaCombo(Orbwalking.Orbwalker orbwalker)
+        {
+            this.orbwalker = orbwalker;
+        }
 
         #endregion
 

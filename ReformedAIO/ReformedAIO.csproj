@@ -117,7 +117,6 @@
     <Compile Include="Champions\Caitlyn\Logic\QLogic.cs" />
     <Compile Include="Champions\Caitlyn\Logic\Spells.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Combo\ECombo.cs" />
-    <Compile Include="Champions\Caitlyn\OrbwalkingMode\Combo\EWQR.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Combo\WCombo.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Jungle\EJungle.cs" />

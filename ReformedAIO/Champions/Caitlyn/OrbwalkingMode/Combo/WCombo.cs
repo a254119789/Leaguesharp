@@ -11,10 +11,13 @@
 
     internal sealed class WCombo : ChildBase
     {
-        public WCombo(string name)
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public WCombo(Orbwalking.Orbwalker orbwalker)
         {
-            Name = name;
+            Orbwalker = orbwalker;
         }
+
 
         public override string Name { get; set; }
 
@@ -74,7 +77,7 @@
       
         private void OnUpdate(EventArgs args)
         {
-            if (Vars.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None
+            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None
                 && Menu.Item(Menu.Name + "WBush").GetValue<bool>()
                 && Utils.TickCount - Spells.Spell[SpellSlot.W].LastCastAttemptT > 10000
                 && !Vars.Player.IsRecalling()
@@ -90,7 +93,7 @@
                 Utility.DelayAction.Add(400, ()=> Spells.Spell[SpellSlot.W].Cast(path));
             }
 
-            if (Vars.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || Vars.Player.IsWindingUp
                 || !Spells.Spell[SpellSlot.W].IsReady()
                 || Target == null

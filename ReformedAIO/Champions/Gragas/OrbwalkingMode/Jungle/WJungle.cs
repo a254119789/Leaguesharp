@@ -20,7 +20,12 @@
         public override string Name { get; set; } = "[W] Drunken Rage";
 
         #endregion
+        private readonly Orbwalking.Orbwalker Orbwalker;
 
+        public WJungle(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -53,7 +58,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Variable.Spells[SpellSlot.W].IsReady()) return;
             if (Menu.Item(Menu.Name + "WMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 

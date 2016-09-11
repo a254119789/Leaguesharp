@@ -36,7 +36,12 @@
         public override string Name { get; set; } = "[R] Explosive Cask";
 
         #endregion
+        private readonly Orbwalking.Orbwalker Orbwalker;
 
+        public RCombo(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -98,7 +103,7 @@
         //private void OnProcessSpellCast(GameObject sender, GameObjectProcessSpellCastEventArgs args)
         //{
         //    if (!Menu.Item(Menu.Name + "QRQ").GetValue<bool>() || !Variable.Spells[SpellSlot.Q].IsReady() ||
-        //        Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
+        //        Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
 
         //    var target = args.Target as Obj_AI_Hero;
         //    // args.SData.Name == "Gragas_Base_Q_Ally.troy"
@@ -217,7 +222,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variable.Spells[SpellSlot.R].IsReady()
                 || Menu.Item(Menu.Name + "RMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 

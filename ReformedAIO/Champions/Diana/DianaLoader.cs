@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using LeagueSharp;
+using RethoughtLib.FeatureSystem.Abstract_Classes;
 using RethoughtLib.Utility;
 
 namespace ReformedAIO.Champions.Diana
@@ -38,56 +40,79 @@ namespace ReformedAIO.Champions.Diana
         public override void Load()
         {
             var superParent = new SuperParent(DisplayName);
+            superParent.Initialize();
+
+            var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
 
             // Parents
-            var combo = new Parent("Combo");
-            var misaya = new Parent("Misaya");
-            var mixed = new Parent("Mixed");
-            var lane = new Parent("LaneClear");
-            var jungle = new Parent("JungleClear");
-            var ks = new Parent("Killsteal");
-            var draw = new Parent("Drawings");
-            var flee = new Parent("Flee");
+            var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
+            var misayaParent = new Parent("Misaya");
+            var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var mixedParent = new OrbwalkingParent("Mixed", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
+            var ksParent = new Parent("Killsteal");
+            var drawParent = new Parent("Drawings");
+            var fleeParent = new Parent("Flee");
 
-            superParent.Add(new[]
+            superParent.Add(new Base[]
             {
-                combo, misaya, mixed, lane, jungle, ks, draw, flee
+                comboParent, misayaParent, mixedParent, laneParent, jungleParent, ksParent, drawParent, fleeParent
             });
 
-            combo.Add(new CrescentStrike());
-            combo.Add(new Moonfall());
-            combo.Add(new LunarRush());
-            combo.Add(new PaleCascade());
-            combo.Add(new MisayaCombo());
+            comboParent.Add(new ChildBase[]
+            {
+                new CrescentStrike(orbwalker), 
+                new Moonfall(orbwalker), 
+                new LunarRush(orbwalker), 
+                new PaleCascade(orbwalker), 
+                new MisayaCombo(orbwalker), 
+            });
 
-            mixed.Add(new MixedCrescentStrike());
+            mixedParent.Add(new ChildBase[]
+            {
+                new MixedCrescentStrike(orbwalker)
+            });
+            
+            laneParent.Add(new ChildBase[]
+            {
+                new LaneCrescentStrike(orbwalker), 
+                new LaneLunarRush(orbwalker), 
+            });
+            
+            jungleParent.Add(new ChildBase[]
+            {
+                new JungleCrescentStrike(orbwalker), 
+                new JungleLunarRush(orbwalker), 
+                new JungleMoonfall(orbwalker), 
+                new JunglePaleCascade(orbwalker), 
+            });
+         
+            ksParent.Add(new ChildBase[]
+            {
+                new KsPaleCascade(), 
+                new KsCrescentStrike(), 
+            });
+            
+            drawParent.Add(new ChildBase[]
+            {
+                new DrawQ(), 
+                new DrawE(), 
+                new DrawDmg(), 
+                new DrawPred(), 
+            });
+            
+            fleeParent.Add(new ChildBase[]
+            {
+                new FleeMode(), 
+            });
+            
+            superParent.Load();
 
-            lane.Add(new LaneCrescentStrike());
-            lane.Add(new LaneLunarRush());
-
-            jungle.Add(new JungleCrescentStrike());
-            jungle.Add(new JungleLunarRush());
-            jungle.Add(new JungleMoonfall());
-            jungle.Add(new JunglePaleCascade());
-
-            ks.Add(new KsPaleCascade());
-            ks.Add(new KsCrescentStrike());
-
-            draw.Add(new DrawQ());
-            draw.Add(new DrawE());
-            draw.Add(new DrawDmg());
-            draw.Add(new DrawPred());
-
-            flee.Add(new FleeMode());
-
-            superParent.OnLoadInvoker();
-
-            var orbWalkingMenu = new Menu("Orbwalker", "Orbwalker");
-            Variables.Orbwalker = new Orbwalking.Orbwalker(orbWalkingMenu);
-
-            superParent.Menu.AddSubMenu(orbWalkingMenu);
+            if (superParent.Loaded)
+            {
+                Game.PrintChat("Reformed Diana - Loaded");
+            }
         }
-
         #endregion
     }
 }

@@ -22,6 +22,13 @@
 
         #endregion
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public MixedCrescentStrike(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
+
         #region Public Properties
 
         public override string Name { get; set; } = "[Q] Crescent Strike";
@@ -32,7 +39,7 @@
 
         public void OnUpdate(EventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || !Variables.Spells[SpellSlot.Q].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "QMana").GetValue<Slider>().Value > Variables.Player.ManaPercent) return;

@@ -32,6 +32,14 @@
 
         #region Methods
 
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public ECombo(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
+
+
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Game.OnUpdate -= OnUpdate;
@@ -81,7 +89,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variable.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variable.Spells[SpellSlot.E].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "EMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

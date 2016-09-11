@@ -23,6 +23,8 @@
 
         #endregion
 
+
+
         #region Public Properties
 
         public override string Name { get; set; } = "Flee";
@@ -73,7 +75,7 @@
                     x.Value.Distance(ObjectManager.Player.Position) < 300f && x.Value.Distance(Game.CursorPos) < 700f);
 
             var monster =
-                MinionManager.GetMinions(900f, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.Health)
+                MinionManager.GetMinions(900f, MinionTypes.All, MinionTeam.Neutral)
                     .FirstOrDefault();
 
             var mobs = MinionManager.GetMinions(900, MinionTypes.All, MinionTeam.NotAlly);

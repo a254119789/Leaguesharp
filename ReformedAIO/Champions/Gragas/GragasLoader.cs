@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using LeagueSharp;
+using RethoughtLib.FeatureSystem.Abstract_Classes;
 
 namespace ReformedAIO.Champions.Gragas
 {
@@ -37,48 +39,67 @@ namespace ReformedAIO.Champions.Gragas
         public override void Load()
         {
             var superParent = new SuperParent(DisplayName);
+            superParent.Initialize();
 
-            var combo = new Parent("Combo");
-            var mixed = new Parent("Mixed");
-            var lane = new Parent("LaneClear");
-            var jungle = new Parent("JungleClear");
+            var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
+
+            var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
+            var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var mixedParent = new OrbwalkingParent("Mixed", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var draw = new Parent("Drawings");
 
             var qLogic = new QLogic();
             qLogic.Load();
 
-            superParent.Add(new[]
+            comboParent.Add(new ChildBase[]
             {
-                combo, mixed, lane, jungle, draw
+                new QCombo(orbwalker), 
+                new WCombo(orbwalker), 
+                new ECombo(orbwalker), 
+                new RCombo(orbwalker)
             });
-
-            combo.Add(new QCombo());
-            combo.Add(new WCombo());
-            combo.Add(new ECombo());
-            combo.Add(new RCombo());
-
-            lane.Add(new LaneQ());
-            lane.Add(new LaneW());
-            lane.Add(new LaneE());
-
-            mixed.Add(new QMixed());
-
-            jungle.Add(new QJungle());
-            jungle.Add(new WJungle());
-            jungle.Add(new EJungle());
-
-            draw.Add(new DrawIndicator());
-            draw.Add(new DrawQ());
-            draw.Add(new DrawE());
-            draw.Add(new DrawR());
-
-            superParent.OnLoadInvoker();
+           
+            laneParent.Add(new ChildBase[]
+            {
+                new LaneQ(orbwalker), 
+                new LaneW(orbwalker), 
+                new LaneE(orbwalker), 
+            });
+          
+            mixedParent.Add(new ChildBase[]
+            {
+                new QMixed(orbwalker)
+            });
+           
+            jungleParent.Add(new ChildBase[]
+            {
+                new QJungle(orbwalker), 
+                new WJungle(orbwalker), 
+                new EJungle(orbwalker)
+            });
+            
+            draw.Add(new ChildBase[]
+            {
+                new DrawIndicator(), 
+                new DrawQ(), 
+                new DrawE(), 
+                new DrawR()
+            });
+          
+            superParent.Add(new Base[]
+            {
+                comboParent, mixedParent, laneParent, jungleParent, draw
+            });
 
             Prediction.Initialize(superParent.Menu);
 
-            var orbWalkingMenu = new Menu("Orbwalker", "Orbwalking");
-            Variable.Orbwalker = new Orbwalking.Orbwalker(orbWalkingMenu);
-            superParent.Menu.AddSubMenu(orbWalkingMenu);
+            superParent.Load();
+
+            if (superParent.Loaded)
+            {
+                Game.PrintChat("Reformed Gragas - Loaded");
+            }
         }
 
         #endregion

@@ -15,12 +15,18 @@
 
     internal class JungleLunarRush : ChildBase
     {
-
         #region Public Properties
 
         public override string Name { get; set; } = "[W] Lunar Rush";
 
         #endregion
+
+        private readonly Orbwalking.Orbwalker Orbwalker;
+
+        public JungleLunarRush(Orbwalking.Orbwalker orbwalker)
+        {
+            Orbwalker = orbwalker;
+        }
 
         #region Methods
 
@@ -63,7 +69,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Variables.Spells[SpellSlot.W].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "JungleWMana").GetValue<Slider>().Value > Variables.Player.ManaPercent) return;
