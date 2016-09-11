@@ -15,23 +15,12 @@
 
     internal class HpBarIndicator
     {
-        #region Static Fields
-
         public static Device DxDevice = Drawing.Direct3DDevice;
-
         public static Line DxLine;
 
-        #endregion
-
-        #region Fields
-
         public float Hight = 9;
-
         public float Width = 104;
 
-        #endregion
-
-        #region Constructors and Destructors
 
         public HpBarIndicator()
         {
@@ -43,18 +32,7 @@
             AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnDomainUnload;
         }
 
-        #endregion
-
-        #region Public Properties
-
-        public Vector2 StartPosition
-            => new Vector2(Unit.HPBarPosition.X + Offset.X, Unit.HPBarPosition.Y + Offset.Y);
-
         public Obj_AI_Hero Unit { get; set; }
-
-        #endregion
-
-        #region Properties
 
         private Vector2 Offset
         {
@@ -69,22 +47,11 @@
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
-        public void DrawDmg(float dmg, ColorBGRA color)
+        public Vector2 StartPosition
         {
-            var hpPosNow = GetHpPosAfterDmg(0);
-            var hpPosAfter = GetHpPosAfterDmg(dmg);
-
-            FillHpBar(hpPosNow, hpPosAfter, color);
-            //fillHPBar((int)(hpPosNow.X - startPosition.X), (int)(hpPosAfter.X- startPosition.X), color);
+            get { return new Vector2(Unit.HPBarPosition.X + Offset.X, Unit.HPBarPosition.Y + Offset.Y); }
         }
 
-        #endregion
-
-        #region Methods
 
         private static void CurrentDomainOnDomainUnload(object sender, EventArgs eventArgs)
         {
@@ -101,6 +68,28 @@
             DxLine.OnLostDevice();
         }
 
+
+        private float GetHpProc(float dmg = 0)
+        {
+            var health = ((Unit.Health - dmg) > 0) ? (Unit.Health - dmg) : 0;
+            return (health / Unit.MaxHealth);
+        }
+
+        private Vector2 GetHpPosAfterDmg(float dmg)
+        {
+            var w = GetHpProc(dmg) * Width;
+            return new Vector2(StartPosition.X + w, StartPosition.Y);
+        }
+
+        public void DrawDmg(float dmg, ColorBGRA color)
+        {
+            var hpPosNow = GetHpPosAfterDmg(0);
+            var hpPosAfter = GetHpPosAfterDmg(dmg);
+
+            FillHpBar(hpPosNow, hpPosAfter, color);
+            //fillHPBar((int)(hpPosNow.X - startPosition.X), (int)(hpPosAfter.X- startPosition.X), color);
+        }
+
         private void FillHpBar(int to, int from, Color color)
         {
             var sPos = StartPosition;
@@ -114,25 +103,11 @@
         {
             DxLine.Begin();
 
-            DxLine.Draw(
-                new[] { new Vector2((int)from.X, (int)from.Y + 4f), new Vector2((int)to.X, (int)to.Y + 4f) },
-                color);
+            DxLine.Draw(new[] {
+                new Vector2((int) from.X, (int) from.Y + 4f),
+                new Vector2((int) to.X, (int) to.Y + 4f) }, color);
 
             DxLine.End();
         }
-
-        private Vector2 GetHpPosAfterDmg(float dmg)
-        {
-            var w = GetHpProc(dmg) * Width;
-            return new Vector2(StartPosition.X + w, StartPosition.Y);
-        }
-
-        private float GetHpProc(float dmg = 0)
-        {
-            var health = Unit.Health - dmg > 0 ? Unit.Health - dmg : 0;
-            return health / Unit.MaxHealth;
-        }
-
-        #endregion
     }
 }

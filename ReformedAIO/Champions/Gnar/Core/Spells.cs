@@ -14,7 +14,7 @@ namespace ReformedAIO.Champions.Gnar.Core
       //  public static Spell R { get; set; }
         public static Spell R2 { get; set; }
 
-        public void Initialise()
+        public void Initialize()
         {
             Q = new Spell(SpellSlot.Q, 1100);
             Q2 = new Spell(SpellSlot.Q, 1100);

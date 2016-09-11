@@ -125,12 +125,14 @@
     <Compile Include="Champions\Gnar\Core\Dmg.cs" />
     <Compile Include="Champions\Gnar\Core\GnarState.cs" />
     <Compile Include="Champions\Gnar\Core\Spells.cs" />
+    <Compile Include="Champions\Gnar\Drawings\Damage\GnarDamage.cs" />
     <Compile Include="Champions\Gnar\Drawings\SpellRange\ERange.cs" />
     <Compile Include="Champions\Gnar\Drawings\SpellRange\QRange.cs" />
     <Compile Include="Champions\Gnar\Drawings\SpellRange\RRange.cs" />
     <Compile Include="Champions\Gnar\Drawings\SpellRange\WRange.cs" />
     <Compile Include="Champions\Gnar\GnarLoader.cs" />
     <Compile Include="Champions\Gnar\Logic\ELogic.cs" />
+    <Compile Include="Champions\Gnar\Logic\FleeLogic.cs" />
     <Compile Include="Champions\Gnar\Logic\QLogic.cs" />
     <Compile Include="Champions\Gnar\Logic\RLogic.cs" />
     <Compile Include="Champions\Gnar\Logic\WallDetection.cs" />
@@ -144,6 +146,8 @@
     <Compile Include="Champions\Gnar\OrbwalkingMode\Jungle\W2Jungle.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Lane\QLane.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Lane\W2Lane.cs" />
+    <Compile Include="Champions\Gnar\PermaActive\Flee.cs" />
+    <Compile Include="Champions\Gnar\PermaActive\Killsteal.cs" />
     <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />

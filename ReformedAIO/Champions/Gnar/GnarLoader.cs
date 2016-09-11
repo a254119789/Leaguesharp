@@ -1,4 +1,6 @@
-﻿using RethoughtLib.Bootstraps.Abstract_Classes;
+﻿using ReformedAIO.Champions.Gnar.Drawings.Damage;
+using ReformedAIO.Champions.Gnar.PermaActive;
+using RethoughtLib.Bootstraps.Abstract_Classes;
 using RethoughtLib.FeatureSystem.Abstract_Classes;
 
 namespace ReformedAIO.Champions.Gnar
@@ -32,8 +34,8 @@ namespace ReformedAIO.Champions.Gnar
             var superParent = new SuperParent(DisplayName);
             superParent.Initialize();
 
-            var spells = new Spells(); // - Loads the spells (Can't use dictionary, since transform afaik.
-            spells.Initialise();
+            var spells = new Spells(); // - RIP CLEAN CODE
+            spells.Initialize();
 
             var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
 
@@ -41,11 +43,18 @@ namespace ReformedAIO.Champions.Gnar
             var harassParent = new OrbwalkingParent("Harass", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var killstealParent = new Parent("Killsteal");
+            var fleeParent = new Parent("Flee");
             var drawingParent = new Parent("Drawing");
 
             superParent.Add(new Base[]
             {
-                comboParent
+                comboParent,
+                harassParent,
+                jungleParent,
+                laneParent,
+                jungleParent,
+                drawingParent
             });
 
             comboParent.Add(new Base[]
@@ -73,8 +82,14 @@ namespace ReformedAIO.Champions.Gnar
                 new W2Jungle(orbwalker)  
             });
 
+            fleeParent.Add(new Base[]
+            {
+                new Flee("Flee")
+            });
+
             drawingParent.Add(new Base[]
             {
+                new GnarDamage("Damage Indicator"), 
                 new QRange("Q"),
                 new WRange("W"),
                 new ERange("E"),
