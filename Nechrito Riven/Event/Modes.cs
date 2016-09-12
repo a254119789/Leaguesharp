@@ -64,11 +64,11 @@ namespace NechritoRiven.Event
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
 
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
-                {
-                    ForceItem();
-                    Utility.DelayAction.Add(1, ForceR2);
-                }
+                //if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+                //{
+                //    ForceItem();
+                //    Utility.DelayAction.Add(1, ForceR2);
+                //}
 
                 if (!Orbwalker.InAutoAttackRange(target) || !Spells.Q.IsReady()) return;
 
