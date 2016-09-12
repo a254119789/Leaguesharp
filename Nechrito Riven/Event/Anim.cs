@@ -54,8 +54,7 @@ namespace NechritoRiven.Event
             }
 
             return shouldReset;
-        } 
-              
+        }
 
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
@@ -96,7 +95,7 @@ namespace NechritoRiven.Event
         private static void Reset()
         {
             Emotes();
-             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, false);
+            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, false);
             Orbwalking.LastAaTick = 0;
         }
     }

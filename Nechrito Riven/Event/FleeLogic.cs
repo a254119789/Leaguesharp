@@ -27,6 +27,7 @@ namespace NechritoRiven.Event
             }
             return Vector3.Zero;
         }
+
         public static float GetWallWidth(Vector3 start, Vector3 direction, int maxWallWidth = 260, int step = 1)
         {
             var thickness = 0f;
@@ -36,7 +37,7 @@ namespace NechritoRiven.Event
                 return thickness;
             }
 
-            for (var i = 0; i < maxWallWidth; i = i + step)
+            for (var i = 0; i < maxWallWidth*2; i = i + step)
             {
                 if (NavMesh.GetCollisionFlags(start.Extend(direction, i)) == CollisionFlags.Wall
                     || start.Extend(direction, i).IsWall())
@@ -51,10 +52,12 @@ namespace NechritoRiven.Event
 
             return thickness;
         }
+
         public static bool IsWallDash(Obj_AI_Base unit, float dashRange, float minWallWidth = 75)
         {
             return IsWallDash(unit.ServerPosition, dashRange, minWallWidth);
         }
+
         public static bool IsWallDash(Vector3 position, float dashRange, float minWallWidth = 75)
         {
             var dashEndPos = ObjectManager.Player.Position.Extend(position, dashRange);
@@ -71,7 +74,7 @@ namespace NechritoRiven.Event
             {
                 var wallWidth = GetWallWidth(firstWallPoint, dashEndPos);
 
-                if (wallWidth < minWallWidth && (wallWidth - firstWallPoint.Distance(dashEndPos)) < (wallWidth * 0.45))
+                if (wallWidth < minWallWidth && (wallWidth - firstWallPoint.Distance(dashEndPos)) < wallWidth * 0.6f)
                 {
                     return true;
                 }

@@ -113,10 +113,8 @@ namespace NechritoRiven.Core
         {
             var target = TargetSelector.GetSelectedTarget();
 
-            if (target == null || !target.IsValidTarget() || target.IsZombie) return;
-
-            Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
-            Utility.DelayAction.Add(11, ()=> Spells.W.Cast(target));
+            Player.Spellbook.CastSpell(Spells.Flash, target.Position);
+            Utility.DelayAction.Add(5, ()=> Spells.W.Cast(target));
         }
 
         public static List<string> TargetedAntiSpell = new List<string>()

@@ -31,7 +31,7 @@ namespace NechritoRiven.Event
                     {
                         Usables.CastYoumoo();
 
-                        Spells.Q.CastOnUnit(target);
+                        Spells.Q.Cast(target);
                         ForceItem();
                     }
 
@@ -54,8 +54,7 @@ namespace NechritoRiven.Event
                 {
                     if (Spells.Q.IsReady() && InQRange(target))
                     {
-                        var qpred = Spells.Q.GetPrediction(target);
-                        Spells.Q.Cast(qpred.CastPosition);
+                        Spells.Q.Cast(target);
                     }
                     if (Spells.W.IsReady() && !Spells.Q.IsReady() && InWRange(target))
                     {
@@ -65,10 +64,16 @@ namespace NechritoRiven.Event
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
 
-                if (!Orbwalker.InAutoAttackRange(target)) return;
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+                {
+                    ForceItem();
+                    Utility.DelayAction.Add(1, ForceR2);
+                }
+
+                if (!Orbwalker.InAutoAttackRange(target) || !Spells.Q.IsReady()) return;
 
                 ForceItem();
-                Spells.Q.CastOnUnit(target);
+                Spells.Q.Cast(target);
             }
 
             if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear) return;
@@ -245,8 +250,6 @@ namespace NechritoRiven.Event
                 return;
             }
 
-          
-
             if (!Spells.W.IsReady() || !InWRange(target)) return;
 
             if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
@@ -265,11 +268,12 @@ namespace NechritoRiven.Event
             Usables.CastYoumoo();
 
             var Target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
+
             if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
             {
                 var pred = Spells.R.GetPrediction(Target);
 
-                if (pred.Hitchance < HitChance.Medium)
+                if (pred.Hitchance < HitChance.High)
                 {
                     return;
                 }
@@ -302,8 +306,8 @@ namespace NechritoRiven.Event
                 Usables.CastYoumoo();
                 Spells.E.Cast(target.Position);
                 ForceR();
-                Utility.DelayAction.Add(170 + Game.Ping/2, FlashW);
-                ForceItem();
+                Utility.DelayAction.Add(180, FlashW);
+                ForceW();
             }
             else
             {
