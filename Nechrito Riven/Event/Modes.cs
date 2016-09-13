@@ -18,7 +18,6 @@ namespace NechritoRiven.Event
         {
             if (!sender.IsMe) return;
 
-
             var a = HeroManager.Enemies.Where(x => x.IsValidTarget(Player.AttackRange + 360));
 
             var targets = a as Obj_AI_Hero[] ?? a.ToArray();
@@ -29,10 +28,11 @@ namespace NechritoRiven.Event
                 {
                     if (Spells.Q.IsReady())
                     {
-                        Usables.CastYoumoo();
-
-                        Spells.Q.Cast(target);
+                        //Usables.CastYoumoo();
                         ForceItem();
+                        ForceCastQ(target);
+                        //Spells.Q.Cast(target);
+                        
                     }
 
                     //if (Spells.W.IsReady() && MenuConfig.NechLogic && InWRange(target) && (Qstack != 1 || !Spells.Q.IsReady()))
@@ -102,24 +102,6 @@ namespace NechritoRiven.Event
                 }
             }
 
-            var inhib = args.Target as Obj_BarracksDampener; // OR Obj_Barrack
-            if (inhib != null)
-            {
-                if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
-                {
-                    Spells.Q.Cast(inhib.Position - 250);
-                }
-            }
-
-            var turret = args.Target as Obj_AI_Turret;
-            if (turret != null)
-            {
-                if (turret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
-                {
-                    Spells.Q.Cast(turret.Position - 250);
-                }
-            }
-
             var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
 
             if (mobs == null) return;
@@ -142,6 +124,24 @@ namespace NechritoRiven.Event
                 ForceItem();
                 Spells.W.Cast(m);
 
+            }
+
+            var inhib = args.Target as Obj_BarracksDampener; // OR Obj_Barrack
+            if (inhib != null)
+            {
+                if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+                {
+                    Spells.Q.Cast(inhib.Position - 250);
+                }
+            }
+
+            var turret = args.Target as Obj_AI_Turret;
+
+            if (turret == null) return;
+
+            if (turret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+            {
+                Spells.Q.Cast(turret.Position - 250);
             }
         }
 
@@ -229,23 +229,25 @@ namespace NechritoRiven.Event
                 Spells.E.Cast(target.Position);
             }
 
-            if ((Spells.Q.IsReady() || Player.HasBuff("RivenFeint"))
+            if ((Spells.Q.IsReady() ||
+                Player.HasBuff("RivenFeint") ||
+                target.Health < Dmg.GetComboDamage(target))
                 && MenuConfig.AlwaysR
                 && Spells.R.IsReady()
                 && Spells.R.Instance.Name == IsFirstR)
             {
                 ForceR();
 
-                if (MenuConfig.NechLogic && Qstack < 2)
-                {
-                    return;
-                }
+                //if (MenuConfig.NechLogic && Qstack < 2)
+                //{
+                //    return;
+                //}
 
-                if (InWRange(target))
-                {
-                    ForceItem();
-                    Spells.W.Cast();
-                }
+                //if (InWRange(target))
+                //{
+                //    ForceItem();
+                //    Spells.W.Cast();
+                //}
 
                 return;
             }
