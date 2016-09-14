@@ -1,29 +1,63 @@
-﻿using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-using NechritoRiven.Menus;
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
-    using Core;
+    #region
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+    using NechritoRiven.Menus;
+
+    using Orbwalking = NechritoRiven.Orbwalking;
+
+    #endregion
 
     internal class Anim : Core
     {
-        private static int Ping()
+        #region Public Methods and Operators
+
+        public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
-            int ping;
-
-            if (!MenuConfig.CancelPing)
+            if (!sender.IsMe)
             {
-                ping = 0;
-            }
-            else
-            {
-                ping = Game.Ping/2;
+                return;
             }
 
-            return ping;
+            switch (args.Animation)
+            {
+                case "Spell1a":
+                    LastQ = Utils.GameTimeTickCount;
+                    Qstack = 2;
+                    if (SafeReset())
+                    {
+                        Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
+                    }
+
+                    break;
+                case "Spell1b":
+                    LastQ = Utils.GameTimeTickCount;
+                    Qstack = 3;
+                    if (SafeReset())
+                    {
+                        Utility.DelayAction.Add(MenuConfig.Q2D + Ping(), Reset);
+                    }
+
+                    break;
+                case "Spell1c":
+                    LastQ = Utils.GameTimeTickCount;
+                    Qstack = 1;
+                    if (SafeReset())
+                    {
+                        Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
+                    }
+
+                    break;
+            }
         }
+
+        #endregion
+
+        #region Methods
 
         private static void Emotes()
         {
@@ -44,52 +78,20 @@ namespace NechritoRiven.Event
             }
         }
 
-        private static bool SafeReset()
+        private static int Ping()
         {
-            bool shouldReset = !(Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None && !MenuConfig.SemiReset);
+            int ping;
 
-            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Flee)
+            if (!MenuConfig.CancelPing)
             {
-                shouldReset = false;
+                ping = 0;
+            }
+            else
+            {
+                ping = Game.Ping / 2;
             }
 
-            return shouldReset;
-        }
-
-        public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
-        {
-            if (!sender.IsMe)
-            {
-                return;
-            }
-            
-            switch (args.Animation)
-            {
-                case "Spell1a":
-                    LastQ = Utils.GameTimeTickCount;
-                    Qstack = 2;
-                    if (SafeReset())
-                    {
-                        Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
-                    }
-                    break;
-                case "Spell1b":
-                    LastQ = Utils.GameTimeTickCount;
-                    Qstack = 3;
-                    if (SafeReset())
-                    {
-                        Utility.DelayAction.Add(MenuConfig.Q2d + Ping(), Reset);
-                    }
-                    break;
-                case "Spell1c":
-                    LastQ = Utils.GameTimeTickCount;
-                    Qstack = 1;
-                    if (SafeReset())
-                    {
-                        Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
-                    }
-                    break;
-            }
+            return ping;
         }
 
         private static void Reset()
@@ -98,5 +100,12 @@ namespace NechritoRiven.Event
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, false);
             Orbwalking.LastAaTick = 0;
         }
+
+        private static bool SafeReset()
+        {
+            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None;
+        }
+
+        #endregion
     }
 }

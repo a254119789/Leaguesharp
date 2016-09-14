@@ -1,17 +1,23 @@
-﻿#region
-
-using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-using NechritoRiven.Core;
-using NechritoRiven.Menus;
-
-#endregion
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
-    internal class AlwaysUpdate : Core.Core
+    #region
+
+    using System;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+    using NechritoRiven.Menus;
+
+    using Orbwalking = NechritoRiven.Orbwalking;
+
+    #endregion
+
+    internal class AlwaysUpdate : Core
     {
+        #region Public Methods and Operators
+
         public static void Update(EventArgs args)
         {
             if (Player.IsDead || Player.IsRecalling())
@@ -19,12 +25,12 @@ namespace NechritoRiven.Event
                 return;
             }
 
-            if (Utils.GameTimeTickCount - LastQ >= 3650 && Qstack != 1 && !Player.InFountain() && MenuConfig.KeepQ && Player.HasBuff("RivenTriCleave") &&
-              !Player.Spellbook.IsChanneling && Spells.Q.IsReady()) Spells.Q.Cast(Game.CursorPos);
+            if (Utils.GameTimeTickCount - LastQ >= 3650 && Qstack != 1 && !Player.InFountain() && MenuConfig.KeepQ
+                && Player.HasBuff("RivenTriCleave") && !Player.Spellbook.IsChanneling && Spells.Q.IsReady()) Spells.Q.Cast(Game.CursorPos);
 
             Modes.QMove();
             ForceSkill();
-            
+
             switch (Orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.Combo:
@@ -48,5 +54,7 @@ namespace NechritoRiven.Event
                     break;
             }
         }
+
+        #endregion
     }
 }

@@ -1,16 +1,18 @@
-﻿#region
-
-using LeagueSharp;
-using LeagueSharp.Common;
-
-#endregion
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
-    using Core;
+    #region
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+
+    #endregion
 
     internal class OnCasted : Core
     {
+        #region Public Methods and Operators
+
         public static void OnCasting(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsEnemy || sender.Type != Player.Type) return;
@@ -21,7 +23,8 @@ namespace NechritoRiven.Event
 
             if (Spells.E.IsReady())
             {
-                if (EAntiSpell.Contains(args.SData.Name) || (TargetedAntiSpell.Contains(args.SData.Name) && args.Target.IsMe))
+                if (EAntiSpell.Contains(args.SData.Name)
+                    || (TargetedAntiSpell.Contains(args.SData.Name) && args.Target.IsMe))
                 {
                     Spells.E.Cast(epos);
                 }
@@ -31,5 +34,7 @@ namespace NechritoRiven.Event
 
             Spells.W.Cast();
         }
+
+        #endregion
     }
 }

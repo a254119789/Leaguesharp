@@ -1,16 +1,30 @@
-﻿using System;
-using System.Linq;
-using LeagueSharp;
-using LeagueSharp.Common;
-using NechritoRiven.Core;
-using NechritoRiven.Menus;
-using SharpDX;
-
-namespace NechritoRiven.Draw
+﻿namespace NechritoRiven.Draw
 {
+    #region
+
+    using System;
+    using System.Linq;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+    using NechritoRiven.Menus;
+
+    using SharpDX;
+
+    #endregion
+
     internal class DrawDmg
     {
+        #region Static Fields
+
         private static readonly HpBarIndicator Indicator = new HpBarIndicator();
+
+        #endregion
+
+        #region Public Methods and Operators
+
         public static void DmgDraw(EventArgs args)
         {
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
@@ -19,8 +33,12 @@ namespace NechritoRiven.Draw
 
                 Indicator.Unit = enemy;
 
-                Indicator.DrawDmg(Dmg.GetComboDamage(enemy), enemy.Health <= Dmg.GetComboDamage(enemy)*.65 ? Color.LawnGreen : Color.Yellow);
+                Indicator.DrawDmg(
+                    Dmg.GetComboDamage(enemy),
+                    enemy.Health <= Dmg.GetComboDamage(enemy) * .65 ? Color.LawnGreen : Color.Yellow);
             }
         }
+
+        #endregion
     }
 }

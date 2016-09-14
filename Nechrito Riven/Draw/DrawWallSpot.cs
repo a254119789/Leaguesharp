@@ -1,18 +1,23 @@
-﻿#region
-
-using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-using NechritoRiven.Core;
-using NechritoRiven.Event;
-using NechritoRiven.Menus;
-
-#endregion
-
-namespace NechritoRiven.Draw
+﻿namespace NechritoRiven.Draw
 {
-    internal class DrawWallSpot : Core.Core
+    #region
+
+    using System;
+    using System.Drawing;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+    using NechritoRiven.Event;
+    using NechritoRiven.Menus;
+
+    #endregion
+
+    internal class DrawWallSpot : Core
     {
+        #region Public Methods and Operators
+
         public static void WallDraw(EventArgs args)
         {
             var end = Player.ServerPosition.Extend(Game.CursorPos, Spells.Q.Range);
@@ -24,10 +29,12 @@ namespace NechritoRiven.Draw
             {
                 if (wallPoint.Distance(Player.ServerPosition) <= 600)
                 {
-                    Render.Circle.DrawCircle(wallPoint, 60, System.Drawing.Color.White);
-                    Render.Circle.DrawCircle(end, 60, System.Drawing.Color.Green);
+                    Render.Circle.DrawCircle(wallPoint, 60, Color.White);
+                    Render.Circle.DrawCircle(end, 60, Color.Green);
                 }
             }
         }
+
+        #endregion
     }
 }

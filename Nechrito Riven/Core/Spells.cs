@@ -1,15 +1,35 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace NechritoRiven.Core
+﻿namespace NechritoRiven.Core
 {
+    #region
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    #endregion
+
     internal class Spells : Core
     {
-        public static SpellSlot Ignite, Flash;
-        public static Spell Q { get; set; }
-        public static Spell W { get; set; }
+        #region Static Fields
+
+        public static SpellSlot Flash;
+
+        public static SpellSlot Ignite;
+
+        #endregion
+
+        #region Public Properties
+
         public static Spell E { get; set; }
+
+        public static Spell Q { get; set; }
+
         public static Spell R { get; set; }
+
+        public static Spell W { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         public static void Load()
         {
@@ -24,5 +44,7 @@ namespace NechritoRiven.Core
             Ignite = Player.GetSpellSlot("SummonerDot");
             Flash = Player.GetSpellSlot("SummonerFlash");
         }
+
+        #endregion
     }
 }

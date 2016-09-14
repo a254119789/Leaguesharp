@@ -1,5 +1,9 @@
-﻿using System.Reflection;
+﻿#region
+
+using System.Reflection;
 using System.Runtime.InteropServices;
+
+#endregion
 
 // 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
 // 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
@@ -22,11 +26,9 @@ using System.Runtime.InteropServices;
 [assembly: Guid("c2ce7153-5221-42c4-87fe-4fe6d09642bf")]
 
 // 어셈블리의 버전 정보는 다음 네 가지 값으로 구성됩니다.
-//
 //      주 버전
 //      부 버전 
 //      빌드 번호
 //      수정 버전
-//
 [assembly: AssemblyVersion("6.17.0.0")]
 [assembly: AssemblyFileVersion("6.17.0.0")]

@@ -1,17 +1,35 @@
-﻿using LeagueSharp;
-
-namespace NechritoRiven.Core
+﻿namespace NechritoRiven.Core
 {
+    #region
+
+    using LeagueSharp;
+
+    #endregion
+
     internal partial class Core
     {
-        public static AttackableUnit qTarget;
+        #region Constants
 
         public const string IsFirstR = "RivenFengShuiEngine";
+
         public const string IsSecondR = "RivenIzunaBlade";
-       
-        public static int Qstack = 1;
+
+        #endregion
+
+        #region Static Fields
 
         public static Orbwalking.Orbwalker Orbwalker;
+
+        public static int Qstack = 1;
+
+        public static AttackableUnit qTarget;
+
+        #endregion
+
+        #region Public Properties
+
         public static Obj_AI_Hero Player => ObjectManager.Player;
+
+        #endregion
     }
 }

@@ -1,10 +1,17 @@
-﻿using LeagueSharp.Common;
-using NechritoRiven.Core;
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
-    internal class Gapclose : Core.Core
+    #region
+
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+
+    #endregion
+
+    internal class Gapclose : Core
     {
+        #region Public Methods and Operators
+
         public static void Gapcloser(ActiveGapcloser gapcloser)
         {
             var t = gapcloser.Sender;
@@ -16,5 +23,7 @@ namespace NechritoRiven.Event
                 }
             }
         }
+
+        #endregion
     }
 }

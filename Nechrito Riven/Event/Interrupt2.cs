@@ -1,12 +1,19 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-using NechritoRiven.Core;
-using NechritoRiven.Menus;
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
-    internal class Interrupt2 : Core.Core
+    #region
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+    using NechritoRiven.Menus;
+
+    #endregion
+
+    internal class Interrupt2 : Core
     {
+        #region Public Methods and Operators
+
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             if (!MenuConfig.InterruptMenu || sender.IsInvulnerable) return;
@@ -19,5 +26,7 @@ namespace NechritoRiven.Event
                 }
             }
         }
+
+        #endregion
     }
 }

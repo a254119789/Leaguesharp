@@ -1,15 +1,18 @@
-﻿#region
-
-using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-
-#endregion
-
-namespace NechritoRiven
+﻿namespace NechritoRiven
 {
+    #region
+
+    using System;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    #endregion
+
     public class Program
     {
+        #region Methods
+
         private static void Main()
         {
             CustomEvents.Game.OnGameLoad += OnLoad;
@@ -22,7 +25,10 @@ namespace NechritoRiven
                 Game.PrintChat("Could not load Riven");
                 return;
             }
-           Load.Load.LoadAssembly();
+
+            Load.Load.LoadAssembly();
         }
+
+        #endregion
     }
 }

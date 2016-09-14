@@ -1,22 +1,26 @@
-﻿#region
-
-using System;
-using LeagueSharp.Common;
-using NechritoRiven.Core;
-using NechritoRiven.Menus;
-
-#endregion
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
-    internal class KillSteal : Core.Core
+    #region
+
+    using System;
+
+    using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
+    using NechritoRiven.Menus;
+
+    #endregion
+
+    internal class KillSteal : Core
     {
+        #region Public Methods and Operators
+
         public static void Update(EventArgs args)
         {
             var hero = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            if (hero == null || hero.HasBuff("kindrednodeathbuff") || hero.HasBuff("Undying Rage") ||
-               hero.HasBuff("JudicatorIntervention")) return;
+            if (hero == null || hero.HasBuff("kindrednodeathbuff") || hero.HasBuff("Undying Rage")
+                || hero.HasBuff("JudicatorIntervention")) return;
 
             if (Spells.W.IsReady() && InWRange(hero))
             {
@@ -43,5 +47,7 @@ namespace NechritoRiven.Event
                 Player.Spellbook.CastSpell(Spells.Ignite, hero);
             }
         }
+
+        #endregion
     }
 }

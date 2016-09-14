@@ -1,15 +1,18 @@
-﻿#region
-
-using LeagueSharp;
-using LeagueSharp.Common;
-using SharpDX;
-
-#endregion
-
-namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event
 {
+    #region
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using SharpDX;
+
+    #endregion
+
     internal class FleeLogic
     {
+        #region Public Methods and Operators
+
         public static Vector3 GetFirstWallPoint(Vector3 start, Vector3 end, int step = 1)
         {
             if (start.IsValid() && end.IsValid())
@@ -25,6 +28,7 @@ namespace NechritoRiven.Event
                     }
                 }
             }
+
             return Vector3.Zero;
         }
 
@@ -37,7 +41,7 @@ namespace NechritoRiven.Event
                 return thickness;
             }
 
-            for (var i = 0; i < maxWallWidth*2; i = i + step)
+            for (var i = 0; i < maxWallWidth * 2; i = i + step)
             {
                 if (NavMesh.GetCollisionFlags(start.Extend(direction, i)) == CollisionFlags.Wall
                     || start.Extend(direction, i).IsWall())
@@ -70,22 +74,24 @@ namespace NechritoRiven.Event
             }
 
             if (dashEndPos.IsWall())
-            // End Position is in Wall
             {
+                // End Position is in Wall
                 var wallWidth = GetWallWidth(firstWallPoint, dashEndPos);
 
-                if (wallWidth < minWallWidth && (wallWidth - firstWallPoint.Distance(dashEndPos)) < wallWidth * 0.6f)
+                if (wallWidth < minWallWidth && wallWidth - firstWallPoint.Distance(dashEndPos) < wallWidth * 0.6f)
                 {
                     return true;
                 }
             }
             else
-            // End Position is not a Wall
             {
+                // End Position is not a Wall
                 return true;
             }
 
             return false;
         }
+
+        #endregion
     }
 }

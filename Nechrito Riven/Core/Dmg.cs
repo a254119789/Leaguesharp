@@ -1,18 +1,15 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace NechritoRiven.Core
+﻿namespace NechritoRiven.Core
 {
+    #region
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    #endregion
+
     internal class Dmg : Core
     {
-        public static float IgniteDamage(Obj_AI_Hero target)
-        {
-            if (Spells.Ignite == SpellSlot.Unknown || Player.Spellbook.CanUseSpell(Spells.Ignite) != SpellState.Ready)
-            {
-                return 0f;
-            }
-            return (float)Player.GetSummonerSpellDamage(target, Damage.SummonerSpell.Ignite);
-        }
+        #region Public Methods and Operators
 
         public static float GetComboDamage(Obj_AI_Base enemy)
         {
@@ -39,6 +36,16 @@ namespace NechritoRiven.Core
             return damage;
         }
 
+        public static float IgniteDamage(Obj_AI_Hero target)
+        {
+            if (Spells.Ignite == SpellSlot.Unknown || Player.Spellbook.CanUseSpell(Spells.Ignite) != SpellState.Ready)
+            {
+                return 0f;
+            }
+
+            return (float)Player.GetSummonerSpellDamage(target, Damage.SummonerSpell.Ignite);
+        }
+
         public static float RDmg(Obj_AI_Hero target)
         {
             float dmg = 0;
@@ -49,5 +56,7 @@ namespace NechritoRiven.Core
 
             return dmg;
         }
+
+        #endregion
     }
 }
