@@ -2,9 +2,9 @@
 {
     #region
 
-    using LeagueSharp.Common;
+    using Core;
 
-    using NechritoRiven.Core;
+    using LeagueSharp.Common;
 
     #endregion
 
@@ -15,12 +15,15 @@
         public static void Gapcloser(ActiveGapcloser gapcloser)
         {
             var t = gapcloser.Sender;
-            if (t.IsEnemy && Spells.W.IsReady() && t.IsValidTarget() && !t.IsZombie)
+
+            if (!t.IsEnemy || !Spells.W.IsReady())
             {
-                if (t.IsValidTarget(Spells.W.Range + t.BoundingRadius))
-                {
-                    Spells.W.Cast(t);
-                }
+                return;
+            }
+
+            if (t.IsValidTarget(Spells.W.Range + t.BoundingRadius))
+            {
+                Spells.W.Cast(t);
             }
         }
 

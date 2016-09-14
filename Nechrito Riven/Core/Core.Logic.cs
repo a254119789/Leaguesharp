@@ -52,8 +52,10 @@
         private static bool forceItem;
 
         private static bool forceQ;
-
+        
         private static bool forceR;
+
+        private static bool forceR2;
 
         private static bool forceW;
 
@@ -166,6 +168,17 @@
             if (args.SData.Name.Contains("RivenTriCleave")) forceQ = false;
             if (args.SData.Name.Contains("RivenMartyr")) forceW = false;
             if (args.SData.Name == IsFirstR) forceR = false;
+            if (args.SData.Name == IsSecondR) forceR2 = false;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private static void ForceR2()
+        {
+            forceR2 = Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR;
+            Utility.DelayAction.Add(500, () => forceR2 = false);
         }
 
         #endregion

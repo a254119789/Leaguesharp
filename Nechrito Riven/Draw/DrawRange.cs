@@ -5,11 +5,12 @@
     using System;
     using System.Drawing;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 

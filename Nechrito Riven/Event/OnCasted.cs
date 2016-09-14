@@ -5,7 +5,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
+    using Core;
 
     #endregion
 

@@ -4,13 +4,14 @@
 
     using System.Linq;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
-    using Orbwalking = NechritoRiven.Orbwalking;
+    using Orbwalking = Orbwalking;
 
     #endregion
 
@@ -20,8 +21,6 @@
 
         public static void Burst()
         {
-            Usables.CastYoumoo();
-
             var Target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
 
             if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)

@@ -2,13 +2,16 @@
 {
     #region
 
+    using Core;
+
+    using Draw;
+
+    using Event;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Draw;
-    using NechritoRiven.Event;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 

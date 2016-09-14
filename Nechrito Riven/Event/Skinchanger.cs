@@ -4,8 +4,8 @@
 
     using System;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Menus;
+    using Core;
+    using Menus;
 
     #endregion
 

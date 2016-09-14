@@ -6,10 +6,10 @@
 
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
+    using Core;
 
     using Color = SharpDX.Color;
-    using Orbwalking = NechritoRiven.Orbwalking;
+    using Orbwalking = Orbwalking;
 
     #endregion
 

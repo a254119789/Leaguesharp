@@ -8,9 +8,9 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Event;
-    using NechritoRiven.Menus;
+    using Core;
+    using Event;
+    using Menus;
 
     #endregion
 
