@@ -1,0 +1,19 @@
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\Reforged Riven.exe.config
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\Reforged Riven.exe
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\Reforged Riven.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\LeagueSharp.Data.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\LeagueSharp.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\LeagueSharp.SDKEx.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\SharpDX.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\LeagueSharp.Data.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\LeagueSharp.SDKEx.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\obj\x86\Debug\Reforged Riven.csprojResolveAssemblyReference.cache
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\obj\x86\Debug\Reforged Riven.exe
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\obj\x86\Debug\Reforged Riven.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\Reforged Riven.exe.manifest
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\bin\Debug\Reforged Riven.application
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\obj\x86\Debug\Reforged Riven.TrustInfo.xml
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\obj\x86\Debug\Reforged Riven.exe.manifest
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Reforged Riven\Reforged Riven\obj\x86\Debug\Reforged Riven.application
