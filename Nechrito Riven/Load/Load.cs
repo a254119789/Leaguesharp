@@ -2,16 +2,13 @@
 {
     #region
 
-    using Core;
-
-    using Draw;
-
-    using Event;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
+    using Core;
+    using NechritoRiven.Draw;
+    using NechritoRiven.Event;
+    using NechritoRiven.Menus;
 
     #endregion
 
@@ -27,14 +24,14 @@
             Obj_AI_Base.OnProcessSpellCast += OnCasted.OnCasting;
             Obj_AI_Base.OnDoCast += Modes.OnDoCast;
             Obj_AI_Base.OnProcessSpellCast += Core.OnCast;
-            Obj_AI_Base.OnPlayAnimation += Anim.OnPlay;
+            Obj_AI_Base.OnPlayAnimation += Animation.OnPlay;
 
             Drawing.OnEndScene += DrawDmg.DmgDraw;
             Drawing.OnDraw += DrawRange.RangeDraw;
             Drawing.OnDraw += DrawWallSpot.WallDraw;
 
             Game.OnUpdate += KillSteal.Update;
-            Game.OnUpdate += AlwaysUpdate.Update;
+            Game.OnUpdate += PermaActive.Update;
             Game.OnUpdate += Skinchanger.Update;
 
             Interrupter2.OnInterruptableTarget += Interrupt2.OnInterruptableTarget;

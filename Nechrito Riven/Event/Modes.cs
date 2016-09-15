@@ -21,11 +21,10 @@
 
         public static void Burst()
         {
-            var Target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
-
             if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
             {
-                var pred = Spells.R.GetPrediction(Target);
+                var target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
+                var pred = Spells.R.GetPrediction(target);
 
                 if (pred.Hitchance < HitChance.High)
                 {
@@ -34,7 +33,6 @@
 
                 if ((!MenuConfig.OverKillCheck && Qstack > 1) || (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1))
                 {
-                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Target.Position);
                     Spells.R.Cast(pred.CastPosition);
                 }
             }
@@ -58,11 +56,12 @@
             }
             else
             {
-                if (!Target.IsValidTarget() || Target == null) return;
+                var target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
+                if (!target.IsValidTarget() || target == null) return;
 
                 if (Spells.E.IsReady())
                 {
-                    Spells.E.Cast(Target.Position);
+                    Spells.E.Cast(target.Position);
                 }
 
                 if (Spells.R.IsReady())
@@ -70,7 +69,7 @@
                     Spells.R.CastCancelSpell();
                 }
 
-                if (Spells.W.IsReady() && InWRange(Target))
+                if (Spells.W.IsReady() && InWRange(target))
                 {
                     Spells.W.Cast();
                 }
@@ -115,12 +114,6 @@
             }
 
             if (!Spells.W.IsReady() || !InWRange(target)) return;
-
-            if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
-            {
-                ForceW();
-                return;
-            }
 
             if (!MenuConfig.NechLogic && (!Player.HasBuff("RivenFeint") || !target.IsFacing(Player)))
             {
@@ -265,15 +258,21 @@
 
             foreach (var m in minions)
             {
-                if (m.UnderTurret(true)) continue;
+                if (m.UnderTurret(true)) return;
 
                 if (Spells.E.IsReady() && MenuConfig.LaneE)
                 {
                     Spells.E.Cast(m);
                 }
 
-                if (!Spells.W.IsReady() || !MenuConfig.LaneW || !InWRange(m) || Player.IsWindingUp
-                    || m.Health > Spells.W.GetDamage(m)) return;
+                if (!Spells.W.IsReady()
+                    || !MenuConfig.LaneW
+                    || !InWRange(m)
+                    || Player.IsWindingUp
+                    || m.Health > Spells.W.GetDamage(m))
+                {
+                    return;
+                }
 
                 Spells.W.Cast(m);
             }
@@ -296,6 +295,12 @@
                     {
                         ForceItem();
                         Utility.DelayAction.Add(1, () => ForceCastQ(target));
+                    }
+
+                    if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
+                    {
+                        ForceW();
+                        return;
                     }
                 }
 
@@ -322,13 +327,6 @@
                 }
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
-
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
-                {
-                    ForceItem();
-                    var r2Pred = Spells.R.GetPrediction(target);
-                    Utility.DelayAction.Add(1, () => Spells.R.Cast(r2Pred.CastPosition));
-                }
 
                 if (!Orbwalker.InAutoAttackRange(target) || !Spells.Q.IsReady()) return;
 
@@ -365,11 +363,7 @@
 
             foreach (var m in mobs)
             {
-                if (m.Health < Player.GetAutoAttackDamage(m))
-                {
-                    continue;
-                }
-
+               
                 if (Spells.Q.IsReady() && MenuConfig.JnglQ)
                 {
                     ForceItem();
@@ -382,12 +376,12 @@
                 Spells.W.Cast(m);
             }
 
-            var inhib = args.Target as Obj_BarracksDampener; // OR Obj_Barrack
+            var inhib = args.Target as Obj_BarracksDampener;
             if (inhib != null)
             {
                 if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
                 {
-                    Spells.Q.Cast(inhib.Position - 250);
+                    Spells.Q.Cast(inhib.Position - 350);
                 }
             }
 

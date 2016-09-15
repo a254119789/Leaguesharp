@@ -52,7 +52,7 @@
         private static bool forceItem;
 
         private static bool forceQ;
-        
+
         private static bool forceR;
 
         private static bool forceR2;

@@ -88,8 +88,8 @@
     <Compile Include="Draw\DrawRange.cs" />
     <Compile Include="Draw\DrawWallSpot.cs" />
     <Compile Include="Draw\HpBarIndicator.cs" />
-    <Compile Include="Event\AlwaysUpdate.cs" />
-    <Compile Include="Event\Anim.cs" />
+    <Compile Include="Event\PermaActive.cs" />
+    <Compile Include="Event\Animation.cs" />
     <Compile Include="Event\FleeLogic.cs" />
     <Compile Include="Event\Gapclose.cs" />
     <Compile Include="Event\Interrupt2.cs" />

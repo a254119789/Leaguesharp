@@ -9,7 +9,7 @@
     using LeagueSharp.Common;
 
     using Core;
-    using Menus;
+    using NechritoRiven.Menus;
 
     using SharpDX;
 
@@ -29,7 +29,7 @@
         {
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
             {
-                if (!MenuConfig.Dind) continue;
+                if (!MenuConfig.Dind) return;
 
                 Indicator.Unit = enemy;
 

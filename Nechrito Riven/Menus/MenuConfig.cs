@@ -4,9 +4,9 @@
 
     using System.Drawing;
 
-    using LeagueSharp.Common;
-
     using Core;
+
+    using LeagueSharp.Common;
 
     using Color = SharpDX.Color;
     using Orbwalking = Orbwalking;
@@ -15,95 +15,99 @@
 
     internal class MenuConfig : Core
     {
+        #region Constants
+
+        private const string MenuName = "Nechrito Riven";
+
+        #endregion
+
         #region Static Fields
 
-        public static Menu Config;
-
-        public static string MenuName = "Nechrito Riven";
+        private static Menu config;
 
         #endregion
 
         #region Public Properties
 
-        public static bool AlwaysF => Config.Item("AlwaysF").GetValue<KeyBind>().Active;
+        public static bool AlwaysF => config.Item("AlwaysF").GetValue<KeyBind>().Active;
 
-        public static bool AlwaysR => Config.Item("AlwaysR").GetValue<KeyBind>().Active;
+        public static bool AlwaysR => config.Item("AlwaysR").GetValue<KeyBind>().Active;
 
-        public static bool AnimDance => Config.Item("animDance").GetValue<bool>();
+        public static bool AnimDance => config.Item("animDance").GetValue<bool>();
 
-        public static bool AnimLaugh => Config.Item("animLaugh").GetValue<bool>();
+        public static bool AnimLaugh => config.Item("animLaugh").GetValue<bool>();
 
-        public static bool AnimTalk => Config.Item("animTalk").GetValue<bool>();
+        public static bool AnimTalk => config.Item("animTalk").GetValue<bool>();
 
-        public static bool AnimTaunt => Config.Item("animTaunt").GetValue<bool>();
+        public static bool AnimTaunt => config.Item("animTaunt").GetValue<bool>();
 
-        public static bool CancelPing => Config.Item("CancelPing").GetValue<bool>();
+        public static bool CancelPing => config.Item("CancelPing").GetValue<bool>();
 
-        public static bool Dind => Config.Item("Dind").GetValue<bool>();
+        public static bool Dind => config.Item("Dind").GetValue<bool>();
 
-        public static bool DisableR2 => Config.Item("DisableR2").GetValue<bool>();
+        public static bool DisableR2 => config.Item("DisableR2").GetValue<bool>();
 
-        public static bool DrawAlwaysR => Config.Item("DrawAlwaysR").GetValue<bool>();
+        public static bool DrawAlwaysR => config.Item("DrawAlwaysR").GetValue<bool>();
 
-        public static bool DrawBt => Config.Item("DrawBT").GetValue<bool>();
+        public static bool DrawBt => config.Item("DrawBT").GetValue<bool>();
 
-        public static bool DrawCb => Config.Item("DrawCB").GetValue<bool>();
+        public static bool DrawCb => config.Item("DrawCB").GetValue<bool>();
 
-        public static bool DrawFh => Config.Item("DrawFH").GetValue<bool>();
+        public static bool DrawFh => config.Item("DrawFH").GetValue<bool>();
 
-        public static bool DrawHs => Config.Item("DrawHS").GetValue<bool>();
+        public static bool DrawHs => config.Item("DrawHS").GetValue<bool>();
 
-        public static StringList EmoteList => Config.Item("EmoteList").GetValue<StringList>();
+        public static StringList EmoteList => config.Item("EmoteList").GetValue<StringList>();
 
-        public static bool FleeSpot => Config.Item("FleeSpot").GetValue<bool>();
+        public static bool FleeSpot => config.Item("FleeSpot").GetValue<bool>();
 
-        public static bool FleeYomuu => Config.Item("FleeYoumuu").GetValue<bool>();
+        public static bool FleeYomuu => config.Item("FleeYoumuu").GetValue<bool>();
 
-        public static bool ForceFlash => Config.Item("DrawForceFlash").GetValue<bool>();
+        public static bool ForceFlash => config.Item("DrawForceFlash").GetValue<bool>();
 
-        public static bool GapcloserMenu => Config.Item("GapcloserMenu").GetValue<bool>();
+        public static bool GapcloserMenu => config.Item("GapcloserMenu").GetValue<bool>();
 
-        public static bool Ignite => Config.Item("ignite").GetValue<bool>();
+        public static bool Ignite => config.Item("ignite").GetValue<bool>();
 
-        public static bool InterruptMenu => Config.Item("InterruptMenu").GetValue<bool>();
+        public static bool InterruptMenu => config.Item("InterruptMenu").GetValue<bool>();
 
-        public static bool IreliaLogic => Config.Item("IreliaLogic").GetValue<bool>();
+        public static bool IreliaLogic => config.Item("IreliaLogic").GetValue<bool>();
 
-        public static bool JnglE => Config.Item("JungleE").GetValue<bool>();
+        public static bool JnglE => config.Item("JungleE").GetValue<bool>();
 
-        public static bool JnglQ => Config.Item("JungleQ").GetValue<bool>();
+        public static bool JnglQ => config.Item("JungleQ").GetValue<bool>();
 
-        public static bool JnglW => Config.Item("JungleW").GetValue<bool>();
+        public static bool JnglW => config.Item("JungleW").GetValue<bool>();
 
-        public static bool KeepQ => Config.Item("KeepQ").GetValue<bool>();
+        public static bool KeepQ => config.Item("KeepQ").GetValue<bool>();
 
-        public static bool LaneE => Config.Item("LaneE").GetValue<bool>();
+        public static bool LaneE => config.Item("LaneE").GetValue<bool>();
 
-        public static bool LaneQ => Config.Item("LaneQ").GetValue<bool>();
+        public static bool LaneQ => config.Item("LaneQ").GetValue<bool>();
 
-        public static bool LaneW => Config.Item("LaneW").GetValue<bool>();
+        public static bool LaneW => config.Item("LaneW").GetValue<bool>();
 
-        public static bool NechLogic => Config.Item("NechWLogic").GetValue<bool>();
+        public static bool NechLogic => config.Item("NechWLogic").GetValue<bool>();
 
-        public static bool OverKillCheck => Config.Item("OverKillCheck").GetValue<bool>();
+        public static bool OverKillCheck => config.Item("OverKillCheck").GetValue<bool>();
 
-        public static int Q2D => Config.Item("Q2D").GetValue<Slider>().Value;
+        public static int Q2D => config.Item("Q2D").GetValue<Slider>().Value;
 
-        public static int Qd => Config.Item("QD").GetValue<Slider>().Value;
+        public static int Qd => config.Item("QD").GetValue<Slider>().Value;
 
-        public static int Qld => Config.Item("Q3D").GetValue<Slider>().Value;
+        public static int Qld => config.Item("Q3D").GetValue<Slider>().Value;
 
-        public static bool QMove => Config.Item("QMove").GetValue<KeyBind>().Active;
+        public static bool QMove => config.Item("QMove").GetValue<KeyBind>().Active;
 
-        public static bool QReset => Config.Item("qReset").GetValue<bool>();
+        public static bool QReset => config.Item("qReset").GetValue<bool>();
 
-        public static StringList SkinList => Config.Item("SkinList").GetValue<StringList>();
+        public static StringList SkinList => config.Item("SkinList").GetValue<StringList>();
 
-        public static bool UseSkin => Config.Item("UseSkin").GetValue<bool>();
+        public static bool UseSkin => config.Item("UseSkin").GetValue<bool>();
 
-        public static bool WallFlee => Config.Item("WallFlee").GetValue<bool>();
+        public static bool WallFlee => config.Item("WallFlee").GetValue<bool>();
 
-        public static int WallWidth => Config.Item("WallWidth").GetValue<Slider>().Value;
+        public static int WallWidth => config.Item("WallWidth").GetValue<Slider>().Value;
 
         #endregion
 
@@ -111,23 +115,20 @@
 
         public static void LoadMenu()
         {
-            Config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
+            config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
-            Config.AddSubMenu(orbwalker);
+            config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
             animation.AddItem(
-                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 215, 350)).SetTooltip("Below 230 CAN be buggy!"));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 340, 400)));
-            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true))
-                .SetTooltip("Keeps Ping / 2 In Mind When Cancel");
-            animation.AddItem(
-                new MenuItem("EmoteList", "Emotes").SetValue(
-                    new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 3)));
-            Config.AddSubMenu(animation);
+                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(225, 225, 350)).SetTooltip("Below 230 CAN be buggy!"));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(225, 225, 350)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 350, 400)));
+            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping / 2 In Mind When Cancel");
+            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 3)));
+            config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
             combo.AddItem(new MenuItem("ignite", "Auto Ignite").SetValue(true))
@@ -141,27 +142,26 @@
                 .SetTooltip("Off will only use R when target is killable");
             combo.AddItem(new MenuItem("AlwaysF", "Force Flash").SetValue(new KeyBind('L', KeyBindType.Toggle)))
                 .SetTooltip("Off Will only use Flash when target is killable");
-            Config.AddSubMenu(combo);
+            config.AddSubMenu(combo);
 
             var lane = new Menu("Lane", "Lane");
             lane.AddItem(new MenuItem("LaneQ", "Use Q").SetValue(true));
             lane.AddItem(new MenuItem("LaneW", "Use W").SetValue(true));
             lane.AddItem(new MenuItem("LaneE", "Use E").SetValue(true));
-            Config.AddSubMenu(lane);
+            config.AddSubMenu(lane);
 
             var jngl = new Menu("Jungle", "Jungle");
             jngl.AddItem(new MenuItem("JungleQ", "Use Q").SetValue(true));
             jngl.AddItem(new MenuItem("JungleW", "Use W").SetValue(true));
             jngl.AddItem(new MenuItem("JungleE", "Use E").SetValue(true));
-            Config.AddSubMenu(jngl);
+            config.AddSubMenu(jngl);
 
             var misc = new Menu("Misc", "Misc");
             misc.AddItem(new MenuItem("GapcloserMenu", "Anti-Gapcloser").SetValue(true));
             misc.AddItem(new MenuItem("InterruptMenu", "Interrupter").SetValue(true));
             misc.AddItem(new MenuItem("KeepQ", "Keep Q Alive").SetValue(true));
-            misc.AddItem(new MenuItem("QMove", "Q Move").SetValue(new KeyBind('K', KeyBindType.Press)))
-                .SetTooltip("Will Q Move to mouse");
-            Config.AddSubMenu(misc);
+            misc.AddItem(new MenuItem("QMove", "Q Move").SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Will Q Move to mouse");
+            config.AddSubMenu(misc);
 
             var draw = new Menu("Draw", "Draw");
             draw.AddItem(new MenuItem("FleeSpot", "Draw Flee Spots").SetValue(true));
@@ -172,30 +172,26 @@
             draw.AddItem(new MenuItem("DrawBT", "Burst Engage").SetValue(false));
             draw.AddItem(new MenuItem("DrawFH", "FastHarass Engage").SetValue(false));
             draw.AddItem(new MenuItem("DrawHS", "Harass Engage").SetValue(false));
-            Config.AddSubMenu(draw);
+            config.AddSubMenu(draw);
 
             var flee = new Menu("Flee", "Flee");
-            flee.AddItem(
-                new MenuItem("WallFlee", "WallJump in Flee").SetValue(true).SetTooltip("Jumps over walls in flee mode"));
-            flee.AddItem(
-                new MenuItem("FleeYoumuu", "Youmuu's Ghostblade").SetValue(true).SetTooltip("Will flee with ghostblade"));
-            Config.AddSubMenu(flee);
+            flee.AddItem(new MenuItem("WallFlee", "WallJump in Flee").SetValue(true).SetTooltip("Jumps over walls in flee mode"));
+            flee.AddItem(new MenuItem("FleeYoumuu", "Youmuu's Ghostblade").SetValue(true).SetTooltip("Will flee with ghostblade"));
+            config.AddSubMenu(flee);
 
             var skin = new Menu("SkinChanger", "SkinChanger");
             skin.AddItem(new MenuItem("UseSkin", "Use SkinChanger").SetValue(false)).SetTooltip("Toggles Skinchanger");
-            skin.AddItem(
-                new MenuItem("SkinList", "Skin").SetValue(
-                    new StringList(
-                        new[]
+            skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[]
                             {
-                            "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade"
+                                "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade",
+                                "Arcade"
                             })));
 
-            Config.AddSubMenu(skin);
+            config.AddSubMenu(skin);
 
-            Config.AddItem(new MenuItem("version", "Version: 6.18.3"));
+            config.AddItem(new MenuItem("version", "Version: 6.18.3"));
 
-            Config.AddToMainMenu();
+            config.AddToMainMenu();
         }
 
         #endregion

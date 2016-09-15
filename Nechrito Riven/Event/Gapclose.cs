@@ -2,9 +2,9 @@
 {
     #region
 
-    using Core;
-
     using LeagueSharp.Common;
+
+    using Core;
 
     #endregion
 
