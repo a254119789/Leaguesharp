@@ -32,13 +32,9 @@
                     return;
                 }
 
-                if (Qstack > 1 && !MenuConfig.OverKillCheck)
+                if ((!MenuConfig.OverKillCheck && Qstack > 1) || (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1))
                 {
-                    Spells.R.Cast(pred.CastPosition);
-                }
-
-                if (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1)
-                {
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Target.Position);
                     Spells.R.Cast(pred.CastPosition);
                 }
             }
@@ -116,7 +112,6 @@
                 && MenuConfig.AlwaysR && Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
             {
                 ForceR();
-                return;
             }
 
             if (!Spells.W.IsReady() || !InWRange(target)) return;

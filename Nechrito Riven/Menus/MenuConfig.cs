@@ -188,8 +188,7 @@
                     new StringList(
                         new[]
                             {
-                                "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade",
-                                "Arcade"
+                            "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade"
                             })));
 
             Config.AddSubMenu(skin);
