@@ -2,6 +2,8 @@
 {
     #region
 
+    using System;
+
     using Core;
 
     using LeagueSharp;
@@ -75,6 +77,9 @@
                     break;
                 case 3:
                     Game.SendEmote(Emote.Dance);
+                    break;
+                case 4:
+                    Console.WriteLine("Nechrito Riven: Q AA SLOW: No Emote!");
                     break;
             }
         }

@@ -2,13 +2,16 @@
 {
     #region
 
+    using Core;
+
+    using Draw;
+
+    using Event;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-    using NechritoRiven.Draw;
-    using NechritoRiven.Event;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 
@@ -37,8 +40,7 @@
             Interrupter2.OnInterruptableTarget += Interrupt2.OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += Gapclose.Gapcloser;
 
-            Game.PrintChat(
-                "<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Loaded!</font></b>");
+            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Loaded!</font></b>");
         }
 
         #endregion

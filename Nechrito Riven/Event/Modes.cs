@@ -2,6 +2,7 @@
 {
     #region
 
+    using System;
     using System.Linq;
 
     using Core;
@@ -33,6 +34,7 @@
 
                 if ((!MenuConfig.OverKillCheck && Qstack > 1) || (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1))
                 {
+                    Console.WriteLine("Casting R");
                     Spells.R.Cast(pred.CastPosition);
                 }
             }
@@ -64,9 +66,9 @@
                     Spells.E.Cast(target.Position);
                 }
 
-                if (Spells.R.IsReady())
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
-                    Spells.R.CastCancelSpell();
+                    Spells.R.Cast();
                 }
 
                 if (Spells.W.IsReady() && InWRange(target))
@@ -294,7 +296,7 @@
                     if (Spells.Q.IsReady())
                     {
                         ForceItem();
-                        Utility.DelayAction.Add(1, () => ForceCastQ(target));
+                        Utility.DelayAction.Add(1, () => ForceCastQ(target)); // Else Q AA wont go off at all times, cause of tiamat.
                     }
 
                     if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
@@ -328,10 +330,10 @@
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
 
-                if (!Orbwalker.InAutoAttackRange(target) || !Spells.Q.IsReady()) return;
+                if (!Spells.Q.IsReady()) return;
 
                 ForceItem();
-                Spells.Q.Cast(target);
+                Utility.DelayAction.Add(1, () => ForceCastQ(target));
             }
 
             if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear) return;

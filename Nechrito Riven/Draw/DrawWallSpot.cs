@@ -9,7 +9,7 @@
     using LeagueSharp.Common;
 
     using Core;
-    using NechritoRiven.Event;
+    using Event;
     using NechritoRiven.Menus;
 
     #endregion

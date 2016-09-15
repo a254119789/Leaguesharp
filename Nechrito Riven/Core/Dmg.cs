@@ -33,7 +33,7 @@
                 damage += Spells.R.GetDamage(enemy);
             }
 
-            if (!Player.IsWindingUp)
+            if (Player.IsWindingUp)
             {
                 damage += (float)Player.GetAutoAttackDamage(enemy);
             }

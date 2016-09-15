@@ -123,25 +123,20 @@
 
             var animation = new Menu("Animations", "Animation");
             animation.AddItem(
-                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(225, 225, 350)).SetTooltip("Below 230 CAN be buggy!"));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(225, 225, 350)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 350, 400)));
+                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 350)).SetTooltip("Below 230 CAN be buggy!"));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 360, 400)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping / 2 In Mind When Cancel");
-            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 3)));
+            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
             config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
-            combo.AddItem(new MenuItem("ignite", "Auto Ignite").SetValue(true))
-                .SetTooltip("Auto Ignite When target is killable");
-            combo.AddItem(new MenuItem("DisableR2", "Manual R2").SetValue(false))
-                .SetTooltip("Blocks Script From Casting R");
-            combo.AddItem(new MenuItem("OverKillCheck", "R Max Damage").SetValue(true))
-                .SetTooltip("Will save R for max damage");
+            combo.AddItem(new MenuItem("ignite", "Auto Ignite").SetValue(true)).SetTooltip("Auto Ignite When target is killable");
+            combo.AddItem(new MenuItem("DisableR2", "Manual R2").SetValue(false)).SetTooltip("Blocks Script From Casting R");
+            combo.AddItem(new MenuItem("OverKillCheck", "R Max Damage").SetValue(true)).SetTooltip("Will save R for max damage");
             combo.AddItem(new MenuItem("NechWLogic", "Nechrito W Logic").SetValue(false));
-            combo.AddItem(new MenuItem("AlwaysR", "Force R").SetValue(new KeyBind('G', KeyBindType.Toggle)))
-                .SetTooltip("Off will only use R when target is killable");
-            combo.AddItem(new MenuItem("AlwaysF", "Force Flash").SetValue(new KeyBind('L', KeyBindType.Toggle)))
-                .SetTooltip("Off Will only use Flash when target is killable");
+            combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle))).SetTooltip("Off will only use R when target is killable");
+            combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle))).SetTooltip("Off Will only use Flash when target is killable");
             config.AddSubMenu(combo);
 
             var lane = new Menu("Lane", "Lane");
@@ -189,7 +184,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.18.3"));
+            config.AddItem(new MenuItem("version", "Version: 6.18.4"));
 
             config.AddToMainMenu();
         }
