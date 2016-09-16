@@ -9,7 +9,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Menus;
+    using Menus;
 
     using Orbwalking = Orbwalking;
 

@@ -2,17 +2,15 @@
 {
     #region
 
-    using System;
     using System.Linq;
-
-    using Core;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using Core;
     using Menus;
 
-    using Orbwalking = Orbwalking;
+    using Orbwalking = NechritoRiven.Orbwalking;
 
     #endregion
 
@@ -25,6 +23,7 @@
             if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
             {
                 var target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
+
                 var pred = Spells.R.GetPrediction(target);
 
                 if (pred.Hitchance < HitChance.High)
@@ -34,18 +33,24 @@
 
                 if ((!MenuConfig.OverKillCheck && Qstack > 1) || (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1))
                 {
-                    Console.WriteLine("Casting R");
                     Spells.R.Cast(pred.CastPosition);
                 }
             }
 
-            if (Spells.Flash.IsReady() && Spells.Q.IsReady() && Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR
+            if (Spells.Flash.IsReady() 
+                && Spells.Q.IsReady()
+                && Spells.R.IsReady() 
+                && Spells.R.Instance.Name == IsFirstR
                 && MenuConfig.AlwaysF)
             {
                 var target = TargetSelector.GetSelectedTarget();
 
-                if (target == null || !target.IsValidTarget(425 + Spells.W.Range) || target.IsInvulnerable
-                    || !Spells.E.IsReady() || !Spells.W.IsReady() || Player.Distance(target.Position) < 580)
+                if (target == null
+                    || !target.IsValidTarget(425 + Spells.W.Range)
+                    || target.IsInvulnerable
+                    || !Spells.E.IsReady() 
+                    || !Spells.W.IsReady()
+                    || Player.Distance(target.Position) < 580)
                 {
                     return;
                 }
@@ -109,8 +114,12 @@
                 Spells.E.Cast(target.Position);
             }
 
-            if ((Spells.Q.IsReady() || Player.HasBuff("RivenFeint") || target.Health < Dmg.GetComboDamage(target))
-                && MenuConfig.AlwaysR && Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
+            if ((Spells.Q.IsReady()
+                || Player.HasBuff("RivenFeint")
+                || target.Health < Dmg.GetComboDamage(target))
+                && MenuConfig.AlwaysR 
+                && Spells.R.IsReady()
+                && Spells.R.Instance.Name == IsFirstR)
             {
                 ForceR();
             }
@@ -165,14 +174,14 @@
 
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
 
-                if (!(wallPoint.Distance(Player.ServerPosition) <= 45)) return;
+                if (!(wallPoint.Distance(Player.ServerPosition) <= 55)) return;
 
                 if (Spells.E.IsReady())
                 {
                     Spells.E.Cast(wallE);
                 }
 
-                if (Qstack != 3 || !(end.Distance(Player.Position) <= 260) || !wallPoint.IsValid()) return;
+                if (Qstack != 3 || !(end.Distance(Player.Position) <= 300) || !wallPoint.IsValid()) return;
 
                 Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
                 Spells.Q.Cast(wallPoint);
@@ -188,9 +197,10 @@
                                 : 70 + 120 + Player.BoundingRadius) && Spells.W.IsReady());
 
                 var x = Player.Position.Extend(Game.CursorPos, 300);
-                var objAitargetes = enemy as Obj_AI_Hero[] ?? enemy.ToArray();
 
-                if (Spells.W.IsReady() && objAitargetes.Any()) foreach (var target in objAitargetes) if (InWRange(target)) Spells.W.Cast();
+                var targets = enemy as Obj_AI_Hero[] ?? enemy.ToArray();
+
+                if (Spells.W.IsReady() && targets.Any()) foreach (var target in targets) if (InWRange(target)) Spells.W.Cast();
 
                 if (Spells.Q.IsReady() && !Player.IsDashing()) Spells.Q.Cast(Game.CursorPos);
 
@@ -221,13 +231,17 @@
                 }
             }
 
-            if (!Spells.Q.IsReady() || !Spells.E.IsReady() || Qstack != 3 || Orbwalking.CanAttack()
-                || !Orbwalking.CanMove(5)) return;
+            if (!Spells.Q.IsReady() 
+                || !Spells.E.IsReady()
+                || Qstack != 3 
+                || Orbwalking.CanAttack()
+                || !Orbwalking.CanMove(5))
+            {
+                return;
+            }
 
-            var epos = Player.ServerPosition + (Player.ServerPosition - target.ServerPosition).Normalized() * 300;
-
-            Spells.E.Cast(epos);
-            Utility.DelayAction.Add(190, () => Spells.Q.Cast(epos));
+            Spells.E.Cast(Game.CursorPos);
+            Utility.DelayAction.Add(190, () => Spells.Q.Cast(Game.CursorPos));
         }
 
         public static void Jungleclear()
@@ -283,7 +297,7 @@
         // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsMe) return;
+            if (!sender.IsMe || !Orbwalking.IsAutoAttack(args.SData.Name)) return;
 
             var a = HeroManager.Enemies.Where(x => x.IsValidTarget(Player.AttackRange + 360));
 
@@ -297,6 +311,10 @@
                     {
                         ForceItem();
                         Utility.DelayAction.Add(1, () => ForceCastQ(target)); // Else Q AA wont go off at all times, cause of tiamat.
+                    }
+                    else
+                    {
+                        ForceItem();
                     }
 
                     if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
@@ -370,6 +388,10 @@
                 {
                     ForceItem();
                     Utility.DelayAction.Add(1, () => ForceCastQ(m));
+                }
+                else
+                {
+                    ForceItem();
                 }
 
                 if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint") || Qstack > 2) return;

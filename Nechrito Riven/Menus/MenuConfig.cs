@@ -123,7 +123,7 @@
 
             var animation = new Menu("Animations", "Animation");
             animation.AddItem(
-                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 350)).SetTooltip("Below 230 CAN be buggy!"));
+                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 350)));
             animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 360, 400)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping / 2 In Mind When Cancel");
@@ -184,7 +184,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.18.4"));
+            config.AddItem(new MenuItem("version", "Version: 6.18.5"));
 
             config.AddToMainMenu();
         }

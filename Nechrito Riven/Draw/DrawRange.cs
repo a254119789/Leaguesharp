@@ -5,11 +5,12 @@
     using System;
     using System.Drawing;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 
@@ -25,10 +26,20 @@
 
             if (MenuConfig.DrawCb)
             {
-                Render.Circle.DrawCircle(
-                    Player.Position,
-                    250 + Player.AttackRange + 70,
-                    Spells.E.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                if (Spells.E.IsReady())
+                {
+                    Render.Circle.DrawCircle(
+                        Player.Position,
+                        310 + Player.AttackRange,
+                        Spells.Q.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                }
+                else
+                {
+                    Render.Circle.DrawCircle(
+                        Player.Position,
+                        Player.AttackRange,
+                        Spells.Q.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                }
             }
 
             if (MenuConfig.DrawBt && Spells.Flash != SpellSlot.Unknown)

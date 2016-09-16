@@ -10,7 +10,7 @@
 
     using Core;
     using Event;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 

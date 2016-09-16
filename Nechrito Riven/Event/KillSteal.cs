@@ -4,10 +4,11 @@
 
     using System;
 
+    using Core;
+
     using LeagueSharp.Common;
 
-    using Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 
@@ -19,8 +20,13 @@
         {
             var hero = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            if (hero == null || hero.HasBuff("kindrednodeathbuff") || hero.HasBuff("Undying Rage")
-                || hero.HasBuff("JudicatorIntervention")) return;
+            if (hero == null
+                || hero.HasBuff("kindrednodeathbuff")
+                || hero.HasBuff("Undying Rage")
+                || hero.HasBuff("JudicatorIntervention"))
+            {
+                return;
+            }
 
             if (Spells.W.IsReady() && InWRange(hero))
             {
@@ -40,7 +46,10 @@
                 }
             }
 
-            if (!Spells.Ignite.IsReady() || !MenuConfig.Ignite) return;
+            if (!Spells.Ignite.IsReady() || !MenuConfig.Ignite)
+            {
+                return;
+            }
 
             if (hero.IsValidTarget(600f) && Dmg.IgniteDamage(hero) >= hero.Health)
             {

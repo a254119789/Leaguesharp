@@ -5,7 +5,7 @@
     using System;
 
     using Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
     #endregion
 

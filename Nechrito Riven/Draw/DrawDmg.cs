@@ -9,7 +9,7 @@
     using LeagueSharp.Common;
 
     using Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
     using SharpDX;
 

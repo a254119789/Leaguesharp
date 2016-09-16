@@ -2,6 +2,8 @@
 {
     #region
 
+    using System;
+
     using Core;
 
     using Draw;
@@ -41,6 +43,7 @@
             AntiGapcloser.OnEnemyGapcloser += Gapclose.Gapcloser;
 
             Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Loaded!</font></b>");
+            Console.WriteLine("Nechrito Riven: Loaded");
         }
 
         #endregion
