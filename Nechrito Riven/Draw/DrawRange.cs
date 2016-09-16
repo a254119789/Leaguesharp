@@ -5,11 +5,10 @@
     using System;
     using System.Drawing;
 
-    using Core;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using Core;
     using Menus;
 
     #endregion
@@ -20,9 +19,10 @@
 
         public static void RangeDraw(EventArgs args)
         {
-            if (Player.IsDead) return;
-
-            var pos = Drawing.WorldToScreen(Player.Position);
+            if (Player.IsDead)
+            {
+                return;
+            }
 
             if (MenuConfig.DrawCb)
             {
@@ -31,14 +31,18 @@
                     Render.Circle.DrawCircle(
                         Player.Position,
                         310 + Player.AttackRange,
-                        Spells.Q.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                        Spells.Q.IsReady()
+                        ? Color.LightBlue
+                        : Color.DarkSlateGray);
                 }
                 else
                 {
                     Render.Circle.DrawCircle(
                         Player.Position,
                         Player.AttackRange,
-                        Spells.Q.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                        Spells.Q.IsReady() 
+                        ? Color.LightBlue 
+                        : Color.DarkSlateGray);
                 }
             }
 
@@ -47,7 +51,10 @@
                 Render.Circle.DrawCircle(
                     Player.Position,
                     750,
-                    Spells.R.IsReady() && Spells.Flash.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                    Spells.R.IsReady() 
+                    && Spells.Flash.IsReady()
+                    ? Color.LightBlue
+                    : Color.DarkSlateGray);
             }
 
             if (MenuConfig.DrawFh)
@@ -55,7 +62,9 @@
                 Render.Circle.DrawCircle(
                     Player.Position,
                     450 + Player.AttackRange + 70,
-                    Spells.E.IsReady() && Spells.Q.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                    Spells.E.IsReady() && Spells.Q.IsReady()
+                    ? Color.LightBlue 
+                    : Color.DarkSlateGray);
             }
 
             if (MenuConfig.DrawHs)
@@ -63,8 +72,12 @@
                 Render.Circle.DrawCircle(
                     Player.Position,
                     400,
-                    Spells.Q.IsReady() && Spells.W.IsReady() ? Color.LightBlue : Color.DarkSlateGray);
+                    Spells.Q.IsReady() && Spells.W.IsReady()
+                    ? Color.LightBlue 
+                    : Color.DarkSlateGray);
             }
+
+            var pos = Drawing.WorldToScreen(Player.Position);
 
             if (MenuConfig.DrawAlwaysR)
             {
@@ -76,13 +89,17 @@
                     MenuConfig.AlwaysR ? "On" : "Off");
             }
 
-            if (!MenuConfig.ForceFlash) return;
+            if (!MenuConfig.ForceFlash)
+            {
+                return;
+            }
 
             Drawing.DrawText(pos.X - 20, pos.Y + 40, Color.Cyan, "Use Flash  (     )");
+
             Drawing.DrawText(
                 pos.X + 64,
                 pos.Y + 40,
-                MenuConfig.AlwaysF ? Color.White : Color.Red,
+                MenuConfig.AlwaysF ? Color.White : Color.Red, 
                 MenuConfig.AlwaysF ? "On" : "Off");
         }
 

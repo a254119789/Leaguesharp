@@ -1,25 +1,4 @@
-﻿#region LICENSE
-
-/*
- Copyright 2014 - 2015 LeagueSharp
- Orbwalking.cs is part of LeagueSharp.Common.
- 
- LeagueSharp.Common is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- LeagueSharp.Common is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
- along with LeagueSharp.Common. If not, see <http://www.gnu.org/licenses/>.
-*/
-#endregion
-
-namespace NechritoRiven
+﻿namespace NechritoRiven
 {
     #region
 
@@ -855,10 +834,10 @@ namespace NechritoRiven
                 config.AddItem(
                     new MenuItem("Orbwalk", "Combo").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
 
-                config.AddItem(new MenuItem("Burst", "Burst").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
+                config.AddItem(new MenuItem("BurstMode", "BurstMode").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
 
                 config.AddItem(
-                    new MenuItem("FastHarass", "Fast Harass").SetShared().SetValue(new KeyBind('Y', KeyBindType.Press)));
+                    new MenuItem("FastHarassMode", "Fast Harass").SetShared().SetValue(new KeyBind('Y', KeyBindType.Press)));
 
                 config.AddItem(
                     new MenuItem("StillCombo", "Combo without moving").SetShared()
@@ -929,12 +908,12 @@ namespace NechritoRiven
                         return OrbwalkingMode.Flee;
                     }
 
-                    if (config.Item("FastHarass").GetValue<KeyBind>().Active)
+                    if (config.Item("FastHarassMode").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.FastHarass;
                     }
 
-                    if (config.Item("Burst").GetValue<KeyBind>().Active)
+                    if (config.Item("BurstMode").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Burst;
                     }

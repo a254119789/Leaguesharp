@@ -25,7 +25,7 @@
             if (Spells.Q.IsReady())
             {
                 var qcount = 4 - Qstack;
-                damage += Spells.Q.GetDamage(enemy) * qcount + (float)Player.GetAutoAttackDamage(enemy) * (qcount);
+                damage += Spells.Q.GetDamage(enemy) * qcount + (float)Player.GetAutoAttackDamage(enemy) * qcount;
             }
 
             if (Spells.R.IsReady())

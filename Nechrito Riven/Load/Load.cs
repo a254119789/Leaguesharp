@@ -9,6 +9,7 @@
     using Draw;
 
     using Event;
+    using Event.OrbwalkingModes;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -27,7 +28,7 @@
             Spells.Load();
 
             Obj_AI_Base.OnProcessSpellCast += OnCasted.OnCasting;
-            Obj_AI_Base.OnDoCast += Modes.OnDoCast;
+            Obj_AI_Base.OnDoCast += QAA.OnDoCast;
             Obj_AI_Base.OnProcessSpellCast += Core.OnCast;
             Obj_AI_Base.OnPlayAnimation += Animation.OnPlay;
 

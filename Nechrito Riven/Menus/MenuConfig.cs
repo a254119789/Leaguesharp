@@ -4,9 +4,9 @@
 
     using System.Drawing;
 
-    using Core;
-
     using LeagueSharp.Common;
+
+    using Core;
 
     using Color = SharpDX.Color;
     using Orbwalking = Orbwalking;
@@ -164,8 +164,8 @@
             draw.AddItem(new MenuItem("DrawForceFlash", "Flash Status").SetValue(true));
             draw.AddItem(new MenuItem("DrawAlwaysR", "R Status").SetValue(true));
             draw.AddItem(new MenuItem("DrawCB", "Combo Engage").SetValue(false));
-            draw.AddItem(new MenuItem("DrawBT", "Burst Engage").SetValue(false));
-            draw.AddItem(new MenuItem("DrawFH", "FastHarass Engage").SetValue(false));
+            draw.AddItem(new MenuItem("DrawBT", "BurstMode Engage").SetValue(false));
+            draw.AddItem(new MenuItem("DrawFH", "FastHarassMode Engage").SetValue(false));
             draw.AddItem(new MenuItem("DrawHS", "Harass Engage").SetValue(false));
             config.AddSubMenu(draw);
 

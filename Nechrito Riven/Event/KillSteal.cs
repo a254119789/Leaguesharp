@@ -4,10 +4,9 @@
 
     using System;
 
-    using Core;
-
     using LeagueSharp.Common;
 
+    using Core;
     using Menus;
 
     #endregion

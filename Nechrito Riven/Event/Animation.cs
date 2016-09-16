@@ -4,11 +4,10 @@
 
     using System;
 
-    using Core;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using Core;
     using Menus;
 
     using Orbwalking = Orbwalking;

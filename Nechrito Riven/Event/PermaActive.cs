@@ -4,19 +4,32 @@
 
     using System;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
-    using Orbwalking = NechritoRiven.Orbwalking;
+    using OrbwalkingModes;
+
+    using Orbwalking = Orbwalking;
 
     #endregion
 
     internal class PermaActive : Core
     {
         #region Public Methods and Operators
+
+        public static void QMove()
+        {
+            if (!MenuConfig.QMove || !Spells.Q.IsReady())
+            {
+                return;
+            }
+
+            Utility.DelayAction.Add(Game.Ping + 2, () => Spells.Q.Cast(Player.Position - 15));
+        }
 
         public static void Update(EventArgs args)
         {
@@ -25,35 +38,38 @@
                 return;
             }
 
-            if (Utils.GameTimeTickCount - LastQ >= 3650 && !Player.InFountain() && MenuConfig.KeepQ
-                && Player.HasBuff("RivenTriCleave") && !Player.IsRecalling())
+            if (Utils.GameTimeTickCount - LastQ >= 3650
+                && !Player.InFountain()
+                && !Player.InShop()
+                && MenuConfig.KeepQ
+                && Player.HasBuff("RivenTriCleave"))
             {
                 Spells.Q.Cast(Game.CursorPos);
             }
 
-            Modes.QMove();
+            QMove();
             ForceSkill();
 
             switch (Orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.Combo:
-                    Modes.Combo();
+                    ComboMode.Combo();
                     break;
                 case Orbwalking.OrbwalkingMode.Burst:
-                    Modes.Burst();
+                    BurstMode.Burst();
                     break;
                 case Orbwalking.OrbwalkingMode.Flee:
-                    Modes.Flee();
+                    FleeMode.Flee();
                     break;
                 case Orbwalking.OrbwalkingMode.FastHarass:
-                    Modes.FastHarass();
+                    FastHarassMode.FastHarass();
                     break;
                 case Orbwalking.OrbwalkingMode.Mixed:
-                    Modes.Harass();
+                    Mixed.Harass();
                     break;
                 case Orbwalking.OrbwalkingMode.LaneClear:
-                    Modes.Jungleclear();
-                    Modes.Laneclear();
+                    JungleClearMode.Jungleclear();
+                    LaneclearMode.Laneclear();
                     break;
             }
         }
