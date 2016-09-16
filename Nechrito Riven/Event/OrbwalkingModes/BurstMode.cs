@@ -16,20 +16,6 @@
 
         public static void Burst()
         {
-            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
-            {
-                var target = TargetSelector.GetTarget(450 + 70, TargetSelector.DamageType.Physical);
-
-                var pred = Spells.R.GetPrediction(target);
-
-                if (pred.Hitchance < HitChance.High)
-                {
-                    return;
-                }
-
-                Spells.R.Cast(pred.CastPosition);
-            }
-
             if (Spells.Flash.IsReady()
                 && Spells.Q.IsReady()
                 && Spells.R.IsReady()

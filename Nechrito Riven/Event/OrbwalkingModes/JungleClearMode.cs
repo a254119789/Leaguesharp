@@ -2,9 +2,10 @@
 {
     #region
 
+    using Core;
+
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
     #endregion
@@ -17,7 +18,7 @@
         {
             var mobs = MinionManager.GetMinions(
                 Player.Position,
-                Player.AttackRange + Spells.E.Range + 50,
+                Player.AttackRange + Spells.E.Range,
                 MinionTypes.All,
                 MinionTeam.Neutral);
 
@@ -25,7 +26,13 @@
 
             foreach (var m in mobs)
             {
-                if (!m.IsValid || !Spells.E.IsReady() || !MenuConfig.JnglE || Player.IsWindingUp) return;
+                if (!m.IsValid
+                    || !Spells.E.IsReady() 
+                    || !MenuConfig.JnglE 
+                    || Player.IsWindingUp)
+                {
+                    return;
+                }
 
                 Spells.E.Cast(m.Position);
                 Utility.DelayAction.Add(10, ForceItem);

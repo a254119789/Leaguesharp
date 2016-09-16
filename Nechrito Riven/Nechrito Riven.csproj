@@ -101,7 +101,7 @@
     <Compile Include="Event\Gapclose.cs" />
     <Compile Include="Event\Interrupt2.cs" />
     <Compile Include="Event\KillSteal.cs" />
-    <Compile Include="Event\OrbwalkingModes\QAA.cs" />
+    <Compile Include="Event\OrbwalkingModes\AfterAuto.cs" />
     <Compile Include="Event\OnCasted.cs" />
     <Compile Include="Event\Skinchanger.cs" />
     <Compile Include="Load\Load.cs" />

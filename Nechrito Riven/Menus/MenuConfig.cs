@@ -4,9 +4,9 @@
 
     using System.Drawing;
 
-    using LeagueSharp.Common;
+     using Core;
 
-    using Core;
+    using LeagueSharp.Common;
 
     using Color = SharpDX.Color;
     using Orbwalking = Orbwalking;
@@ -68,6 +68,12 @@
         public static bool GapcloserMenu => config.Item("GapcloserMenu").GetValue<bool>();
 
         public static bool Ignite => config.Item("ignite").GetValue<bool>();
+
+        public static bool KsW => config.Item("ksW").GetValue<bool>();
+
+        public static bool KsR2 => config.Item("ksR2").GetValue<bool>();
+
+        public static bool KsQ => config.Item("ksQ").GetValue<bool>();
 
         public static bool InterruptMenu => config.Item("InterruptMenu").GetValue<bool>();
 
@@ -131,9 +137,8 @@
             config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
-            combo.AddItem(new MenuItem("ignite", "Auto Ignite").SetValue(true)).SetTooltip("Auto Ignite When target is killable");
             combo.AddItem(new MenuItem("DisableR2", "Manual R2").SetValue(false)).SetTooltip("Blocks Script From Casting R");
-            combo.AddItem(new MenuItem("OverKillCheck", "R Max Damage").SetValue(true)).SetTooltip("Will save R for max damage");
+            combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true)).SetTooltip("Will save R for max damage");
             combo.AddItem(new MenuItem("NechWLogic", "Nechrito W Logic").SetValue(false));
             combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle))).SetTooltip("Off will only use R when target is killable");
             combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle))).SetTooltip("Off Will only use Flash when target is killable");
@@ -150,6 +155,13 @@
             jngl.AddItem(new MenuItem("JungleW", "Use W").SetValue(true));
             jngl.AddItem(new MenuItem("JungleE", "Use E").SetValue(true));
             config.AddSubMenu(jngl);
+
+            var killsteal = new Menu("Killsteal", "Killsteal");
+            killsteal.AddItem(new MenuItem("ignite", "Use Ignite").SetValue(true));
+            killsteal.AddItem(new MenuItem("ksW", "Use W").SetValue(true));
+            killsteal.AddItem(new MenuItem("ksR2", "Use R2").SetValue(true));
+            killsteal.AddItem(new MenuItem("ksQ", "Use Q").SetValue(true));
+            config.AddSubMenu(killsteal);
 
             var misc = new Menu("Misc", "Misc");
             misc.AddItem(new MenuItem("GapcloserMenu", "Anti-Gapcloser").SetValue(true));
@@ -184,7 +196,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.18.5"));
+            config.AddItem(new MenuItem("version", "Version: 6.18.6"));
 
             config.AddToMainMenu();
         }

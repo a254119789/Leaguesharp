@@ -25,7 +25,7 @@
             if (Spells.Q.IsReady())
             {
                 var qcount = 4 - Qstack;
-                damage += Spells.Q.GetDamage(enemy) * qcount + (float)Player.GetAutoAttackDamage(enemy) * qcount;
+                damage += Spells.Q.GetDamage(enemy) * qcount + (float)Player.GetAutoAttackDamage(enemy) * (qcount + 1);
             }
 
             if (Spells.R.IsReady())
@@ -33,7 +33,7 @@
                 damage += Spells.R.GetDamage(enemy);
             }
 
-            if (!Player.IsWindingUp)
+            if (!Player.IsWindingUp && !Spells.Q.IsReady())
             {
                 damage += (float)Player.GetAutoAttackDamage(enemy);
             }

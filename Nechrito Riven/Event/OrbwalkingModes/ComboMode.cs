@@ -38,6 +38,13 @@
             if (Spells.E.IsReady())
             {
                 Spells.E.Cast(target.Position);
+
+                if (Spells.R.IsReady())
+                {
+                    return;
+                }
+
+                Utility.DelayAction.Add(15, ForceItem);
             }
 
             if ((Spells.Q.IsReady()

@@ -4,9 +4,10 @@
 
     using System;
 
+    using Core;
+
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
     #endregion
@@ -27,7 +28,7 @@
                 return;
             }
 
-            if (Spells.W.IsReady() && InWRange(hero))
+            if (Spells.W.IsReady() && InWRange(hero) && MenuConfig.KsW)
             {
                 if (hero.Health <= Spells.W.GetDamage(hero))
                 {
@@ -35,7 +36,7 @@
                 }
             }
 
-            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && MenuConfig.KsR2)
             {
                 if (hero.Health < Dmg.RDmg(hero))
                 {
@@ -43,6 +44,11 @@
 
                     Spells.R.Cast(pred.CastPosition);
                 }
+            }
+
+            if (Spells.Q.IsReady() && InQRange(hero) && hero.Health < Spells.Q.GetDamage(hero))
+            {
+                Spells.Q.Cast(hero);
             }
 
             if (!Spells.Ignite.IsReady() || !MenuConfig.Ignite)

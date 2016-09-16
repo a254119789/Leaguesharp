@@ -5,10 +5,11 @@
     using System;
     using System.Drawing;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
     #endregion
@@ -50,10 +51,10 @@
             {
                 Render.Circle.DrawCircle(
                     Player.Position,
-                    750,
+                    425 + Spells.W.Range,
                     Spells.R.IsReady() 
                     && Spells.Flash.IsReady()
-                    ? Color.LightBlue
+                    ? Color.Orange
                     : Color.DarkSlateGray);
             }
 
@@ -82,6 +83,7 @@
             if (MenuConfig.DrawAlwaysR)
             {
                 Drawing.DrawText(pos.X - 20, pos.Y + 20, Color.Cyan, "Use R1  (     )");
+
                 Drawing.DrawText(
                     pos.X + 43,
                     pos.Y + 20,
@@ -96,11 +98,7 @@
 
             Drawing.DrawText(pos.X - 20, pos.Y + 40, Color.Cyan, "Use Flash  (     )");
 
-            Drawing.DrawText(
-                pos.X + 64,
-                pos.Y + 40,
-                MenuConfig.AlwaysF ? Color.White : Color.Red, 
-                MenuConfig.AlwaysF ? "On" : "Off");
+            Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF ? Color.White : Color.Red, MenuConfig.AlwaysF ? "On" : "Off");
         }
 
         #endregion
