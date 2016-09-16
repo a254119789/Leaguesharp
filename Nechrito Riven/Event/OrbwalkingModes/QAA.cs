@@ -41,7 +41,7 @@
                         ForceItem();
                     }
 
-                    if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
+                    if (MenuConfig.NechLogic && InWRange(target) && (Qstack != 1 || !Spells.Q.IsReady()))
                     {
                         ForceW();
                         return;
