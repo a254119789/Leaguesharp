@@ -135,8 +135,8 @@
             combo.AddItem(new MenuItem("DisableR2", "Manual R2").SetValue(false)).SetTooltip("Blocks Script From Casting R");
             combo.AddItem(new MenuItem("OverKillCheck", "R Max Damage").SetValue(true)).SetTooltip("Will save R for max damage");
             combo.AddItem(new MenuItem("NechWLogic", "Nechrito W Logic").SetValue(false));
-            combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle))).SetTooltip("Off will only use R when target is killable");
-            combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle))).SetTooltip("Off Will only use Flash when target is killable");
+            combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle))).SetTooltip("Off will only use R when target is killable").SetValue(true);
+            combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle))).SetTooltip("Off Will only use Flash when target is killable").SetValue(true);
             config.AddSubMenu(combo);
 
             var lane = new Menu("Lane", "Lane");
