@@ -1,19 +1,21 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo
 {
     using System;
+
     using LeagueSharp;
     using LeagueSharp.Common;
-    using Logic;
-    using RethoughtLib.Events;
+
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class ECombo : ChildBase
     {
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public ECombo(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
 
@@ -59,7 +61,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || Vars.Player.IsWindingUp
                 || !Spells.Spell[SpellSlot.E].IsReady()
                 || Target == null
@@ -68,7 +70,7 @@
                 return;
             }
 
-            var ePrediction = (Spells.Spell[SpellSlot.E].GetPrediction(Target));
+            var ePrediction = Spells.Spell[SpellSlot.E].GetPrediction(this.Target);
 
             if (Target.Distance(Vars.Player) > 270 && Menu.Item(Menu.Name + "AntiMelee").GetValue<bool>())
             {

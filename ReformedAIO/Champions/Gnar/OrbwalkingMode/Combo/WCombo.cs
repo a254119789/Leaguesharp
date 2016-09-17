@@ -1,15 +1,14 @@
-﻿using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
+﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 {
-    using System.Linq;
     using System;
+    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-   
+    using ReformedAIO.Champions.Gnar.Core;
+
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class WCombo : ChildBase
     {
@@ -17,29 +16,23 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 
         public override string Name { get; set; } = "W";
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public WCombo(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || gnarState.Mini || 
-                !Spells.W2.IsReady())
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo || !Spells.W2.IsReady())
             {
                 return;
             }
 
             foreach (var target in HeroManager.Enemies.Where(x => x.IsValidTarget(Spells.W2.Range)))
             {
-                if (target == null)
-                {
-                    return;
-                }
-
+               
                 var prediction = Spells.W2.GetPrediction(target);
 
                 if(prediction.Hitchance >= HitChance.High

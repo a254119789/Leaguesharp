@@ -13,8 +13,7 @@
     {
         #region Static Fields
 
-        public static Dictionary<SpellSlot, Spell> Spells = new Dictionary<SpellSlot, Spell>()
-                                                                {
+        public static Dictionary<SpellSlot, Spell> Spells = new Dictionary<SpellSlot, Spell> {
                                                                     {
                                                                         SpellSlot.Q,
                                                                         new Spell(

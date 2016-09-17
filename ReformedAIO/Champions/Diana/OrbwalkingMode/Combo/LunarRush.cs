@@ -7,9 +7,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Diana.Logic;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -22,11 +21,11 @@
 
         #endregion
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public LunarRush(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         #region Public Properties
@@ -86,7 +85,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variables.Spells[SpellSlot.W].IsReady()) return;
 
             Lunarrush();

@@ -1,23 +1,22 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Lane
 {
-    using Logic;
-
     using System;
     using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class QLane : ChildBase
     {
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public QLane(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
 
@@ -33,7 +32,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
@@ -47,7 +46,7 @@
       
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.Q].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "LaneQMana").GetValue<Slider>().Value > Vars.Player.ManaPercent) return;

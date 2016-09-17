@@ -1,6 +1,4 @@
-﻿using ReformedAIO.Champions.Gnar.Core;
-
-namespace ReformedAIO.Champions.Gnar.PermaActive
+﻿namespace ReformedAIO.Champions.Gnar.PermaActive
 {
     using System;
     using System.Linq;
@@ -8,9 +6,9 @@ namespace ReformedAIO.Champions.Gnar.PermaActive
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Gnar.Core;
+    using ReformedAIO.Champions.Gnar.Logic;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class Flee : ChildBase
@@ -28,13 +26,13 @@ namespace ReformedAIO.Champions.Gnar.PermaActive
 
         private void OnUpdate(EventArgs args)
         {
-            if (!Menu.SubMenu("Menu").Item("FleeKey").GetValue<KeyBind>().Active) return;
-
+            if (!Menu.Item("FleeKey").GetValue<KeyBind>().Active) return;
+           
             var jumpPos = fleeLogic.JumpPos.FirstOrDefault(x => x.Value.Distance(ObjectManager.Player.Position) < 425f && x.Value.Distance(Game.CursorPos) < 700f);
 
-            var mobs = MinionManager.GetMinions(425f, MinionTypes.All, MinionTeam.All);
+            var m = MinionManager.GetMinions(425f, MinionTypes.All, MinionTeam.All).FirstOrDefault();
 
-            if (jumpPos.Value.IsValid() && Menu.SubMenu("Menu").Item("FleeVector").GetValue<bool>())
+            if (jumpPos.Value.IsValid() && Menu.Item("FleeVector").GetValue<bool>())
             {
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, jumpPos.Value);
 
@@ -59,15 +57,12 @@ namespace ReformedAIO.Champions.Gnar.PermaActive
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             }
 
-            if (gnarState.Mega 
-                || !mobs.Any() 
+            if (gnarState.Mega  
                 || !Spells.E.IsReady()
-                || !Menu.SubMenu("Menu").Item("FleeMinion").GetValue<bool>())
+                || !Menu.Item("FleeMinion").GetValue<bool>())
             {
                 return;
             }
-
-            var m = mobs.FirstOrDefault(x => x.IsValidTarget(425f));
 
             if (m.Distance(Game.CursorPos) <= 425f)
             {

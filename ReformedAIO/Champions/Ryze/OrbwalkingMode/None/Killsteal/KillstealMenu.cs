@@ -8,7 +8,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion

@@ -1,15 +1,14 @@
-﻿using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
+﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 {
-    using Logic;
     using System;
+    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-   
+    using ReformedAIO.Champions.Gnar.Core;
+
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class ECombo : ChildBase
     {
@@ -17,60 +16,76 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 
         private Dmg dmg;
 
-        private ELogic eLogic;
-
         public override string Name { get; set; } = "E";
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public ECombo(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 return;
             }
 
-            var target = TargetSelector.GetTarget(Menu.SubMenu("Menu").Item("E1Range").GetValue<Slider>().Value * 2, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(Menu.Item("E1Range").GetValue<Slider>().Value * 2, TargetSelector.DamageType.Physical);
 
-            if (!Spells.E.IsReady() || target == null)
+            if (target == null)
             {
                 return;
             }
 
-            var config = Menu.SubMenu("Menu");
-
-            if ((gnarState.Mini && Vars.Player.Mana >= 95)
-                || gnarState.TransForming
-                || target.Health < dmg.GetDamage(target))
+            if (Spells.E.IsReady() && !this.gnarState.Mega)
             {
-                if (eLogic.EPrediction(target).CollisionObjects[0].CountEnemiesInRange(config.Item("E1Range").GetValue<Slider>().Value * 2) > 0)
+                if (gnarState.TransForming
+                    || target.Health < dmg.GetDamage(target) * 1.75 
+                    || (Menu.Item("EOnGanked").GetValue<bool>()
+                    && Vars.Player.CountAlliesInRange(900) > Vars.Player.CountEnemiesInRange(900)))
                 {
-                    Spells.E.Cast(eLogic.EPrediction(target).CollisionObjects[0].Position);
+                    var ePred = Spells.E.GetPrediction(target);
+
+                    if (target.Distance(ObjectManager.Player) > 525f)
+                    {
+                        var m = MinionManager.GetMinions(ObjectManager.Player.Position, 425, MinionTypes.All, MinionTeam.All).FirstOrDefault();
+
+                        if (Vars.Player.IsFacing(m) && m.Distance(Vars.Player) >= 385)
+                        {
+                            Spells.E.Cast(m);
+                        }
+                    }
+                    else
+                    {
+                        Spells.E.Cast(ePred.CastPosition);
+                    }
                 }
             }
 
-            if (gnarState.Mega && target.Health < dmg.GetDamage(target))
+            if (!this.gnarState.Mega || !Spells.E2.IsReady())
             {
-                if (Spells.E2.Cast(eLogic.EPrediction(target).CastPosition)) ;
+                return;
             }
+
+            var e2Pred = Spells.E2.GetPrediction(target);
+
+            Spells.E2.Cast(e2Pred.CastPosition);
         }
 
         private void Gapcloser(ActiveGapcloser gapcloser)
         {
             var target = gapcloser.Sender;
 
-            if (target == null 
-                || !Menu.SubMenu("Menu").Item("EAwayMelee").GetValue<bool>())
+            if (target == null || !Menu.Item("EAwayMelee").GetValue<bool>() || this.gnarState.Mega)
             {
                 return;
             }
 
-            Spells.E.Cast(eLogic.EPrediction(target).CollisionObjects[0].Position); // TODO: Might need to change this..
+            var ePred = Spells.E.GetPrediction(target);
+
+            Spells.E.Cast(ePred.CollisionObjects[0].Position); // TODO: Might need to change this..
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -80,9 +95,9 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
             Menu.AddItem(new MenuItem("E1Range", "Range").SetValue(new Slider(475, 0, 475)));
             Menu.AddItem(new MenuItem("EAwayMelee", "E Away From Melee's").SetValue(false));
             Menu.AddItem(new MenuItem("EonTransform", "E On Transformation").SetValue(true));
+            Menu.AddItem(new MenuItem("EOnGanked", "E If Ganked Or Teamfight").SetValue(true));
 
             dmg = new Dmg();
-            eLogic = new ELogic();
             gnarState = new GnarState();
         }
 

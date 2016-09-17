@@ -1,61 +1,56 @@
-﻿using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
+﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
 {
     using System;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-    using Logic;
-   
+    using ReformedAIO.Champions.Gnar.Core;
+    using ReformedAIO.Champions.Gnar.Logic;
+
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class RCombo : ChildBase
     {
-        private WallDetection _wallDetection;
+        private WallDetection wallDetection;
+
+        private GnarState gnarState;
 
         public override string Name { get; set; } = "R";
 
-        private readonly Orbwalking.Orbwalker _orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public RCombo(Orbwalking.Orbwalker orbwalker)
         {
-            _orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.R2.Range, TargetSelector.DamageType.Physical);
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Target == null || !Spells.R2.IsReady())
+            if (Target == null
+                || !Spells.R2.IsReady() 
+                || gnarState.Mini
+                || Target.IsInvulnerable)
             {
                 return;
             }
 
-            //var prediction = Spells.R2.GetPrediction(Target);
+            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position.Extend(Target.Position, Spells.R2.Range + 55));
+            Vars.Player.GetPath(wallPoint);
 
-            if (Menu.SubMenu("Menu").Item("HitCount").GetValue<Slider>().Value
-                >= Vars.Player.CountEnemiesInRange(Spells.R2.Range)
-                && _wallDetection.IsWall(Target))
-            {
-                Spells.R2.Cast(_wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position));
-            }
-
-            if (_orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            if (!wallPoint.IsValid() || wallPoint.Distance(Target.Position) > Spells.R2.Range)
             {
                 return;
             }
 
-            if (Target.IsInvulnerable 
-                || (Vars.Player.CountEnemiesInRange(Spells.R2.Range) < 2 
-                && Target.IsStunned)
-                || !_wallDetection.IsWall(Target))
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 return;
             }
 
-            Spells.R2.Cast(_wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position));
+            Spells.R2.Cast(wallPoint);
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -63,9 +58,10 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo
             base.OnLoad(sender, featureBaseEventArgs);
 
             Menu.AddItem(new MenuItem("RRange", "Range").SetValue(new Slider(590, 0, 590)));
-            Menu.AddItem(new MenuItem("HitCount", "Auto If x Count").SetValue(new Slider(3, 0, 5)));
 
-            _wallDetection = new WallDetection();
+            // Menu.AddItem(new MenuItem("HitCount", "Auto If x Count").SetValue(new Slider(2, 0, 5)));
+            gnarState = new GnarState();
+            this.wallDetection = new WallDetection();
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)

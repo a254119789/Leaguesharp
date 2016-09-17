@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using SharpDX;
-
-namespace ReformedAIO.Champions.Gnar.Logic
+﻿namespace ReformedAIO.Champions.Gnar.Logic
 {
+    using System.Collections.Generic;
+
+    using SharpDX;
+
     internal sealed class FleeLogic
     {
         // Draws position where maxrange jumps are possible (drag, baron, wolves)
-        public readonly Dictionary<string, Vector3> JumpPos = new Dictionary<string, Vector3>()
-                                                                  {
+        public readonly Dictionary<string, Vector3> JumpPos = new Dictionary<string, Vector3> {
                                                                       {
                                                                           "mid_Dragon",
                                                                           new Vector3(
@@ -43,11 +43,10 @@ namespace ReformedAIO.Champions.Gnar.Logic
                                                                           3046f,
                                                                           6132f,
                                                                           57.04655f)
-                                                                      },
+                                                                      }
                                                                   };
 
-        public readonly List<Vector3> JunglePos = new List<Vector3>()
-                                                      {
+        public readonly List<Vector3> JunglePos = new List<Vector3> {
                                                           new Vector3(6271.479f, 12181.25f, 56.47668f),
                                                           new Vector3(6971.269f, 10839.12f, 55.2f),
                                                           new Vector3(8006.336f, 9517.511f, 52.31763f),

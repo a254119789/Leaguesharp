@@ -1,13 +1,13 @@
-﻿using LeagueSharp.SDK.Utils;
-
-namespace ReformedAIO.Champions.Caitlyn.Killsteal
+﻿namespace ReformedAIO.Champions.Caitlyn.Killsteal
 {
-    using Logic;
     using System;
+
     using LeagueSharp;
     using LeagueSharp.Common;
+    using LeagueSharp.SDK.Utils;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class RKillsteal : ChildBase
@@ -40,7 +40,7 @@ namespace ReformedAIO.Champions.Caitlyn.Killsteal
             }
             else
             {
-                Spells.Spell[SpellSlot.R].Range = 1500 + (500 * Spells.Spell[SpellSlot.R].Level);
+                Spells.Spell[SpellSlot.R].Range = 1500 + 500 * Spells.Spell[SpellSlot.R].Level;
             }
 
             if (!Spells.Spell[SpellSlot.R].IsReady()

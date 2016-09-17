@@ -9,9 +9,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Ashe.Logic;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -26,12 +25,12 @@
 
         #region Constructors and Destructors
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public ECombo(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         #endregion
@@ -124,12 +123,12 @@
 
             if (Menu.Item(Menu.Name + "ECount").GetValue<bool>() && eLogic.GetEAmmo() == 1) return;
 
-            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
+            if (this.orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
             {
                 EToCamp();
             }
 
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
 
             Hawkshot();
         }

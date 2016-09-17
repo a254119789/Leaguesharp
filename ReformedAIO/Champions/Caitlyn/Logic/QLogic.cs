@@ -1,8 +1,8 @@
-﻿using LeagueSharp;
-using LeagueSharp.SDK;
-
-namespace ReformedAIO.Champions.Caitlyn.Logic
+﻿namespace ReformedAIO.Champions.Caitlyn.Logic
 {
+    using LeagueSharp;
+    using LeagueSharp.SDK;
+
     internal class QLogic
     {
         public float QDelay(Obj_AI_Hero target)

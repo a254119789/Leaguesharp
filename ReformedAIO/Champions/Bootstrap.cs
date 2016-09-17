@@ -2,10 +2,7 @@
 {
     #region Using Directives
 
-    using System;
     using System.Collections.Generic;
-
-    using LeagueSharp;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.Bootstraps.Implementations;

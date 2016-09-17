@@ -7,9 +7,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Gragas.Logic;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     using SPrediction;
@@ -32,11 +31,11 @@
 
         #region Methods
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public ECombo(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
 
@@ -89,7 +88,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || !Variable.Spells[SpellSlot.E].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "EMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

@@ -1,9 +1,10 @@
-﻿using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace ReformedAIO.Champions.Ashe.Core
+﻿namespace ReformedAIO.Champions.Ashe.Core
 {
+    using System;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     #region Using Directives
 
     

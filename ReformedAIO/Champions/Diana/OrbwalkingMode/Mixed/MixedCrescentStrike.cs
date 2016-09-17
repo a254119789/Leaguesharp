@@ -7,9 +7,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Diana.Logic;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -22,11 +21,11 @@
 
         #endregion
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public MixedCrescentStrike(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         #region Public Properties
@@ -39,7 +38,7 @@
 
         public void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || !Variables.Spells[SpellSlot.Q].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "QMana").GetValue<Slider>().Value > Variables.Player.ManaPercent) return;

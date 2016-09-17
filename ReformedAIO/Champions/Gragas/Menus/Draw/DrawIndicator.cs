@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Gragas.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 

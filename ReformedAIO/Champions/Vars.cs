@@ -1,8 +1,8 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace ReformedAIO.Champions
+﻿namespace ReformedAIO.Champions
 {
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     internal class Vars
     {
         public static Orbwalking.Orbwalker Orbwalker { get; internal set; }

@@ -55,7 +55,7 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Name + "WReady", "Only If Ready").SetValue(false));
         }

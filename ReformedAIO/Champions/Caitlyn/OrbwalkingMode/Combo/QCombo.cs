@@ -1,20 +1,21 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo
 {
-    using Logic;
     using System;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class QCombo : ChildBase
     {
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public QCombo(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         public override string Name { get; set; } 
@@ -56,12 +57,12 @@
                 Spells.Spell[SpellSlot.Q].CastIfWillHit(Target, 2);
             }
 
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 return;
             }
 
-            var qPrediction = (Spells.Spell[SpellSlot.Q].GetPrediction(Target));
+            var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(this.Target);
 
             if (qPrediction.Hitchance >= HitChance.VeryHigh && Menu.Item(Menu.Name + "QHigh").GetValue<bool>()) // Needs work, too tired
             {

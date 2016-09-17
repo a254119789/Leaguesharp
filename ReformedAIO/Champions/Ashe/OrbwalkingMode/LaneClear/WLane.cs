@@ -8,7 +8,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -17,12 +16,12 @@
     {
         #region Constructors and Destructors
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public WLane(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         #endregion
@@ -83,7 +82,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Variable.Spells[SpellSlot.W].IsReady()) return;
 
             if (Menu.Item(Menu.Name + "LaneWMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;

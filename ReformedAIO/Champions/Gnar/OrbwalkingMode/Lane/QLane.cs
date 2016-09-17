@@ -1,43 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using LeagueSharp;
-using LeagueSharp.Common;
-using ReformedAIO.Champions.Gnar.Core;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-using RethoughtLib.Menu;
-using RethoughtLib.Menu.Presets;
-
-namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane
+﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane
 {
-    internal sealed class QLane: ChildBase
+    using System;
+    using System.Collections.Generic;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using ReformedAIO.Champions.Gnar.Core;
+
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.Menu;
+    using RethoughtLib.Menu.Presets;
+
+    internal sealed class QLane : ChildBase
     {
-        private GnarState _gnarState;
+        private GnarState gnarState;
 
         public override string Name { get; set; } = "Q";
 
-        private readonly Orbwalking.Orbwalker _orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public QLane(Orbwalking.Orbwalker orbwalker)
         {
-            _orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (_orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
-                || !Vars.Player.IsWindingUp
-                || (Menu.SubMenu("Menu").Item("BlockIfTransforming").GetValue<bool>()
-                && _gnarState.TransForming))
+            var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
+
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear || Vars.Player.IsWindingUp)
             {
                 return;
             }
-
-            if (_gnarState.Mini)
+          
+            if (this.gnarState.Mini)
             {
                 Mini();
             }
-
-            if (_gnarState.Mega)
+            else
             {
                 Mega();
             }
@@ -45,27 +46,22 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane
 
         private void Mini()
         {
-            if (!Spells.Q.IsReady())
+            var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
+
+            if (!Spells.Q.IsReady() 
+                || (Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
+                && this.gnarState.TransForming))
             {
                 return;
             }
 
-            foreach (var m in MinionManager.GetMinions(Menu.SubMenu("Menu").Item("Q1Range").GetValue<Slider>().Value,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.MaxHealth))
+            var minions = MinionManager.GetMinions(Menu.Item(menu.Name + "Q1Range").GetValue<Slider>().Value);
+
+            var prediction = Spells.Q.GetLineFarmLocation(minions);
+
+            if (Menu.Item(menu.Name + "Q1HitCount").GetValue<Slider>().Value <= prediction.MinionsHit)
             {
-                if (m == null)
-                {
-                    return;
-                }
-
-                var prediction = Spells.Q.GetPrediction(m, true);
-
-                if (prediction.AoeTargetsHitCount >= Menu.SubMenu("Menu").Item("Q1HitCount").GetValue<Slider>().Value)
-                {
-                    Spells.Q.Cast(prediction.CastPosition);
-                }
+                Spells.Q.Cast(prediction.Position);
             }
         }
 
@@ -76,22 +72,15 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane
                 return;
             }
 
-            foreach (var m in MinionManager.GetMinions(Menu.SubMenu("Menu").Item("Q2Range").GetValue<Slider>().Value,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.MaxHealth))
+            var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
+
+            var minions = MinionManager.GetMinions(Menu.Item(menu.Name + "Q2Range").GetValue<Slider>().Value);
+
+            var prediction = Spells.Q2.GetLineFarmLocation(minions);
+
+            if (Menu.Item(menu.Name + "Q2HitCount").GetValue<Slider>().Value <= prediction.MinionsHit)
             {
-                if (m == null)
-                {
-                    return;
-                }
-
-                var prediction = Spells.Q2.GetPrediction(m);
-
-                if (prediction.AoeTargetsHitCount >= Menu.SubMenu("Menu").Item("Q2HitCount").GetValue<Slider>().Value)
-                {
-                    Spells.Q2.Cast(prediction.CastPosition);
-                }
+                Spells.Q2.Cast(prediction.Position);
             }
         }
 
@@ -99,24 +88,24 @@ namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            _gnarState = new GnarState();
+            this.gnarState = new GnarState();
 
             var selecter = new MenuItem("GnarForm", "Form").SetValue(new StringList(new[] { "Mini", "Mega" }));
 
-            var mini = new List<MenuItem>()
-             {
+            var mini = new List<MenuItem>
+            {
                  new MenuItem("Q1Range", "Range").SetValue(new Slider(600, 0, 600)),
                  new MenuItem("Q1HitCount", "Min Hit Count").SetValue(new Slider(2, 0, 6)),
-                 new MenuItem("BlockIfTransforming", "Block If Transforming").SetValue(true),
+                 new MenuItem("BlockIfTransforming", "Block If Transforming").SetValue(true)
              };
 
-            var mega = new List<MenuItem>()
-             {
+            var mega = new List<MenuItem>
+            {
                  new MenuItem("Q2Range", "Range").SetValue(new Slider(600, 0, 700)),
                  new MenuItem("Q2HitCount", "Min Hit Count").SetValue(new Slider(3, 0, 6))
              };
 
-            var menuGenerator = new MenuGenerator(Menu, new DynamicMenu("Menu", selecter, new[] { mini }));
+            var menuGenerator = new MenuGenerator(Menu, new DynamicMenu("Dynamic Menu", selecter, new[] { mini, mega }));
 
             menuGenerator.Generate();
         }

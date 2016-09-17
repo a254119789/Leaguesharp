@@ -1,13 +1,17 @@
-﻿using System;
-using SharpDX;
-using System.Linq;
-using LeagueSharp;
-using LeagueSharp.Common;
-using ReformedAIO.Champions.Gnar.Core;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gnar.Drawings.Damage
+﻿namespace ReformedAIO.Champions.Gnar.Drawings.Damage
 {
+    using System;
+    using System.Linq;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using ReformedAIO.Champions.Gnar.Core;
+
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
+
+    using SharpDX;
+
     internal class GnarDamage : ChildBase
     {
         public override string Name { get; set; }
@@ -17,9 +21,9 @@ namespace ReformedAIO.Champions.Gnar.Drawings.Damage
             Name = name;
         }
 
-        private Dmg _dmg;
+        private Dmg dmg;
 
-        private HpBarIndicator _hpBarIndicator;
+        private HpBarIndicator hpBarIndicator;
 
         public void OnDraw(EventArgs args)
         {
@@ -28,8 +32,8 @@ namespace ReformedAIO.Champions.Gnar.Drawings.Damage
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
             {
 
-                _hpBarIndicator.Unit = enemy;
-                _hpBarIndicator.DrawDmg(_dmg.GetDamage(enemy), enemy.Health <= _dmg.GetDamage(enemy) * .75 ? Color.LawnGreen : Color.Yellow);
+                this.hpBarIndicator.Unit = enemy;
+                this.hpBarIndicator.DrawDmg(this.dmg.GetDamage(enemy), enemy.Health <= this.dmg.GetDamage(enemy) * 1.25 ? Color.LawnGreen : Color.Yellow);
             }
         }
 
@@ -43,10 +47,10 @@ namespace ReformedAIO.Champions.Gnar.Drawings.Damage
             Drawing.OnDraw += OnDraw;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            _hpBarIndicator = new HpBarIndicator();
-            _dmg = new Dmg();
+            this.hpBarIndicator = new HpBarIndicator();
+            this.dmg = new Dmg();
         }
     }
 }

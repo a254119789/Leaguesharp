@@ -1,13 +1,13 @@
-﻿using LeagueSharp.SDK.Utils;
-
-namespace ReformedAIO.Champions.Caitlyn.Killsteal
+﻿namespace ReformedAIO.Champions.Caitlyn.Killsteal
 {
-    using Logic;
     using System;
+
     using LeagueSharp;
     using LeagueSharp.Common;
+    using LeagueSharp.SDK.Utils;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class QKillsteal : ChildBase
@@ -21,7 +21,7 @@ namespace ReformedAIO.Champions.Caitlyn.Killsteal
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.Q].Range, TargetSelector.DamageType.Physical);
 
-        private QLogic _qLogic;
+        private QLogic qLogic;
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -35,7 +35,7 @@ namespace ReformedAIO.Champions.Caitlyn.Killsteal
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            _qLogic = new QLogic();
+            this.qLogic = new QLogic();
         }
 
         private void OnUpdate(EventArgs args)
@@ -45,7 +45,7 @@ namespace ReformedAIO.Champions.Caitlyn.Killsteal
                 || Target.IsDead
                 || Target.Health > Spells.Spell[SpellSlot.Q].GetDamage(Target)
                 || Target.Distance(Vars.Player) < Vars.Player.GetRealAutoAttackRange()
-                || !_qLogic.CanKillSteal(Target))
+                || !this.qLogic.CanKillSteal(Target))
             {
                 return;
             }

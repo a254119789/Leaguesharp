@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
-using LeagueSharp;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gragas
+﻿namespace ReformedAIO.Champions.Gragas
 {
     #region Using Directives
 
+    using System.Collections.Generic;
+
+    using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
-    using Menus.Draw;
-    using OrbwalkingMode.Combo;
-    using OrbwalkingMode.Jungle;
-    using OrbwalkingMode.Lane;
-    using OrbwalkingMode.Mixed;
+    using ReformedAIO.Champions.Gragas.Logic;
+    using ReformedAIO.Champions.Gragas.Menus.Draw;
+    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Jungle;
+    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Lane;
+    using ReformedAIO.Champions.Gragas.OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
 
     using Prediction = SPrediction.Prediction;
@@ -30,7 +30,7 @@ namespace ReformedAIO.Champions.Gragas
 
         public override string InternalName { get; set; } = "Gragas";
 
-        public override IEnumerable<string> Tags { get; set; } = new List<string>() { "Gragas" };
+        public override IEnumerable<string> Tags { get; set; } = new List<string> { "Gragas" };
 
         #endregion
 
@@ -64,7 +64,7 @@ namespace ReformedAIO.Champions.Gragas
             {
                 new LaneQ(orbwalker), 
                 new LaneW(orbwalker), 
-                new LaneE(orbwalker), 
+                new LaneE(orbwalker) 
             });
           
             mixedParent.Add(new ChildBase[]

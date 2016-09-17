@@ -7,9 +7,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Ashe.Logic;
 
-    using RethoughtLib.Events;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -24,12 +23,12 @@
 
         #region Constructors and Destructors
 
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public RCombo(string name, Orbwalking.Orbwalker orbwalker)
         {
             Name = name;
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         #endregion
@@ -61,7 +60,7 @@
         //    rLogic = new RLogic();
         //}
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
@@ -130,7 +129,7 @@
 
             SemiR();
 
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
 
             if (Menu.Item(Menu.Name + "RMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 

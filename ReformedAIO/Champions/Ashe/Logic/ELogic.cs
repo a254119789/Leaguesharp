@@ -16,8 +16,7 @@
     {
         #region Fields
 
-        public readonly Dictionary<string, Vector3> Camp = new Dictionary<string, Vector3>()
-                                                               {
+        public readonly Dictionary<string, Vector3> Camp = new Dictionary<string, Vector3> {
                                                                    {
                                                                        "mid_Dragon",
                                                                        new Vector3(
@@ -45,7 +44,7 @@
                                                                        11772f,
                                                                        8856f,
                                                                        50.30728f)
-                                                                   },
+                                                                   }
                                                                };
 
         #endregion

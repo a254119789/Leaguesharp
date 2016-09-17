@@ -6,17 +6,17 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
-    using Logic;
 
     internal class EJungle : ChildBase
     {
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public EJungle(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
 
@@ -39,7 +39,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.E].IsReady()
                 || Vars.Player.IsWindingUp)
             {
@@ -50,7 +50,7 @@
 
             if (mobs == null || !mobs.IsValid) return;
 
-            var qPrediction = (Spells.Spell[SpellSlot.E].GetPrediction(mobs));
+            var qPrediction = Spells.Spell[SpellSlot.E].GetPrediction(mobs);
 
             if (mobs.Health < Vars.Player.GetAutoAttackDamage(mobs) * 3) return;
 

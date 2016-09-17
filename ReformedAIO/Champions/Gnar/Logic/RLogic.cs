@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ReformedAIO.Champions.Gnar.Logic
+﻿namespace ReformedAIO.Champions.Gnar.Logic
 {
     internal class RLogic
     {
+
     }
 }

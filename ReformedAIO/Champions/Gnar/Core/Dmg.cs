@@ -1,8 +1,8 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace ReformedAIO.Champions.Gnar.Core
+﻿namespace ReformedAIO.Champions.Gnar.Core
 {
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     internal sealed class Dmg
     {
         public float GetDamage(Obj_AI_Base x)
@@ -26,14 +26,17 @@ namespace ReformedAIO.Champions.Gnar.Core
             {
                 dmg += Spells.Q.GetDamage(x);
             }
+
             if (Spells.W2.IsReady())
             {
                 dmg += Spells.W2.GetDamage(x);
             }
+
             if (Spells.E.IsReady())
             {
                 dmg += Spells.E.GetDamage(x);
             }
+
             if (Spells.R2.IsReady())
             {
                 dmg += Spells.R2.GetDamage(x);

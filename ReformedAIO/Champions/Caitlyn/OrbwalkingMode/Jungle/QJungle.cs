@@ -1,6 +1,4 @@
-﻿using ReformedAIO.Champions.Caitlyn.Logic;
-
-namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
+﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
 {
     using System;
     using System.Linq;
@@ -8,16 +6,17 @@ namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal class QJungle : ChildBase
     {
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public QJungle(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
 
@@ -42,7 +41,7 @@ namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.Q].IsReady()
                 || Vars.Player.IsWindingUp)
             {
@@ -53,7 +52,7 @@ namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle
 
             if (mobs == null || !mobs.IsValid) return;
 
-            var qPrediction = (Spells.Spell[SpellSlot.Q].GetPrediction(mobs));
+            var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(mobs);
 
             if (Menu.Item(Menu.Name + "QOverkill").GetValue<bool>() &&
                 mobs.Health < Vars.Player.GetAutoAttackDamage(mobs) * 4) return;

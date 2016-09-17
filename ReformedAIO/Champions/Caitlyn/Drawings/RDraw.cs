@@ -6,8 +6,9 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
-    using Logic;
 
     internal sealed class RDraw : ChildBase
     {

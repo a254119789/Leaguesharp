@@ -1,13 +1,12 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn.Drawings
 {
-
     using System;
     using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic;
+    using ReformedAIO.Champions.Caitlyn.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
@@ -15,9 +14,9 @@
 
     internal class DmgDraw : ChildBase
     {
-        private HpBarIndicator _drawDamage;
+        private HpBarIndicator drawDamage;
 
-        private EwqrLogic _ewqrLogic;
+        private EwqrLogic ewqrLogic;
 
         public sealed override string Name { get; set; }
 
@@ -32,9 +31,9 @@
 
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
             {
-                _drawDamage.Unit = enemy;
+                this.drawDamage.Unit = enemy;
 
-                _drawDamage.DrawDmg(_ewqrLogic.EwqrDmg(enemy), _ewqrLogic.CanExecute(enemy) ? Color.Green : Color.LimeGreen);
+                this.drawDamage.DrawDmg(this.ewqrLogic.EwqrDmg(enemy), this.ewqrLogic.CanExecute(enemy) ? Color.Green : Color.LimeGreen);
             }
         }
 
@@ -51,8 +50,8 @@
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            _ewqrLogic = new EwqrLogic();
-            _drawDamage = new HpBarIndicator();
+            this.ewqrLogic = new EwqrLogic();
+            this.drawDamage = new HpBarIndicator();
             base.OnLoad(sender, featureBaseEventArgs);
         }
 

@@ -1,59 +1,43 @@
-﻿using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-using ReformedAIO.Champions.Gnar.Core;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Jungle
+﻿namespace ReformedAIO.Champions.Gnar.OrbwalkingMode.Jungle
 {
+    using System;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using ReformedAIO.Champions.Gnar.Core;
+
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
+
     internal sealed class W2Jungle : ChildBase
     {
-        private GnarState _gnarState;
-
         public override string Name { get; set; } = "W";
 
-        private readonly Orbwalking.Orbwalker _orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public W2Jungle(Orbwalking.Orbwalker orbwalker)
         {
-            _orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (_orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear || !ObjectManager.Player.IsWindingUp)
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear || ObjectManager.Player.IsWindingUp || !Spells.W2.IsReady())
             {
                 return;
             }
-
-            if (!Spells.W2.IsReady())
+           
+            foreach (var m in MinionManager.GetMinions(Menu.Item("W2Range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth))
             {
-                return;
-            }
-
-            foreach (var m in MinionManager.GetMinions(Menu.SubMenu("Menu").Item("W2Range").GetValue<Slider>().Value,
-                MinionTypes.All,
-                MinionTeam.Neutral,
-                MinionOrderTypes.MaxHealth))
-            {
-                if (m == null)
-                {
-                    return;
-                }
-
-                Spells.W2.Cast(m);
+                Spells.W2.Cast(m, false, true);
             }
         }
-
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            _gnarState = new GnarState();
-
-
-            new MenuItem("W2Range", "Range").SetValue(new Slider(525, 0, 525));
+            Menu.AddItem(new MenuItem("W2Range", "Range").SetValue(new Slider(525, 0, 525)));
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)

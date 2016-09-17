@@ -1,23 +1,23 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-using ReformedAIO.Champions.Ashe.Core;
-
-namespace ReformedAIO.Champions.Ashe
+﻿namespace ReformedAIO.Champions.Ashe
 {
     #region Using Directives
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using System.Collections.Generic;
-    using RethoughtLib.Utility;
-    using Drawings;
-    using Logic;
-    using OrbwalkingMode.Combo;
-    using OrbwalkingMode.JungleClear;
-    using OrbwalkingMode.LaneClear;
-    using OrbwalkingMode.Mixed;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using ReformedAIO.Champions.Ashe.Core;
+    using ReformedAIO.Champions.Ashe.Drawings;
+    using ReformedAIO.Champions.Ashe.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Ashe.OrbwalkingMode.JungleClear;
+    using ReformedAIO.Champions.Ashe.OrbwalkingMode.LaneClear;
+    using ReformedAIO.Champions.Ashe.OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
+    using RethoughtLib.Utility;
 
     #endregion
 
@@ -29,7 +29,7 @@ namespace ReformedAIO.Champions.Ashe
 
         public override string InternalName { get; set; } = "Ashe";
 
-        public override IEnumerable<string> Tags { get; set; } = new List<string>() { "Ashe" };
+        public override IEnumerable<string> Tags { get; set; } = new List<string> { "Ashe" };
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace ReformedAIO.Champions.Ashe
             mixedParent.Add(new ChildBase[]
             {
                 new QMixed("[Q]", orbwalker),
-                new WMixed("[W]", orbwalker), 
+                new WMixed("[W]", orbwalker) 
             });
 
             jungleParent.Add(new ChildBase[]
@@ -74,13 +74,13 @@ namespace ReformedAIO.Champions.Ashe
            laneParent.Add(new ChildBase[]
            {
                new QLane("[Q]", orbwalker),
-               new WLane("[W]", orbwalker),  
+               new WLane("[W]", orbwalker)  
            });
 
             drawingParent.Add(new ChildBase[]
             {
                new WDraw("[W]"),
-               new DmgDraw("Damage Indicator"), 
+               new DmgDraw("Damage Indicator") 
             });
            
             superParent.Add(new Base[]

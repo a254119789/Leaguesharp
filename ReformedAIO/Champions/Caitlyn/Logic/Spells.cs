@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace ReformedAIO.Champions.Caitlyn.Logic
+﻿namespace ReformedAIO.Champions.Caitlyn.Logic
 {
+    using System.Collections.Generic;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     internal class Spells
     {
         public static Dictionary<SpellSlot, Spell> Spell;
@@ -12,23 +13,23 @@ namespace ReformedAIO.Champions.Caitlyn.Logic
         {
             Spell = new Dictionary<SpellSlot, Spell>();
 
-            var Q = new Spell(SpellSlot.Q, 1250f);
-            Q.SetSkillshot(0.65f, 60f, 2200f, false, SkillshotType.SkillshotLine);
+            var q = new Spell(SpellSlot.Q, 1250f);
+            q.SetSkillshot(0.65f, 60f, 2200f, false, SkillshotType.SkillshotLine);
 
-            var W = new Spell(SpellSlot.W, 800f);
-            W.SetSkillshot(1.5f, 20f, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            var w = new Spell(SpellSlot.W, 800f);
+            w.SetSkillshot(1.5f, 20f, float.MaxValue, false, SkillshotType.SkillshotCircle);
 
-            var E = new Spell(SpellSlot.E, 750f); // This is the real E range.
-            E.SetSkillshot(0.30f, 70f, 2000f, true, SkillshotType.SkillshotLine);
+            var e = new Spell(SpellSlot.E, 750f); // This is the real E range.
+            e.SetSkillshot(0.30f, 70f, 2000f, true, SkillshotType.SkillshotLine);
 
-            var R = new Spell(SpellSlot.R, 3000f);
-            R.SetTargetted(0.7f, 200f);
+            var r = new Spell(SpellSlot.R, 3000f);
+            r.SetTargetted(0.7f, 200f);
             
 
-            Spell.Add(Q.Slot, Q);
-            Spell.Add(W.Slot, W);
-            Spell.Add(E.Slot, E);
-            Spell.Add(R.Slot, R);
+            Spell.Add(q.Slot, q);
+            Spell.Add(w.Slot, w);
+            Spell.Add(e.Slot, e);
+            Spell.Add(r.Slot, r);
         }
     }
 }

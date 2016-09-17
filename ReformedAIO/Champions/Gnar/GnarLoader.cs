@@ -1,28 +1,27 @@
-﻿using ReformedAIO.Champions.Gnar.Drawings.Damage;
-using ReformedAIO.Champions.Gnar.PermaActive;
-using RethoughtLib.Bootstraps.Abstract_Classes;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-namespace ReformedAIO.Champions.Gnar
+﻿namespace ReformedAIO.Champions.Gnar
 {
+    using System.Collections.Generic;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using System.Collections.Generic;
+    using ReformedAIO.Champions.Gnar.Core;
+    using ReformedAIO.Champions.Gnar.Drawings.Damage;
+    using ReformedAIO.Champions.Gnar.Drawings.SpellRange;
+    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Harass;
+    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Jungle;
+    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane;
+    using ReformedAIO.Champions.Gnar.PermaActive;
 
-
+    using RethoughtLib.Bootstraps.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
-
-
-    using Core;
-    using Drawings.SpellRange;
-    using OrbwalkingMode.Combo;
-    using OrbwalkingMode.Harass;
-    using OrbwalkingMode.Jungle;
-    using OrbwalkingMode.Lane;
 
     internal sealed class GnarLoader : LoadableBase
     {
+       // private readonly IMenuPreset _menuPreset;
+
         public override string DisplayName { get; set; } = "Reformed Gnar";
 
         public override string InternalName { get; set; } = "Gnar";
@@ -43,21 +42,11 @@ namespace ReformedAIO.Champions.Gnar
             var harassParent = new OrbwalkingParent("Harass", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
-            var killstealParent = new Parent("Killsteal");
+            //var killstealParent = new Parent("Killsteal");
             var fleeParent = new Parent("Flee");
             var drawingParent = new Parent("Drawing");
 
-            superParent.Add(new Base[]
-            {
-                comboParent,
-                harassParent,
-                jungleParent,
-                laneParent,
-                jungleParent,
-                drawingParent
-            });
-
-            comboParent.Add(new Base[]
+            comboParent.Add(new ChildBase[]
             {
                 new QCombo(orbwalker),
                 new WCombo(orbwalker),
@@ -65,35 +54,45 @@ namespace ReformedAIO.Champions.Gnar
                 new RCombo(orbwalker)
             });
 
-            harassParent.Add(new Base[]
+            harassParent.Add(new ChildBase[]
             {
-                new QHarass(orbwalker), 
+                new QHarass(orbwalker) 
             });
 
-            laneParent.Add(new Base[]
+            laneParent.Add(new ChildBase[]
             {
                 new QLane(orbwalker),
                 new W2Lane(orbwalker)  
             });
 
-            jungleParent.Add(new Base[]
+            jungleParent.Add(new ChildBase[]
             {
                 new QJungle(orbwalker),
                 new W2Jungle(orbwalker)  
             });
 
-            fleeParent.Add(new Base[]
+            fleeParent.Add(new ChildBase[]
             {
                 new Flee("Flee")
             });
 
-            drawingParent.Add(new Base[]
+            drawingParent.Add(new ChildBase[]
             {
                 new GnarDamage("Damage Indicator"), 
                 new QRange("Q"),
                 new WRange("W"),
                 new ERange("E"),
-                new RRange("R"),    
+                new RRange("R")    
+            });
+
+            superParent.Add(new Base[]
+            {
+                comboParent,
+                harassParent,
+                laneParent,
+                jungleParent,
+                fleeParent,
+                drawingParent
             });
 
             superParent.Load();

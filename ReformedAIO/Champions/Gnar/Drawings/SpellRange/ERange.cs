@@ -6,7 +6,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
+    using ReformedAIO.Champions.Gnar.Core;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal class ERange : ChildBase

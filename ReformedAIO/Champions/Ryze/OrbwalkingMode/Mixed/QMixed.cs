@@ -7,7 +7,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     #endregion
@@ -19,11 +18,11 @@
         public override string Name { get; set; } = "[Q] Overload";
 
         #endregion
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public QMixed(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
         #region Methods
 
@@ -46,7 +45,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
                 || !Variable.Spells[SpellSlot.Q].IsReady()) return;
 
             var target = TargetSelector.GetTarget(

@@ -1,17 +1,17 @@
-﻿using ReformedAIO.Champions.Caitlyn;
-using ReformedAIO.Champions.Gnar;
-
-namespace ReformedAIO
+﻿namespace ReformedAIO
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-    using Champions;
-    using Champions.Ashe;
-    using Champions.Diana;
-    using Champions.Gragas;
-    using Champions.Ryze;
+    using ReformedAIO.Champions;
+    using ReformedAIO.Champions.Ashe;
+    using ReformedAIO.Champions.Caitlyn;
+    using ReformedAIO.Champions.Diana;
+    using ReformedAIO.Champions.Gnar;
+    using ReformedAIO.Champions.Gragas;
+    using ReformedAIO.Champions.Ryze;
+
     using RethoughtLib.Bootstraps.Abstract_Classes;
 
     #endregion

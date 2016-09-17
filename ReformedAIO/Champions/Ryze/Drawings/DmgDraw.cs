@@ -12,7 +12,7 @@
 
     using SharpDX;
 
-    using Damage = Logic.Damage;
+    using Damage = ReformedAIO.Champions.Ryze.Logic.Damage;
 
     #endregion
 

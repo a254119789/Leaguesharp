@@ -1,22 +1,24 @@
 ﻿namespace ReformedAIO.Champions.Ryze
 {
     #region Using Directives
+
+    using System.Collections.Generic;
+
     using LeagueSharp;
     using LeagueSharp.Common;
-    using System.Collections.Generic;
-    using RethoughtLib.Utility;
 
-    using Drawings;
-    using Logic;
-    using OrbwalkingMode.Jungle;
-    using OrbwalkingMode.Lane;
-    using OrbwalkingMode.Mixed;
-    using OrbwalkingMode.None.Killsteal;
+    using ReformedAIO.Champions.Ryze.Drawings;
+    using ReformedAIO.Champions.Ryze.Logic;
+    using ReformedAIO.Champions.Ryze.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Ryze.OrbwalkingMode.Jungle;
+    using ReformedAIO.Champions.Ryze.OrbwalkingMode.Lane;
+    using ReformedAIO.Champions.Ryze.OrbwalkingMode.Mixed;
+    using ReformedAIO.Champions.Ryze.OrbwalkingMode.None.Killsteal;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
-    using RethoughtLib.FeatureSystem.Implementations;
-    using OrbwalkingMode.Combo;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
+    using RethoughtLib.Utility;
 
     #endregion
 
@@ -28,7 +30,7 @@
 
         public override string InternalName { get; set; } = "Ryze";
 
-        public override IEnumerable<string> Tags { get; set; } = new List<string>() { "Ryze" };
+        public override IEnumerable<string> Tags { get; set; } = new List<string> { "Ryze" };
 
         #endregion
 
@@ -74,20 +76,20 @@
             {
                 new QJungle(orbwalker),
                 new WJungle(orbwalker),
-                new EJungle(orbwalker), 
+                new EJungle(orbwalker) 
             });
            
             killstealParent.Add(new ChildBase[]
             {
-                new KillstealMenu(), 
+                new KillstealMenu() 
             });
           
             drawParent.Add(new ChildBase[]
             {
-                new QDraw(), new EDraw(), new RDraw(), new DmgDraw(), 
+                new QDraw(), new EDraw(), new RDraw(), new DmgDraw() 
             });
 
-            superParent.Add(new Base[] { comboParent, laneParent, jungleParent, mixedParent, killstealParent, drawParent, });
+            superParent.Add(new Base[] { comboParent, laneParent, jungleParent, mixedParent, killstealParent, drawParent });
 
             superParent.Load();
 

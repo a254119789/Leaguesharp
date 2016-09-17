@@ -1,25 +1,25 @@
-﻿using System.Collections.Generic;
-using LeagueSharp;
-using RethoughtLib.FeatureSystem.Abstract_Classes;
-using RethoughtLib.Utility;
-
-namespace ReformedAIO.Champions.Diana
+﻿namespace ReformedAIO.Champions.Diana
 {
     #region Using Directives
 
+    using System.Collections.Generic;
+
+    using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Logic.Killsteal;
-    using Menus.Draw;
-    using OrbwalkingMode.Combo;
-    using OrbwalkingMode.Flee;
-    using OrbwalkingMode.Jungleclear;
-    using OrbwalkingMode.Laneclear;
-    using OrbwalkingMode.Misaya;
-    using OrbwalkingMode.Mixed;
+    using ReformedAIO.Champions.Diana.Logic.Killsteal;
+    using ReformedAIO.Champions.Diana.Menus.Draw;
+    using ReformedAIO.Champions.Diana.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Diana.OrbwalkingMode.Flee;
+    using ReformedAIO.Champions.Diana.OrbwalkingMode.Jungleclear;
+    using ReformedAIO.Champions.Diana.OrbwalkingMode.Laneclear;
+    using ReformedAIO.Champions.Diana.OrbwalkingMode.Misaya;
+    using ReformedAIO.Champions.Diana.OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
+    using RethoughtLib.Utility;
 
     #endregion
 
@@ -65,7 +65,7 @@ namespace ReformedAIO.Champions.Diana
                 new Moonfall(orbwalker), 
                 new LunarRush(orbwalker), 
                 new PaleCascade(orbwalker), 
-                new MisayaCombo(orbwalker), 
+                new MisayaCombo(orbwalker) 
             });
 
             mixedParent.Add(new ChildBase[]
@@ -76,7 +76,7 @@ namespace ReformedAIO.Champions.Diana
             laneParent.Add(new ChildBase[]
             {
                 new LaneCrescentStrike(orbwalker), 
-                new LaneLunarRush(orbwalker), 
+                new LaneLunarRush(orbwalker) 
             });
             
             jungleParent.Add(new ChildBase[]
@@ -84,13 +84,13 @@ namespace ReformedAIO.Champions.Diana
                 new JungleCrescentStrike(orbwalker), 
                 new JungleLunarRush(orbwalker), 
                 new JungleMoonfall(orbwalker), 
-                new JunglePaleCascade(orbwalker), 
+                new JunglePaleCascade(orbwalker) 
             });
          
             ksParent.Add(new ChildBase[]
             {
                 new KsPaleCascade(), 
-                new KsCrescentStrike(), 
+                new KsCrescentStrike() 
             });
             
             drawParent.Add(new ChildBase[]
@@ -98,12 +98,12 @@ namespace ReformedAIO.Champions.Diana
                 new DrawQ(), 
                 new DrawE(), 
                 new DrawDmg(), 
-                new DrawPred(), 
+                new DrawPred() 
             });
             
             fleeParent.Add(new ChildBase[]
             {
-                new FleeMode(), 
+                new FleeMode() 
             });
             
             superParent.Load();

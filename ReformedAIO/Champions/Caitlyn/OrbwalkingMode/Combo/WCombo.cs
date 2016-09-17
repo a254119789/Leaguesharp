@@ -1,21 +1,22 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo
 {
-    using System.Linq;
-    using Logic;
     using System;
+    using System.Linq;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using RethoughtLib.Events;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     internal sealed class WCombo : ChildBase
     {
-        private readonly Orbwalking.Orbwalker Orbwalker;
+        private readonly Orbwalking.Orbwalker orbwalker;
 
         public WCombo(Orbwalking.Orbwalker orbwalker)
         {
-            Orbwalker = orbwalker;
+            this.orbwalker = orbwalker;
         }
 
 
@@ -23,7 +24,7 @@
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.W].Range, TargetSelector.DamageType.Physical);
 
-        private bool EWQ;
+        private bool ewq;
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -58,7 +59,7 @@
         {
             if(!sender.IsMe || !Spells.Spell[SpellSlot.W].IsReady()) return;
           
-            EWQ = args.SData.Name == "CaitlynPiltoverPeacemaker";
+            this.ewq = args.SData.Name == "CaitlynPiltoverPeacemaker";
         }
 
         private void Gapcloser(ActiveGapcloser gapcloser)
@@ -77,7 +78,7 @@
       
         private void OnUpdate(EventArgs args)
         {
-            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None
+            if (this.orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None
                 && Menu.Item(Menu.Name + "WBush").GetValue<bool>()
                 && Utils.TickCount - Spells.Spell[SpellSlot.W].LastCastAttemptT > 10000
                 && !Vars.Player.IsRecalling()
@@ -93,7 +94,7 @@
                 Utility.DelayAction.Add(400, ()=> Spells.Spell[SpellSlot.W].Cast(path));
             }
 
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || Vars.Player.IsWindingUp
                 || !Spells.Spell[SpellSlot.W].IsReady()
                 || Target == null
@@ -104,7 +105,7 @@
 
             if (Menu.Item(Menu.Name + "WTarget").GetValue<bool>()) 
             {
-                if (EWQ)
+                if (this.ewq)
                 {
                     Utility.DelayAction.Add(170, ()=> Spells.Spell[SpellSlot.W].Cast(Target.Position));
                 }

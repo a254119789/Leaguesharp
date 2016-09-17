@@ -71,8 +71,8 @@
 
         private float GetHpProc(float dmg = 0)
         {
-            var health = ((Unit.Health - dmg) > 0) ? (Unit.Health - dmg) : 0;
-            return (health / Unit.MaxHealth);
+            var health = this.Unit.Health - dmg > 0 ? this.Unit.Health - dmg : 0;
+            return health / this.Unit.MaxHealth;
         }
 
         private Vector2 GetHpPosAfterDmg(float dmg)

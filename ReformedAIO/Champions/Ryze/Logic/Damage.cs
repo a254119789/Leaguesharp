@@ -5,7 +5,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Diana;
+    using ReformedAIO.Champions.Diana;
 
     #endregion
 
