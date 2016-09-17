@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    internal class GnarState
+    internal sealed class GnarState
     {
         public bool Mini => Vars.Player.CharData.BaseSkinName == "Gnar";
         

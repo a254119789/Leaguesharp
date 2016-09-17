@@ -37,10 +37,10 @@
                 return;
             }
 
-            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position.Extend(Target.Position, Spells.R2.Range + 55));
+            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position.Extend(Target.Position, Spells.R2.Range + 45));
             Vars.Player.GetPath(wallPoint);
 
-            if (!wallPoint.IsValid() || wallPoint.Distance(Target.Position) > Spells.R2.Range)
+            if (!wallPoint.IsValid())
             {
                 return;
             }

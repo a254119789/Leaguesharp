@@ -10,7 +10,7 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    internal class ERange : ChildBase
+    internal sealed class ERange : ChildBase
     {
         public override string Name { get; set; }
 
@@ -31,7 +31,7 @@
                    ObjectManager.Player.Position,
                    Spells.E.Range,
                    Spells.E.IsReady()
-                   ? Color.Cyan
+                   ? Color.OrangeRed
                    : Color.DarkSlateGray);
             }
 
@@ -56,7 +56,7 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             gnarState = new GnarState();
         }

@@ -30,8 +30,6 @@
            
             var jumpPos = fleeLogic.JumpPos.FirstOrDefault(x => x.Value.Distance(ObjectManager.Player.Position) < 425f && x.Value.Distance(Game.CursorPos) < 700f);
 
-            var m = MinionManager.GetMinions(425f, MinionTypes.All, MinionTeam.All).FirstOrDefault();
-
             if (jumpPos.Value.IsValid() && Menu.Item("FleeVector").GetValue<bool>())
             {
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, jumpPos.Value);
@@ -64,7 +62,13 @@
                 return;
             }
 
-            if (m.Distance(Game.CursorPos) <= 425f)
+            var minion = MinionManager.GetMinions(425f, MinionTypes.All, MinionTeam.All);
+
+            if (minion.Any()) return;
+
+            var m = minion.LastOrDefault();
+
+            if (m.Distance(Game.CursorPos) <= 425f && m != null)
             {
                 Spells.E.Cast(m);
             }

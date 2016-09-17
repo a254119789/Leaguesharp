@@ -7,7 +7,7 @@
 
     using SharpDX;
 
-    internal class WallDetection
+    internal sealed class WallDetection
     {
         public Vector3 GetFirstWallPoint(Vector3 start, Vector3 end, int step = 1)
         {

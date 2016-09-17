@@ -42,17 +42,18 @@
             if (Spells.E.IsReady() && !this.gnarState.Mega)
             {
                 if (gnarState.TransForming
-                    || target.Health < dmg.GetDamage(target) * 1.75 
+                    || target.Health < dmg.GetDamage(target) * 1.35 
                     || (Menu.Item("EOnGanked").GetValue<bool>()
-                    && Vars.Player.CountAlliesInRange(900) > Vars.Player.CountEnemiesInRange(900)))
+                    && Vars.Player.CountAlliesInRange(900) > Vars.Player.CountEnemiesInRange(900))
+                    || Spells.R2.IsReady())
                 {
                     var ePred = Spells.E.GetPrediction(target);
 
-                    if (target.Distance(ObjectManager.Player) > 525f)
+                    if (target.Distance(ObjectManager.Player) > 500f)
                     {
-                        var m = MinionManager.GetMinions(ObjectManager.Player.Position, 425, MinionTypes.All, MinionTeam.All).FirstOrDefault();
+                        var m = MinionManager.GetMinions(ObjectManager.Player.Position, 425, MinionTypes.All, MinionTeam.All).LastOrDefault();
 
-                        if (Vars.Player.IsFacing(m) && m.Distance(Vars.Player) >= 385)
+                        if (Vars.Player.IsFacing(m) && m.Distance(Vars.Player) >= 350)
                         {
                             Spells.E.Cast(m);
                         }
@@ -78,14 +79,19 @@
         {
             var target = gapcloser.Sender;
 
-            if (target == null || !Menu.Item("EAwayMelee").GetValue<bool>() || this.gnarState.Mega)
+            if (target == null || !Menu.Item("EAwayMelee").GetValue<bool>())
             {
                 return;
             }
 
             var ePred = Spells.E.GetPrediction(target);
 
-            Spells.E.Cast(ePred.CollisionObjects[0].Position); // TODO: Might need to change this..
+            if (ePred.CollisionObjects[0].Position.Distance(Vars.Player.Position) > 425)
+            {
+                return;
+            }
+
+            Spells.E.Cast(ePred.CollisionObjects[0].Position);
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)

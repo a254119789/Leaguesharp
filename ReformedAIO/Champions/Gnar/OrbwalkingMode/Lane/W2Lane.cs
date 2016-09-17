@@ -24,26 +24,21 @@
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear 
                 || ObjectManager.Player.IsWindingUp
-                || this.gnarState.Mini)
+                || this.gnarState.Mini
+                || !Spells.W2.IsReady())
             {
                 return;
             }
 
-            if (!Spells.W2.IsReady())
-            {
-                return;
-            }
+            var minions = MinionManager.GetMinions(Menu.Item("W2Range").GetValue<Slider>().Value);
 
-            foreach (var m in MinionManager.GetMinions(Menu.Item("W2Range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth))
-            {
-                var pred = Spells.W2.GetPrediction(m, true);
+            var prediction = Spells.Q2.GetLineFarmLocation(minions);
 
-                if (pred.AoeTargetsHitCount <= Menu.Item("W2HitCount").GetValue<Slider>().Value)
-                {
-                    Spells.W2.Cast(m);
-                }
+            if (prediction.MinionsHit >= Menu.Item("W2HitCount").GetValue<Slider>().Value)
+            {
+                Spells.W2.Cast(prediction.Position);
             }
         }
 

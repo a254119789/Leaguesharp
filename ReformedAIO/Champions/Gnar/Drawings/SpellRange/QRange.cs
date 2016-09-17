@@ -10,7 +10,7 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    internal class QRange : ChildBase
+    internal sealed class QRange : ChildBase
     {
         public override string Name { get; set; }
 
@@ -31,8 +31,10 @@
                    ObjectManager.Player.Position,
                    Spells.Q.Range,
                    Spells.Q.IsReady()
-                   ? Color.Cyan
-                   : Color.DarkSlateGray);
+                   ? Color.OrangeRed
+                   : Color.DarkSlateGray, 
+                   4, 
+                   true);
             }
 
             if (gnarState.Mega)
@@ -56,7 +58,7 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             gnarState = new GnarState();
         }

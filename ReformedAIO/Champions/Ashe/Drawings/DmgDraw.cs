@@ -28,7 +28,7 @@
 
         #region Public Properties
 
-        public sealed override string Name { get; set; }
+        public override sealed string Name { get; set; }
 
         #endregion
 

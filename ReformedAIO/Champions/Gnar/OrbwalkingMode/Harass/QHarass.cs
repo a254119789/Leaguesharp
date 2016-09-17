@@ -67,12 +67,14 @@
 
                 var prediction = Spells.Q.GetPrediction(target);
 
-                if (prediction.Hitchance >= HitChance.VeryHigh
-                    || (Menu.Item(menu.Name + "BetaQ").GetValue<bool>()
-                    && prediction.CollisionObjects.Count > 0
-                    && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0))
+                if (prediction.Hitchance >= HitChance.VeryHigh)
                 {
                     Spells.Q.Cast(prediction.CastPosition);
+                }
+
+                if (Menu.Item(menu.Name + "BetaQ").GetValue<bool>() && prediction.CollisionObjects.Count > 0 && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0)
+                {
+                    Spells.Q.Cast(prediction.CollisionObjects[0].Position);
                 }
             }
         }
@@ -90,12 +92,15 @@
 
                 var prediction = Spells.Q2.GetPrediction(target);
 
-                if ((Menu.Item(menu.Name + "BetaQ").GetValue<bool>()
-                    && prediction.CollisionObjects.Count > 0
-                    && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0)
-                    || prediction.Hitchance >= HitChance.High)
+                if (prediction.Hitchance >= HitChance.High)
                 {
                     Spells.Q2.Cast(prediction.CastPosition);
+                }
+
+                if (Menu.Item(menu.Name + "BetaQ").GetValue<bool>() && prediction.CollisionObjects.Count > 0
+                    && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0)
+                {
+                    Spells.Q2.Cast(prediction.CollisionObjects[0].Position);
                 }
             }
         }

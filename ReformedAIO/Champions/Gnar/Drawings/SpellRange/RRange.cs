@@ -10,7 +10,7 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    internal class RRange : ChildBase
+    internal sealed class RRange : ChildBase
     {
         public override string Name { get; set; }
 
@@ -21,17 +21,14 @@
 
         public void OnDraw(EventArgs args)
         {
-            if (ObjectManager.Player.IsDead) return;
-
-            if (!Spells.R2.IsReady())
-            {
-                return;
-            }
+            if (ObjectManager.Player.IsDead || !Spells.R2.IsReady()) return;
 
             Render.Circle.DrawCircle(
                 ObjectManager.Player.Position,
                 Spells.R2.Range,
-                Color.Red);
+                Color.Red,
+                5,
+                true);
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -44,7 +41,7 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
            
         }

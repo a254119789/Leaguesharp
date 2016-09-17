@@ -13,6 +13,7 @@
     using ReformedAIO.Champions.Gnar.OrbwalkingMode.Jungle;
     using ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane;
     using ReformedAIO.Champions.Gnar.PermaActive;
+    using ReformedAIO.Champions.Gnar.PermaActive.Killsteal;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -20,8 +21,6 @@
 
     internal sealed class GnarLoader : LoadableBase
     {
-       // private readonly IMenuPreset _menuPreset;
-
         public override string DisplayName { get; set; } = "Reformed Gnar";
 
         public override string InternalName { get; set; } = "Gnar";
@@ -42,7 +41,7 @@
             var harassParent = new OrbwalkingParent("Harass", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
-            //var killstealParent = new Parent("Killsteal");
+             var killstealParent = new Parent("Killsteal");
             var fleeParent = new Parent("Flee");
             var drawingParent = new Parent("Drawing");
 
@@ -68,7 +67,14 @@
             jungleParent.Add(new ChildBase[]
             {
                 new QJungle(orbwalker),
-                new W2Jungle(orbwalker)  
+                new W2Jungle(orbwalker),
+                new EJungle(orbwalker) 
+            });
+
+            killstealParent.Add(new ChildBase[]
+            {
+               new QKillsteal("Q"),
+               new WKillsteal("W")  
             });
 
             fleeParent.Add(new ChildBase[]
@@ -91,6 +97,7 @@
                 harassParent,
                 laneParent,
                 jungleParent,
+                killstealParent,
                 fleeParent,
                 drawingParent
             });

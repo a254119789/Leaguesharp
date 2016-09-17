@@ -18,7 +18,7 @@
 
         private EwqrLogic ewqrLogic;
 
-        public sealed override string Name { get; set; }
+        public override sealed string Name { get; set; }
 
         public DmgDraw(string name)
         {

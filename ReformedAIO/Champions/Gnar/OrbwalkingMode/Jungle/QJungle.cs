@@ -56,7 +56,7 @@
 
             var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
-            var m = MinionManager.GetMinions(Menu.Item(menu.Name + "Q1Range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
+            var m = MinionManager.GetMinions(Menu.Item(menu.Name + "Q1Range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.Neutral).LastOrDefault();
 
             var prediction = Spells.Q.GetPrediction(m, true);
 

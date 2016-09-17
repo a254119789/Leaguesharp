@@ -79,7 +79,7 @@
         //    base.OnLoad(sender, featureBaseEventArgs);
         //}
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(
                 new MenuItem(Menu.Name + "Keybind", "Keybind").SetValue(new KeyBind('Z', KeyBindType.Press)));

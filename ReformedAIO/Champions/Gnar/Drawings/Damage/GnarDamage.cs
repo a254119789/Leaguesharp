@@ -12,7 +12,7 @@
 
     using SharpDX;
 
-    internal class GnarDamage : ChildBase
+    internal sealed class GnarDamage : ChildBase
     {
         public override string Name { get; set; }
 

@@ -3,7 +3,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    internal class Spells
+    internal sealed class Spells
     {
         public static Spell Q { get; set; }
 

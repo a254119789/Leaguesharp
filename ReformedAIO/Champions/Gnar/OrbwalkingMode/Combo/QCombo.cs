@@ -36,7 +36,7 @@
 
             if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
                 || (Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
-                && this.gnarState.TransForming)
+                && Vars.Player.ManaPercent >= 90 && Vars.Player.ManaPercent < 100)
                 || Vars.Player.IsWindingUp)
             {
                 return;
@@ -66,12 +66,14 @@
             {
                 var prediction = Spells.Q.GetPrediction(target, true);
 
-                if ((Menu.Item(menu.Name + "QHighHitChance").GetValue<bool>() && prediction.Hitchance >= HitChance.VeryHigh)
-                    || (Menu.Item(menu.Name + "BetaQ").GetValue<bool>()
-                    && prediction.CollisionObjects.Count > 0
-                    && prediction.CollisionObjects[0].CountEnemiesInRange(90) > 0))
+                if (Menu.Item(menu.Name + "QHighHitChance").GetValue<bool>() && prediction.Hitchance >= HitChance.VeryHigh)
                 {
                     Spells.Q.Cast(prediction.CastPosition);
+                }
+
+                if (Menu.Item(menu.Name + "BetaQ").GetValue<bool>() && prediction.CollisionObjects.Count > 0 && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0)
+                {
+                    Spells.Q.Cast(prediction.CollisionObjects[0].Position);
                 }
             }
         }
@@ -89,12 +91,15 @@
             {
                 var prediction = Spells.Q2.GetPrediction(target, true);
 
-                if ((Menu.Item(menu.Name + "BetaQ2").GetValue<bool>()
-                    && prediction.CollisionObjects.Count > 0
-                    && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0)
-                    || prediction.Hitchance >= HitChance.Medium)
+                if (prediction.Hitchance >= HitChance.Medium)
                 {
                     Utility.DelayAction.Add(1, () => Spells.Q2.Cast(prediction.CastPosition));
+                }
+
+                if (Menu.Item(menu.Name + "BetaQ2").GetValue<bool>() && prediction.CollisionObjects.Count > 0
+                    && prediction.CollisionObjects[0].CountEnemiesInRange(100) > 0)
+                {
+                    Utility.DelayAction.Add(1, () => Spells.Q2.Cast(prediction.CollisionObjects[0].Position));
                 }
             }
         }

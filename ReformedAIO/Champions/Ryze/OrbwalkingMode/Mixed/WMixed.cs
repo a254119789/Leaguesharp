@@ -49,7 +49,7 @@
         //    eLogic = new ELogic();
         //}
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "WRange", "W Range ").SetValue(new Slider(600, 0, 600)));
 

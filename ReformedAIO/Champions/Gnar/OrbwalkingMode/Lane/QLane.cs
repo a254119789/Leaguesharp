@@ -48,9 +48,7 @@
         {
             var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
-            if (!Spells.Q.IsReady() 
-                || (Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
-                && this.gnarState.TransForming))
+            if (!Spells.Q.IsReady() || (Menu.Item(menu.Name + "Q1Enemy").GetValue<bool>() && Vars.Player.CountEnemiesInRange(1100) > 0))
             {
                 return;
             }
@@ -59,7 +57,7 @@
 
             var prediction = Spells.Q.GetLineFarmLocation(minions);
 
-            if (Menu.Item(menu.Name + "Q1HitCount").GetValue<Slider>().Value <= prediction.MinionsHit)
+            if (prediction.MinionsHit >= Menu.Item(menu.Name + "Q1HitCount").GetValue<Slider>().Value)
             {
                 Spells.Q.Cast(prediction.Position);
             }
@@ -67,18 +65,18 @@
 
         private void Mega()
         {
-            if (!Spells.Q2.IsReady())
+            var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
+
+            if (!Spells.Q2.IsReady() || (Menu.Item(menu.Name + "Q2Enemy").GetValue<bool>() && Vars.Player.CountEnemiesInRange(1100) > 0))
             {
                 return;
             }
-
-            var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
             var minions = MinionManager.GetMinions(Menu.Item(menu.Name + "Q2Range").GetValue<Slider>().Value);
 
             var prediction = Spells.Q2.GetLineFarmLocation(minions);
 
-            if (Menu.Item(menu.Name + "Q2HitCount").GetValue<Slider>().Value <= prediction.MinionsHit)
+            if (prediction.MinionsHit >= Menu.Item(menu.Name + "Q2HitCount").GetValue<Slider>().Value)
             {
                 Spells.Q2.Cast(prediction.Position);
             }
@@ -96,13 +94,14 @@
             {
                  new MenuItem("Q1Range", "Range").SetValue(new Slider(600, 0, 600)),
                  new MenuItem("Q1HitCount", "Min Hit Count").SetValue(new Slider(2, 0, 6)),
-                 new MenuItem("BlockIfTransforming", "Block If Transforming").SetValue(true)
+                 new MenuItem("Q1Enemy", "Block If Nearby Enemies").SetValue(true)
              };
 
             var mega = new List<MenuItem>
             {
                  new MenuItem("Q2Range", "Range").SetValue(new Slider(600, 0, 700)),
-                 new MenuItem("Q2HitCount", "Min Hit Count").SetValue(new Slider(3, 0, 6))
+                 new MenuItem("Q2HitCount", "Min Hit Count").SetValue(new Slider(3, 0, 6)),
+                 new MenuItem("Q2Enemy", "Block If Nearby Enemies").SetValue(true)
              };
 
             var menuGenerator = new MenuGenerator(Menu, new DynamicMenu("Dynamic Menu", selecter, new[] { mini, mega }));

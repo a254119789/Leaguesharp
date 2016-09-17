@@ -38,7 +38,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(
                 new MenuItem(Name + "JungleQDistance", "Q Distance").SetValue(new Slider(730, 0, 825)));

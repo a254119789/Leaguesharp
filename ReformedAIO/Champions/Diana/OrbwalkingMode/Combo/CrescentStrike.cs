@@ -47,7 +47,7 @@
         /// <value>
         ///     The name.
         /// </value>
-        public sealed override string Name { get; set; } = "[Q] Crescent Strike";
+        public override sealed string Name { get; set; } = "[Q] Crescent Strike";
 
         #endregion
 
@@ -108,7 +108,7 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="featureBaseEventArgs">The <see cref="FeatureBaseEventArgs" /> instance containing the event data.</param>
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             if (Variables.Spells != null)
             {
