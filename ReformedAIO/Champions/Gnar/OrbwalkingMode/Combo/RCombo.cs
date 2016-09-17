@@ -38,17 +38,8 @@
             }
 
             var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position.Extend(Target.Position, Spells.R2.Range + 45));
+
             Vars.Player.GetPath(wallPoint);
-
-            if (!wallPoint.IsValid())
-            {
-                return;
-            }
-
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
-            {
-                return;
-            }
 
             Spells.R2.Cast(wallPoint);
         }

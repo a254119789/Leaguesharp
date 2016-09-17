@@ -34,8 +34,7 @@
         {
             var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || (Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
+            if ((Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
                 && Vars.Player.ManaPercent >= 90 && Vars.Player.ManaPercent < 100)
                 || Vars.Player.IsWindingUp)
             {

@@ -31,9 +31,7 @@
         {
             var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Mixed
-                || (Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
-                && gnarState.TransForming))
+            if (Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>() && gnarState.TransForming)
             {
                 return;
             }
