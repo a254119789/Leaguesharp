@@ -16,14 +16,19 @@
         {
             var t = gapcloser.Sender;
 
-            if (!t.IsEnemy || !Spells.W.IsReady())
+            if (!t.IsEnemy)
             {
                 return;
             }
 
-            if (t.IsValidTarget(Spells.W.Range + t.BoundingRadius))
+            if (t.IsValidTarget(Spells.W.Range + t.BoundingRadius) && Spells.W.IsReady())
             {
                 Spells.W.Cast(t);
+            }
+
+            if (t.IsValidTarget(Spells.Q.Range + t.BoundingRadius) && Spells.Q.IsReady() && Qstack == 3)
+            {
+                Spells.Q.Cast(gapcloser.End);
             }
         }
 

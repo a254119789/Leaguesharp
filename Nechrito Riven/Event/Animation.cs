@@ -4,10 +4,11 @@
 
     using System;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
     using Orbwalking = Orbwalking;
@@ -78,7 +79,7 @@
                     Game.SendEmote(Emote.Dance);
                     break;
                 case 4:
-                    Console.WriteLine("Nechrito Riven: Q AA SLOW: No Emote!");
+                    Console.WriteLine("Nechrito Riven: Q AA SLOW, No Emote!");
                     break;
             }
         }
@@ -89,7 +90,7 @@
 
             if (!MenuConfig.CancelPing)
             {
-                ping = 5; // gg wp humanized
+                ping = 1; // gg wp humanized
             }
             else
             {
@@ -108,7 +109,6 @@
 
         private static bool SafeReset()
         {
-            // gg wp inheritance
             return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None;
         }
 

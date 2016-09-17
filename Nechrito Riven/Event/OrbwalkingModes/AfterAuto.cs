@@ -106,14 +106,13 @@
 
                 foreach (var m in minions)
                 {
-
                     if (!Spells.Q.IsReady() || !MenuConfig.LaneQ || m.UnderTurret(true))
                     {
                         return;
                     }
 
                     ForceItem();
-                    Utility.DelayAction.Add(1, () => ForceCastQ(m));
+                    Utility.DelayAction.Add(1, () => Spells.Q.Cast(m));
                 }
             }
 

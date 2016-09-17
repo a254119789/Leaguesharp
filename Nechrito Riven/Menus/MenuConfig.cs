@@ -196,7 +196,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.18.6"));
+            config.AddItem(new MenuItem("version", "Version: 6.18.7").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddToMainMenu();
         }

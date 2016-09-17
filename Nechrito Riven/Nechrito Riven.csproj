@@ -102,7 +102,7 @@
     <Compile Include="Event\Interrupt2.cs" />
     <Compile Include="Event\KillSteal.cs" />
     <Compile Include="Event\OrbwalkingModes\AfterAuto.cs" />
-    <Compile Include="Event\OnCasted.cs" />
+    <Compile Include="Event\ProcessSpell.cs" />
     <Compile Include="Event\Skinchanger.cs" />
     <Compile Include="Load\Load.cs" />
     <Compile Include="Menus\MenuConfig.cs" />

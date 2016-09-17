@@ -2,10 +2,11 @@
 {
     #region
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
     #endregion
@@ -16,15 +17,19 @@
 
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
-            if (!MenuConfig.InterruptMenu || sender.IsInvulnerable) return;
-
-            if (sender.IsValidTarget(Spells.W.Range))
+            if (!MenuConfig.InterruptMenu || !sender.IsEnemy || !sender.IsValidTarget(Spells.W.Range))
             {
-                if (Spells.W.IsReady())
-                {
-                    Spells.W.Cast(sender);
-                }
+                return;
             }
+
+            if (Spells.W.IsReady())
+            {
+                Spells.W.Cast(sender);
+            }
+
+            if (!Spells.Q.IsReady() || Qstack != 3) return;
+
+            Spells.Q.Cast(sender);
         }
 
         #endregion

@@ -33,9 +33,7 @@
 
                 Indicator.Unit = enemy;
 
-                Indicator.DrawDmg(
-                    Dmg.GetComboDamage(enemy),
-                    enemy.Health <= Dmg.GetComboDamage(enemy) * .65 ? Color.LawnGreen : Color.Yellow);
+                Indicator.DrawDmg(Dmg.GetComboDamage(enemy), enemy.Health <= Dmg.GetComboDamage(enemy) * .75 ? Color.LawnGreen : Color.Yellow);
             }
         }
 

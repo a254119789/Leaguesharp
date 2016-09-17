@@ -33,8 +33,10 @@
                         Player.Position,
                         310 + Player.AttackRange,
                         Spells.Q.IsReady()
-                        ? Color.LightBlue
-                        : Color.DarkSlateGray);
+                        ? Color.DodgerBlue
+                        : Color.DarkSlateGray,
+                        5,
+                        true);
                 }
                 else
                 {
@@ -55,7 +57,9 @@
                     Spells.R.IsReady() 
                     && Spells.Flash.IsReady()
                     ? Color.Orange
-                    : Color.DarkSlateGray);
+                    : Color.DarkSlateGray,
+                    5,
+                    true);
             }
 
             if (MenuConfig.DrawFh)
@@ -82,7 +86,7 @@
 
             if (MenuConfig.DrawAlwaysR)
             {
-                Drawing.DrawText(pos.X - 20, pos.Y + 20, Color.Cyan, "Use R1  (     )");
+                Drawing.DrawText(pos.X - 20, pos.Y + 20, Color.DodgerBlue, "Use R1  (     )");
 
                 Drawing.DrawText(
                     pos.X + 43,
@@ -96,7 +100,7 @@
                 return;
             }
 
-            Drawing.DrawText(pos.X - 20, pos.Y + 40, Color.Cyan, "Use Flash  (     )");
+            Drawing.DrawText(pos.X - 20, pos.Y + 40, Color.DodgerBlue, "Use Flash  (     )");
 
             Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF ? Color.White : Color.Red, MenuConfig.AlwaysF ? "On" : "Off");
         }
