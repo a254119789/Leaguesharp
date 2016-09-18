@@ -20,9 +20,8 @@
 
         private static void OnLoad(EventArgs args)
         {
-            if (ObjectManager.Player.ChampionName != "Riven" || ObjectManager.Player.Name == "GimleeyLSharp")
+            if (ObjectManager.Player.ChampionName != "Riven")
             {
-                Game.Quit();
                 return;
             }
 
