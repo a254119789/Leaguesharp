@@ -191,7 +191,7 @@
             skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[]
                             {
                                 "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade",
-                                "Arcade"
+                                "Arcade", "Championship 2016"
                             })));
 
             config.AddSubMenu(skin);

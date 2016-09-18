@@ -2,6 +2,7 @@
 {
     #region
 
+    using System;
     using System.Linq;
 
     using Core;
@@ -35,23 +36,22 @@
                     Spells.Q.Cast(Game.CursorPos);
                 }
 
-                if (isWallDash && Qstack == 3 && wallPoint.Distance(Player.ServerPosition) <= 800 && wallPoint.Distance(Player.Position) > 150)
+                Console.WriteLine(wallPoint.Distance(Player.ServerPosition));
+
+                if (Qstack == 3 && isWallDash)
                 {
-                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+                    Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+
+                    if (Spells.E.IsReady() && wallPoint.Distance(Player.ServerPosition) <= Spells.E.Range)
+                    {
+                        Spells.E.Cast(wallE);
+                    }
+
+                    if (wallPoint.Distance(Player.ServerPosition) <= 65)
+                    {
+                        Spells.Q.Cast(wallPoint);
+                    }
                 }
-
-                if (Spells.E.IsReady() && wallPoint.Distance(Player.ServerPosition) <= 150)
-                {
-                    Spells.E.Cast(wallE);
-                }
-
-                if (!(wallPoint.Distance(Player.ServerPosition) <= 55)) return;
-
-                if (Qstack != 3 || !wallPoint.IsValid()) return;
-
-                Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
-
-                Spells.Q.Cast(wallE);
             }
             else
             {
