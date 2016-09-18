@@ -104,7 +104,7 @@
     <Compile Include="Event\OrbwalkingModes\AfterAuto.cs" />
     <Compile Include="Event\ProcessSpell.cs" />
     <Compile Include="Event\Skinchanger.cs" />
-    <Compile Include="Load\Load.cs" />
+    <Compile Include="Load.cs" />
     <Compile Include="Menus\MenuConfig.cs" />
     <Compile Include="Orbwalking.cs" />
     <Compile Include="Program.cs" />

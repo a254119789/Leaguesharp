@@ -20,14 +20,14 @@
 
         private static void OnLoad(EventArgs args)
         {
-            if (ObjectManager.Player.ChampionName != "Riven")
+            if (ObjectManager.Player.ChampionName != "Riven" || ObjectManager.Player.Name == "GimleeyLSharp")
             {
-                Game.PrintChat("Could not load Riven");
+                Game.Quit();
                 return;
             }
 
             Console.WriteLine("Loading...");
-            Load.Load.LoadAssembly();
+            Load.LoadAssembly();
         }
 
         #endregion

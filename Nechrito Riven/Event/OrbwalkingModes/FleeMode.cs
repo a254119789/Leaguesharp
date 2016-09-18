@@ -4,10 +4,11 @@
 
     using System.Linq;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
     using Menus;
 
     #endregion
@@ -20,12 +21,13 @@
         {
             if (MenuConfig.WallFlee)
             {
-                var end = Player.ServerPosition.Extend(Game.CursorPos, Spells.Q.Range);
-                var isWallDash = FleeLogic.IsWallDash(end, Spells.Q.Range);
+                var end = Player.ServerPosition.Extend(Game.CursorPos, 350);
+                var isWallDash = FleeLogic.IsWallDash(end, 350);
 
                 var eend = Player.ServerPosition.Extend(Game.CursorPos, Spells.E.Range);
                 var wallE = FleeLogic.GetFirstWallPoint(Player.ServerPosition, eend);
                 var wallPoint = FleeLogic.GetFirstWallPoint(Player.ServerPosition, end);
+
                 Player.GetPath(wallPoint);
 
                 if (Spells.Q.IsReady() && Qstack < 3)
@@ -33,25 +35,23 @@
                     Spells.Q.Cast(Game.CursorPos);
                 }
 
-                if (!isWallDash || Qstack != 3 || !(wallPoint.Distance(Player.ServerPosition) <= 800)) return;
+                if (isWallDash && Qstack == 3 && wallPoint.Distance(Player.ServerPosition) <= 800 && wallPoint.Distance(Player.Position) > 150)
+                {
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+                }
 
-                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
-
-                if (!(wallPoint.Distance(Player.ServerPosition) <= 600)) return;
-
-                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
-
-                if (!(wallPoint.Distance(Player.ServerPosition) <= 55)) return;
-
-                if (Spells.E.IsReady())
+                if (Spells.E.IsReady() && wallPoint.Distance(Player.ServerPosition) <= 150)
                 {
                     Spells.E.Cast(wallE);
                 }
 
-                if (Qstack != 3 || !(end.Distance(Player.Position) <= 300) || !wallPoint.IsValid()) return;
+                if (!(wallPoint.Distance(Player.ServerPosition) <= 55)) return;
+
+                if (Qstack != 3 || !wallPoint.IsValid()) return;
 
                 Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
-                Spells.Q.Cast(wallPoint);
+
+                Spells.Q.Cast(wallE);
             }
             else
             {

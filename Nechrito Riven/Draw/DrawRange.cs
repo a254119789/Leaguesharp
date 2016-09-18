@@ -91,7 +91,7 @@
                 Drawing.DrawText(
                     pos.X + 43,
                     pos.Y + 20,
-                    MenuConfig.AlwaysR ? Color.White : Color.Red,
+                    MenuConfig.AlwaysR ? Color.Yellow : Color.Red,
                     MenuConfig.AlwaysR ? "On" : "Off");
             }
 
@@ -102,7 +102,7 @@
 
             Drawing.DrawText(pos.X - 20, pos.Y + 40, Color.DodgerBlue, "Use Flash  (     )");
 
-            Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF ? Color.White : Color.Red, MenuConfig.AlwaysF ? "On" : "Off");
+            Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF ? Color.Yellow : Color.Red, MenuConfig.AlwaysF ? "On" : "Off");
         }
 
         #endregion

@@ -5,11 +5,13 @@
     using System;
     using System.Drawing;
 
+    using Core;
+
+    using Event;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-    using Event;
     using Menus;
 
     #endregion
@@ -20,17 +22,22 @@
 
         public static void WallDraw(EventArgs args)
         {
-            var end = Player.ServerPosition.Extend(Game.CursorPos, Spells.Q.Range);
-            var isWallDash = FleeLogic.IsWallDash(end, Spells.Q.Range);
+            if (!MenuConfig.FleeSpot)
+            {
+                return;
+            }
+
+            var end = Player.ServerPosition.Extend(Game.CursorPos, 350);
+            var isWallDash = FleeLogic.IsWallDash(end, 350);
 
             var wallPoint = FleeLogic.GetFirstWallPoint(Player.ServerPosition, end);
 
-            if (isWallDash && MenuConfig.FleeSpot)
+            if (isWallDash)
             {
                 if (wallPoint.Distance(Player.ServerPosition) <= 600)
                 {
-                    Render.Circle.DrawCircle(wallPoint, 60, Color.White);
-                    Render.Circle.DrawCircle(end, 60, Color.Green);
+                    Render.Circle.DrawCircle(wallPoint, 60, Color.DarkSlateGray);
+                    Render.Circle.DrawCircle(end, 60, Color.White);
                 }
             }
         }
