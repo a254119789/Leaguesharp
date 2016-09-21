@@ -1,7 +1,7 @@
-﻿using LeagueSharp.Common;
-
-namespace Dark_Star_Thresh
+﻿namespace Dark_Star_Thresh
 {
+    using LeagueSharp.Common;
+
     internal class MenuConfig : Core.Core
     {
         public static Menu Config;
@@ -11,7 +11,7 @@ namespace Dark_Star_Thresh
         public static void LoadMenu()
         {
             Config = new Menu(MenuName, MenuName, true);
-            #region TargetSelector & Orbwalker
+            
             TargetSelectorMenu = new Menu("Target Selector", "Target Selector");
             TargetSelector.AddToMenu(TargetSelectorMenu);
             Config.AddSubMenu(TargetSelectorMenu);
@@ -19,7 +19,7 @@ namespace Dark_Star_Thresh
             var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
-            #endregion
+            
 
             var combo = new Menu("Combo", "Combo");
             combo.AddItem(new MenuItem("ComboFlash", "Flash Combo").SetValue(new KeyBind('T', KeyBindType.Press))).SetTooltip("Does Flash Combo");

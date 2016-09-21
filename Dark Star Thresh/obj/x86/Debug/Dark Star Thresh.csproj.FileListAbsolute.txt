@@ -24,12 +24,10 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star 
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\SharpDX.Direct3D9.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\SharpDX.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\clipper_library.dll
-C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\LeagueSharp.Sandbox.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\LeagueSharp.Common.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\LeagueSharp.Data.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\clipper_library.pdb
-C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\LeagueSharp.Sandbox.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\obj\x86\Debug\Dark Star Thresh.csprojResolveAssemblyReference.cache
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\obj\x86\Debug\Dark Star Thresh.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\obj\x86\Debug\Dark Star Thresh.pdb

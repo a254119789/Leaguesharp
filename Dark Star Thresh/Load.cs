@@ -1,11 +1,12 @@
-﻿using Dark_Star_Thresh.Core;
-using Dark_Star_Thresh.Update;
-using Dark_Star_Thresh.Drawings;
-using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace Dark_Star_Thresh
+﻿namespace Dark_Star_Thresh
 {
+    using Dark_Star_Thresh.Core;
+    using Dark_Star_Thresh.Drawings;
+    using Dark_Star_Thresh.Update;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     internal class Load
     {
         public static void LoadAssembly()

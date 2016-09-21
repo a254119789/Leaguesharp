@@ -1,11 +1,12 @@
-﻿using System;
-using LeagueSharp;
-using LeagueSharp.Common;
-using System.Linq;
-using LeagueSharp.Common.Data;
-
-namespace Dark_Star_Thresh.Core
+﻿namespace Dark_Star_Thresh.Core
 {
+    using System.Linq;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using ItemData = LeagueSharp.Common.Data.ItemData;
+
     internal class Dmg
     {
         public float Damage(Obj_AI_Base target)
@@ -31,19 +32,19 @@ namespace Dark_Star_Thresh.Core
 
             var dmg = 0;
 
-            if ( LeagueSharp.Common.Data.ItemData.Relic_Shield.GetItem().IsOwned())
+            if ( ItemData.Relic_Shield.GetItem().IsOwned())
             {
-                dmg = 200 + ( 5 * ObjectManager.Player.Level);
+                dmg = 200 + 5 * ObjectManager.Player.Level;
             }
 
-            if (LeagueSharp.Common.Data.ItemData.Targons_Brace.GetItem().IsOwned())
+            if (ItemData.Targons_Brace.GetItem().IsOwned())
             {
-                dmg =  210 + ( 10 * ObjectManager.Player.Level);
+                dmg =  210 + 10 * ObjectManager.Player.Level;
             }
 
-            if (LeagueSharp.Common.Data.ItemData.Face_of_the_Mountain.GetItem().IsOwned() || LeagueSharp.Common.Data.ItemData.Eye_of_the_Equinox.GetItem().IsOwned())
+            if (ItemData.Face_of_the_Mountain.GetItem().IsOwned() || ItemData.Eye_of_the_Equinox.GetItem().IsOwned())
             {
-                dmg = 340 + ( 20 * ObjectManager.Player.Level);
+                dmg = 340 + 20 * ObjectManager.Player.Level;
             }
 
             return dmg;

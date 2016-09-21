@@ -1,18 +1,21 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
-
-namespace Dark_Star_Thresh.Core
+﻿namespace Dark_Star_Thresh.Core
 {
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     internal class Spells 
     {
-        public static SpellSlot Ignite { get; set;}
+        public static SpellSlot Ignite { get; set; }
+
         public static SpellSlot Flash { get; set; }
 
         public static Spell Q { get; set; }
+
         public static Spell W { get; set; }
+
         public static Spell E { get; set; }
+
         public static Spell R { get; set; }
-        
 
         public static void Load()
         {

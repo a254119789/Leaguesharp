@@ -1,11 +1,14 @@
-﻿using System;
-using LeagueSharp;
-using SharpDX;
-using SharpDX.Direct3D9;
-using Color = System.Drawing.Color;
-
-namespace Dark_Star_Thresh.Drawings
+﻿namespace Dark_Star_Thresh.Drawings
 {
+    using System;
+
+    using LeagueSharp;
+
+    using SharpDX;
+    using SharpDX.Direct3D9;
+
+    using Color = System.Drawing.Color;
+
     internal class HpBarIndicator
     {
         public static Device DxDevice = Drawing.Direct3DDevice;
@@ -60,8 +63,8 @@ namespace Dark_Star_Thresh.Drawings
 
         private float GetHpProc(float dmg = 0)
         {
-            var health = ((Unit.Health - dmg) > 0) ? (Unit.Health - dmg) : 0;
-            return (health / Unit.MaxHealth);
+            var health = this.Unit.Health - dmg > 0 ? this.Unit.Health - dmg : 0;
+            return health / this.Unit.MaxHealth;
         }
 
         private Vector2 GetHpPosAfterDmg(float dmg)

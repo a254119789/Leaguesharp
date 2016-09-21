@@ -1,14 +1,12 @@
-﻿#region
-
-using System;
-using System.Net;
-using System.Text.RegularExpressions;
-using LeagueSharp;
-
-#endregion
-
-namespace Dark_Star_Thresh
+﻿namespace Dark_Star_Thresh
 {
+    using System;
+    using System.Net;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+
+    using LeagueSharp;
+
     internal class AssemblyVersion
     {
         private static string DownloadServerVersion
@@ -28,7 +26,7 @@ namespace Dark_Star_Thresh
                 if (!match.Success) return;
                 var gitVersion = new Version($"{match.Groups[1]}.{match.Groups[2]}.{match.Groups[3]}.{match.Groups[4]}");
 
-                if (gitVersion <= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version) return;
+                if (gitVersion <= Assembly.GetExecutingAssembly().GetName().Version) return;
                 Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\"> Dark Star Thresh</font></b><b><font color=\"#FFFFFF\">]</font></b> <font color=\"#FFFFFF\">Version:</font>{0} Available!", gitVersion);
             }
             catch (Exception ex)

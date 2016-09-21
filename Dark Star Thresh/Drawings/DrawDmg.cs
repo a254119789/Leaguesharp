@@ -1,13 +1,16 @@
-﻿using System;
-using SharpDX;
-using System.Linq;
-using LeagueSharp;
-using LeagueSharp.Common;
-using Dark_Star_Thresh.Core;
-
-namespace Dark_Star_Thresh.Drawings
+﻿namespace Dark_Star_Thresh.Drawings
 {
-    internal class DrawDmg : Core.Core
+    using System;
+    using System.Linq;
+
+    using Dark_Star_Thresh.Core;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using SharpDX;
+
+    internal class DrawDmg : Core
     {
         private static readonly HpBarIndicator Indicator = new HpBarIndicator();
         private static readonly Dmg Dmg = new Dmg();
@@ -16,7 +19,7 @@ namespace Dark_Star_Thresh.Drawings
         {
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1350)))
             {
-                if (!MenuConfig.DrawDmg) continue;
+                if (!MenuConfig.DrawDmg) return;
 
                 Indicator.Unit = enemy;
                 Indicator.DrawDmg(Dmg.Damage(enemy), Color.LawnGreen);
