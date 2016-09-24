@@ -29,7 +29,7 @@
         {
             var target = TargetSelector.GetTarget(Menu.Item("E1Range").GetValue<Slider>().Value * 2, TargetSelector.DamageType.Physical);
 
-            if (target == null)
+            if (target == null || target.UnderTurret(true))
             {
                 return;
             }

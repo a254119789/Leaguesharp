@@ -65,7 +65,7 @@
             {
                 var prediction = Spells.Q.GetPrediction(target, true);
 
-                if (Menu.Item(menu.Name + "QHighHitChance").GetValue<bool>() && prediction.Hitchance >= HitChance.VeryHigh)
+                if (Menu.Item(menu.Name + "QHighHitChance").GetValue<bool>() && prediction.Hitchance >= HitChance.High)
                 {
                     Spells.Q.Cast(prediction.CastPosition);
                 }
