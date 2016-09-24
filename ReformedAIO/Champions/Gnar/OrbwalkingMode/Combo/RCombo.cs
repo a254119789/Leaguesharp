@@ -29,7 +29,8 @@
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Target == null
+            if (Menu.Item("ForceDisable").GetValue<bool>()
+                || Target == null
                 || !Spells.R2.IsReady() 
                 || gnarState.Mini
                 || Target.IsInvulnerable)
@@ -40,7 +41,7 @@
             var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position);
             Vars.Player.GetPath(wallPoint);
 
-            if (wallPoint.Distance(Vars.Player.ServerPosition) <= Spells.R2.Range)
+            if (wallPoint.Distance(Vars.Player.ServerPosition) <= Menu.Item("RRange").GetValue<Slider>().Value)
             {
                 Spells.R2.Cast(wallPoint);
             }
@@ -51,6 +52,8 @@
             base.OnLoad(sender, featureBaseEventArgs);
 
             Menu.AddItem(new MenuItem("RRange", "Range").SetValue(new Slider(590, 0, 590)));
+
+            Menu.AddItem(new MenuItem("ForceDisable", "Force DISABLE").SetValue(false));
 
             // Menu.AddItem(new MenuItem("HitCount", "Auto If x Count").SetValue(new Slider(2, 0, 5)));
             gnarState = new GnarState();
