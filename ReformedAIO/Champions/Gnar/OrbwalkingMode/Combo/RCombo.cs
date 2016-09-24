@@ -37,11 +37,13 @@
                 return;
             }
 
-            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position.Extend(Target.Position, Spells.R2.Range + 45));
-
+            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position);
             Vars.Player.GetPath(wallPoint);
 
-            Spells.R2.Cast(wallPoint);
+            if (wallPoint.Distance(Vars.Player.ServerPosition) <= Spells.R2.Range)
+            {
+                Spells.R2.Cast(wallPoint);
+            }
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
