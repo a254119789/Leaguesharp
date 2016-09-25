@@ -31,12 +31,13 @@
             return Vector3.Zero;
         }
 
-        public bool IsWall(Obj_AI_Hero t, Vector3 direction)
+        public bool IsWall(Obj_AI_Hero t, Vector3 position)
         {
             var x = false;
 
-            var istrue = t.Position.Extend(direction, Spells.R2.Range);
-            var firstwallpoint = this.GetFirstWallPoint(t.Position, istrue);
+            var istrue = t.Position.Extend(position, Spells.R2.Range);
+
+            var firstwallpoint = GetFirstWallPoint(ObjectManager.Player.Position, istrue);
 
             if (firstwallpoint == Vector3.Zero)
             {

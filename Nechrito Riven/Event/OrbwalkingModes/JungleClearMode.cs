@@ -35,7 +35,7 @@
                 }
 
                 Spells.E.Cast(m.Position);
-                Utility.DelayAction.Add(10, ForceItem);
+                Utility.DelayAction.Add(10, Usables.CastHydra);
             }
         }
 

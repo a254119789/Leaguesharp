@@ -25,7 +25,7 @@
                 var end = Player.ServerPosition.Extend(Game.CursorPos, 350);
                 var isWallDash = FleeLogic.IsWallDash(end, 350);
 
-                var eend = Player.ServerPosition.Extend(Game.CursorPos, Spells.E.Range);
+                var eend = Player.ServerPosition.Extend(Game.CursorPos, 350);
                 var wallE = FleeLogic.GetFirstWallPoint(Player.ServerPosition, eend);
                 var wallPoint = FleeLogic.GetFirstWallPoint(Player.ServerPosition, end);
 
@@ -36,21 +36,20 @@
                     Spells.Q.Cast(Game.CursorPos);
                 }
 
-                Console.WriteLine(wallPoint.Distance(Player.ServerPosition));
+                if (Qstack != 3 || !isWallDash) return;
 
-                if (Qstack == 3 && isWallDash)
+                Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+
+                if (Spells.E.IsReady() && wallPoint.Distance(Player.ServerPosition) <= Spells.E.Range)
                 {
-                    Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+                    Spells.E.Cast(wallE);
 
-                    if (Spells.E.IsReady() && wallPoint.Distance(Player.ServerPosition) <= Spells.E.Range)
-                    {
-                        Spells.E.Cast(wallE);
-                    }
+                    Utility.DelayAction.Add(190, () => Spells.Q.Cast(wallPoint));
+                }
 
-                    if (wallPoint.Distance(Player.ServerPosition) <= 65)
-                    {
-                        Spells.Q.Cast(wallPoint);
-                    }
+                if (wallPoint.Distance(Player.ServerPosition) <= 65)
+                {
+                    Spells.Q.Cast(wallPoint);
                 }
             }
             else
@@ -67,7 +66,16 @@
 
                 var targets = enemy as Obj_AI_Hero[] ?? enemy.ToArray();
 
-                if (Spells.W.IsReady() && targets.Any()) foreach (var target in targets) if (InWRange(target)) Spells.W.Cast();
+                if (Spells.W.IsReady() && targets.Any())
+                {
+                    foreach (var target in targets)
+                    {
+                        if (InRange(target))
+                        {
+                            Spells.W.Cast();
+                        }
+                    }
+                }
 
                 if (Spells.Q.IsReady() && !Player.IsDashing()) Spells.Q.Cast(Game.CursorPos);
 

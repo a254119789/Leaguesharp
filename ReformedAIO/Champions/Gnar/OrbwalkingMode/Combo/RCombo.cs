@@ -38,7 +38,7 @@
                 return;
             }
 
-            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position);
+            var wallPoint = wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position);
             Vars.Player.GetPath(wallPoint);
 
             if (wallPoint.Distance(Vars.Player.ServerPosition) <= Menu.Item("RRange").GetValue<Slider>().Value)
@@ -56,8 +56,9 @@
             Menu.AddItem(new MenuItem("ForceDisable", "Force DISABLE").SetValue(false));
 
             // Menu.AddItem(new MenuItem("HitCount", "Auto If x Count").SetValue(new Slider(2, 0, 5)));
+
             gnarState = new GnarState();
-            this.wallDetection = new WallDetection();
+            wallDetection = new WallDetection();
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
