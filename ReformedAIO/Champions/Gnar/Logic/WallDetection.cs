@@ -1,5 +1,7 @@
 ﻿namespace ReformedAIO.Champions.Gnar.Logic
 {
+    using System;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
@@ -9,7 +11,7 @@
 
     internal sealed class WallDetection
     {
-        public Vector3 GetFirstWallPoint(Vector3 start, Vector3 end, int step = 1)
+        public Vector3 GetFirstWallPoint(Vector3 start, Vector3 end)
         {
             if (!start.IsValid() || !end.IsValid())
             {
@@ -18,38 +20,55 @@
 
             var distance = start.Distance(end);
 
-            for (var i = 0; i < distance; i = i + step)
+            if (distance > 590)
             {
-                var newPoint = start.Extend(end, i);
+                return Vector3.Zero;
+            }
 
-                if (NavMesh.GetCollisionFlags(newPoint) == CollisionFlags.Wall || newPoint.IsWall())
-                {
-                    return newPoint;
-                }
+            var newPoint = start.Extend(end, 590);
+
+            if (NavMesh.GetCollisionFlags(newPoint) == CollisionFlags.Wall || newPoint.IsWall())
+            {
+                return newPoint;
             }
 
             return Vector3.Zero;
         }
 
-        public bool IsWall(Obj_AI_Hero t, Vector3 position)
+        public bool IsWallDash(Vector3 position, float Range)
         {
-            var x = false;
+            var dashEndPos = ObjectManager.Player.Position.Extend(position, Range);
 
-            var istrue = t.Position.Extend(position, Spells.R2.Range);
+            var firstWallPoint = GetFirstWallPoint(ObjectManager.Player.Position, dashEndPos);
 
-            var firstwallpoint = GetFirstWallPoint(ObjectManager.Player.Position, istrue);
-
-            if (firstwallpoint == Vector3.Zero)
+            if (firstWallPoint.Equals(Vector3.Zero))
             {
-                x = false;
+                // No Wall
+                return false;
             }
 
-            if (istrue.IsWall())
+            if (dashEndPos.IsWall())
             {
-                x = true;
+                Console.WriteLine("IsWall: TRUE");
+                return true;
+            }
+          
+            return false;
+        }
+
+        public Vector3 Wall(Vector3 position, float Range)
+        {
+            var dashEndPos = ObjectManager.Player.Position.Extend(position, Range);
+
+           // IsWallDash(position, Range);
+
+            if (dashEndPos.IsWall())
+            {
+                Console.WriteLine("IsWall: " + dashEndPos);
+                return dashEndPos;
             }
 
-            return x;
+            return Vector3.Zero;
         }
     }
 }

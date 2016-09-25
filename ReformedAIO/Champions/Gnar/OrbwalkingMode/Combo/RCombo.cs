@@ -10,6 +10,8 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
+    using SharpDX;
+
     internal sealed class RCombo : ChildBase
     {
         private WallDetection wallDetection;
@@ -29,11 +31,15 @@
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Menu.Item("ForceDisable").GetValue<bool>()
-                || Target == null
-                || !Spells.R2.IsReady() 
-                || gnarState.Mini
+            if (Menu.Item("ForceDisable").GetValue<bool>() || Target == null || !Spells.R2.IsReady() || gnarState.Mini
                 || Target.IsInvulnerable)
+            {
+                return;
+            }
+
+            var prediction = Spells.R2.GetPrediction(Target, true);
+
+            if (prediction.Hitchance < HitChance.High)
             {
                 return;
             }
@@ -41,9 +47,10 @@
             var wallPoint = wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position);
             Vars.Player.GetPath(wallPoint);
 
-            if (wallPoint.Distance(Vars.Player.ServerPosition) <= Menu.Item("RRange").GetValue<Slider>().Value)
+            if (wallDetection.IsWallDash(Target.Position, 590))
             {
-                Spells.R2.Cast(wallPoint);
+                Console.WriteLine("Walldetection: TRUE");
+                Spells.R2.Cast(wallDetection.Wall(Target.Position, 590));
             }
         }
 

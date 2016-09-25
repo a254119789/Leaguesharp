@@ -48,6 +48,11 @@
                     {
                         var m = MinionManager.GetMinions(ObjectManager.Player.Position, 425).LastOrDefault();
 
+                        if (m.UnderTurret(true))
+                        {
+                            return;
+                        }
+
                         if (Vars.Player.IsFacing(m) && m.Distance(Vars.Player) >= 350)
                         {
                             Spells.E.Cast(m);
