@@ -33,8 +33,6 @@
 
         public static bool AlwaysR => config.Item("AlwaysR").GetValue<KeyBind>().Active;
 
-        public static bool AnimSemi => config.Item("animSemi").GetValue<bool>();
-
         public static bool AnimDance => config.Item("animDance").GetValue<bool>();
 
         public static bool AnimLaugh => config.Item("animLaugh").GetValue<bool>();
@@ -46,6 +44,8 @@
         public static bool CancelPing => config.Item("CancelPing").GetValue<bool>();
 
         public static bool Dind => config.Item("Dind").GetValue<bool>();
+
+        public static bool DisableR2 => config.Item("DisableR2").GetValue<bool>();
 
         public static bool DrawAlwaysR => config.Item("DrawAlwaysR").GetValue<bool>();
 
@@ -113,8 +113,6 @@
 
         public static bool WallFlee => config.Item("WallFlee").GetValue<bool>();
 
-        public static bool Q3Wall => config.Item("Q3Wall").GetValue<bool>();
-
         public static int WallWidth => config.Item("WallWidth").GetValue<Slider>().Value;
 
         #endregion
@@ -130,20 +128,20 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 350)));
+            animation.AddItem(
+                new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 350)));
             animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 360, 400)));
-            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
-            animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));
-            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 3)));
+            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true)).SetTooltip("Keeps Ping / 2 In Mind When Cancel");
+            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
             config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
-            combo.AddItem(new MenuItem("Q3Wall", "Q3 Over Wall").SetValue(true));
-            combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true));
-            combo.AddItem(new MenuItem("NechWLogic", "Nechrito W Logic").SetValue(true)).SetTooltip("E AA Q AA W...");
-            combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle)));
-            combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle)));
+            combo.AddItem(new MenuItem("DisableR2", "Manual R2").SetValue(false)).SetTooltip("Blocks Script From Casting R");
+            combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true)).SetTooltip("Will save R for max damage");
+            combo.AddItem(new MenuItem("NechWLogic", "Nechrito W Logic").SetValue(false));
+            combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle))).SetTooltip("Off will only use R when target is killable");
+            combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle))).SetTooltip("Off Will only use Flash when target is killable");
             config.AddSubMenu(combo);
 
             var lane = new Menu("Lane", "Lane");
@@ -177,7 +175,7 @@
             draw.AddItem(new MenuItem("Dind", "Damage Indicator").SetValue(true));
             draw.AddItem(new MenuItem("DrawForceFlash", "Flash Status").SetValue(true));
             draw.AddItem(new MenuItem("DrawAlwaysR", "R Status").SetValue(true));
-            draw.AddItem(new MenuItem("DrawCB", "Combo Engage").SetValue(true));
+            draw.AddItem(new MenuItem("DrawCB", "Combo Engage").SetValue(false));
             draw.AddItem(new MenuItem("DrawBT", "BurstMode Engage").SetValue(false));
             draw.AddItem(new MenuItem("DrawFH", "FastHarassMode Engage").SetValue(false));
             draw.AddItem(new MenuItem("DrawHS", "Harass Engage").SetValue(false));
@@ -198,9 +196,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.19").SetFontStyle(FontStyle.Bold, Color.Cyan));
-
-            config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.18.7").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddToMainMenu();
         }

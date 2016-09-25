@@ -37,6 +37,7 @@
                 return;
             }
 
+<<<<<<< HEAD
             var prediction = Spells.R2.GetPrediction(Target, true);
 
             if (prediction.Hitchance < HitChance.High)
@@ -45,6 +46,9 @@
             }
 
             var wallPoint = wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position);
+=======
+            var wallPoint = this.wallDetection.GetFirstWallPoint(Target.Position, Vars.Player.Position);
+>>>>>>> parent of 686eda8... 6.19
             Vars.Player.GetPath(wallPoint);
 
             if (wallDetection.IsWallDash(Target.Position, 590))
@@ -63,9 +67,8 @@
             Menu.AddItem(new MenuItem("ForceDisable", "Force DISABLE").SetValue(false));
 
             // Menu.AddItem(new MenuItem("HitCount", "Auto If x Count").SetValue(new Slider(2, 0, 5)));
-
             gnarState = new GnarState();
-            wallDetection = new WallDetection();
+            this.wallDetection = new WallDetection();
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)

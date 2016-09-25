@@ -35,10 +35,15 @@
             return Vector3.Zero;
         }
 
+<<<<<<< HEAD
         public bool IsWallDash(Vector3 position, float Range)
+=======
+        public bool IsWall(Obj_AI_Hero t, Vector3 direction)
+>>>>>>> parent of 686eda8... 6.19
         {
             var dashEndPos = ObjectManager.Player.Position.Extend(position, Range);
 
+<<<<<<< HEAD
             var firstWallPoint = GetFirstWallPoint(ObjectManager.Player.Position, dashEndPos);
 
             if (firstWallPoint.Equals(Vector3.Zero))
@@ -46,6 +51,10 @@
                 // No Wall
                 return false;
             }
+=======
+            var istrue = t.Position.Extend(direction, Spells.R2.Range);
+            var firstwallpoint = this.GetFirstWallPoint(t.Position, istrue);
+>>>>>>> parent of 686eda8... 6.19
 
             if (dashEndPos.IsWall())
             {

@@ -14,6 +14,8 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.csprojResolveAssemblyReference.cache
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.pdb
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Nechrito Riven.exe.config
-C:\Users\Nechr\Desktop\Nechrito Riven\obj\Debug\Nechrito Riven.exe
-C:\Users\Nechr\Desktop\Nechrito Riven\obj\Debug\Nechrito Riven.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\RethoughtLib.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\RethoughtLib.pdb
+C:\Users\Nechr\Documents\GitHub\Leaguesharp\Nechrito Riven\bin\Release\Nechrito Riven.exe.config
+C:\Users\Nechr\Documents\GitHub\Leaguesharp\Nechrito Riven\obj\Debug\Nechrito Riven.exe
+C:\Users\Nechr\Documents\GitHub\Leaguesharp\Nechrito Riven\obj\Debug\Nechrito Riven.pdb

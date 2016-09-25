@@ -2,7 +2,6 @@
 {
     #region
 
-    using System;
     using System.Linq;
 
     using Core;
@@ -35,7 +34,18 @@
                 {
                     if (Spells.Q.IsReady())
                     {
-                        CastQ(target);
+                        ForceItem();
+                        Utility.DelayAction.Add(1, () => ForceCastQ(target)); // Else Q AA wont go off at all times, cause of tiamat.
+                    }
+                    else
+                    {
+                        ForceItem();
+                    }
+
+                    if (MenuConfig.NechLogic && InWRange(target) && (Qstack != 1 || !Spells.Q.IsReady()))
+                    {
+                        ForceW();
+                        return;
                     }
                 }
 
@@ -43,89 +53,95 @@
                 {
                     if (Qstack == 2)
                     {
-                        CastQ(target);
+                        ForceItem();
+                        Utility.DelayAction.Add(1, () => ForceCastQ(target));
                     }
                 }
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.FastHarass)
                 {
-                    if (Spells.Q.IsReady())
+                    if (Spells.Q.IsReady() && InQRange(target))
                     {
-                        CastQ(target);
+                        Utility.DelayAction.Add(1, () => ForceCastQ(target));
                     }
 
-                    if (!Spells.Q.IsReady())
+                    if (Spells.W.IsReady() && !Spells.Q.IsReady() && InWRange(target))
                     {
-                       CastW(target);
+                        Spells.W.Cast(target);
                     }
                 }
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
 
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && !MenuConfig.DisableR2)
                 {
-                    var pred = Spells.R.GetPrediction(target);
+                    var hero = TargetSelector.SelectedTarget;
+                    var pred = Spells.R.GetPrediction(hero);
 
                     if (pred.Hitchance < HitChance.High)
                     {
                         return;
                     }
 
+                    ForceItem();
                     Spells.R.Cast(pred.CastPosition);
                 }
 
-                if (Spells.Q.IsReady())
-                {
-                    CastQ(target);
-                }
+                if (!Spells.Q.IsReady()) return;
+
+                ForceItem();
+                Utility.DelayAction.Add(1, () => ForceCastQ(target));
             }
 
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)
-            {
-                return;
-            }
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear) return;
 
             if (args.Target is Obj_AI_Minion)
             {
                 var minions = MinionManager.GetMinions(Player.AttackRange + 450);
 
-                if (minions != null)
+                if (minions == null)
                 {
-                    foreach (var m in minions)
-                    {
-                        if (!MenuConfig.LaneQ || m.UnderTurret(true))
-                        {
-                            return;
-                        }
-
-                        if (Spells.Q.IsReady())
-                        {
-                            CastQ(m);
-                        }
-                    }
+                    return;
                 }
 
-                var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
-
-                if (mobs == null) return;
-
-                foreach (var m in mobs)
+                foreach (var m in minions)
                 {
-                    if (MenuConfig.JnglQ && Spells.Q.IsReady())
-                    {
-                        CastQ(m);
-                    }
-
-                    if (!Spells.W.IsReady()
-                        || !MenuConfig.JnglW
-                        || Player.HasBuff("RivenFeint")
-                        || Qstack > 2)
+                    if (!Spells.Q.IsReady() || !MenuConfig.LaneQ || m.UnderTurret(true))
                     {
                         return;
                     }
 
-                    CastW(m);
+                    ForceItem();
+                    Utility.DelayAction.Add(1, () => Spells.Q.Cast(m));
                 }
+            }
+
+            var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
+
+            if (mobs == null) return;
+
+            foreach (var m in mobs)
+            {
+                if (Spells.Q.IsReady() && MenuConfig.JnglQ)
+                {
+                    ForceItem();
+                    Utility.DelayAction.Add(1, () => ForceCastQ(m));
+                }
+                else
+                {
+                    ForceItem();
+                }
+
+                if (!Spells.W.IsReady() 
+                    || !MenuConfig.JnglW
+                    || Player.HasBuff("RivenFeint") 
+                    || Qstack > 2)
+                {
+                    return;
+                }
+
+                ForceItem();
+                Utility.DelayAction.Add(1, () => Spells.W.Cast(m));
             }
 
             var inhib = args.Target as Obj_BarracksDampener;

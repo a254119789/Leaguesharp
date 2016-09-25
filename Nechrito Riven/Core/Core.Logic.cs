@@ -2,7 +2,6 @@
 {
     #region
 
-    using System;
     using System.Collections.Generic;
 
     using LeagueSharp;
@@ -10,18 +9,9 @@
 
     #endregion
 
-    /// <summary>
-    /// The core.
-    /// </summary>
     internal partial class Core
     {
         #region Static Fields
-
-        private static AttackableUnit Unit { get; set; }
-
-        private static bool canQ;
-
-        private static bool canW;
 
         /// <summary>
         ///     The e anti spell.
@@ -59,109 +49,136 @@
                                                         "MonkeyKingSpinToWin"
                                                     };
 
+        private static bool forceItem;
+
+        private static bool forceQ;
+
+        private static bool forceR;
+
+        private static bool forceR2;
+
+        private static bool forceW;
+
         #endregion
 
         #region Public Properties
 
-        private static bool HasItems => Items.CanUseItem(3077) || Items.CanUseItem(3074) || Items.CanUseItem(3748);
+        public static AttackableUnit QTarget { get; private set; }
 
-        public static bool R1 { get; set; }
+        public static int WRange => Player.HasBuff("RivenFengShuiEngine") ? 330 : 265;
 
-        private static bool CanQ(AttackableUnit x)
-        {
-            return canQ && InRange(x);  
-        }
+        #endregion
 
-        private static bool CanW(AttackableUnit x)
-        {
-            return canW && InRange(x);
-        }
+        #region Properties
 
-        public static bool InRange(AttackableUnit x)
-        {
-            return ObjectManager.Player.HasBuff("RivenFengShuiEngine")
-            ? Player.Distance(x) <= 330
-            : Player.Distance(x) <= 265;
-        }
+        private static int Item
+            =>
+                Items.CanUseItem(3077) && Items.HasItem(3077)
+                    ? 3077
+                    : Items.CanUseItem(3074) && Items.HasItem(3074) ? 3074 : 0;
+
         #endregion
 
         #region Public Methods and Operators
 
-        public static void ForceSkill()
+        public static void FlashW()
         {
-            if (CanQ(Unit) && Spells.Q.IsReady())
-            {
-                if (HasItems)
-                {
-                    Usables.CastHydra();
-                    Utility.DelayAction.Add(2, () => Spells.Q.Cast(Unit.Position));
-                }
-                else
-                {
-                    Spells.Q.Cast(Unit.Position);
-                }
-            }
+            var target = TargetSelector.GetSelectedTarget();
 
-            if (canW)
-            {
-                if (HasItems)
-                {
-                    Usables.CastHydra();
-                    Utility.DelayAction.Add(1, () => Spells.W.Cast());
-                }
-                else
-                {
-                    Spells.W.Cast();
-                }
-            }
-
-            if (R1 && Spells.R.Instance.Name == IsFirstR)
-            {
-                Spells.R.Cast();
-            }
-        }
-
-        public static void CastQ(AttackableUnit x)
-        {
-            Unit = x;
-            canQ = true;
-        }
-
-        public static void CastW(Obj_AI_Base x)
-        {
-            canW = Spells.W.IsReady();
-            Utility.DelayAction.Add(500, () => canW = false);
-        }
-
-        public static void ForceR()
-        {
-            R1 = Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR;
-            Utility.DelayAction.Add(500, () => R1 = false); 
-        }
-
-        public static void OnCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (!sender.IsMe)
+            if (target == null || !target.IsValidTarget())
             {
                 return;
             }
 
-            var argsName = args.SData.Name;
+            Spells.W.Cast();
+            Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
+        }
 
-            if (argsName.Contains("RivenTriCleave"))
+        public static void ForceCastQ(AttackableUnit target)
+        {
+            forceQ = true;
+            qTarget = target;
+        }
+
+        public static void ForceItem()
+        {
+            if (Items.CanUseItem(Item) && Items.HasItem(Item) && Item != 0) forceItem = true;
+            Utility.DelayAction.Add(500, () => forceItem = false);
+        }
+
+        public static void ForceQ(AttackableUnit target)
+        {
+            forceQ = true;
+            QTarget = target;
+        }
+
+        public static void ForceR()
+        {
+            forceR = Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR;
             {
-                canQ = false;
+                Utility.DelayAction.Add(500, () => forceR = false);
+            }
+        }
+
+        public static void ForceSkill()
+        {
+            if (forceQ && qTarget != null && qTarget.IsValidTarget(Spells.E.Range + Player.BoundingRadius + 70)
+                && Spells.Q.IsReady())
+            {
+                Spells.Q.Cast(qTarget.Position);
             }
 
-            if (argsName.Contains("RivenMartyr"))
+            if (forceW)
             {
-                canW = false;
+                Spells.W.Cast();
             }
 
-            if (argsName == IsFirstR)
+            if (forceR && Spells.R.Instance.Name == IsFirstR)
             {
-                R1 = false;
+                Spells.R.Cast();
             }
+
+            if (forceItem && Items.CanUseItem(Item) && Items.HasItem(Item) && Item != 0)
+            {
+                Items.UseItem(Item);
+            }
+        }
+
+        public static void ForceW()
+        {
+            forceW = Spells.W.IsReady();
+            Utility.DelayAction.Add(500, () => forceW = false);
+        }
+
+        public static bool InQRange(GameObject target)
+        {
+            return target != null
+                   && (Player.HasBuff("RivenFengShuiEngine")
+                           ? Player.Distance(target.Position) <= 330
+                           : Player.Distance(target.Position) <= 265);
+        }
+
+        public static bool InWRange(Obj_AI_Base t) => t != null && t.IsValidTarget(WRange);
+
+        public static void OnCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (!sender.IsMe) return;
+
+            if (args.SData.Name.Contains("ItemTiamatCleave")) forceItem = false;
+            if (args.SData.Name.Contains("RivenTriCleave")) forceQ = false;
+            if (args.SData.Name.Contains("RivenMartyr")) forceW = false;
+            if (args.SData.Name == IsFirstR) forceR = false;
+            if (args.SData.Name == IsSecondR) forceR2 = false;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private static void ForceR2()
+        {
+            forceR2 = Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR;
+            Utility.DelayAction.Add(500, () => forceR2 = false);
         }
 
         #endregion

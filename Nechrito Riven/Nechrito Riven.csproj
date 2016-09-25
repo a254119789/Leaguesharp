@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NechritoRiven</RootNamespace>
     <AssemblyName>Nechrito Riven</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PreBuildEvent />
     <PostBuildEvent />
@@ -60,6 +60,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.Common.dll</HintPath>
     </Reference>
+    <Reference Include="RethoughtLib">
+      <HintPath>C:\Software\rP1k9gpY1\References\RethoughtLib.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.dll</HintPath>
@@ -79,36 +82,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Core.cs" />
-    <Compile Include="Core\Dmg.cs" />
-    <Compile Include="Core\Core.Logic.cs" />
-    <Compile Include="Core\Spells.cs" />
-    <Compile Include="Core\Usables.cs" />
-    <Compile Include="Draw\DrawDmg.cs" />
-    <Compile Include="Draw\DrawRange.cs" />
-    <Compile Include="Draw\DrawWallSpot.cs" />
-    <Compile Include="Draw\HpBarIndicator.cs" />
-    <Compile Include="Event\OrbwalkingModes\BurstMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\ComboMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\FastHarassMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\FleeMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\JungleClearMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\LaneclearMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\Mixed.cs" />
-    <Compile Include="Event\PermaActive.cs" />
-    <Compile Include="Event\Animation.cs" />
-    <Compile Include="Event\FleeLogic.cs" />
-    <Compile Include="Event\Gapclose.cs" />
-    <Compile Include="Event\Interrupt2.cs" />
-    <Compile Include="Event\KillSteal.cs" />
-    <Compile Include="Event\OrbwalkingModes\AfterAuto.cs" />
-    <Compile Include="Event\ProcessSpell.cs" />
-    <Compile Include="Event\Skinchanger.cs" />
-    <Compile Include="Load.cs" />
-    <Compile Include="Menus\MenuConfig.cs" />
     <Compile Include="Orbwalking.cs" />
+    <Compile Include="OrbwalkingParent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Riven\Active\Active Logic\ActiveLogic.cs" />
+    <Compile Include="Riven\Active\Animation\Animation.cs" />
+    <Compile Include="Riven\Active\OrbwalkingMode\Combo\Combo.cs" />
+    <Compile Include="Riven\Logic\SpellParent\ISpellIndex.cs" />
+    <Compile Include="Riven\Logic\SpellParent\SpellParent.cs" />
+    <Compile Include="Riven\Logic\Spells\RivenE.cs" />
+    <Compile Include="Riven\Logic\Spells\RivenQ.cs" />
+    <Compile Include="Riven\Logic\Spells\RivenR.cs" />
+    <Compile Include="Riven\Logic\Spells\RivenW.cs" />
+    <Compile Include="Riven\OrbwalkerModule.cs" />
+    <Compile Include="Riven\RivenLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -125,7 +113,18 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Riven\Active\AntiGapcloser\" />
+    <Folder Include="Riven\Active\Auto Q\" />
+    <Folder Include="Riven\Active\Interrupter\" />
+    <Folder Include="Riven\Active\OrbwalkingMode\Burst\" />
+    <Folder Include="Riven\Active\OrbwalkingMode\FastHarass\" />
+    <Folder Include="Riven\Active\OrbwalkingMode\Flee\" />
+    <Folder Include="Riven\Active\OrbwalkingMode\JungleClear\" />
+    <Folder Include="Riven\Active\OrbwalkingMode\LaneClear\" />
+    <Folder Include="Riven\Active\OrbwalkingMode\Mixed\" />
+    <Folder Include="Riven\Drawings\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

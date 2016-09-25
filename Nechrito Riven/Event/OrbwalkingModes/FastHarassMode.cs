@@ -2,9 +2,11 @@
 {
     #region
 
+    using LeagueSharp.Common;
+
     using Core;
 
-    using LeagueSharp.Common;
+    using Orbwalking = Orbwalking;
 
     #endregion
 
@@ -14,20 +16,19 @@
 
         public static void FastHarass()
         {
+            if (!Spells.Q.IsReady() || !Spells.E.IsReady()) return;
+
             var target = TargetSelector.GetTarget(450 + Player.AttackRange + 70, TargetSelector.DamageType.Physical);
 
-            if (!Spells.E.IsReady())
-            {
-                return;
-            }
+            if (!target.IsValidTarget() || target.IsZombie) return;
 
-            if (!InRange(target))
+            if (!Orbwalking.InAutoAttackRange(target) && !InWRange(target))
             {
                 Spells.E.Cast(target.Position);
             }
 
-            Utility.DelayAction.Add(10, Usables.CastHydra);
-            Utility.DelayAction.Add(170, () => Spells.Q.Cast(target));
+            Utility.DelayAction.Add(10, ForceItem);
+            Utility.DelayAction.Add(170, () => ForceCastQ(target));
         }
 
         #endregion

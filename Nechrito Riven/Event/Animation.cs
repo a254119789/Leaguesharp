@@ -4,13 +4,14 @@
 
     using System;
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Menus;
+    using Menus;
 
-    using Orbwalking = NechritoRiven.Orbwalking;
+    using Orbwalking = Orbwalking;
 
     #endregion
 
@@ -25,8 +26,6 @@
                 return;
             }
 
-            //Game.PrintChat((Ping() + MenuConfig.Qd - AtkSpeed()).ToString());
-
             switch (args.Animation)
             {
                 case "Spell1a":
@@ -34,7 +33,7 @@
                     Qstack = 2;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd - AtkSpeed(), Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qd + Ping(), Reset);
                     }
 
                     break;
@@ -43,7 +42,7 @@
                     Qstack = 3;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D - AtkSpeed(), Reset);
+                        Utility.DelayAction.Add(MenuConfig.Q2D + Ping(), Reset);
                     }
 
                     break;
@@ -52,7 +51,7 @@
                     Qstack = 1;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld - AtkSpeed(), Reset);
+                        Utility.DelayAction.Add(MenuConfig.Qld + Ping(), Reset);
                     }
 
                     break;
@@ -79,12 +78,10 @@
                 case 3:
                     Game.SendEmote(Emote.Dance);
                     break;
+                case 4:
+                    Console.WriteLine("Nechrito Riven: Q AA SLOW, No Emote!");
+                    break;
             }
-        }
-
-         private static int AtkSpeed()
-        {
-            return (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
         }
 
         private static int Ping()
@@ -93,7 +90,7 @@
 
             if (!MenuConfig.CancelPing)
             {
-                ping = 5;
+                ping = 1; // gg wp humanized
             }
             else
             {
@@ -106,13 +103,13 @@
         private static void Reset()
         {
             Emotes();
-            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos, true);
+            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos + 10, true);
             Orbwalking.LastAaTick = 0;
         }
 
         private static bool SafeReset()
         {
-            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None || MenuConfig.AnimSemi;
+            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None;
         }
 
         #endregion

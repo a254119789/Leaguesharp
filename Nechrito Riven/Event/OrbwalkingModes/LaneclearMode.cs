@@ -34,7 +34,7 @@
 
                 if (!Spells.W.IsReady()
                     || !MenuConfig.LaneW
-                    || !InRange(m)
+                    || !InWRange(m)
                     || Player.IsWindingUp
                     || m.Health > Spells.W.GetDamage(m))
                 {
