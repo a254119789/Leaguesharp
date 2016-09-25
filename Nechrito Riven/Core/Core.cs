@@ -6,6 +6,9 @@
 
     #endregion
 
+    /// <summary>
+    /// The core.
+    /// </summary>
     internal partial class Core
     {
         #region Constants
@@ -21,8 +24,6 @@
         public static Orbwalking.Orbwalker Orbwalker;
 
         public static int Qstack = 1;
-
-        public static AttackableUnit qTarget;
 
         #endregion
 

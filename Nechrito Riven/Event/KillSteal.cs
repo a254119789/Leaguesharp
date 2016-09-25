@@ -28,7 +28,7 @@
                 return;
             }
 
-            if (Spells.W.IsReady() && InWRange(hero) && MenuConfig.KsW)
+            if (Spells.W.IsReady() && InRange(hero) && MenuConfig.KsW)
             {
                 if (hero.Health <= Spells.W.GetDamage(hero))
                 {
@@ -46,7 +46,7 @@
                 }
             }
 
-            if (Spells.Q.IsReady() && InQRange(hero) && hero.Health < Spells.Q.GetDamage(hero))
+            if (hero.Health < Spells.Q.GetDamage(hero))
             {
                 Spells.Q.Cast(hero);
             }

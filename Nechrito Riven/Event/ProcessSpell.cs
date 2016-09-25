@@ -25,7 +25,7 @@
                 }
             }
 
-            if (!WAntiSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !InWRange(sender))
+            if (!WAntiSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !InRange(sender))
             {
                 return;
             }

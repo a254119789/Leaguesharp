@@ -2,10 +2,10 @@
 {
     #region
 
+    using Core;
+
     using LeagueSharp;
     using LeagueSharp.Common;
-
-    using Core;
 
     using Orbwalking = Orbwalking;
 
@@ -24,13 +24,14 @@
                 return;
             }
 
-            if (Spells.Q.IsReady() && Spells.W.IsReady() && Spells.E.IsReady() && Qstack == 1)
+            if (Spells.Q.IsReady() && Spells.W.IsReady() && Qstack == 1)
             {
-                if (target.IsValidTarget() && !target.IsZombie)
-                {
-                    ForceCastQ(target);
-                    ForceW();
-                }
+               CastQ(target);
+            }
+
+            if (Spells.W.IsReady())
+            {
+                CastW(target);
             }
 
             if (!Spells.Q.IsReady()
@@ -43,7 +44,7 @@
             }
 
             Spells.E.Cast(Game.CursorPos);
-            Utility.DelayAction.Add(190, () => Spells.Q.Cast(Game.CursorPos));
+            Utility.DelayAction.Add(190, () => Spells.Q.Cast(target.Position));
         }
 
         #endregion
