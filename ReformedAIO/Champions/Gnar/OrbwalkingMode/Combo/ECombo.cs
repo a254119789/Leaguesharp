@@ -46,7 +46,7 @@
 
                     if (target.Distance(ObjectManager.Player) > 500f)
                     {
-                        var m = MinionManager.GetMinions(ObjectManager.Player.Position, 425, MinionTypes.All, MinionTeam.All).LastOrDefault();
+                        var m = MinionManager.GetMinions(ObjectManager.Player.Position, 425).LastOrDefault();
 
                         if (m.UnderTurret(true))
                         {
