@@ -95,18 +95,26 @@
                         Spells.Q.Cast(wallPoint);
                     }
                 }
-
-                if (Spells.E.IsReady())
+               else if (Spells.R.IsReady()
+               && Spells.R.Instance.Name == IsFirstR
+               && Spells.E.IsReady()
+               && Spells.Q.IsReady()
+               && Spells.W.IsReady())
+                {
+                    Spells.E.Cast(target.Position);
+                    Utility.DelayAction.Add(15, () => Spells.R.Cast());
+                    Utility.DelayAction.Add(140, () => CastW(target));
+                    Utility.DelayAction.Add(220, () => CastQ(target));
+                }
+               else if (Spells.E.IsReady())
                 {
                     Spells.E.Cast(target.Position);
                 }
-
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
+               else if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
                     Spells.R.Cast();
                 }
-
-                if (Spells.W.IsReady())
+               else if (Spells.W.IsReady())
                 {
                    CastW(target);
                 }

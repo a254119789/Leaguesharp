@@ -89,12 +89,17 @@
 
         public static void ForceSkill()
         {
-            if (CanQ(Unit) && Spells.Q.IsReady())
+            if (Unit == null)
             {
-                if (HasItems)
+                return;
+            }
+
+            if (canQ && Spells.Q.IsReady())
+            {
+                if (HasItems && Player.Distance(Unit) <= 325)
                 {
                     Usables.CastHydra();
-                    Utility.DelayAction.Add(2, () => Spells.Q.Cast(Unit.Position));
+                    Utility.DelayAction.Add(1, () => Spells.Q.Cast(Unit.Position));
                 }
                 else
                 {
@@ -104,10 +109,10 @@
 
             if (canW)
             {
-                if (HasItems)
+                if (HasItems && Player.Distance(Unit) <= 325)
                 {
                     Usables.CastHydra();
-                    Utility.DelayAction.Add(1, () => Spells.W.Cast());
+                    Utility.DelayAction.Add(2, () => Spells.W.Cast());
                 }
                 else
                 {

@@ -2,6 +2,8 @@
 {
     #region
 
+    using System;
+
     using Core;
 
     using LeagueSharp;
@@ -15,12 +17,14 @@
     {
         #region Public Methods and Operators
 
-        private static void R2()
+        public static void Combo()
         {
-           
-            
-                var target = TargetSelector.GetTarget(Player.AttackRange + 310, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(Player.AttackRange + 310, TargetSelector.DamageType.Physical);
 
+            if (target == null || !target.IsValidTarget()) return;
+
+            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+            {
                 var pred = Spells.R.GetPrediction(target, true, collisionable: new[] { CollisionableObjects.YasuoWall });
 
                 if (pred.Hitchance < HitChance.High)
@@ -34,21 +38,9 @@
                 {
                     Spells.R.Cast(pred.CastPosition);
                 }
-            
-        }
-
-        public static void Combo()
-        {
-            var target = TargetSelector.GetTarget(Player.AttackRange + 310, TargetSelector.DamageType.Physical);
-
-            if (target == null || !target.IsValidTarget()) return;
-
-            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
-            {
-                R2();
             }
 
-            if (Qstack == 3
+           if (Qstack == 3
                     && target.Distance(Player) >= Player.AttackRange
                     && target.Distance(Player) <= 600
                     && Spells.R.IsReady()
@@ -82,8 +74,7 @@
                     Spells.Q.Cast(wallPoint);
                 }
             }
-
-            if (Spells.E.IsReady() && !target.Position.IsWall())
+           else if (Spells.E.IsReady() && !target.Position.IsWall()) 
             {
                 Spells.E.Cast(target.Position);
 
@@ -94,15 +85,13 @@
 
                 Utility.DelayAction.Add(10, Usables.CastHydra);
             }
-
-            if (MenuConfig.AlwaysR
+           else if (MenuConfig.AlwaysR
                 && Spells.R.IsReady()
                 && Spells.R.Instance.Name == IsFirstR)
             {
                 Spells.R.Cast();
             }
-
-            if (!Spells.W.IsReady() || !InRange(target))
+           else if (!Spells.W.IsReady() || !InRange(target))
             {
                 return;
             }

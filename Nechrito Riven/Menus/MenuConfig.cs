@@ -35,6 +35,8 @@
 
         public static bool AnimSemi => config.Item("animSemi").GetValue<bool>();
 
+        public static bool laneQFast => config.Item("laneQFast").GetValue<bool>();
+
         public static bool AnimDance => config.Item("animDance").GetValue<bool>();
 
         public static bool AnimLaugh => config.Item("animLaugh").GetValue<bool>();
@@ -147,6 +149,7 @@
             config.AddSubMenu(combo);
 
             var lane = new Menu("Lane", "Lane");
+            lane.AddItem(new MenuItem("laneQFast", "Fast Clear").SetValue(true));
             lane.AddItem(new MenuItem("LaneQ", "Use Q").SetValue(true));
             lane.AddItem(new MenuItem("LaneW", "Use W").SetValue(true));
             lane.AddItem(new MenuItem("LaneE", "Use E").SetValue(true));
@@ -198,7 +201,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.19").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.19.1").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 
