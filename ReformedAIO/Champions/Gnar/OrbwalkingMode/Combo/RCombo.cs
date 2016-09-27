@@ -31,8 +31,13 @@
 
         private void GameOnUpdate(EventArgs args)
         {
-            if (Menu.Item("ForceDisable").GetValue<bool>() || Target == null || !Spells.R2.IsReady() || gnarState.Mini
-                || Target.IsInvulnerable)
+            if (Menu.Item("ForceDisable").GetValue<bool>()
+                || Target == null 
+                || Target.HasBuffOfType(BuffType.SpellShield)
+                || Target.IsZombie
+                || Target.IsInvulnerable
+                || !Spells.R2.IsReady()
+                || gnarState.Mini)
             {
                 return;
             }
@@ -47,9 +52,9 @@
             var wallPoint = wallDetection.GetFirstWallPoint(Vars.Player.Position, Target.Position);
             Vars.Player.GetPath(wallPoint);
 
-            if (wallDetection.IsWallDash(Target.Position, 590))
+            if (wallDetection.IsWallDash(Target.Position, Menu.Item("RRange").GetValue<Slider>().Value))
             {
-                Console.WriteLine("Walldetection: TRUE");
+                Console.WriteLine("Walldetection: Casting R");
                 Spells.R2.Cast(wallDetection.Wall(Target.Position, 590));
             }
         }
