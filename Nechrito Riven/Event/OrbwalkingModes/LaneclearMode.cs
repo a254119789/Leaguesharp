@@ -4,6 +4,7 @@
 
     using Core;
 
+    using LeagueSharp;
     using LeagueSharp.Common;
 
     using Menus;
@@ -18,12 +19,12 @@
         {
             var minions = MinionManager.GetMinions(Player.AttackRange + 380);
 
-            if (minions == null || Player.IsWindingUp)
+            if (minions == null || Player.IsWindingUp || (MenuConfig.LaneEnemy && ObjectManager.Player.CountEnemiesInRange(1350) > 0))
             {
                 return;
             }
 
-            if (minions.Count <= 1)
+            if (minions.Count <= 2)
             {
                 return;
             }

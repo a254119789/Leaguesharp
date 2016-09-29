@@ -91,6 +91,8 @@
 
         public static bool LaneE => config.Item("LaneE").GetValue<bool>();
 
+        public static bool LaneEnemy => config.Item("LaneEnemy").GetValue<bool>();
+
         public static bool LaneQ => config.Item("LaneQ").GetValue<bool>();
 
         public static bool LaneW => config.Item("LaneW").GetValue<bool>();
@@ -149,6 +151,7 @@
             config.AddSubMenu(combo);
 
             var lane = new Menu("Lane", "Lane");
+            lane.AddItem(new MenuItem("LaneEnemy", "Stop If Nearby Enemy").SetValue(true));
             lane.AddItem(new MenuItem("laneQFast", "Fast Clear").SetValue(true));
             lane.AddItem(new MenuItem("LaneQ", "Use Q").SetValue(true));
             lane.AddItem(new MenuItem("LaneW", "Use W").SetValue(true));
@@ -201,7 +204,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.19.1").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.19.2").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 

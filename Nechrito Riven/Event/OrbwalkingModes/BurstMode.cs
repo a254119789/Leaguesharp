@@ -106,6 +106,12 @@
                     Utility.DelayAction.Add(140, () => CastW(target));
                     Utility.DelayAction.Add(220, () => CastQ(target));
                 }
+                else if (Spells.W.IsReady() && Spells.Q.IsReady() && Spells.E.IsReady())
+                {
+                    Spells.E.Cast(target.Position);
+                    Utility.DelayAction.Add(190, () => CastW(target));
+                    Utility.DelayAction.Add(260, () => CastQ(target));
+                }
                else if (Spells.E.IsReady())
                 {
                     Spells.E.Cast(target.Position);
@@ -114,7 +120,7 @@
                 {
                     Spells.R.Cast();
                 }
-               else if (Spells.W.IsReady())
+               else if (Spells.W.IsReady() && !target.HasBuff("FioraW"))
                 {
                    CastW(target);
                 }

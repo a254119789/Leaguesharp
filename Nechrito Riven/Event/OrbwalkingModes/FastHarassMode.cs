@@ -26,8 +26,7 @@
                 Spells.E.Cast(target.Position);
             }
 
-            Utility.DelayAction.Add(10, Usables.CastHydra);
-            Utility.DelayAction.Add(170, () => Spells.Q.Cast(target));
+            Utility.DelayAction.Add(170, () => CastQ(target));
         }
 
         #endregion

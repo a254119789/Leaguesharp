@@ -87,6 +87,11 @@
 
             if (args.Target is Obj_AI_Minion)
             {
+                if (MenuConfig.LaneEnemy && ObjectManager.Player.CountEnemiesInRange(1350) > 0)
+                {
+                    return;
+                }
+
                 var minions = MinionManager.GetMinions(Player.AttackRange + 450);
 
                 if (minions != null)

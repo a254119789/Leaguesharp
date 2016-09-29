@@ -91,7 +91,7 @@
             {
                 Spells.R.Cast();
             }
-           else if (!Spells.W.IsReady() || !InRange(target))
+           else if (!Spells.W.IsReady() || target.HasBuff("FioraW"))
             {
                 return;
             }

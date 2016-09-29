@@ -23,6 +23,8 @@
 
         private static bool canW;
 
+        private static bool canItem;
+
         /// <summary>
         ///     The e anti spell.
         /// </summary>
@@ -63,6 +65,14 @@
 
         #region Public Properties
 
+        private static int Item =>
+             Items.CanUseItem(3077) && Items.HasItem(3077)
+           ? 3077
+           : Items.CanUseItem(3074) && Items.HasItem(3074)
+           ? 3074
+           : Items.CanUseItem(3748) && Items.HasItem(3748)
+           ? 3748 : 0;
+
         private static bool HasItems => Items.CanUseItem(3077) || Items.CanUseItem(3074) || Items.CanUseItem(3748);
 
         public static bool R1 { get; set; }
@@ -94,12 +104,12 @@
                 return;
             }
 
-            if (canQ && Spells.Q.IsReady())
+            if (canQ && Spells.Q.IsReady() && Player.Distance(Unit) <= 300)
             {
-                if (HasItems && Player.Distance(Unit) <= 325)
+                if (canItem && Items.CanUseItem(Item) && Item != 0)
                 {
-                    Usables.CastHydra();
-                    Utility.DelayAction.Add(1, () => Spells.Q.Cast(Unit.Position));
+                    Items.UseItem(Item);
+                    Utility.DelayAction.Add(2, () => Spells.Q.Cast(Unit.Position));
                 }
                 else
                 {
@@ -107,12 +117,13 @@
                 }
             }
 
-            if (canW)
+            if (canW && Player.Distance(Unit) <= Spells.W.Range)
             {
-                if (HasItems && Player.Distance(Unit) <= 325)
+                
+                if (canItem && Items.CanUseItem(Item) && Item != 0)
                 {
-                    Usables.CastHydra();
-                    Utility.DelayAction.Add(2, () => Spells.W.Cast());
+                    Items.UseItem(Item);
+                    Utility.DelayAction.Add(3, () => Spells.W.Cast());
                 }
                 else
                 {
@@ -166,6 +177,14 @@
             if (argsName == IsFirstR)
             {
                 R1 = false;
+            }
+        }
+
+        public void UseItem()
+        {
+            if (Items.CanUseItem(Item) && Item != 0)
+            {
+                canItem = true;
             }
         }
 
