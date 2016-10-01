@@ -20,7 +20,7 @@
 
         public static void Flee()
         {
-            if (MenuConfig.WallFlee)
+            if (MenuConfig.WallFlee && ObjectManager.Player.CountEnemiesInRange(1500) == 0)
             {
                 var end = Player.ServerPosition.Extend(Game.CursorPos, 350);
                 var isWallDash = FleeLogic.IsWallDash(end, 350);

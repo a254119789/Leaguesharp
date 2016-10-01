@@ -61,6 +61,11 @@
                                                         "MonkeyKingSpinToWin"
                                                     };
 
+        public static List<string> NoRList = new List<string>
+                                                           {
+                                                               "FioraW", "kindrednodeathbuff", "Undying Rage", "JudicatorIntervention"
+                                                           };
+
         #endregion
 
         #region Public Properties
@@ -104,7 +109,7 @@
                 return;
             }
 
-            if (canQ && Spells.Q.IsReady() && Player.Distance(Unit) <= 300)
+            if (canQ && Spells.Q.IsReady())
             {
                 if (canItem && Items.CanUseItem(Item) && Item != 0)
                 {

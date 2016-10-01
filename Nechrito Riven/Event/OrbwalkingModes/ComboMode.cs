@@ -27,14 +27,16 @@
             {
                 var pred = Spells.R.GetPrediction(target, true, collisionable: new[] { CollisionableObjects.YasuoWall });
 
-                if (pred.Hitchance < HitChance.High)
+                if (pred.Hitchance < HitChance.High || target.HasBuff(NoRList.ToString()))
                 {
                     return;
                 }
 
                 if ((!MenuConfig.OverKillCheck && Qstack > 1)
-                    || (MenuConfig.OverKillCheck && !Spells.Q.IsReady() && Qstack == 1 && target.Distance(Player) >= 315)
-                    || pred.AoeTargetsHitCount > 2)
+                    || (MenuConfig.OverKillCheck &&
+                    (!Spells.Q.IsReady() && Qstack == 1 
+                    || target.Distance(Player) >= 315)
+                    || pred.AoeTargetsHitCount > 2))
                 {
                     Spells.R.Cast(pred.CastPosition);
                 }

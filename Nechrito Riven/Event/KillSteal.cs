@@ -20,10 +20,7 @@
         {
             var hero = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            if (hero == null
-                || hero.HasBuff("kindrednodeathbuff")
-                || hero.HasBuff("Undying Rage")
-                || hero.HasBuff("JudicatorIntervention"))
+            if (hero == null || hero.HasBuff(NoRList.ToString()))
             {
                 return;
             }
