@@ -39,16 +39,16 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem(Menu.Name + "EMana", "Mana %").SetValue(new Slider(30, 0, 100)));
+            Menu.AddItem(new MenuItem("EMana", "Mana %").SetValue(new Slider(30, 0, 100)));
 
-            Menu.AddItem(new MenuItem(Name + "AntiGapcloser", "Anti Gapcloser").SetValue(true));
+            Menu.AddItem(new MenuItem("AntiGapcloser", "Anti Gapcloser").SetValue(true));
 
-            Menu.AddItem(new MenuItem(Name + "AntiMelee", "E Anti-Melee").SetValue(true));
+            Menu.AddItem(new MenuItem("AntiMelee", "E Anti-Melee").SetValue(true));
         }
 
         private void Gapcloser(ActiveGapcloser gapcloser)
         {
-            if (!Menu.Item(Menu.Name + "AntiGapcloser").GetValue<bool>()) return;
+            if (!Menu.Item("AntiGapcloser").GetValue<bool>()) return;
 
             var target = gapcloser.Sender;
 
@@ -65,14 +65,14 @@
                 || Vars.Player.IsWindingUp
                 || !Spells.Spell[SpellSlot.E].IsReady()
                 || Target == null
-                || Menu.Item(Menu.Name + "EMana").GetValue<Slider>().Value > Vars.Player.ManaPercent)
+                || Menu.Item("EMana").GetValue<Slider>().Value > Vars.Player.ManaPercent)
             {
                 return;
             }
 
             var ePrediction = Spells.Spell[SpellSlot.E].GetPrediction(this.Target);
 
-            if (Target.Distance(Vars.Player) > 270 && Menu.Item(Menu.Name + "AntiMelee").GetValue<bool>())
+            if (Target.Distance(Vars.Player) > 270 && Menu.Item("AntiMelee").GetValue<bool>())
             {
                 Spells.Spell[SpellSlot.E].Cast(ePrediction.CastPosition);
             }

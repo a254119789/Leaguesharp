@@ -146,6 +146,23 @@
     <Compile Include="Champions\Gnar\PermaActive\Flee.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\WKillsteal.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\ESpell.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\Q2Spell.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\QSpell.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\RSpell.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\SpellParent\ISpellIndex.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\SpellParent\SpellParent.cs" />
+    <Compile Include="Champions\Lucian\Core\Spells\WSpell.cs" />
+    <Compile Include="Champions\Lucian\Drawings\DmgDraw.cs" />
+    <Compile Include="Champions\Lucian\Drawings\QDraw.cs" />
+    <Compile Include="Champions\Lucian\Drawings\RDraw.cs" />
+    <Compile Include="Champions\Lucian\Drawings\WDraw.cs" />
+    <Compile Include="Champions\Lucian\Logic\Damage\LucDamage.cs" />
+    <Compile Include="Champions\Lucian\LucianLoader.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\ECombo.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\QCombo.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\RCombo.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\WCombo.cs" />
     <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />
@@ -166,28 +183,6 @@
     <Compile Include="Champions\Gragas\Menus\Draw\DrawIndicator.cs" />
     <Compile Include="Champions\Gragas\Menus\Draw\DrawQ.cs" />
     <Compile Include="Champions\Gragas\Menus\Draw\DrawR.cs" />
-    <Compile Include="Champions\Ryze\RyzeLoader.cs" />
-    <Compile Include="Champions\Ryze\Drawings\DmgDraw.cs" />
-    <Compile Include="Champions\Ryze\Drawings\EDraw.cs" />
-    <Compile Include="Champions\Ryze\Drawings\QDraw.cs" />
-    <Compile Include="Champions\Ryze\Drawings\RDraw.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\None\Killsteal\KillstealMenu.cs" />
-    <Compile Include="Champions\Ryze\Logic\Damage.cs" />
-    <Compile Include="Champions\Ryze\Logic\ELogic.cs" />
-    <Compile Include="Champions\Ryze\Logic\QLogic.cs" />
-    <Compile Include="Champions\Ryze\Logic\SetSpells.cs" />
-    <Compile Include="Champions\Ryze\Logic\WLogic.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Combo\RyzeCombo.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Jungle\EJungle.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Jungle\QJungle.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Jungle\WJungle.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Lane\ELane.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Lane\QLane.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Lane\WLane.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Mixed\EMixed.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Mixed\QMixed.cs" />
-    <Compile Include="Champions\Ryze\OrbwalkingMode\Mixed\WMixed.cs" />
-    <Compile Include="Champions\Ryze\Variable.cs" />
     <Compile Include="HpBarIndicator.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\CrescentStrike.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\LunarRush.cs" />
@@ -224,7 +219,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Champions\Lucian\OrbwalkingMode\Harass\" />
+    <Folder Include="Champions\Lucian\OrbwalkingMode\JungleClear\" />
+    <Folder Include="Champions\Lucian\OrbwalkingMode\LaneClear\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

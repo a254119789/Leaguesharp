@@ -10,8 +10,6 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    using SharpDX;
-
     internal sealed class RCombo : ChildBase
     {
         private WallDetection wallDetection;

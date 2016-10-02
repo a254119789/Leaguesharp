@@ -7,14 +7,14 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Diana.Logic.Killsteal;
-    using ReformedAIO.Champions.Diana.Menus.Draw;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Flee;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Jungleclear;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Laneclear;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Misaya;
-    using ReformedAIO.Champions.Diana.OrbwalkingMode.Mixed;
+    using Logic.Killsteal;
+    using Menus.Draw;
+    using OrbwalkingMode.Combo;
+    using OrbwalkingMode.Flee;
+    using OrbwalkingMode.Jungleclear;
+    using OrbwalkingMode.Laneclear;
+    using OrbwalkingMode.Misaya;
+    using OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -54,9 +54,16 @@
             var drawParent = new Parent("Drawings");
             var fleeParent = new Parent("Flee");
 
-            superParent.Add(new Base[]
-            {
-                comboParent, misayaParent, mixedParent, laneParent, jungleParent, ksParent, drawParent, fleeParent
+            superParent.Add(new Base[] {
+
+                comboParent,
+                misayaParent,
+                mixedParent,
+                laneParent,
+                jungleParent,
+                ksParent,
+                drawParent,
+                fleeParent
             });
 
             comboParent.Add(new ChildBase[]
@@ -65,8 +72,9 @@
                 new Moonfall(orbwalker), 
                 new LunarRush(orbwalker), 
                 new PaleCascade(orbwalker), 
-                new MisayaCombo(orbwalker) 
             });
+
+            misayaParent.Add(new MisayaCombo(orbwalker));
 
             mixedParent.Add(new ChildBase[]
             {
@@ -105,12 +113,12 @@
             {
                 new FleeMode() 
             });
-            
+
             superParent.Load();
 
             if (superParent.Loaded)
             {
-                Game.PrintChat("Reformed Diana - Loaded");
+                Game.PrintChat(DisplayName + " - Loaded");
             }
         }
         #endregion

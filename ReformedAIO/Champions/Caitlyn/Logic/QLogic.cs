@@ -11,10 +11,5 @@
 
             return time + Spells.Spell[SpellSlot.Q].Delay;
         }
-
-        public bool CanKillSteal(Obj_AI_Hero target)
-        {
-            return QDelay(target) > target.MoveSpeed;
-        }
     }
 }

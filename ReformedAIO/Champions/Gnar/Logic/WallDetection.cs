@@ -5,8 +5,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Gnar.Core;
-
     using SharpDX;
 
     internal sealed class WallDetection

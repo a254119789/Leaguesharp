@@ -23,7 +23,7 @@
         {
             if (Vars.Player.IsDead) return;
 
-            if (Menu.Item(Menu.Name + "RReady").GetValue<bool>() && !Spells.Spell[SpellSlot.R].IsReady())
+            if (Menu.Item("RReady").GetValue<bool>() && !Spells.Spell[SpellSlot.R].IsReady())
             {
                 return;
             }
@@ -49,7 +49,7 @@
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Menu.AddItem(new MenuItem(Name + "RReady", "Only If Ready").SetValue(false));
+            Menu.AddItem(new MenuItem("RReady", "Only If Ready").SetValue(false));
         }
     }
 }

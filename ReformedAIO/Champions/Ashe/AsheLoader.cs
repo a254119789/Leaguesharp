@@ -7,12 +7,12 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Ashe.Core;
-    using ReformedAIO.Champions.Ashe.Drawings;
-    using ReformedAIO.Champions.Ashe.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Ashe.OrbwalkingMode.JungleClear;
-    using ReformedAIO.Champions.Ashe.OrbwalkingMode.LaneClear;
-    using ReformedAIO.Champions.Ashe.OrbwalkingMode.Mixed;
+    using Core;
+    using Drawings;
+    using OrbwalkingMode.Combo;
+    using OrbwalkingMode.JungleClear;
+    using OrbwalkingMode.LaneClear;
+    using OrbwalkingMode.Mixed;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -83,17 +83,19 @@
                new DmgDraw("Damage Indicator") 
             });
            
-            superParent.Add(new Base[]
-            {
-                 comboParent, mixedParent, laneParent, jungleParent, drawingParent
+            superParent.Add(new Base[] {
+                comboParent,
+                mixedParent,
+                laneParent,
+                jungleParent,
+                drawingParent
             });
 
             superParent.Load();
 
-
             if (superParent.Loaded)
             {
-                Game.PrintChat("Reformed Ashe - Loaded");
+                Game.PrintChat(DisplayName + " - Loaded");
             }
         }
         #endregion

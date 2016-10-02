@@ -5,12 +5,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    #region Using Directives
-
-    
-
-    #endregion
-
     internal class SetSpells
     {
         #region Public Methods and Operators

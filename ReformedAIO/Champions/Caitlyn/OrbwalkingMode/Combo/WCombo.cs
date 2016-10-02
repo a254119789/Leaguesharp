@@ -44,15 +44,15 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem(Menu.Name + "WMana", "Mana %").SetValue(new Slider(30, 0, 100)));
+            Menu.AddItem(new MenuItem("WMana", "Mana %").SetValue(new Slider(30, 0, 100)));
 
-            Menu.AddItem(new MenuItem(Name + "AntiGapcloser", "Anti-Gapcloser").SetValue(true));
+            Menu.AddItem(new MenuItem("AntiGapcloser", "Anti-Gapcloser").SetValue(true));
 
-            Menu.AddItem(new MenuItem(Name + "WTarget", "W Behind Target").SetValue(true));
+            Menu.AddItem(new MenuItem("WTarget", "W Behind Target").SetValue(true));
 
-            Menu.AddItem(new MenuItem(Name + "WImmobile", "W On Immobile").SetValue(true));
+            Menu.AddItem(new MenuItem("WImmobile", "W On Immobile").SetValue(true));
 
-            Menu.AddItem(new MenuItem(Name + "WBush", "Auto W On Bush").SetValue(false));
+            Menu.AddItem(new MenuItem("WBush", "Auto W On Bush").SetValue(false));
         }
 
         private void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -64,7 +64,7 @@
 
         private void Gapcloser(ActiveGapcloser gapcloser)
         {
-            if (!Menu.Item(Menu.Name + "AntiGapcloser").GetValue<bool>()) return;
+            if (!Menu.Item("AntiGapcloser").GetValue<bool>()) return;
 
             var target = gapcloser.Sender;
 
@@ -79,7 +79,7 @@
         private void OnUpdate(EventArgs args)
         {
             if (this.orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None
-                && Menu.Item(Menu.Name + "WBush").GetValue<bool>()
+                && Menu.Item("WBush").GetValue<bool>()
                 && Utils.TickCount - Spells.Spell[SpellSlot.W].LastCastAttemptT > 10000
                 && !Vars.Player.IsRecalling()
                 && !Vars.Player.IsWindingUp)
@@ -98,12 +98,12 @@
                 || Vars.Player.IsWindingUp
                 || !Spells.Spell[SpellSlot.W].IsReady()
                 || Target == null
-                || Menu.Item(Menu.Name + "WMana").GetValue<Slider>().Value > Vars.Player.ManaPercent
+                || Menu.Item("WMana").GetValue<Slider>().Value > Vars.Player.ManaPercent
                 || Utils.TickCount - Spells.Spell[SpellSlot.W].LastCastAttemptT < 5000) return;
 
             var wPrediction = Spells.Spell[SpellSlot.W].GetPrediction(Target);
 
-            if (Menu.Item(Menu.Name + "WTarget").GetValue<bool>()) 
+            if (Menu.Item("WTarget").GetValue<bool>()) 
             {
                 if (this.ewq)
                 {
@@ -116,7 +116,7 @@
                 }
             }
 
-            if (wPrediction.Hitchance < HitChance.Immobile || !Menu.Item(Menu.Name + "WImmobile").GetValue<bool>()) return;
+            if (wPrediction.Hitchance < HitChance.Immobile || !Menu.Item("WImmobile").GetValue<bool>()) return;
 
             Spells.Spell[SpellSlot.W].Cast(wPrediction.CastPosition);
         }

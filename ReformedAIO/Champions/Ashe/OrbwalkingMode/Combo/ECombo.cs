@@ -60,7 +60,7 @@
         //    eLogic = new ELogic();
         //}
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "EDistance", "Distance").SetValue(new Slider(2500, 0, 2500)).SetTooltip("Only for enemeis & not objectives"));
 

@@ -42,10 +42,8 @@
         {
             if (!Spells.Spell[SpellSlot.Q].IsReady()
                 || Target == null
-                || Target.IsDead
                 || Target.Health > Spells.Spell[SpellSlot.Q].GetDamage(Target)
-                || Target.Distance(Vars.Player) < Vars.Player.GetRealAutoAttackRange()
-                || !this.qLogic.CanKillSteal(Target))
+                || Target.Distance(Vars.Player) < Vars.Player.GetRealAutoAttackRange())
             {
                 return;
             }

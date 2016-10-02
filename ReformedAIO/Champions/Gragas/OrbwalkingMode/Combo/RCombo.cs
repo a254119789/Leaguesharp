@@ -24,9 +24,20 @@
     {
         #region Fields
 
+        private readonly Orbwalking.Orbwalker orbwalker;
+
         private QLogic qLogic;
 
         private RLogic rLogic;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        public RCombo(Orbwalking.Orbwalker orbwalker)
+        {
+            this.orbwalker = orbwalker;
+        }
 
         #endregion
 
@@ -35,12 +46,7 @@
         public override string Name { get; set; } = "[R] Explosive Cask";
 
         #endregion
-        private readonly Orbwalking.Orbwalker orbwalker;
 
-        public RCombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
         #region Methods
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -64,7 +70,7 @@
         //    base.OnLoad(sender, featureBaseEventArgs);
         //}
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(
                 new MenuItem(Menu.Name + "InsecTo", "Insec To").SetValue(
@@ -87,8 +93,7 @@
                 new MenuItem(Menu.Name + "QRQ", "Use Q?").SetValue(true).SetTooltip("Will do QRQ insec (BETA)"));
 
             Menu.AddItem(
-                new MenuItem(Menu.Name + "QRQDistance", "Max Distance For QRQ Combo").SetValue(
-                    new Slider(725, 0, 800)));
+                new MenuItem(Menu.Name + "QRQDistance", "Max Distance For QRQ Combo").SetValue(new Slider(725, 0, 800)));
 
             Menu.AddItem(new MenuItem(Menu.Name + "RDraw", "Draw R Prediction").SetValue(false));
 
@@ -121,11 +126,8 @@
 
             if (target == null || !target.IsValidTarget() || target.IsDashing()) return;
 
-            Variable.Player.IssueOrder(GameObjectOrder.MoveTo, target);
-
             if (Menu.Item(Menu.Name + "QRQ").GetValue<bool>() && Variable.Spells[SpellSlot.Q].IsReady()
-                && Menu.Item(Menu.Name + "QRQDistance").GetValue<Slider>().Value
-                >= target.Distance(Variable.Player))
+                && Menu.Item(Menu.Name + "QRQDistance").GetValue<Slider>().Value >= target.Distance(Variable.Player))
             {
                 Variable.Spells[SpellSlot.Q].Cast(InsecQ(target));
             }
@@ -139,8 +141,7 @@
             var rPred = rLogic.RPred(target)
                 .Extend(
                     Variable.Player.Position,
-                    Variable.Spells[SpellSlot.R].Width
-                    - Menu.Item(Menu.Name + "RRangePred").GetValue<Slider>().Value);
+                    Variable.Spells[SpellSlot.R].Width - Menu.Item(Menu.Name + "RRangePred").GetValue<Slider>().Value);
 
             return rPred;
         }
@@ -161,9 +162,7 @@
                                 false,
                                 target.ServerPosition) && x.Distance(target) > 325 && !x.IsMe && x.IsAlly)
                             .MaxOrDefault(
-                                x =>
-                                x.CountAlliesInRange(
-                                    Menu.Item(Menu.Name + "AllyRange").GetValue<Slider>().Value));
+                                x => x.CountAlliesInRange(Menu.Item(Menu.Name + "AllyRange").GetValue<Slider>().Value));
 
                     if (ally != null)
                     {
@@ -175,8 +174,8 @@
                             .Where(
                                 x =>
                                 x.IsAlly && x.Distance(target) > 325
-                                && x.Distance(target)
-                                < Menu.Item(Menu.Name + "TurretRange").GetValue<Slider>().Value && !x.IsEnemy)
+                                && x.Distance(target) < Menu.Item(Menu.Name + "TurretRange").GetValue<Slider>().Value
+                                && !x.IsEnemy)
                             .OrderBy(x => x.Distance(Variable.Player.Position))
                             .FirstOrDefault();
 
@@ -221,8 +220,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || !Variable.Spells[SpellSlot.R].IsReady()
+            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo || !Variable.Spells[SpellSlot.R].IsReady()
                 || Menu.Item(Menu.Name + "RMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 
             ExplosiveCask();

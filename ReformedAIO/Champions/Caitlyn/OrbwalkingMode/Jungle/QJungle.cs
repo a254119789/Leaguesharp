@@ -10,7 +10,7 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    internal class QJungle : ChildBase
+    internal sealed class QJungle : ChildBase
     {
         private readonly Orbwalking.Orbwalker orbwalker;
 
@@ -32,11 +32,11 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem(Menu.Name + "QOverkill", "Overkill Check").SetValue(true));
+            Menu.AddItem(new MenuItem("QOverkill", "Overkill Check").SetValue(true));
         }
 
         private void OnUpdate(EventArgs args)
@@ -54,11 +54,11 @@
 
             var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(mobs);
 
-            if (Menu.Item(Menu.Name + "QOverkill").GetValue<bool>() &&
+            if (Menu.Item("QOverkill").GetValue<bool>() &&
                 mobs.Health < Vars.Player.GetAutoAttackDamage(mobs) * 4) return;
 
 
-            Utility.DelayAction.Add(50, ()=> Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition));
+            Utility.DelayAction.Add(5, ()=> Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition));
 
         }
     }

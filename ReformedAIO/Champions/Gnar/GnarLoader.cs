@@ -41,7 +41,7 @@
             var harassParent = new OrbwalkingParent("Harass", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
-             var killstealParent = new Parent("Killsteal");
+            var killstealParent = new Parent("Killsteal");
             var fleeParent = new Parent("Flee");
             var drawingParent = new Parent("Drawing");
 
@@ -106,7 +106,7 @@
 
             if (superParent.Loaded)
             {
-                Game.PrintChat("Reformed Gnar - Loaded!");
+                Game.PrintChat(DisplayName + " - Loaded");
             }
         }
     }

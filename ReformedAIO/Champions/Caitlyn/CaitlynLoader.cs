@@ -5,12 +5,12 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Caitlyn.Drawings;
-    using ReformedAIO.Champions.Caitlyn.Killsteal;
-    using ReformedAIO.Champions.Caitlyn.Logic;
-    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle;
-    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Lane;
+    using Drawings;
+    using Killsteal;
+    using Logic;
+    using OrbwalkingMode.Combo;
+    using OrbwalkingMode.Jungle;
+    using OrbwalkingMode.Lane;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -35,25 +35,22 @@
             var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
             var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
-            var mixedParent = new OrbwalkingParent("Mixed", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var killstealParent = new Parent("Killsteal");
             var drawParent = new Parent("Drawings");
 
             var setSpells = new Spells();
             setSpells.OnLoad();
 
-            superParent.Add(new Base[]
-          {
+            superParent.Add(new Base[] {
                 comboParent,
                 laneParent,
                 jungleParent,
                 killstealParent,
                 drawParent
-            });
+           });
 
             comboParent.Add(new ChildBase[]
             {
-             //   new Ewqr("EWQR Execute"), 
                 new QCombo(orbwalker),
                 new WCombo(orbwalker),
                 new ECombo(orbwalker)   
@@ -81,12 +78,12 @@
                 new EDraw("[E]"),
                 new RDraw("[R]")    
             });
-          
+
             superParent.Load();
 
             if (superParent.Loaded)
             {
-                Game.PrintChat("Reformed Caitlyn - Loaded");
+                Game.PrintChat(DisplayName + " - Loaded");
             }
         }
     }

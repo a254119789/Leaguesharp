@@ -36,11 +36,11 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem(Name + "LaneQEnemy", "Only If No Enemies Visible").SetValue(true));
+            Menu.AddItem(new MenuItem("LaneQEnemy", "Only If No Enemies Visible").SetValue(true));
 
-            Menu.AddItem(new MenuItem(Name + "LaneQMana", "Mana %").SetValue(new Slider(65, 0, 100)));
+            Menu.AddItem(new MenuItem("LaneQMana", "Mana %").SetValue(new Slider(65, 0, 100)));
 
-            Menu.AddItem(new MenuItem(Name + "MinQHit", "Minimum Hit By Q").SetValue(new Slider(4, 0, 6)));
+            Menu.AddItem(new MenuItem("MinQHit", "Minimum Hit By Q").SetValue(new Slider(4, 0, 6)));
         }
 
       
@@ -49,13 +49,13 @@
             if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
                 || !Spells.Spell[SpellSlot.Q].IsReady()) return;
 
-            if (Menu.Item(Menu.Name + "LaneQMana").GetValue<Slider>().Value > Vars.Player.ManaPercent) return;
+            if (Menu.Item("LaneQMana").GetValue<Slider>().Value > Vars.Player.ManaPercent) return;
 
             var minions = MinionManager.GetMinions(Spells.Spell[SpellSlot.Q].Range);
 
             if (minions == null) return;
 
-            if (Menu.Item(Menu.Name + "LaneQEnemy").GetValue<bool>()
+            if (Menu.Item("LaneQEnemy").GetValue<bool>()
                 && minions.Any(m => m.CountEnemiesInRange(2500) > 0))
             {
                 return;
@@ -63,7 +63,7 @@
 
             var pos = Spells.Spell[SpellSlot.Q].GetLineFarmLocation(minions);
 
-            if(pos.MinionsHit >= Menu.Item(Menu.Name + "MinQHit").GetValue<Slider>().Value)
+            if(pos.MinionsHit >= Menu.Item("MinQHit").GetValue<Slider>().Value)
 
             Spells.Spell[SpellSlot.Q].Cast(pos.Position);
         }

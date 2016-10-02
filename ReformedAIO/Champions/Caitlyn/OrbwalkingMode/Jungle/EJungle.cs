@@ -10,7 +10,7 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    internal class EJungle : ChildBase
+    internal sealed class EJungle : ChildBase
     {
         private readonly Orbwalking.Orbwalker orbwalker;
 
@@ -20,7 +20,7 @@
         }
 
 
-        public override sealed string Name { get; set; }
+        public override string Name { get; set; }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -32,7 +32,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
         }

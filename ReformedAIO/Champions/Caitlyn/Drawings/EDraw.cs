@@ -23,7 +23,7 @@
         {
             if (Vars.Player.IsDead) return;
 
-            if (Menu.Item(Menu.Name + "EReady").GetValue<bool>() && !Spells.Spell[SpellSlot.E].IsReady()) return;
+            if (Menu.Item("EReady").GetValue<bool>() && !Spells.Spell[SpellSlot.E].IsReady()) return;
 
             Render.Circle.DrawCircle(
                  Vars.Player.Position,
@@ -45,7 +45,7 @@
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Menu.AddItem(new MenuItem(Name + "EReady", "Only If Ready").SetValue(false));
+            Menu.AddItem(new MenuItem("EReady", "Only If Ready").SetValue(false));
         }
     }
 }
