@@ -163,6 +163,9 @@
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\RCombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\ELaneClear.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\QLaneClear.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\WLaneClear.cs" />
     <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />
@@ -222,7 +225,6 @@
   <ItemGroup>
     <Folder Include="Champions\Lucian\OrbwalkingMode\Harass\" />
     <Folder Include="Champions\Lucian\OrbwalkingMode\JungleClear\" />
-    <Folder Include="Champions\Lucian\OrbwalkingMode\LaneClear\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

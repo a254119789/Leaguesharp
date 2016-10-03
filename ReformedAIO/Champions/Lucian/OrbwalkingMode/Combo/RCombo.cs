@@ -34,24 +34,19 @@
 
             if (target == null
                 || !target.IsValidTarget(rSpell.Spell.Range)
-                || target.Distance(ObjectManager.Player) < ObjectManager.Player.AttackRange)
+                || target.Distance(ObjectManager.Player) < ObjectManager.Player.AttackRange
+                || (Menu.Item("RKillable").GetValue<bool>() && damage.GetComboDamage(target) < target.Health)
+                || (Menu.Item("SafetyCheck").GetValue<bool>() && ObjectManager.Player.CountEnemiesInRange(1400) > ObjectManager.Player.CountAlliesInRange(1400)))
             {
                 return;
             }
 
-            if ((Menu.Item("RKillable").GetValue<bool>() && damage.GetComboDamage(target) < target.Health) || (Menu.Item("SafetyCheck").GetValue<bool>() && ObjectManager.Player.CountEnemiesInRange(1400) > 2)) 
+            var pred = rSpell.Spell.GetPrediction(target);
+
+            if (pred.Hitchance >= HitChance.High)
             {
-                return;
+                rSpell.Spell.Cast(pred.CastPosition);
             }
-
-           var pred = rSpell.Spell.GetPrediction(target);
-
-            if (pred.Hitchance < HitChance.High)
-            {
-                return;
-            }
-
-            rSpell.Spell.Cast(pred.CastPosition);
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -61,7 +56,7 @@
             Menu.AddItem(new MenuItem("RKillable", "Only If Killable").SetValue(true));
             Menu.AddItem(new MenuItem("SafetyCheck", "Safety Check").SetValue(true));
             Menu.AddItem(new MenuItem("Range", "R Range").SetValue(new Slider(1400, 150, 1400)));
-            Menu.AddItem(new MenuItem("RMana", "Min Mana %").SetValue(new Slider(40, 0, 100)));
+            Menu.AddItem(new MenuItem("RMana", "Min Mana %").SetValue(new Slider(25, 0, 100)));
 
         }
 

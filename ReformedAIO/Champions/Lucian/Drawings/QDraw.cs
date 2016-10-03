@@ -12,13 +12,12 @@
 
     internal sealed class QDraw : ChildBase
     {
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "Q";
 
         private readonly QSpell qSpell;
 
-        public QDraw(string name, QSpell qSpell)
+        public QDraw(QSpell qSpell)
         {
-            Name = name;
             this.qSpell = qSpell;
         }
 

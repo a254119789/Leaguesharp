@@ -13,6 +13,7 @@
     using OrbwalkingMode.Combo;
 
     using ReformedAIO.Champions.Lucian.Drawings;
+    using ReformedAIO.Champions.Lucian.OrbwalkingMode.LaneClear;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -21,7 +22,7 @@
 
     using Color = SharpDX.Color;
 
-    class LucianLoader : LoadableBase
+    internal sealed class LucianLoader : LoadableBase
     {
         public override string DisplayName { get; set; } = "Reformed Lucian";
 
@@ -62,9 +63,19 @@
                                     new RCombo(rSpell, orbwalker, dmg)
                                 });
 
+
+            laneParent.Add(new List<Base>()
+                               {
+                                   new QLaneClear(qSpell, orbwalker),
+                                   new WLaneClear(wSpell, orbwalker),
+                                   new ELaneClear(eSpell, orbwalker)
+                               });
+
             drawingParent.Add(new List<Base>()
                                   {
-                                      new QDraw("Q", qSpell)
+                                      new DmgDraw(dmg),
+                                      new QDraw(qSpell),
+
                                   });
 
             superParent.Add(new List<Base>()

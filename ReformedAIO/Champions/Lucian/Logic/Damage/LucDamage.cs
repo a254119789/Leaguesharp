@@ -33,11 +33,20 @@
 
             var aaDmg = (float)ObjectManager.Player.GetAutoAttackDamage(target, true);
 
-            comboDmg += qSpell.GetDamage(target) + aaDmg;
+            if (qSpell.Spell.IsReady())
+            {
+                comboDmg += qSpell.GetDamage(target) + aaDmg;
+            }
 
-            comboDmg += wSpell.Spell.GetDamage(target) + aaDmg;
+            if (wSpell.Spell.IsReady())
+            {
+                comboDmg += wSpell.Spell.GetDamage(target) + aaDmg;
+            }
 
-            comboDmg += aaDmg;
+            if (eSpell.Spell.IsReady())
+            {
+                comboDmg += aaDmg;
+            }
 
             if (target.Distance(ObjectManager.Player) >= 900 && rSpell.Spell.IsReady())
             {

@@ -68,8 +68,8 @@
             base.OnLoad(sender, featureBaseEventArgs);
 
             Menu.AddItem(new MenuItem("WPred", "Disable Prediction").SetValue(true));
-            Menu.AddItem(new MenuItem("WKillable", "Only If Killable").SetValue(true));
-            Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(50, 0, 100)));
+            Menu.AddItem(new MenuItem("WKillable", "Only If Killable").SetValue(false));
+            Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
 
         }
 
