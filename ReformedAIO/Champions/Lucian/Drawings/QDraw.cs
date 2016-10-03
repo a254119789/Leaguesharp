@@ -27,7 +27,7 @@
 
 
             Render.Circle.DrawCircle(ObjectManager.Player.Position, qSpell.Spell.Range, qSpell.Spell.IsReady()
-                ? Color.OrangeRed 
+                ? Color.Cyan
                 : Color.DarkSlateGray,
                 4,
                 true);

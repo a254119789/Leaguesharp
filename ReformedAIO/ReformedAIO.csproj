@@ -157,12 +157,15 @@
     <Compile Include="Champions\Lucian\Drawings\QDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\RDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\WDraw.cs" />
-    <Compile Include="Champions\Lucian\Logic\Damage\LucDamage.cs" />
+    <Compile Include="Champions\Lucian\Core\Damage\LucDamage.cs" />
     <Compile Include="Champions\Lucian\LucianLoader.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\ECombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\RCombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\JungleClear\EJungleClear.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\JungleClear\QJungleClear.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\JungleClear\WJungleClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\ELaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\QLaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\WLaneClear.cs" />
@@ -222,10 +225,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Champions\Lucian\OrbwalkingMode\Harass\" />
-    <Folder Include="Champions\Lucian\OrbwalkingMode\JungleClear\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

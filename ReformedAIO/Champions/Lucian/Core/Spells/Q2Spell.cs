@@ -25,21 +25,16 @@
         {
             var pos = Spell.GetPrediction(target);
 
-            if (pos.Hitchance < HitChance.High)
-            {
-                pos.CastPosition = Vector3.Zero;
-            }
-
             return pos.UnitPosition;
         }
 
         public bool QMinionExtend()
         {
-            var m = MinionManager.GetMinions(500).FirstOrDefault();
+            var m = MinionManager.GetMinions(1200).FirstOrDefault();
 
             var target = HeroManager.Enemies.FirstOrDefault(x => x.IsValidTarget(Spell.Range));
 
-            if (m == null)
+            if (m == null || target == null)
             {
                 return false;
             }
@@ -49,7 +44,7 @@
                     ObjectManager.Player.Position.Extend(m.Position, Spell.Range), Spell.Width);
 
 
-            return hit.IsInside(QPred(target).To2D());
+            return !hit.IsOutside(QPred(target).To2D());
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)

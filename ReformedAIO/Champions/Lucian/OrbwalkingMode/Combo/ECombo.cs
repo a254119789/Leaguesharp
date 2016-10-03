@@ -6,14 +6,15 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ReformedAIO.Champions.Lucian.Core.Damage;
     using ReformedAIO.Champions.Lucian.Core.Spells;
-    using ReformedAIO.Champions.Lucian.Logic.Damage;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
     using SharpDX;
 
-    class ECombo : ChildBase
+    internal sealed class ECombo : OrbwalkingChild
     {
         public override string Name { get; set; } = "E";
 
@@ -32,16 +33,22 @@
 
         private void OnUpdate(EventArgs args)
         {
-            var target = TargetSelector.GetTarget(1150, TargetSelector.DamageType.Physical);
+            if (!CheckGuardians())
+            {
+                return;
+            }
 
-            if (target == null || !target.IsValidTarget(1150) || !Menu.Item("Execute").GetValue<bool>()
+            var target = TargetSelector.GetTarget(750, TargetSelector.DamageType.Physical);
+
+            if (target == null
+                || !target.IsValidTarget(750) 
+                || !Menu.Item("Execute").GetValue<bool>()
                 || damage.GetComboDamage(target) < target.Health)
             {
                 return;
             }
 
-
-            eSpell.Spell.Cast(ObjectManager.Player.Position.Extend(Game.CursorPos, Menu.Item("EDistance").GetValue<Slider>().Value));
+            eSpell.Spell.Cast(target.Position);
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

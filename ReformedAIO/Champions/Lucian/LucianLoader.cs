@@ -8,12 +8,14 @@
 
     using Core.Spells;
     using Core.Spells.SpellParent;
-    using Logic.Damage;
-    
+
     using OrbwalkingMode.Combo;
 
     using Lucian.Drawings;
     using Lucian.OrbwalkingMode.LaneClear;
+
+    using ReformedAIO.Champions.Lucian.Core.Damage;
+    using ReformedAIO.Champions.Lucian.OrbwalkingMode.JungleClear;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -28,7 +30,7 @@
 
         public override string InternalName { get; set; } = "Lucian";
 
-        public override IEnumerable<string> Tags { get; set; } = new[] {"Lucian"};
+        public override IEnumerable<string> Tags { get; set; } = new[] { "Lucian" };
 
         public override void Load()
         {
@@ -42,46 +44,73 @@
             var rSpell = new RSpell();
 
             var spellParent = new SpellParent();
-            spellParent.Add(new List<Base> { qSpell, q2Spell, wSpell, eSpell, rSpell });
+            spellParent.Add(new List<Base>
+                                  {
+                                     qSpell,
+                                     q2Spell,
+                                     wSpell,
+                                     eSpell,
+                                     rSpell
+                                  });
             spellParent.Load();
 
             var dmg = new LucDamage(eSpell, wSpell, qSpell, rSpell);
-           
-         
+            
             var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
 
             var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
+            var harassParent = new OrbwalkingParent("Harass", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
             var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var drawingParent = new Parent("Drawings");
 
-            comboParent.Add(new List<Base>()
+            comboParent.Add(new List<Base>
                                 {
-                                    new QCombo(qSpell, q2Spell, orbwalker),
-                                    new WCombo(wSpell, orbwalker, dmg),
-                                    new ECombo(eSpell, orbwalker, dmg),
-                                    new RCombo(rSpell, orbwalker, dmg)
-                                });
+                                    new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
+                                    new WCombo(wSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q) {Negated = true}),
+                                    new ECombo(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp()),
+                                    new RCombo(rSpell, dmg).Guardian(new PlayerMustNotBeWindingUp()),
+                                 });
 
+            harassParent.Add(new List<Base>
+                                 {
+                                     // Because why the fuck not
+                                     new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()), 
+                                     new WCombo(wSpell).Guardian(new PlayerMustNotBeWindingUp()),
+                                     new ECombo(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp())
+                                 });
 
-            laneParent.Add(new List<Base>()
+            laneParent.Add(new List<Base>
                                {
                                    new QLaneClear(qSpell, orbwalker),
                                    new WLaneClear(wSpell, orbwalker),
                                    new ELaneClear(eSpell, orbwalker)
                                });
 
-            drawingParent.Add(new List<Base>()
+            jungleParent.Add(new List<Base>
+                                 {
+                                     new QJungleClear(qSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
+                                     new WJungleClear(wSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp()),
+                                     new EJungleClear(eSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp())
+                                 });
+
+            drawingParent.Add(new List<Base>
                                   {
-                                      new DmgDraw(dmg),
-                                      new QDraw(qSpell),
+                                   new DmgDraw(dmg),
+                                   new RDraw(rSpell),
+                                   new WDraw(wSpell),
+                                   new QDraw(qSpell),
 
                                   });
 
-            superParent.Add(new List<Base>()
-                                {
-                                    comboParent, laneParent, drawingParent
-                                });
+            superParent.Add(new List<Base>
+                                  {
+                                   comboParent,
+                                   harassParent,
+                                   laneParent,
+                                   jungleParent,
+                                   drawingParent
+                                  });
 
             superParent.Load();
 

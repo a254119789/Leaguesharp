@@ -8,8 +8,9 @@
     using ReformedAIO.Champions.Lucian.Core.Spells;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class WLaneClear : ChildBase
+    internal sealed class WLaneClear : OrbwalkingChild
     {
         public override string Name { get; set; } = "W";
 
@@ -29,7 +30,7 @@
                 && ObjectManager.Player.CountEnemiesInRange(1350) >= 1
                 || (ObjectManager.Player.ManaPercent <= Menu.Item("WMana").GetValue<Slider>().Value)
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
-                || ObjectManager.Player.IsWindingUp)
+                || !CheckGuardians())
             {
                 return;
             }
@@ -50,7 +51,7 @@
 
             Menu.AddItem(new MenuItem("EnemiesCheck", "Check Enemies First").SetValue(true).SetTooltip("Wont W If Nearby Enemies"));
             Menu.AddItem(new MenuItem("MinHit", "Min Hit By W").SetValue(new Slider(3, 0, 6)));
-            Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(5, 0, 100)));
+            Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(80, 0, 100)));
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)

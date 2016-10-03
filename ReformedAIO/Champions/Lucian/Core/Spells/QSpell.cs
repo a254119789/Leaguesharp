@@ -21,7 +21,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Spell = new Spell(SpellSlot.Q, 600);
+            Spell = new Spell(SpellSlot.Q, 630);
             Spell.SetTargetted(.25f, 1400f);
         }
 

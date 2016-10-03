@@ -1,6 +1,8 @@
 ﻿namespace ReformedAIO.Champions.Lucian.OrbwalkingMode.LaneClear
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -8,8 +10,11 @@
     using ReformedAIO.Champions.Lucian.Core.Spells;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class QLaneClear: ChildBase
+    using SharpDX;
+
+    internal sealed class QLaneClear : OrbwalkingChild
     {
         public override string Name { get; set; } = "Q";
 
@@ -25,22 +30,29 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Menu.Item("EnemiesCheck").GetValue<bool>() 
-                && ObjectManager.Player.CountEnemiesInRange(1350) >= 1 
+              if ((Menu.Item("EnemiesCheck").GetValue<bool>()
+                && ObjectManager.Player.CountEnemiesInRange(1500) >= 1)
                 || (ObjectManager.Player.ManaPercent <= Menu.Item("QMana").GetValue<Slider>().Value)
-                || ObjectManager.Player.HasBuff("LucianPassiveBuff")
-                || ObjectManager.Player.IsWindingUp)
+                || ObjectManager.Player.HasBuff("LucianPassiveBuff") 
+                || !CheckGuardians())
+            {
+                return;
+            }
+           
+            var minions = MinionManager.GetMinions(ObjectManager.Player.Position, qSpell.Spell.Range).FirstOrDefault();
+
+            if (minions == null)
             {
                 return;
             }
 
-            var minion = MinionManager.GetMinions(ObjectManager.Player.Position, Orbwalking.GetAttackRange(ObjectManager.Player));
+            var prediction = qSpell.Spell.GetPrediction(minions, true);
 
-            var qPred = qSpell.Spell.GetLineFarmLocation(minion);
+            var collision = qSpell.Spell.GetCollision(ObjectManager.Player.Position.To2D(), new List<Vector2> { prediction.UnitPosition.To2D() });
 
-            if (qPred.MinionsHit >= Menu.Item("MinHit").GetValue<Slider>().Value)
+            if (collision.Count >= Menu.Item("MinHit").GetValue<Slider>().Value)
             {
-                qSpell.Spell.Cast(qPred.Position);
+                qSpell.Spell.Cast(collision[0]);
             }
         }
 
@@ -50,7 +62,7 @@
 
             Menu.AddItem(new MenuItem("EnemiesCheck", "Check Enemies First").SetValue(true).SetTooltip("Wont Q If Nearby Enemies"));
             Menu.AddItem(new MenuItem("MinHit", "Min Hit By Q").SetValue(new Slider(3, 0, 6)));
-            Menu.AddItem(new MenuItem("QMana", "Min Mana %").SetValue(new Slider(5, 0, 100)));
+            Menu.AddItem(new MenuItem("QMana", "Min Mana %").SetValue(new Slider(70, 0, 100)));
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)

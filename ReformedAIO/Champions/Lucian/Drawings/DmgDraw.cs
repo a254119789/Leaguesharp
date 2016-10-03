@@ -6,13 +6,13 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Lucian.Logic.Damage;
+    using ReformedAIO.Champions.Lucian.Core.Damage;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
     using SharpDX;
 
-    class DmgDraw : ChildBase
+    internal sealed class DmgDraw : ChildBase
     {
         public override string Name { get; set; } = "Damage";
 

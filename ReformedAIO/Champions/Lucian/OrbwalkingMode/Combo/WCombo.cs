@@ -5,31 +5,27 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ReformedAIO.Champions.Lucian.Core.Damage;
     using ReformedAIO.Champions.Lucian.Core.Spells;
-    using ReformedAIO.Champions.Lucian.Logic.Damage;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    class WCombo : ChildBase
+    internal sealed class WCombo : OrbwalkingChild
     {
         public override string Name { get; set; } = "W";
 
-        private readonly LucDamage damage;
-
         private readonly WSpell wSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public WCombo(WSpell wSpell, Orbwalking.Orbwalker orbwalker, LucDamage damage)
+        public WCombo(WSpell wSpell)
         {
             this.wSpell = wSpell;
-            this.orbwalker = orbwalker;
-            this.damage = damage;
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsMe
+                || !CheckGuardians()
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
                 || !wSpell.Spell.IsReady()
@@ -42,14 +38,14 @@
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {
-                if (target.Health > damage.GetComboDamage(target) && Menu.Item("WKillable").GetValue<bool>())
-                {
-                    return;
-                }
+                //if (target.Health > damage.GetComboDamage(target) && Menu.Item("WKillable").GetValue<bool>())
+                //{
+                //    return;
+                //}
 
                 if (Menu.Item("WPred").GetValue<bool>())
                 {
-                    Utility.DelayAction.Add(1, () => wSpell.Spell.Cast(target.Position));
+                   wSpell.Spell.Cast(target.Position);
                 }
                 else
                 {
@@ -57,7 +53,7 @@
 
                     if (wPred.Hitchance > HitChance.Medium)
                     {
-                        Utility.DelayAction.Add(1, () => wSpell.Spell.Cast(wPred.CastPosition));
+                       wSpell.Spell.Cast(wPred.CastPosition);
                     }
                 }
             }
@@ -68,7 +64,7 @@
             base.OnLoad(sender, featureBaseEventArgs);
 
             Menu.AddItem(new MenuItem("WPred", "Disable Prediction").SetValue(true));
-            Menu.AddItem(new MenuItem("WKillable", "Only If Killable").SetValue(false));
+          //  Menu.AddItem(new MenuItem("WKillable", "Only If Killable").SetValue(false));
             Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
 
         }

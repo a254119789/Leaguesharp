@@ -6,12 +6,13 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ReformedAIO.Champions.Lucian.Core.Damage;
     using ReformedAIO.Champions.Lucian.Core.Spells;
-    using ReformedAIO.Champions.Lucian.Logic.Damage;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    class RCombo : ChildBase
+    internal sealed class RCombo : OrbwalkingChild
     {
         public override string Name { get; set; } = "R";
 
@@ -19,17 +20,19 @@
 
         private readonly RSpell rSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public RCombo(RSpell rSpell, Orbwalking.Orbwalker orbwalker, LucDamage damage)
+        public RCombo(RSpell rSpell, LucDamage damage)
         {
             this.rSpell = rSpell;
-            this.orbwalker = orbwalker;
             this.damage = damage;
         }
 
         private void OnUpdate(EventArgs args)
         {
+            if (!CheckGuardians())
+            {
+                return;
+            }
+
             var target = TargetSelector.GetTarget(Menu.Item("Range").GetValue<Slider>().Value, TargetSelector.DamageType.Physical);
 
             if (target == null
