@@ -28,7 +28,8 @@
             if (Menu.Item("EnemiesCheck").GetValue<bool>()
                 && ObjectManager.Player.CountEnemiesInRange(1350) >= 1
                 || (ObjectManager.Player.ManaPercent <= Menu.Item("WMana").GetValue<Slider>().Value)
-                || ObjectManager.Player.HasBuff("LucianPassiveBuff"))
+                || ObjectManager.Player.HasBuff("LucianPassiveBuff")
+                || ObjectManager.Player.IsWindingUp)
             {
                 return;
             }

@@ -49,7 +49,7 @@
 
                 if (Menu.Item("WPred").GetValue<bool>())
                 {
-                    wSpell.Spell.Cast(target.Position);
+                    Utility.DelayAction.Add(1, () => wSpell.Spell.Cast(target.Position));
                 }
                 else
                 {
@@ -57,7 +57,7 @@
 
                     if (wPred.Hitchance > HitChance.Medium)
                     {
-                        wSpell.Spell.Cast(wPred.CastPosition);
+                        Utility.DelayAction.Add(1, () => wSpell.Spell.Cast(wPred.CastPosition));
                     }
                 }
             }

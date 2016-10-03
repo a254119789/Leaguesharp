@@ -6,14 +6,14 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Lucian.Core.Spells;
-    using ReformedAIO.Champions.Lucian.Core.Spells.SpellParent;
-    using ReformedAIO.Champions.Lucian.Logic.Damage;
+    using Core.Spells;
+    using Core.Spells.SpellParent;
+    using Logic.Damage;
     
     using OrbwalkingMode.Combo;
 
-    using ReformedAIO.Champions.Lucian.Drawings;
-    using ReformedAIO.Champions.Lucian.OrbwalkingMode.LaneClear;
+    using Lucian.Drawings;
+    using Lucian.OrbwalkingMode.LaneClear;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -80,7 +80,7 @@
 
             superParent.Add(new List<Base>()
                                 {
-                                    comboParent, drawingParent
+                                    comboParent, laneParent, drawingParent
                                 });
 
             superParent.Load();
