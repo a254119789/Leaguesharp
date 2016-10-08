@@ -11,11 +11,15 @@
 
     using OrbwalkingMode.Combo;
 
-    using Lucian.Drawings;
-    using Lucian.OrbwalkingMode.LaneClear;
+    using Drawings;
+    using OrbwalkingMode.LaneClear;
 
-    using ReformedAIO.Champions.Lucian.Core.Damage;
-    using ReformedAIO.Champions.Lucian.OrbwalkingMode.JungleClear;
+    using Core.Damage;
+    using OrbwalkingMode.JungleClear;
+
+    using Perma_Active.Killsteal;
+
+    using Lucian.Perma_Active.AntiGapcloser;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -38,13 +42,13 @@
             superParent.Initialize();
 
             var qSpell = new QSpell();
-            var q2Spell = new Q2Spell();
+           var q2Spell = new Q2Spell();
             var wSpell = new WSpell();
             var eSpell = new ESpell();
             var rSpell = new RSpell();
 
             var spellParent = new SpellParent();
-            spellParent.Add(new List<Base>
+              spellParent.Add(new List<Base>
                                   {
                                      qSpell,
                                      q2Spell,
@@ -58,18 +62,21 @@
             
             var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
 
-            var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
+            var comboParent  = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
             var harassParent = new OrbwalkingParent("Harass", orbwalker, Orbwalking.OrbwalkingMode.Mixed);
-            var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var laneParent   = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
-            var drawingParent = new Parent("Drawings");
+         var killstealParnet = new Parent("Killsteal");
+         var gapcloserParent = new Parent("Gapcloser");
+           var drawingParent = new Parent("Drawings");
+        
 
             comboParent.Add(new List<Base>
                                 {
-                                    new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
-                                    new WCombo(wSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q) {Negated = true}),
-                                    new ECombo(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp()),
-                                    new RCombo(rSpell, dmg).Guardian(new PlayerMustNotBeWindingUp()),
+                                    new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}).Guardian(new SpellMustBeReady(SpellSlot.Q)),
+                                    new WCombo(wSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q) {Negated = true}).Guardian(new SpellMustBeReady(SpellSlot.W)),
+                                    new ECombo(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E)),
+                                    new RCombo(rSpell, dmg).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.R)),
                                  });
 
             harassParent.Add(new List<Base>
@@ -82,9 +89,9 @@
 
             laneParent.Add(new List<Base>
                                {
-                                   new QLaneClear(qSpell, orbwalker),
-                                   new WLaneClear(wSpell, orbwalker),
-                                   new ELaneClear(eSpell, orbwalker)
+                                    new QLaneClear(qSpell, orbwalker),
+                                    new WLaneClear(wSpell, orbwalker),
+                                    new ELaneClear(eSpell, orbwalker)
                                });
 
             jungleParent.Add(new List<Base>
@@ -94,22 +101,36 @@
                                      new EJungleClear(eSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp())
                                  });
 
+            killstealParnet.Add(new List<Base>
+                                    {
+                                        new Q(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)),
+                                        new W(wSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.W)),
+                                        new R(rSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.R))
+                                    });
+
+            gapcloserParent.Add(new List<Base>
+                                    {
+                                        new GapcloseFastAsFuckBOi(eSpell)
+                                    });
+
             drawingParent.Add(new List<Base>
                                   {
-                                   new DmgDraw(dmg),
-                                   new RDraw(rSpell),
-                                   new WDraw(wSpell),
-                                   new QDraw(qSpell),
+                                    new DmgDraw(dmg),
+                                    new RDraw(rSpell),
+                                    new WDraw(wSpell),
+                                    new QDraw(qSpell),
 
                                   });
 
             superParent.Add(new List<Base>
                                   {
-                                   comboParent,
-                                   harassParent,
-                                   laneParent,
-                                   jungleParent,
-                                   drawingParent
+                                     comboParent,
+                                     harassParent,
+                                     laneParent,
+                                     jungleParent,
+                                     killstealParnet,
+                                     drawingParent,
+                                     gapcloserParent
                                   });
 
             superParent.Load();

@@ -42,13 +42,11 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\Refor
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\ReformedAIO.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\ReformedAIO.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.Common.dll
-C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.SDKEx.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\RethoughtLib.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\SharpDX.Direct3D9.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\SharpDX.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\SPrediction.dll
-C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.Data.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\clipper_library.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.Common.pdb
@@ -60,3 +58,4 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\obj\x86\Debug\R
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\obj\x86\Debug\ReformedAIO.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\obj\x86\Debug\ReformedAIO.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\clipper_library.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.dll

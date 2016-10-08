@@ -9,17 +9,10 @@
     using ReformedAIO.Champions.Caitlyn.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class QLane : ChildBase
+    internal sealed class QLane : OrbwalkingChild
     {
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QLane(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
-
         public override string Name { get; set; }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -46,17 +39,16 @@
       
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
-                || !Spells.Spell[SpellSlot.Q].IsReady()) return;
-
-            if (Menu.Item("LaneQMana").GetValue<Slider>().Value > Vars.Player.ManaPercent) return;
+            if (Menu.Item("LaneQMana").GetValue<Slider>().Value > Vars.Player.ManaPercent)
+            {
+                return;
+            }
 
             var minions = MinionManager.GetMinions(Spells.Spell[SpellSlot.Q].Range);
 
             if (minions == null) return;
 
-            if (Menu.Item("LaneQEnemy").GetValue<bool>()
-                && minions.Any(m => m.CountEnemiesInRange(2500) > 0))
+            if (Menu.Item("LaneQEnemy").GetValue<bool>() && minions.Any(m => m.CountEnemiesInRange(2000) > 0))
             {
                 return;
             }

@@ -169,6 +169,10 @@
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\ELaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\QLaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\WLaneClear.cs" />
+    <Compile Include="Champions\Lucian\Perma Active\AntiGapcloser\GapcloseFastAsFuckBOi.cs" />
+    <Compile Include="Champions\Lucian\Perma Active\Killsteal\Q.cs" />
+    <Compile Include="Champions\Lucian\Perma Active\Killsteal\R.cs" />
+    <Compile Include="Champions\Lucian\Perma Active\Killsteal\W.cs" />
     <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />

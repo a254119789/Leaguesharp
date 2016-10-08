@@ -8,15 +8,10 @@
 
     using ReformedAIO.Champions.Caitlyn.Logic;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class RKillsteal : ChildBase
+    internal sealed class RKillsteal : OrbwalkingChild
     {
-        public RKillsteal(string name)
-        {
-            Name = name;
-        }
-
         public override string Name { get; set; }
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.R].Range, TargetSelector.DamageType.Physical);
@@ -43,10 +38,11 @@
                 Spells.Spell[SpellSlot.R].Range = 1500 + 500 * Spells.Spell[SpellSlot.R].Level;
             }
 
-            if (!Spells.Spell[SpellSlot.R].IsReady()
-                || Target == null
-                || Vars.Player.Distance(Target) < Vars.Player.GetRealAutoAttackRange() + 350
-                || Target.Health > Spells.Spell[SpellSlot.R].GetDamage(Target))
+            if (Target == null
+                || Vars.Player.Distance(Target) < Vars.Player.GetRealAutoAttackRange() + 450
+                || Target.Health > Spells.Spell[SpellSlot.R].GetDamage(Target)
+                || Target.CountEnemiesInRange(Spells.Spell[SpellSlot.R].Range) > 1
+                || !CheckGuardians())
             {
                 return;
             }

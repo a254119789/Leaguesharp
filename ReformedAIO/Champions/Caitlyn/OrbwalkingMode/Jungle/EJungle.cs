@@ -8,18 +8,10 @@
 
     using ReformedAIO.Champions.Caitlyn.Logic;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class EJungle : ChildBase
+    internal sealed class EJungle  : OrbwalkingChild
     {
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public EJungle(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
-
         public override string Name { get; set; }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -39,16 +31,9 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
-                || !Spells.Spell[SpellSlot.E].IsReady()
-                || Vars.Player.IsWindingUp)
-            {
-                return;
-            }
-
             var mobs = MinionManager.GetMinions(Spells.Spell[SpellSlot.E].Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth).FirstOrDefault();
 
-            if (mobs == null || !mobs.IsValid) return;
+            if (mobs == null || !mobs.IsValid || !CheckGuardians()) return;
 
             var qPrediction = Spells.Spell[SpellSlot.E].GetPrediction(mobs);
 

@@ -14,12 +14,13 @@
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.Utility;
 
     internal class CaitlynLoader : LoadableBase
     {
-        public override string DisplayName { get; set; } = String.ToTitleCase("Reformed Caitlyn");
+        public override string DisplayName { get; set; } = "Reformed Caitlyn";
 
         public override string InternalName { get; set; } = "Caitlyn";
 
@@ -41,36 +42,31 @@
             var setSpells = new Spells();
             setSpells.OnLoad();
 
-            superParent.Add(new Base[] {
-                comboParent,
-                laneParent,
-                jungleParent,
-                killstealParent,
-                drawParent
-           });
+            comboParent.Add(new List<Base>()
+                                {
+                new QCombo().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
+                new WCombo().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.W)),
+                new ECombo().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E))
+                                });
 
-            comboParent.Add(new ChildBase[]
+            laneParent.Add(new List<Base>
+                               {
+                new QLane().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q))
+                               });
+           
+            jungleParent.Add(new List<Base>
             {
-                new QCombo(orbwalker),
-                new WCombo(orbwalker),
-                new ECombo(orbwalker)   
+                new QJungle().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
+                new EJungle().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E))
             });
 
-            laneParent.Add(new QLane(orbwalker));
-
-            jungleParent.Add(new ChildBase[]
+            killstealParent.Add(new List<Base>
             {
-                new QJungle(orbwalker),
-                new EJungle(orbwalker)
-            });
-
-            killstealParent.Add(new ChildBase[]
-            {
-                new QKillsteal("[Q]"),
-                new RKillsteal("[R]")  
+                new QKillsteal().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)),
+                new RKillsteal().Guardian(new SpellMustBeReady(SpellSlot.R))  
             });
           
-            drawParent.Add(new ChildBase[]
+            drawParent.Add(new List<Base>
             {
                 new DmgDraw("Damage"), 
                 new QDraw("[Q]"),
@@ -78,6 +74,14 @@
                 new EDraw("[E]"),
                 new RDraw("[R]")    
             });
+
+            superParent.Add(new List<Base> {
+                comboParent,
+                laneParent,
+                jungleParent,
+                killstealParent,
+                drawParent
+           });
 
             superParent.Load();
 

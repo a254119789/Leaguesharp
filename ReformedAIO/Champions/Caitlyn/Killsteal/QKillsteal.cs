@@ -8,20 +8,13 @@
 
     using ReformedAIO.Champions.Caitlyn.Logic;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class QKillsteal : ChildBase
+    internal sealed class QKillsteal : OrbwalkingChild
     {
-        public QKillsteal(string name)
-        {
-            Name = name;
-        }
-
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "[Q]";
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.Q].Range, TargetSelector.DamageType.Physical);
-
-        private QLogic qLogic;
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -35,15 +28,15 @@
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            this.qLogic = new QLogic();
         }
 
         private void OnUpdate(EventArgs args)
         {
-            if (!Spells.Spell[SpellSlot.Q].IsReady()
-                || Target == null
+            if (Target == null
                 || Target.Health > Spells.Spell[SpellSlot.Q].GetDamage(Target)
-                || Target.Distance(Vars.Player) < Vars.Player.GetRealAutoAttackRange())
+                || Target.Distance(Vars.Player) < Vars.Player.GetRealAutoAttackRange()
+                || Spells.Spell[SpellSlot.Q].Delay + Spells.Spell[SpellSlot.Q].Speed < Target.MoveSpeed
+                || !CheckGuardians())
             {
                 return;
             }

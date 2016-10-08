@@ -8,17 +8,10 @@
     using ReformedAIO.Champions.Caitlyn.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class ECombo : ChildBase
+    internal sealed class ECombo  : OrbwalkingChild
     {
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public ECombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
-
         public override string Name { get; set; }
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.E].Range, TargetSelector.DamageType.Physical);
@@ -52,32 +45,32 @@
 
             var target = gapcloser.Sender;
 
-            if (target == null) return;
-
-            if (!target.IsEnemy || !Spells.Spell[SpellSlot.E].IsReady()) return;
+            if (target == null || !target.IsEnemy || !Spells.Spell[SpellSlot.E].IsReady() || !CheckGuardians())
+            {
+                return;
+            }
 
             Spells.Spell[SpellSlot.E].Cast(gapcloser.End);
         }
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || Vars.Player.IsWindingUp
-                || !Spells.Spell[SpellSlot.E].IsReady()
-                || Target == null
-                || Menu.Item("EMana").GetValue<Slider>().Value > Vars.Player.ManaPercent)
+            if (Target == null || Menu.Item("EMana").GetValue<Slider>().Value > Vars.Player.ManaPercent || !CheckGuardians())
             {
                 return;
             }
 
-            var ePrediction = Spells.Spell[SpellSlot.E].GetPrediction(this.Target);
-
-            if (Target.Distance(Vars.Player) > 270 && Menu.Item("AntiMelee").GetValue<bool>())
+            if (Vars.Player.Distance(Target) < 270 && Menu.Item("AntiMelee").GetValue<bool>())
             {
-                Spells.Spell[SpellSlot.E].Cast(ePrediction.CastPosition);
+                Spells.Spell[SpellSlot.E].Cast(Target.Position);
             }
 
-            if (ePrediction.Hitchance < HitChance.High) return;
+            var ePrediction = Spells.Spell[SpellSlot.E].GetPrediction(this.Target);
+
+            if (ePrediction.Hitchance < HitChance.High)
+            {
+                return;
+            }
 
             Spells.Spell[SpellSlot.E].Cast(ePrediction.CastPosition);
         }

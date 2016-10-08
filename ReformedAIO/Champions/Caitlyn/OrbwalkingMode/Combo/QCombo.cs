@@ -8,16 +8,10 @@
     using ReformedAIO.Champions.Caitlyn.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class QCombo : ChildBase
+    internal sealed class QCombo  : OrbwalkingChild
     {
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QCombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
         public override string Name { get; set; } 
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.Q].Range, TargetSelector.DamageType.Physical);
@@ -47,29 +41,19 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (Vars.Player.IsWindingUp
-                || !Spells.Spell[SpellSlot.Q].IsReady()
-                || Target == null
-                || Menu.Item("QMana").GetValue<Slider>().Value > Vars.Player.ManaPercent) return;
-
-            if (Menu.Item("QHit").GetValue<bool>())
-            {
-                Spells.Spell[SpellSlot.Q].CastIfWillHit(Target, 2);
-            }
-
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            if (Target == null || Menu.Item("QMana").GetValue<Slider>().Value > Vars.Player.ManaPercent || !CheckGuardians())
             {
                 return;
             }
 
-            var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(this.Target);
+            var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(this.Target, true);
 
-            if (qPrediction.Hitchance >= HitChance.VeryHigh && Menu.Item("QHigh").GetValue<bool>()) // Needs work, too tired
+            if (Menu.Item("QHit").GetValue<bool>() && qPrediction.AoeTargetsHitCount >= 2)
             {
-                Utility.DelayAction.Add(30, ()=> Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition));
+                Spells.Spell[SpellSlot.Q].Cast(Target);
             }
 
-            if (qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("QImmobile").GetValue<bool>())
+            if (qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("QImmobile").GetValue<bool>() || (qPrediction.Hitchance >= HitChance.VeryHigh && Menu.Item("QHigh").GetValue<bool>()))
             {
                 Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition);
             }
