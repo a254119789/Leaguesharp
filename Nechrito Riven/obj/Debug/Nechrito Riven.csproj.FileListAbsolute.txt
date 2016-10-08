@@ -21,7 +21,6 @@ C:\Users\Nechr\Desktop\Nechrito Riven\obj\Debug\Nechrito Riven.csprojResolveAsse
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Nechrito Riven.exe
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Nechrito Riven.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Common.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.dll
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\SharpDX.Direct3D9.dll
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\SharpDX.dll
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Data.dll

@@ -21,6 +21,8 @@
 
     using Lucian.Perma_Active.AntiGapcloser;
 
+    using ReformedAIO.Champions.Lucian.OrbwalkingMode.Harass;
+
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -73,7 +75,7 @@
 
             comboParent.Add(new List<Base>
                                 {
-                                    new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}).Guardian(new SpellMustBeReady(SpellSlot.Q)),
+                                    new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)),
                                     new WCombo(wSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q) {Negated = true}).Guardian(new SpellMustBeReady(SpellSlot.W)),
                                     new ECombo(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E)),
                                     new RCombo(rSpell, dmg).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.R)),
@@ -81,17 +83,16 @@
 
             harassParent.Add(new List<Base>
                                  {
-                                     // Because why the fuck not
-                                     new QCombo(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()), 
-                                     new WCombo(wSpell).Guardian(new PlayerMustNotBeWindingUp()),
-                                     new ECombo(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp())
+                                    new QHarass(qSpell, q2Spell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)),
+                                    new WHarass(wSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q) {Negated = true}).Guardian(new SpellMustBeReady(SpellSlot.W)),
+                                    new EHarass(eSpell, orbwalker, dmg).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E)),
                                  });
 
             laneParent.Add(new List<Base>
                                {
-                                    new QLaneClear(qSpell, orbwalker),
-                                    new WLaneClear(wSpell, orbwalker),
-                                    new ELaneClear(eSpell, orbwalker)
+                                    new QLaneClear(qSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)),
+                                    new WLaneClear(wSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.W)),
+                                    new ELaneClear(eSpell, orbwalker).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E)),
                                });
 
             jungleParent.Add(new List<Base>

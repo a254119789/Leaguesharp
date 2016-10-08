@@ -18,34 +18,35 @@
 
         public static void Update(EventArgs args)
         {
-            var hero = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            if (hero == null || hero.HasBuff(NoRList.ToString()))
+            if (target == null || target.HasBuff(NoRList.ToString()))
             {
                 return;
             }
 
-            if (Spells.W.IsReady() && InRange(hero) && MenuConfig.KsW)
+            if (Spells.W.IsReady()
+                && MenuConfig.KsW 
+                && target.Health <= Spells.W.GetDamage(target))
             {
-                if (hero.Health <= Spells.W.GetDamage(hero))
-                {
-                    Spells.W.Cast();
-                }
+                CastW(target);
             }
 
-            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && MenuConfig.KsR2)
+            if (Spells.R.IsReady()
+                && Spells.R.Instance.Name == IsSecondR
+                && MenuConfig.KsR2)
             {
-                if (hero.Health < Dmg.RDmg(hero))
+                if (target.Health < Dmg.RDmg(target))
                 {
-                    var pred = Spells.R.GetPrediction(hero);
+                    var pred = Spells.R.GetPrediction(target);
 
                     Spells.R.Cast(pred.CastPosition);
                 }
             }
 
-            if (hero.Health < Spells.Q.GetDamage(hero))
+            if (target.Health < Spells.Q.GetDamage(target) && Spells.Q.IsReady())
             {
-                Spells.Q.Cast(hero);
+                Spells.Q.Cast(target);
             }
 
             if (!Spells.Ignite.IsReady() || !MenuConfig.Ignite)
@@ -53,9 +54,9 @@
                 return;
             }
 
-            if (hero.IsValidTarget(600f) && Dmg.IgniteDamage(hero) >= hero.Health)
+            if (target.IsValidTarget(600f) && Dmg.IgniteDamage(target) >= target.Health)
             {
-                Player.Spellbook.CastSpell(Spells.Ignite, hero);
+                Player.Spellbook.CastSpell(Spells.Ignite, target);
             }
         }
 

@@ -54,13 +54,7 @@
             }
             else
             {
-                var enemy =
-                    HeroManager.Enemies.Where(
-                        target =>
-                        target.IsValidTarget(
-                            Player.HasBuff("RivenFengShuiEngine")
-                                ? 70 + 195 + Player.BoundingRadius
-                                : 70 + 120 + Player.BoundingRadius) && Spells.W.IsReady());
+                var enemy = HeroManager.Enemies.Where(target => InRange(target) && Spells.W.IsReady());
 
                 var x = Player.Position.Extend(Game.CursorPos, 300);
 
@@ -77,14 +71,20 @@
                     }
                 }
 
-                if (Spells.Q.IsReady() && !Player.IsDashing()) Spells.Q.Cast(Game.CursorPos);
+                if (Spells.Q.IsReady() && !Player.IsDashing())
+                {
+                    Spells.Q.Cast(Game.CursorPos);
+                }
 
                 if (MenuConfig.FleeYomuu)
                 {
                     Usables.CastYoumoo();
                 }
 
-                if (Spells.E.IsReady() && !Player.IsDashing()) Spells.E.Cast(x);
+                if (Spells.E.IsReady() && !Player.IsDashing())
+                {
+                    Spells.E.Cast(x);
+                }
             }
         }
 

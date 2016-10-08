@@ -163,6 +163,9 @@
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\RCombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Harass\EHarass.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Harass\QHarass.cs" />
+    <Compile Include="Champions\Lucian\OrbwalkingMode\Harass\WHarass.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\JungleClear\EJungleClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\JungleClear\QJungleClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\JungleClear\WJungleClear.cs" />

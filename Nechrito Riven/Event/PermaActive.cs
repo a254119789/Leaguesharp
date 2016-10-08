@@ -21,7 +21,7 @@
     {
         #region Public Methods and Operators
 
-        public static void QMove()
+        private static void QMove()
         {
             if (!MenuConfig.QMove || !Spells.Q.IsReady())
             {
@@ -33,7 +33,7 @@
 
         public static void Update(EventArgs args)
         {
-            if (Player.IsDead || Player.IsRecalling())
+            if (Player.IsDead)
             {
                 return;
             }
@@ -41,6 +41,7 @@
             if (Utils.GameTimeTickCount - LastQ >= 3650
                 && !Player.InFountain()
                 && !Player.InShop()
+                && !Player.IsRecalling()
                 && MenuConfig.KeepQ
                 && Player.HasBuff("RivenTriCleave"))
             {
@@ -48,6 +49,7 @@
             }
 
             QMove();
+
             ForceSkill();
 
             switch (Orbwalker.ActiveMode)
@@ -73,7 +75,6 @@
                     break;
             }
         }
-
         #endregion
     }
 }

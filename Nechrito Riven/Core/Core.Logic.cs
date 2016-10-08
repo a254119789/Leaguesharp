@@ -48,7 +48,8 @@
                                                            {
                                                                "MonkeyKingQAttack", "YasuoDash", "FizzPiercingStrike",
                                                                "RengarQ", "GarenQAttack", "GarenRPreCast",
-                                                               "PoppyPassiveAttack", "viktorqbuff", "FioraEAttack"
+                                                               "PoppyPassiveAttack", "viktorqbuff", "FioraEAttack",
+                                                               "TeemoQ"
                                                            };
 
         /// <summary>
@@ -78,8 +79,6 @@
            : Items.CanUseItem(3748) && Items.HasItem(3748)
            ? 3748 : 0;
 
-        private static bool HasItems => Items.CanUseItem(3077) || Items.CanUseItem(3074) || Items.CanUseItem(3748);
-
         public static bool R1 { get; set; }
 
         private static bool CanQ(AttackableUnit x)
@@ -95,8 +94,8 @@
         public static bool InRange(AttackableUnit x)
         {
             return ObjectManager.Player.HasBuff("RivenFengShuiEngine")
-            ? Player.Distance(x) <= 330
-            : Player.Distance(x) <= 265;
+            ? Player.Distance(x) <= 295
+            : Player.Distance(x) <= 235;
         }
         #endregion
 
@@ -124,7 +123,6 @@
 
             if (canW && Player.Distance(Unit) <= Spells.W.Range)
             {
-                
                 if (canItem && Items.CanUseItem(Item) && Item != 0)
                 {
                     Items.UseItem(Item);

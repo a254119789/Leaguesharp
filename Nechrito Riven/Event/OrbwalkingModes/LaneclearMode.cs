@@ -31,7 +31,10 @@
 
             foreach (var m in minions)
             {
-                if (m.UnderTurret(true)) return;
+                if (m.UnderTurret(true))
+                {
+                    return;
+                }
 
                 if (Spells.E.IsReady() && MenuConfig.LaneE)
                 {
@@ -49,14 +52,13 @@
                 }
                 else if (!Spells.W.IsReady()
                          || !MenuConfig.LaneW
-                         || !InRange(m)
                          || Player.IsWindingUp
                          || m.Health > Spells.W.GetDamage(m))
                 {
                     return;
                 }
 
-                Spells.W.Cast(m);
+                CastW(m);
             }
         }
 

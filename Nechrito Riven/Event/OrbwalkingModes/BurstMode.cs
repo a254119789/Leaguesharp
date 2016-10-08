@@ -34,20 +34,16 @@
 
                 Usables.CastYoumoo();
 
-                if (Spells.E.IsReady())
-                {
-                    Spells.E.Cast(target.Position);
-                }
-               
+                Spells.E.Cast(target.Position);
                 Spells.R.Cast();
                 Spells.W.Cast();
                 Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
             }
             else
             {
-                var target = TargetSelector.GetTarget(Player.AttackRange + 330, TargetSelector.DamageType.Physical);
+                var target = TargetSelector.GetTarget(Player.AttackRange + 360, TargetSelector.DamageType.Physical);
 
-                if (!target.IsValidTarget() || target == null) return;
+                if (!target.IsValidTarget(Player.AttackRange + 360) || target == null) return;
 
                 if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
                 {
@@ -105,12 +101,6 @@
                     Utility.DelayAction.Add(15, () => Spells.R.Cast());
                     Utility.DelayAction.Add(140, () => CastW(target));
                     Utility.DelayAction.Add(220, () => CastQ(target));
-                }
-                else if (Spells.W.IsReady() && Spells.Q.IsReady() && Spells.E.IsReady())
-                {
-                    Spells.E.Cast(target.Position);
-                    Utility.DelayAction.Add(190, () => CastW(target));
-                    Utility.DelayAction.Add(260, () => CastQ(target));
                 }
                else if (Spells.E.IsReady())
                 {

@@ -15,7 +15,10 @@
 
         public static void OnProcessSpell(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsEnemy || Player.Distance(sender.ServerPosition) > args.SData.CastRange) return;
+            if (!sender.IsEnemy)
+            {
+                return;
+            }
 
             if (Spells.E.IsReady())
             {
@@ -30,7 +33,7 @@
                 return;
             }
 
-            Spells.W.Cast();
+            CastW(sender);
         }
 
         #endregion

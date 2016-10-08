@@ -7,10 +7,10 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
-    using NechritoRiven.Menus;
+    using Core;
+    using Menus;
 
-    using Orbwalking = NechritoRiven.Orbwalking;
+    using Orbwalking = Orbwalking;
 
     #endregion
 
@@ -25,7 +25,7 @@
                 return;
             }
 
-            //Game.PrintChat((Ping() + MenuConfig.Qd - AtkSpeed()).ToString());
+            Console.WriteLine((Ping() + MenuConfig.Qd - AtkSpeed()).ToString());
 
             switch (args.Animation)
             {
@@ -82,7 +82,7 @@
             }
         }
 
-         private static int AtkSpeed()
+        private static int AtkSpeed()
         {
             return (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
         }
@@ -106,13 +106,15 @@
         private static void Reset()
         {
             Emotes();
-            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos, true);
             Orbwalking.LastAaTick = 0;
+            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 
         private static bool SafeReset()
         {
-            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None || MenuConfig.AnimSemi;
+            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None
+                || Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Flee
+                || MenuConfig.AnimSemi;
         }
 
         #endregion

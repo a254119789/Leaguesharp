@@ -18,23 +18,23 @@
 
         public R(RSpell rSpell)
         {
-            this.rSpell = this.rSpell;
+            this.rSpell = rSpell;
         }
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(rSpell.Spell.Range, TargetSelector.DamageType.Physical);
 
         private void OnUpdate(EventArgs args)
         {                                                                               
-            if (this.Target == null 
-                || this.Target.Health > rSpell.GetDamage(Target)
+            if (Target == null 
+                || Target.Health > rSpell.GetDamage(Target)
                 || !CheckGuardians()
-                || this.Target.Distance(ObjectManager.Player) > rSpell.Spell.Range
+                || Target.Distance(ObjectManager.Player) > rSpell.Spell.Range
                 || (Menu.Item("Safety").GetValue<bool>() && ObjectManager.Player.CountEnemiesInRange(rSpell.Spell.Range) > 1))
             {               // Soz for lazy 'safety' check xd cba
                 return;
             }
 
-            var wPred = rSpell.Spell.GetPrediction(this.Target);
+            var wPred = rSpell.Spell.GetPrediction(Target);
 
             if (wPred.Hitchance > HitChance.Medium)
             {

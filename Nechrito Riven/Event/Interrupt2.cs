@@ -17,7 +17,7 @@
 
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
-            if (!MenuConfig.InterruptMenu || !sender.IsEnemy || !sender.IsValidTarget(Spells.W.Range))
+            if (!MenuConfig.InterruptMenu || !sender.IsEnemy || !sender.IsValidTarget(Spells.W.Range + sender.BoundingRadius))
             {
                 return;
             }
@@ -27,7 +27,10 @@
                 Spells.W.Cast(sender);
             }
 
-            if (!Spells.Q.IsReady() || Qstack != 3) return;
+            if (Qstack != 3)
+            {
+                return;
+            }
 
             Spells.Q.Cast(sender);
         }

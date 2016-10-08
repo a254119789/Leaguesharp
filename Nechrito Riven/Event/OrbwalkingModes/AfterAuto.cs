@@ -23,7 +23,10 @@
         // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsMe || !Orbwalking.IsAutoAttack(args.SData.Name)) return;
+            if (!sender.IsMe || !Orbwalking.IsAutoAttack(args.SData.Name))
+            {
+                return;
+            }
 
             var a = HeroManager.Enemies.Where(x => x.IsValidTarget(Player.AttackRange + 360));
 
@@ -56,7 +59,7 @@
 
                     if (!Spells.Q.IsReady())
                     {
-                       CastW(target);
+                        CastW(target);
                     }
                 }
 
@@ -74,7 +77,7 @@
                     Spells.R.Cast(pred.CastPosition);
                 }
 
-                if (Spells.Q.IsReady())
+                else if (Spells.Q.IsReady())
                 {
                     CastQ(target);
                 }
@@ -87,32 +90,33 @@
 
             if (args.Target is Obj_AI_Minion)
             {
-                if (MenuConfig.LaneEnemy && ObjectManager.Player.CountEnemiesInRange(1350) > 0)
+                if (MenuConfig.LaneEnemy && ObjectManager.Player.CountEnemiesInRange(1500) > 0)
                 {
                     return;
                 }
 
-                var minions = MinionManager.GetMinions(Player.AttackRange + 450);
+                var minions = MinionManager.GetMinions(Player.AttackRange + 360).Where(x => x != null);
+                    // Redundant af?? whatever
 
-                if (minions != null)
+                foreach (var m in minions)
                 {
-                    foreach (var m in minions)
+                    if (!MenuConfig.LaneQ || m.UnderTurret(true))
                     {
-                        if (!MenuConfig.LaneQ || m.UnderTurret(true))
-                        {
-                            return;
-                        }
+                        return;
+                    }
 
-                        if (Spells.Q.IsReady())
-                        {
-                            CastQ(m);
-                        }
+                    if (Spells.Q.IsReady())
+                    {
+                        CastQ(m);
                     }
                 }
 
-                var mobs = MinionManager.GetMinions(Player.Position, 400f, MinionTypes.All, MinionTeam.Neutral);
+                var mobs = MinionManager.GetMinions(Player.Position, 360f, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.None); // Cheese lvl 1, Ex. Small Gromp 
 
-                if (mobs == null) return;
+                if (mobs == null)
+                {
+                    return;
+                }
 
                 foreach (var m in mobs)
                 {
@@ -121,10 +125,7 @@
                         CastQ(m);
                     }
 
-                    if (!Spells.W.IsReady()
-                        || !MenuConfig.JnglW
-                        || Player.HasBuff("RivenFeint")
-                        || Qstack > 2)
+                    if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint"))
                     {
                         return;
                     }
@@ -133,23 +134,33 @@
                 }
             }
 
-            var inhib = args.Target as Obj_BarracksDampener;
-            if (inhib != null)
+            if (!Spells.Q.IsReady() || !MenuConfig.LaneQ)
             {
-                if (inhib.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
-                {
-                    Spells.Q.Cast(inhib.Position - 350);
-                }
+                return;
+            }
+
+            var nexus = args.Target as Obj_HQ;
+
+            if (nexus != null && nexus.IsValid)
+            {
+                CastQ(nexus);
+            }
+
+            var inhib = args.Target as Obj_BarracksDampener;
+
+            if (inhib != null && inhib.IsValid)
+            {
+                CastQ(inhib);
             }
 
             var turret = args.Target as Obj_AI_Turret;
 
-            if (turret == null) return;
-
-            if (turret.IsValid && Spells.Q.IsReady() && MenuConfig.LaneQ)
+            if (turret == null || !turret.IsValid)
             {
-                Spells.Q.Cast(turret.Position - 250);
+                return;
             }
+
+           CastQ(turret);
         }
 
         #endregion

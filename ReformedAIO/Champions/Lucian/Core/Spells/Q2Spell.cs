@@ -30,7 +30,7 @@
 
         public bool QMinionExtend()
         {
-            var m = MinionManager.GetMinions(1200).FirstOrDefault();
+            var m = MinionManager.GetMinions(Spell.Range).FirstOrDefault();
 
             var target = HeroManager.Enemies.FirstOrDefault(x => x.IsValidTarget(Spell.Range));
 
@@ -51,7 +51,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Spell = new Spell(SpellSlot.Q, 1150);
+            Spell = new Spell(SpellSlot.Q, 850);
             Spell.SetSkillshot(.5f, 50, float.MaxValue, false, SkillshotType.SkillshotLine);
         }
 

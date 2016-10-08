@@ -18,7 +18,6 @@ C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\Nechrito Riven.exe.config
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\Nechrito Riven.exe
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\Nechrito Riven.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\LeagueSharp.Common.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\LeagueSharp.dll
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\SharpDX.Direct3D9.dll
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\SharpDX.dll
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\LeagueSharp.Data.dll
@@ -30,3 +29,4 @@ C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\clipper_library.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\obj\x86\Debug\Nechrito Riven.csprojResolveAssemblyReference.cache
 C:\Users\Nechr\Desktop\Nechrito Riven\obj\x86\Debug\Nechrito Riven.exe
 C:\Users\Nechr\Desktop\Nechrito Riven\obj\x86\Debug\Nechrito Riven.pdb
+C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\LeagueSharp.dll

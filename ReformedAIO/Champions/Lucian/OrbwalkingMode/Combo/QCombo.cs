@@ -34,7 +34,7 @@
 
             var target = TargetSelector.GetTarget(q2Spell.Spell.Range, TargetSelector.DamageType.Physical);
 
-            if (target == null)
+            if (target == null || ObjectManager.Player.IsDashing())
             {
                 return;
             }

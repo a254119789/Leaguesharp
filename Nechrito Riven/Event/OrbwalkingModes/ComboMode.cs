@@ -33,10 +33,11 @@
                 }
 
                 if ((!MenuConfig.OverKillCheck && Qstack > 1)
-                    || (MenuConfig.OverKillCheck &&
-                    (!Spells.Q.IsReady() && Qstack == 1 
-                    || target.Distance(Player) >= 315)
-                    || pred.AoeTargetsHitCount > 2))
+
+                    || (MenuConfig.OverKillCheck 
+                    && !Spells.Q.IsReady()
+                    || Qstack >= 3 
+                    || target.Distance(Player) >= Player.AttackRange))
                 {
                     Spells.R.Cast(pred.CastPosition);
                 }
@@ -44,9 +45,7 @@
 
            if (Qstack == 3
                     && target.Distance(Player) >= Player.AttackRange
-                    && target.Distance(Player) <= 600
-                    && Spells.R.IsReady()
-                    && Spells.R.Instance.Name == IsFirstR
+                    && target.Distance(Player) <= 650
                     && MenuConfig.Q3Wall
                     && Spells.E.IsReady())
             {
@@ -71,12 +70,12 @@
                     Utility.DelayAction.Add(190, () => Spells.Q.Cast(wallPoint));
                 }
 
-                if (wallPoint.Distance(Player.Position) <= 100)
+               else if (wallPoint.Distance(Player.Position) <= 100)
                 {
                     Spells.Q.Cast(wallPoint);
                 }
             }
-           else if (Spells.E.IsReady() && !target.Position.IsWall()) 
+           else if (Spells.E.IsReady()) 
             {
                 Spells.E.Cast(target.Position);
 
@@ -98,7 +97,7 @@
                 return;
             }
 
-            if (MenuConfig.NechLogic && (Qstack != 1 || !Spells.Q.IsReady()))
+            if (MenuConfig.NechLogic && (Qstack > 1 || !Spells.Q.IsReady()))
             {
                 CastW(target);
             }

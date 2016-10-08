@@ -1,4 +1,4 @@
-﻿namespace NechritoRiven
+﻿namespace NechritoRiven.Draw
 {
     #region
 
@@ -47,13 +47,7 @@
 
         #region Public Properties
 
-        public Vector2 StartPosition
-        {
-            get
-            {
-                return new Vector2(this.Unit.HPBarPosition.X + this.Offset.X, this.Unit.HPBarPosition.Y + this.Offset.Y);
-            }
-        }
+        public Vector2 StartPosition => new Vector2(this.Unit.HPBarPosition.X + this.Offset.X, this.Unit.HPBarPosition.Y + this.Offset.Y);
 
         public Obj_AI_Hero Unit { get; set; }
 
@@ -133,7 +127,7 @@
             return new Vector2(this.StartPosition.X + w, this.StartPosition.Y);
         }
 
-        private float GetHpProc(float dmg = 0)
+        private float GetHpProc(float dmg)
         {
             var health = this.Unit.Health - dmg > 0 ? this.Unit.Health - dmg : 0;
             return health / this.Unit.MaxHealth;

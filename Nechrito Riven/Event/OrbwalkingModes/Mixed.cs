@@ -44,6 +44,7 @@
             }
 
             Spells.E.Cast(Game.CursorPos);
+            
             Utility.DelayAction.Add(190, () => Spells.Q.Cast(target.Position));
         }
 
