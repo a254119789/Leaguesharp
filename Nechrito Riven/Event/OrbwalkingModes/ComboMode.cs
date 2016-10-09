@@ -35,9 +35,9 @@
                 if ((!MenuConfig.OverKillCheck && Qstack > 1)
 
                     || (MenuConfig.OverKillCheck 
-                    && !Spells.Q.IsReady()
-                    || Qstack >= 3 
-                    || target.Distance(Player) >= Player.AttackRange))
+                    && (!Spells.Q.IsReady()
+                    || Qstack >= 3) 
+                    || target.Distance(Player) >= Player.AttackRange + 300))
                 {
                     Spells.R.Cast(pred.CastPosition);
                 }
@@ -53,24 +53,27 @@
 
                 Player.GetPath(wallPoint);
 
-                if (wallPoint.Distance(Player.Position) > 100)
+                //if (wallPoint.Distance(Player.Position) > 100)
+                //{
+                //    Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+                //}
+
+                if (!Spells.E.IsReady() || wallPoint.Distance(Player.Position) > Spells.E.Range || !wallPoint.IsValid())
                 {
-                    Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+                    return;
                 }
 
-                if (Spells.E.IsReady() && wallPoint.Distance(Player.Position) <= Spells.E.Range)
+
+                Spells.E.Cast(wallPoint);
+
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
-                    Spells.E.Cast(wallPoint);
-
-                    if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
-                    {
-                        Spells.R.Cast();
-                    }
-
-                    Utility.DelayAction.Add(190, () => Spells.Q.Cast(wallPoint));
+                    Spells.R.Cast();
                 }
 
-               else if (wallPoint.Distance(Player.Position) <= 100)
+                Utility.DelayAction.Add(190, () => Spells.Q.Cast(wallPoint));
+                
+                if (wallPoint.Distance(Player.Position) <= 100)
                 {
                     Spells.Q.Cast(wallPoint);
                 }

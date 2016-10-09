@@ -39,6 +39,8 @@
                 if (Spells.E.IsReady() && MenuConfig.LaneE)
                 {
                     Spells.E.Cast(m);
+
+                    Utility.DelayAction.Add(10, Usables.CastHydra);
                 }
 
                 if (!MenuConfig.laneQFast)

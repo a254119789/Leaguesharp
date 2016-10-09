@@ -134,9 +134,9 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 350)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 350)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(360, 360, 400)));
+            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(210, 210, 350)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(210, 210, 350)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(335, 335, 380)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));
             animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 3)));
@@ -198,8 +198,7 @@
             skin.AddItem(new MenuItem("UseSkin", "Use SkinChanger").SetValue(false)).SetTooltip("Toggles Skinchanger");
             skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[]
                             {
-                                "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade",
-                                "Arcade", "Championship 2016"
+                                "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade", "Championship 2016"
                             })));
 
             config.AddSubMenu(skin);

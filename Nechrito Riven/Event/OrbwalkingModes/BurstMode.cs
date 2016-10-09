@@ -17,27 +17,30 @@
 
         public static void Burst()
         {
+            var selectedTarget = TargetSelector.GetSelectedTarget();
+
+            // THIS IS JUST A BAD HOTFIX, I'M SUPER BUSY
+            if (Spells.W.IsReady() && InRange(selectedTarget))
+            {
+                Spells.W.Cast();
+            }
+
             if (Spells.Flash.IsReady()
                 && Spells.R.IsReady()
                 && Spells.W.IsReady()
                 && MenuConfig.AlwaysF)
             {
-                var target = TargetSelector.GetSelectedTarget();
-
-                if (target == null
-                    || !target.IsValidTarget(425 + Spells.W.Range)
-                    || target.IsInvulnerable
-                    || Player.Distance(target.Position) < 540)
+                if (selectedTarget != null && selectedTarget.IsValidTarget(420 + Spells.W.Range) && !selectedTarget.IsInvulnerable && Player.Distance(selectedTarget.Position) > 540)
                 {
-                    return;
+                    Usables.CastYoumoo();
+
+                    Spells.E.Cast(selectedTarget.Position);
+                    Spells.R.Cast();
+
+                    Spells.W.Cast();
+
+                    Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, selectedTarget.Position));
                 }
-
-                Usables.CastYoumoo();
-
-                Spells.E.Cast(target.Position);
-                Spells.R.Cast();
-                Spells.W.Cast();
-                Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
             }
             else
             {
@@ -69,10 +72,10 @@
 
                     Player.GetPath(wallPoint);
 
-                    if (wallPoint.Distance(Player.Position) > 100)
-                    {
-                        Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
-                    }
+                    //if (wallPoint.Distance(Player.Position) > 100)
+                    //{
+                    //    Player.IssueOrder(GameObjectOrder.MoveTo, wallPoint);
+                    //}
 
                     if (Spells.E.IsReady() && wallPoint.Distance(Player.Position) <= Spells.E.Range)
                     {

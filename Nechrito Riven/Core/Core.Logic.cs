@@ -23,8 +23,6 @@
 
         private static bool canW;
 
-        private static bool canItem;
-
         /// <summary>
         ///     The e anti spell.
         /// </summary>
@@ -94,8 +92,8 @@
         public static bool InRange(AttackableUnit x)
         {
             return ObjectManager.Player.HasBuff("RivenFengShuiEngine")
-            ? Player.Distance(x) <= 295
-            : Player.Distance(x) <= 235;
+            ? Player.Distance(x) <= 330
+            : Player.Distance(x) <= 265;
         }
         #endregion
 
@@ -110,10 +108,10 @@
 
             if (canQ && Spells.Q.IsReady())
             {
-                if (canItem && Items.CanUseItem(Item) && Item != 0)
+                if (Items.CanUseItem(Item) && Item != 0)
                 {
                     Items.UseItem(Item);
-                    Utility.DelayAction.Add(2, () => Spells.Q.Cast(Unit.Position));
+                    Utility.DelayAction.Add(1, () => Spells.Q.Cast(Unit.Position));
                 }
                 else
                 {
@@ -121,12 +119,12 @@
                 }
             }
 
-            if (canW && Player.Distance(Unit) <= Spells.W.Range)
+            if (canW && (Player.Distance(Unit) <= Spells.W.Range || InRange(Unit)))
             {
-                if (canItem && Items.CanUseItem(Item) && Item != 0)
+                if (Items.CanUseItem(Item) && Item != 0)
                 {
                     Items.UseItem(Item);
-                    Utility.DelayAction.Add(3, () => Spells.W.Cast());
+                    Utility.DelayAction.Add(1, () => Spells.W.Cast());
                 }
                 else
                 {
@@ -144,6 +142,11 @@
         {
             Unit = x;
             canQ = true;
+        }
+
+        public static void CastE(AttackableUnit x)
+        {
+            Unit = x;
         }
 
         public static void CastW(Obj_AI_Base x)
@@ -182,15 +185,6 @@
                 R1 = false;
             }
         }
-
-        public void UseItem()
-        {
-            if (Items.CanUseItem(Item) && Item != 0)
-            {
-                canItem = true;
-            }
-        }
-
         #endregion
     }
 }
