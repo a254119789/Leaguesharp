@@ -1,5 +1,6 @@
 ﻿namespace ReformedAIO.Champions.Lucian.OrbwalkingMode.Harass
 {
+    using System;
     using System.Linq;
 
     using LeagueSharp;
@@ -26,7 +27,6 @@
                 || !CheckGuardians()
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
-                || !wSpell.Spell.IsReady()
                 || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;

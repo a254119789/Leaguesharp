@@ -32,7 +32,7 @@
         public override void Load()
         {
             var superParent = new SuperParent(DisplayName);
-            //superParent.Initialize();
+            superParent.Initialize();
 
             var spells = new Spells();
             spells.OnLoad();
@@ -40,13 +40,13 @@
             var orbwalkerModule = new OrbwalkerModule();
             orbwalkerModule.Load();
 
-                var comboParent = new OrbwalkingParent("Combo", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Combo);
-               var harassParent = new OrbwalkingParent("Harass", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
-                 var laneParent = new OrbwalkingParent("Lane", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
-               var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
+            var comboParent = new OrbwalkingParent("Combo", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Combo);
+            var harassParent = new OrbwalkingParent("Harass", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
+            var laneParent = new OrbwalkingParent("Lane", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
+            var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
 
             var killstealParent = new Parent("Killsteal");
-                 var drawParent = new Parent("Drawings");
+            var drawParent = new Parent("Drawings");
 
             comboParent.Add(new List<Base>()
             {

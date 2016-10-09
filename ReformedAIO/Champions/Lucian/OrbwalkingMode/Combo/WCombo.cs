@@ -1,5 +1,6 @@
 ﻿namespace ReformedAIO.Champions.Lucian.OrbwalkingMode.Combo
 {
+    using System;
     using System.Linq;
 
     using LeagueSharp;
@@ -22,13 +23,36 @@
             this.wSpell = wSpell;
         }
 
+        private void OnUpdate(EventArgs args)
+        {
+            if (!CheckGuardians())
+            {
+                return;
+            }
+
+            var target = TargetSelector.GetTarget(750, TargetSelector.DamageType.Physical);
+
+            if (target == null
+                || ObjectManager.Player.Distance(target) <= ObjectManager.Player.AttackRange
+                || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
+            {
+                return;
+            }
+
+            var wPred = wSpell.Spell.GetPrediction(target, true);
+
+            if (wPred.Hitchance >= HitChance.High)
+            {
+                wSpell.Spell.Cast(wPred.CastPosition);
+            }
+        }
+
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsMe
                 || !CheckGuardians()
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
-                || !wSpell.Spell.IsReady()
                 || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
@@ -38,11 +62,6 @@
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {
-                //if (target.Health > damage.GetComboDamage(target) && Menu.Item("WKillable").GetValue<bool>())
-                //{
-                //    return;
-                //}
-
                 if (Menu.Item("WPred").GetValue<bool>())
                 {
                    wSpell.Spell.Cast(target.Position);
@@ -64,18 +83,19 @@
             base.OnLoad(sender, featureBaseEventArgs);
 
             Menu.AddItem(new MenuItem("WPred", "Disable Prediction").SetValue(true));
-          //  Menu.AddItem(new MenuItem("WKillable", "Only If Killable").SetValue(false));
             Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
 
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            Game.OnUpdate -= OnUpdate;
             Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            Game.OnUpdate += OnUpdate;
             Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
