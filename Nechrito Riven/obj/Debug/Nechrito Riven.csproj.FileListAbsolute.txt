@@ -14,18 +14,5 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.csprojResolveAssemblyReference.cache
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\obj\Debug\Nechrito Riven.pdb
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Nechrito Riven.exe.config
-C:\Users\Nechr\Desktop\Nechrito Riven\obj\Debug\Nechrito Riven.exe
-C:\Users\Nechr\Desktop\Nechrito Riven\obj\Debug\Nechrito Riven.pdb
-C:\Users\Nechr\Desktop\Nechrito Riven\obj\Debug\Nechrito Riven.csprojResolveAssemblyReference.cache
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Nechrito Riven.exe
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Nechrito Riven.pdb
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Common.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\SharpDX.Direct3D9.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\SharpDX.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Data.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\clipper_library.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\Newtonsoft.Json.dll
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Common.pdb
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Data.pdb
-C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\clipper_library.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\RethoughtLib.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\RethoughtLib.pdb

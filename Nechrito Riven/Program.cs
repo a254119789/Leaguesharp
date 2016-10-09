@@ -2,31 +2,22 @@
 {
     #region
 
-    using System;
+    using NechritoRiven.Riven;
 
-    using LeagueSharp;
-    using LeagueSharp.Common;
+    using RethoughtLib;
+    using RethoughtLib.Bootstraps.Implementations;
 
     #endregion
 
-    public class Program
+    internal class Program
     {
         #region Methods
 
-        private static void Main()
+        private static void Main(string[] args)
         {
-            CustomEvents.Game.OnGameLoad += OnLoad;
-        }
+            var bootstrap = new LeagueSharpMultiBootstrap(new[] { new RivenLoader() });
 
-        private static void OnLoad(EventArgs args)
-        {
-            if (ObjectManager.Player.ChampionName != "Riven")
-            {
-                return;
-            }
-
-            Console.WriteLine("Loading...");
-            Load.LoadAssembly();
+            bootstrap.Run();
         }
 
         #endregion

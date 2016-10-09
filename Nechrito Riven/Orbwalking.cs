@@ -696,13 +696,13 @@
             {
                 get
                 {
-                    return this.process;
+                    return process;
                 }
 
                 set
                 {
                     DisableNextAttack = !value;
-                    this.process = value;
+                    process = value;
                 }
             }
 
@@ -748,7 +748,7 @@
             /// <summary>
             ///     The name of the CustomMode if it is set.
             /// </summary>
-            private string customModeName;
+            private static string customModeName;
 
             /// <summary>
             ///     The forced target
@@ -758,7 +758,7 @@
             /// <summary>
             ///     The orbalker mode
             /// </summary>
-            private OrbwalkingMode mode = OrbwalkingMode.None;
+            private static OrbwalkingMode mode = OrbwalkingMode.None;
 
             /// <summary>
             ///     The orbwalking point
@@ -843,9 +843,9 @@
                     new MenuItem("StillCombo", "Combo without moving").SetShared()
                         .SetValue(new KeyBind('N', KeyBindType.Press)));
 
-                this.player = ObjectManager.Player;
-                Game.OnUpdate += this.GameOnOnGameUpdate;
-                Drawing.OnDraw += this.DrawingOnOnDraw;
+                player = ObjectManager.Player;
+                Game.OnUpdate += GameOnOnGameUpdate;
+                Drawing.OnDraw += DrawingOnOnDraw;
                 Instances.Add(this);
             }
 
@@ -857,13 +857,7 @@
             ///     Gets a value indicating whether the orbwalker is orbwalking by checking the missiles.
             /// </summary>
             /// <value><c>true</c> if the orbwalker is orbwalking by checking the missiles; otherwise, <c>false</c>.</value>
-            public static bool MissileCheck
-            {
-                get
-                {
-                    return config.Item("MissileCheck").GetValue<bool>();
-                }
-            }
+            public static bool MissileCheck => config.Item("MissileCheck").GetValue<bool>();
 
             /// <summary>
             ///     Gets or sets the active mode.
@@ -873,9 +867,9 @@
             {
                 get
                 {
-                    if (this.mode != OrbwalkingMode.None)
+                    if (mode != OrbwalkingMode.None)
                     {
-                        return this.mode;
+                        return mode;
                     }
 
                     if (config.Item("Orbwalk").GetValue<KeyBind>().Active)
@@ -918,8 +912,8 @@
                         return OrbwalkingMode.Burst;
                     }
 
-                    if (config.Item(this.customModeName) != null
-                        && config.Item(this.customModeName).GetValue<KeyBind>().Active)
+                    if (config.Item(customModeName) != null
+                        && config.Item(customModeName).GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.CustomMode;
                     }
@@ -929,7 +923,7 @@
 
                 set
                 {
-                    this.mode = value;
+                    mode = value;
                 }
             }
 
@@ -959,7 +953,7 @@
             /// <param name="target">The target.</param>
             public void ForceTarget(Obj_AI_Base target)
             {
-                this.forcedTarget = target;
+                forcedTarget = target;
             }
 
             /// <summary>
@@ -970,24 +964,24 @@
             {
                 AttackableUnit result = null;
 
-                if ((this.ActiveMode == OrbwalkingMode.Mixed || this.ActiveMode == OrbwalkingMode.LaneClear)
+                if ((ActiveMode == OrbwalkingMode.Mixed || ActiveMode == OrbwalkingMode.LaneClear)
                     && !config.Item("PriorizeFarm").GetValue<bool>())
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target != null && this.InAutoAttackRange(target))
+                    if (target != null && InAutoAttackRange(target))
                     {
                         return target;
                     }
                 }
 
                 /*Killable Minion*/
-                if (this.ActiveMode == OrbwalkingMode.LaneClear
-                    || (this.ActiveMode == OrbwalkingMode.Mixed && config.Item("LWH").GetValue<bool>())
-                    || this.ActiveMode == OrbwalkingMode.LastHit)
+                if (ActiveMode == OrbwalkingMode.LaneClear
+                    || (ActiveMode == OrbwalkingMode.Mixed && config.Item("LWH").GetValue<bool>())
+                    || ActiveMode == OrbwalkingMode.LastHit)
                 {
                     var minionList =
                         ObjectManager.Get<Obj_AI_Minion>()
-                            .Where(minion => minion.IsValidTarget() && this.InAutoAttackRange(minion))
+                            .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion))
                             .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                             .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
                             .ThenBy(minion => minion.Health)
@@ -995,10 +989,10 @@
 
                     foreach (var minion in minionList)
                     {
-                        var t = (int)(this.player.AttackCastDelay * 1000) - 100 + Game.Ping / 2
-                                + 1000 * (int)Math.Max(0, this.player.Distance(minion) - this.player.BoundingRadius)
+                        var t = (int)(player.AttackCastDelay * 1000) - 100 + Game.Ping / 2
+                                + 1000 * (int)Math.Max(0, player.Distance(minion) - player.BoundingRadius)
                                 / int.MaxValue;
-                        var predHealth = HealthPrediction.GetHealthPrediction(minion, t, this.FarmDelay);
+                        var predHealth = HealthPrediction.GetHealthPrediction(minion, t, FarmDelay);
 
                         if (minion.Team != GameObjectTeam.Neutral
                             && (config.Item("AttackPetsnTraps").GetValue<bool>()
@@ -1010,7 +1004,7 @@
                                 FireOnNonKillableMinion(minion);
                             }
 
-                            if (predHealth > 0 && predHealth <= this.player.GetAutoAttackDamage(minion, true))
+                            if (predHealth > 0 && predHealth <= player.GetAutoAttackDamage(minion, true))
                             {
                                 return minion;
                             }
@@ -1028,13 +1022,13 @@
                 }
 
                 // Forced target
-                if (this.forcedTarget.IsValidTarget() && this.InAutoAttackRange(this.forcedTarget))
+                if (forcedTarget.IsValidTarget() && InAutoAttackRange(forcedTarget))
                 {
-                    return this.forcedTarget;
+                    return forcedTarget;
                 }
 
                 /* turrets / inhibitors / nexus */
-                if (this.ActiveMode == OrbwalkingMode.LaneClear
+                if (ActiveMode == OrbwalkingMode.LaneClear
                     && (!config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active
                         || !MinionManager.GetMinions(
                             ObjectManager.Player.Position,
@@ -1042,7 +1036,7 @@
                 {
                     /* turrets */
                     foreach (var turret in
-                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t.IsValidTarget() && InAutoAttackRange(t)))
                     {
                         return turret;
                     }
@@ -1050,37 +1044,37 @@
                     /* inhibitor */
                     foreach (var turret in
                         ObjectManager.Get<Obj_BarracksDampener>()
-                            .Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                            .Where(t => t.IsValidTarget() && InAutoAttackRange(t)))
                     {
                         return turret;
                     }
 
                     /* nexus */
                     foreach (var nexus in
-                        ObjectManager.Get<Obj_HQ>().Where(t => t.IsValidTarget() && this.InAutoAttackRange(t)))
+                        ObjectManager.Get<Obj_HQ>().Where(t => t.IsValidTarget() && InAutoAttackRange(t)))
                     {
                         return nexus;
                     }
                 }
 
                 /*Champions*/
-                if (this.ActiveMode != OrbwalkingMode.LastHit && this.ActiveMode != OrbwalkingMode.Flee)
+                if (ActiveMode != OrbwalkingMode.LastHit && ActiveMode != OrbwalkingMode.Flee)
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target.IsValidTarget() && this.InAutoAttackRange(target))
+                    if (target.IsValidTarget() && InAutoAttackRange(target))
                     {
                         return target;
                     }
                 }
 
                 /*Jungle minions*/
-                if (this.ActiveMode == OrbwalkingMode.LaneClear || this.ActiveMode == OrbwalkingMode.Mixed)
+                if (ActiveMode == OrbwalkingMode.LaneClear || ActiveMode == OrbwalkingMode.Mixed)
                 {
                     var jminions =
                         ObjectManager.Get<Obj_AI_Minion>()
                             .Where(
                                 mob =>
-                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && this.InAutoAttackRange(mob)
+                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && InAutoAttackRange(mob)
                                 && mob.CharData.BaseSkinName != "gangplankbarrel");
 
                     result = config.Item("Smallminionsprio").GetValue<bool>()
@@ -1094,20 +1088,20 @@
                 }
 
                 /*Lane Clear minions*/
-                if (this.ActiveMode == OrbwalkingMode.LaneClear)
+                if (ActiveMode == OrbwalkingMode.LaneClear)
                 {
-                    if (!this.ShouldWait())
+                    if (!ShouldWait())
                     {
-                        if (this.prevMinion.IsValidTarget() && this.InAutoAttackRange(this.prevMinion))
+                        if (prevMinion.IsValidTarget() && InAutoAttackRange(prevMinion))
                         {
                             var predHealth = HealthPrediction.LaneClearHealthPrediction(
-                                this.prevMinion,
-                                (int)(this.player.AttackDelay * 1000 * LaneClearWaitTimeMod),
-                                this.FarmDelay);
-                            if (predHealth >= 2 * this.player.GetAutoAttackDamage(this.prevMinion)
-                                || Math.Abs(predHealth - this.prevMinion.Health) < float.Epsilon)
+                                prevMinion,
+                                (int)(player.AttackDelay * 1000 * LaneClearWaitTimeMod),
+                                FarmDelay);
+                            if (predHealth >= 2 * player.GetAutoAttackDamage(prevMinion)
+                                || Math.Abs(predHealth - prevMinion.Health) < float.Epsilon)
                             {
-                                return this.prevMinion;
+                                return prevMinion;
                             }
                         }
 
@@ -1115,7 +1109,7 @@
                                       ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
                                           minion =>
-                                          minion.IsValidTarget() && this.InAutoAttackRange(minion)
+                                          minion.IsValidTarget() && InAutoAttackRange(minion)
                                           && (config.Item("AttackWards").GetValue<bool>()
                                               || !MinionManager.IsWard(minion))
                                           && (config.Item("AttackPetsnTraps").GetValue<bool>()
@@ -1127,17 +1121,17 @@
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
                                           minion,
-                                          (int)(this.player.AttackDelay * 1000 * LaneClearWaitTimeMod),
-                                          this.FarmDelay)
+                                          (int)(player.AttackDelay * 1000 * LaneClearWaitTimeMod),
+                                          FarmDelay)
                                   where
-                                      predHealth >= 2 * this.player.GetAutoAttackDamage(minion)
+                                      predHealth >= 2 * player.GetAutoAttackDamage(minion)
                                       || Math.Abs(predHealth - minion.Health) < float.Epsilon
                                   select minion).MaxOrDefault(
                                       m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
 
                         if (result != null)
                         {
-                            this.prevMinion = (Obj_AI_Minion)result;
+                            prevMinion = (Obj_AI_Minion)result;
                         }
                     }
                 }
@@ -1163,7 +1157,7 @@
             /// <param name="key">The default key for this mode.</param>
             public virtual void RegisterCustomMode(string name, string displayname, uint key)
             {
-                this.customModeName = name;
+                customModeName = name;
                 if (config.Item(name) == null)
                 {
                     config.AddItem(
@@ -1195,7 +1189,7 @@
             /// <param name="point">The point.</param>
             public void SetOrbwalkingPoint(Vector3 point)
             {
-                this.orbwalkingPoint = point;
+                orbwalkingPoint = point;
             }
 
             #endregion
@@ -1211,7 +1205,7 @@
                 if (config.Item("AACircle").GetValue<Circle>().Active)
                 {
                     Render.Circle.DrawCircle(
-                        this.player.Position,
+                        player.Position,
                         GetRealAutoAttackRange(null) + 65,
                         config.Item("AACircle").GetValue<Circle>().Color,
                         config.Item("AALineWidth").GetValue<Slider>().Value);
@@ -1233,7 +1227,7 @@
                 if (config.Item("HoldZone").GetValue<Circle>().Active)
                 {
                     Render.Circle.DrawCircle(
-                        this.player.Position,
+                        player.Position,
                         config.Item("HoldPosRadius").GetValue<Slider>().Value,
                         config.Item("HoldZone").GetValue<Circle>().Color,
                         config.Item("AALineWidth").GetValue<Slider>().Value,
@@ -1252,7 +1246,7 @@
             {
                 try
                 {
-                    if (this.ActiveMode == OrbwalkingMode.None)
+                    if (ActiveMode == OrbwalkingMode.None)
                     {
                         return;
                     }
@@ -1261,15 +1255,15 @@
                     Move = !config.Item("StillCombo").GetValue<KeyBind>().Active;
 
                     // Prevent canceling important spells
-                    if (this.player.IsCastingInterruptableSpell(true))
+                    if (player.IsCastingInterruptableSpell(true))
                     {
                         return;
                     }
 
-                    var target = this.GetTarget();
+                    var target = GetTarget();
                     Orbwalk(
                         target,
-                        this.orbwalkingPoint.To2D().IsValid() ? this.orbwalkingPoint : Game.CursorPos,
+                        orbwalkingPoint.To2D().IsValid() ? orbwalkingPoint : Game.CursorPos,
                         config.Item("ExtraWindup").GetValue<Slider>().Value,
                         Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
                 }
@@ -1290,11 +1284,11 @@
                         .Any(
                             minion =>
                             minion.IsValidTarget() && minion.Team != GameObjectTeam.Neutral
-                            && this.InAutoAttackRange(minion) && MinionManager.IsMinion(minion, false)
+                            && InAutoAttackRange(minion) && MinionManager.IsMinion(minion, false)
                             && HealthPrediction.LaneClearHealthPrediction(
                                 minion,
-                                (int)(this.player.AttackDelay * 1000 * LaneClearWaitTimeMod),
-                                this.FarmDelay) <= this.player.GetAutoAttackDamage(minion));
+                                (int)(player.AttackDelay * 1000 * LaneClearWaitTimeMod),
+                                FarmDelay) <= player.GetAutoAttackDamage(minion));
             }
 
             #endregion
