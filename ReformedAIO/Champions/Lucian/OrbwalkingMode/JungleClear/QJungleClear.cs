@@ -16,12 +16,9 @@
 
         private readonly QSpell qSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QJungleClear(QSpell qSpell, Orbwalking.Orbwalker orbwalker)
+        public QJungleClear(QSpell qSpell)
         {
             this.qSpell = qSpell;
-            this.orbwalker = orbwalker;
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

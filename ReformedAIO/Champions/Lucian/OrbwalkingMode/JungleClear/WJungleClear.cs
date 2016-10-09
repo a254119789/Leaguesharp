@@ -16,12 +16,9 @@
 
         private readonly WSpell wSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public WJungleClear(WSpell wSpell, Orbwalking.Orbwalker orbwalker)
+        public WJungleClear(WSpell wSpell)
         {
             this.wSpell = wSpell;
-            this.orbwalker = orbwalker;
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

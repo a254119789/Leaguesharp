@@ -19,12 +19,9 @@
 
         private readonly ESpell eSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public EHarass(ESpell eSpell, Orbwalking.Orbwalker orbwalker, LucDamage damage)
+        public EHarass(ESpell eSpell, LucDamage damage)
         {
             this.eSpell = eSpell;
-            this.orbwalker = orbwalker;
             this.damage = damage;
         }
 

@@ -20,12 +20,9 @@
 
         private readonly QSpell qSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QLaneClear(QSpell qSpell, Orbwalking.Orbwalker orbwalker)
+        public QLaneClear(QSpell qSpell)
         {
             this.qSpell = qSpell;
-            this.orbwalker = orbwalker;
         }
 
         private void OnUpdate(EventArgs args)

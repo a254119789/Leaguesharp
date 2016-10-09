@@ -12,18 +12,13 @@
 
     using SharpDX;
 
-    internal class DmgDraw : ChildBase
+    internal sealed class DmgDraw : ChildBase
     {
         private HpBarIndicator drawDamage;
 
         private EwqrLogic ewqrLogic;
 
-        public override sealed string Name { get; set; }
-
-        public DmgDraw(string name)
-        {
-            Name = name;
-        }
+        public override string Name { get; set; } = "Damage";
 
         public void OnDraw(EventArgs args)
         {
@@ -47,14 +42,11 @@
             Drawing.OnDraw += OnDraw;
         }
 
-
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             this.ewqrLogic = new EwqrLogic();
             this.drawDamage = new HpBarIndicator();
             base.OnLoad(sender, featureBaseEventArgs);
         }
-
-       
     }
 }

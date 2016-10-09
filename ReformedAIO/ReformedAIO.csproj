@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ReformedAIO.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LeagueSharp">
       <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.dll</HintPath>

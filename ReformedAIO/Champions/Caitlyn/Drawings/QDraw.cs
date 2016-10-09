@@ -12,12 +12,7 @@
 
     internal sealed class QDraw : ChildBase
     {
-        public QDraw(string name)
-        {
-            Name = name;
-        }
-
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "[Q]";
 
         public void OnDraw(EventArgs args)
         {

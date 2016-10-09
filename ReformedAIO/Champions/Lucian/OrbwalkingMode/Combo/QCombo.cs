@@ -34,32 +34,33 @@
 
             var target = TargetSelector.GetTarget(q2Spell.Spell.Range, TargetSelector.DamageType.Physical);
 
-            if (target == null || ObjectManager.Player.IsDashing())
+            if (target == null)
             {
                 return;
             }
 
-            if (Menu.Item("ExtendedQ").GetValue<bool>() && target.Distance(ObjectManager.Player) > qSpell.Spell.Range && q2Spell.QMinionExtend())
+            if (!Menu.Item("ExtendedQ").GetValue<bool>() || target.Distance(ObjectManager.Player) <= qSpell.Spell.Range || !q2Spell.QMinionExtend())
             {
-                var m = MinionManager.GetMinions(qSpell.Spell.Range).FirstOrDefault();
-
-                qSpell.Spell.CastOnUnit(m);
+                return;
             }
+
+            var m = MinionManager.GetMinions(qSpell.Spell.Range).FirstOrDefault();
+
+            qSpell.Spell.CastOnUnit(m);
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsMe 
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
-                || !Orbwalking.IsAutoAttack(args.SData.Name) 
-                || !qSpell.Spell.IsReady() 
+                || !Orbwalking.IsAutoAttack(args.SData.Name)  
                 || Menu.Item("QMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
                 || !CheckGuardians())
             {
                 return;
             }
 
-            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(q2Spell.Spell.Range));
+            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(qSpell.Spell.Range + 30));
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {

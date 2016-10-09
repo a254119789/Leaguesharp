@@ -39,10 +39,7 @@
                 return false;
             }
 
-            var hit = new Geometry.Polygon.Rectangle(
-                    ObjectManager.Player.Position,
-                    ObjectManager.Player.Position.Extend(m.Position, Spell.Range), Spell.Width);
-
+            var hit = new Geometry.Polygon.Rectangle(ObjectManager.Player.Position, ObjectManager.Player.Position.Extend(m.Position, Spell.Range), Spell.Width);
 
             return !hit.IsOutside(QPred(target).To2D());
         }
@@ -51,7 +48,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Spell = new Spell(SpellSlot.Q, 850);
+            Spell = new Spell(SpellSlot.Q, 900);
             Spell.SetSkillshot(.5f, 50, float.MaxValue, false, SkillshotType.SkillshotLine);
         }
 

@@ -16,12 +16,9 @@
 
         private readonly WSpell wSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public WLaneClear(WSpell wSpell, Orbwalking.Orbwalker orbwalker)
+        public WLaneClear(WSpell wSpell)
         {
             this.wSpell = wSpell;
-            this.orbwalker = orbwalker;
         }
 
         private void OnUpdate(EventArgs args)

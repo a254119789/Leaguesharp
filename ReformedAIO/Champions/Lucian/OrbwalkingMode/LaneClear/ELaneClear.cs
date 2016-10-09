@@ -17,12 +17,9 @@
 
         private readonly ESpell eSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public ELaneClear(ESpell eSpell, Orbwalking.Orbwalker orbwalker)
+        public ELaneClear(ESpell eSpell)
         {
             this.eSpell = eSpell;
-            this.orbwalker = orbwalker;
         }
 
         private void OnUpdate(EventArgs args)

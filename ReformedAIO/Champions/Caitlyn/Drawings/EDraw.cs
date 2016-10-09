@@ -12,12 +12,7 @@
 
     internal sealed class EDraw : ChildBase
     {
-        public EDraw(string name)
-        {
-            Name = name;
-        }
-
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "[E]";
 
         public void OnDraw(EventArgs args)
         {

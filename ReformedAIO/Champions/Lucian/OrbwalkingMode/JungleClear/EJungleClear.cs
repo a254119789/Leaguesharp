@@ -16,12 +16,9 @@
 
         private readonly ESpell eSpell;
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public EJungleClear(ESpell eSpell, Orbwalking.Orbwalker orbwalker)
+        public EJungleClear(ESpell eSpell)
         {
             this.eSpell = eSpell;
-            this.orbwalker = orbwalker;
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

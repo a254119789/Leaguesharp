@@ -12,12 +12,7 @@
 
     internal sealed class WDraw : ChildBase
     {
-        public WDraw(string name)
-        {
-            Name = name;
-        }
-
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "[W]";
 
         public void OnDraw(EventArgs args)
         {

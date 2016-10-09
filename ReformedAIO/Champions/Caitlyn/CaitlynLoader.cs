@@ -1,24 +1,27 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn
 {
     using System.Collections.Generic;
+    using System.Drawing;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Drawings;
-    using Killsteal;
-    using Logic;
-    using OrbwalkingMode.Combo;
-    using OrbwalkingMode.Jungle;
-    using OrbwalkingMode.Lane;
+    using ReformedAIO.Champions.Caitlyn.Drawings;
+    using ReformedAIO.Champions.Caitlyn.Killsteal;
+    using ReformedAIO.Champions.Caitlyn.Logic;
+    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle;
+    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Lane;
 
+    using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
-    using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.FeatureSystem.Implementations;
-    using RethoughtLib.Utility;
+    using RethoughtLib.Orbwalker.Implementations;
 
-    internal class CaitlynLoader : LoadableBase
+    using Color = SharpDX.Color;
+
+    internal sealed class CaitlynLoader : LoadableBase
     {
         public override string DisplayName { get; set; } = "Reformed Caitlyn";
 
@@ -29,31 +32,34 @@
         public override void Load()
         {
             var superParent = new SuperParent(DisplayName);
-            superParent.Initialize();
+            //superParent.Initialize();
 
-            var orbwalker = new Orbwalking.Orbwalker(superParent.Menu.SubMenu("Orbwalker"));
+            var spells = new Spells();
+            spells.OnLoad();
 
-            var comboParent = new OrbwalkingParent("Combo", orbwalker, Orbwalking.OrbwalkingMode.Combo);
-            var laneParent = new OrbwalkingParent("Lane", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
-            var jungleParent = new OrbwalkingParent("Jungle", orbwalker, Orbwalking.OrbwalkingMode.LaneClear);
+            var orbwalkerModule = new OrbwalkerModule();
+            orbwalkerModule.Load();
+
+                var comboParent = new OrbwalkingParent("Combo", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Combo);
+               var harassParent = new OrbwalkingParent("Harass", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
+                 var laneParent = new OrbwalkingParent("Lane", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
+               var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
+
             var killstealParent = new Parent("Killsteal");
-            var drawParent = new Parent("Drawings");
-
-            var setSpells = new Spells();
-            setSpells.OnLoad();
+                 var drawParent = new Parent("Drawings");
 
             comboParent.Add(new List<Base>()
-                                {
+            {
                 new QCombo().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
                 new WCombo().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.W)),
                 new ECombo().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.E))
-                                });
+            });
 
             laneParent.Add(new List<Base>
-                               {
+            {
                 new QLane().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q))
-                               });
-           
+            });
+
             jungleParent.Add(new List<Base>
             {
                 new QJungle().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)).Guardian(new SpellMustBeReady(SpellSlot.E) {Negated = true}),
@@ -63,19 +69,20 @@
             killstealParent.Add(new List<Base>
             {
                 new QKillsteal().Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.Q)),
-                new RKillsteal().Guardian(new SpellMustBeReady(SpellSlot.R))  
+                new RKillsteal().Guardian(new SpellMustBeReady(SpellSlot.R))
             });
-          
+
             drawParent.Add(new List<Base>
             {
-                new DmgDraw("Damage"), 
-                new QDraw("[Q]"),
-                new WDraw("[W]"),
-                new EDraw("[E]"),
-                new RDraw("[R]")    
+                new DmgDraw(),
+                new QDraw(),
+                new WDraw(),
+                new EDraw(),
+                new RDraw()
             });
 
             superParent.Add(new List<Base> {
+                orbwalkerModule,
                 comboParent,
                 laneParent,
                 jungleParent,
@@ -84,6 +91,9 @@
            });
 
             superParent.Load();
+
+            superParent.Menu.Style = FontStyle.Bold;
+            superParent.Menu.Color = Color.Cyan;
 
             if (superParent.Loaded)
             {

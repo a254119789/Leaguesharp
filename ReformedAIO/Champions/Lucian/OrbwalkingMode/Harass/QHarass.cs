@@ -58,7 +58,7 @@
                 return;
             }
 
-            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(q2Spell.Spell.Range));
+            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(qSpell.Spell.Range + 30));
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {
