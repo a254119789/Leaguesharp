@@ -119,7 +119,7 @@
                 }
             }
 
-            if (canW && (Player.Distance(Unit) <= Spells.W.Range || InRange(Unit)))
+            if (canW)
             {
                 if (Items.CanUseItem(Item) && Item != 0)
                 {
@@ -151,7 +151,7 @@
 
         public static void CastW(Obj_AI_Base x)
         {
-            canW = Spells.W.IsReady();
+            canW = Spells.W.IsReady() && InRange(x);
             Utility.DelayAction.Add(500, () => canW = false);
         }
 
