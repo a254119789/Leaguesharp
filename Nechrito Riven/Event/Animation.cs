@@ -112,9 +112,7 @@
 
         private static bool SafeReset()
         {
-            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None
-                || Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Flee
-                || MenuConfig.AnimSemi;
+            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None || MenuConfig.AnimSemi;
         }
 
         #endregion
