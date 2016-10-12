@@ -25,7 +25,7 @@
                 return;
             }
 
-            Console.WriteLine((Ping() + MenuConfig.Qd - AtkSpeed()).ToString());
+            Console.WriteLine((Ping() + MenuConfig.Qd).ToString());
 
             switch (args.Animation)
             {
@@ -34,7 +34,7 @@
                     Qstack = 2;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd - AtkSpeed(), Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd, Reset);
                     }
 
                     break;
@@ -43,7 +43,7 @@
                     Qstack = 3;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D - AtkSpeed(), Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D, Reset);
                     }
 
                     break;
@@ -52,7 +52,7 @@
                     Qstack = 1;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld - AtkSpeed(), Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld, Reset);
                     }
 
                     break;
@@ -65,6 +65,11 @@
 
         private static void Emotes()
         {
+            if (ObjectManager.Player.IsImmovable)
+            {
+                return;
+            }
+
             switch (MenuConfig.EmoteList.SelectedIndex)
             {
                 case 0:
@@ -79,13 +84,15 @@
                 case 3:
                     Game.SendEmote(Emote.Dance);
                     break;
+                case 4:
+                    break;
             }
         }
 
-        private static int AtkSpeed()
-        {
-            return (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
-        }
+        //private static int AtkSpeed()
+        //{
+        //    return (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
+        //}
 
         private static int Ping()
         {

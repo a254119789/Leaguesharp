@@ -134,12 +134,12 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(210, 210, 350)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(210, 210, 350)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(335, 335, 380)));
+            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(180, 180, 350)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(180, 180, 350)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(270, 270, 350)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));
-            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance" }, 3)));
+            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
             config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");

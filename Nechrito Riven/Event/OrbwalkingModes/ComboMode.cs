@@ -32,9 +32,9 @@
                     return;
                 }
 
-                if ((!MenuConfig.OverKillCheck && Qstack > 1) || MenuConfig.OverKillCheck 
-                    && (!Spells.Q.IsReady() && Qstack == 1) 
-                        || Qstack >= 3
+                if ((!MenuConfig.OverKillCheck && Qstack > 1)
+                    || MenuConfig.OverKillCheck 
+                    && (!Spells.Q.IsReady() && Qstack == 1)
                         || (target.Distance(Player) >= Player.AttackRange + 310 
                         && target.HealthPercent <= 40))
                 {
