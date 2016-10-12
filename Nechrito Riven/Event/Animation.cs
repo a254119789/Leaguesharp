@@ -112,8 +112,8 @@
 
         private static void Reset()
         {
-            Emotes();
-            Orbwalking.LastAaTick = 0;
+            //Emotes();
+            //Orbwalking.LastAaTick = 0;
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 

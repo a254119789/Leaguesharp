@@ -265,7 +265,7 @@
                 return true;
             }
 
-            return Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup;
+            return Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000;
         }
 
         /// <summary>
@@ -334,7 +334,7 @@
                 return false;
             }
 
-            var myRange = GetRealAutoAttackRange(target);
+            var myRange = GetRealAutoAttackRange(target) + 50;
             return Vector2.DistanceSquared(
                 (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
                 Player.ServerPosition.To2D()) <= myRange * myRange;
@@ -347,8 +347,7 @@
         /// <returns><c>true</c> if the name is an auto attack; otherwise, <c>false</c>.</returns>
         public static bool IsAutoAttack(string name)
         {
-            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower()))
-                   || Attacks.Contains(name.ToLower());
+            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower())) || Attacks.Contains(name.ToLower());
         }
 
         /// <summary>
@@ -540,10 +539,7 @@
         /// <param name="target">The target.</param>
         private static void FireOnAttack(AttackableUnit unit, AttackableUnit target)
         {
-            if (OnAttack != null)
-            {
-                OnAttack(unit, target);
-            }
+            OnAttack?.Invoke(unit, target);
         }
 
         /// <summary>
@@ -552,10 +548,7 @@
         /// <param name="minion">The minion.</param>
         private static void FireOnNonKillableMinion(AttackableUnit minion)
         {
-            if (OnNonKillableMinion != null)
-            {
-                OnNonKillableMinion(minion);
-            }
+            OnNonKillableMinion?.Invoke(minion);
         }
 
         /// <summary>
@@ -620,8 +613,7 @@
                     return;
                 }
 
-                if (unit.IsMe
-                    && (spell.Target is Obj_AI_Base || spell.Target is Obj_BarracksDampener || spell.Target is Obj_HQ))
+                if (unit.IsMe && (spell.Target is Obj_AI_Base || spell.Target is Obj_BarracksDampener || spell.Target is Obj_HQ))
                 {
                     LastAaTick = Utils.GameTimeTickCount - Game.Ping / 2;
                     missileLaunched = false;
@@ -815,8 +807,8 @@
                 config.AddItem(new MenuItem("MissileCheck", "Use Missile Check").SetShared().SetValue(true));
 
                 /* Delay sliders */
-                config.AddItem(new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(35)));
-                config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(0)));
+                config.AddItem(new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(50)));
+                config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(10)));
 
                 /*Load the menu*/
                 config.AddItem(new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
@@ -857,13 +849,7 @@
             ///     Gets a value indicating whether the orbwalker is orbwalking by checking the missiles.
             /// </summary>
             /// <value><c>true</c> if the orbwalker is orbwalking by checking the missiles; otherwise, <c>false</c>.</value>
-            public static bool MissileCheck
-            {
-                get
-                {
-                    return config.Item("MissileCheck").GetValue<bool>();
-                }
-            }
+            public static bool MissileCheck => config.Item("MissileCheck").GetValue<bool>();
 
             /// <summary>
             ///     Gets or sets the active mode.
@@ -941,13 +927,7 @@
             ///     Gets the farm delay.
             /// </summary>
             /// <value>The farm delay.</value>
-            private int FarmDelay
-            {
-                get
-                {
-                    return config.Item("FarmDelay").GetValue<Slider>().Value;
-                }
-            }
+            private int FarmDelay => config.Item("FarmDelay").GetValue<Slider>().Value;
 
             #endregion
 
@@ -1104,6 +1084,7 @@
                                 this.prevMinion,
                                 (int)(this.player.AttackDelay * 1000 * LaneClearWaitTimeMod),
                                 this.FarmDelay);
+
                             if (predHealth >= 2 * this.player.GetAutoAttackDamage(this.prevMinion)
                                 || Math.Abs(predHealth - this.prevMinion.Health) < float.Epsilon)
                             {
@@ -1111,29 +1092,17 @@
                             }
                         }
 
-                        result = (from minion in
-                                      ObjectManager.Get<Obj_AI_Minion>()
-                                      .Where(
-                                          minion =>
-                                          minion.IsValidTarget() && this.InAutoAttackRange(minion)
-                                          && (config.Item("AttackWards").GetValue<bool>()
-                                              || !MinionManager.IsWard(minion))
-                                          && (config.Item("AttackPetsnTraps").GetValue<bool>()
-                                              && minion.CharData.BaseSkinName != "jarvanivstandard"
-                                              || MinionManager.IsMinion(
-                                                  minion,
-                                                  config.Item("AttackWards").GetValue<bool>()))
-                                          && minion.CharData.BaseSkinName != "gangplankbarrel")
-                                  let predHealth =
-                                      HealthPrediction.LaneClearHealthPrediction(
-                                          minion,
-                                          (int)(this.player.AttackDelay * 1000 * LaneClearWaitTimeMod),
-                                          this.FarmDelay)
-                                  where
-                                      predHealth >= 2 * this.player.GetAutoAttackDamage(minion)
-                                      || Math.Abs(predHealth - minion.Health) < float.Epsilon
-                                  select minion).MaxOrDefault(
-                                      m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
+                        result = (from minion in ObjectManager.Get<Obj_AI_Minion>().Where(minion
+                                  => minion.IsValidTarget() 
+                                  && this.InAutoAttackRange(minion)
+                                  && (config.Item("AttackWards").GetValue<bool>()
+                                  || !MinionManager.IsWard(minion))
+                                  && (config.Item("AttackPetsnTraps").GetValue<bool>()
+                                  && minion.CharData.BaseSkinName != "jarvanivstandard"
+                                  || MinionManager.IsMinion(minion, config.Item("AttackWards").GetValue<bool>())) && minion.CharData.BaseSkinName != "gangplankbarrel")
+                                  let predHealth = HealthPrediction.LaneClearHealthPrediction(minion, (int)(this.player.AttackDelay * 1000 * LaneClearWaitTimeMod), this.FarmDelay)
+                                  where predHealth >= 2 * this.player.GetAutoAttackDamage(minion) || Math.Abs(predHealth - minion.Health) < float.Epsilon
+                                  select minion).MaxOrDefault(m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
 
                         if (result != null)
                         {
@@ -1166,8 +1135,7 @@
                 this.customModeName = name;
                 if (config.Item(name) == null)
                 {
-                    config.AddItem(
-                        new MenuItem(name, displayname).SetShared().SetValue(new KeyBind(key, KeyBindType.Press)));
+                    config.AddItem(new MenuItem(name, displayname).SetShared().SetValue(new KeyBind(key, KeyBindType.Press)));
                 }
             }
 
@@ -1240,8 +1208,7 @@
                         true);
                 }
 
-                config.Item("FocusMinionsOverTurrets")
-                    .Permashow(config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active);
+                config.Item("FocusMinionsOverTurrets").Permashow(config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active);
             }
 
             /// <summary>
@@ -1267,11 +1234,10 @@
                     }
 
                     var target = this.GetTarget();
-                    Orbwalk(
-                        target,
-                        this.orbwalkingPoint.To2D().IsValid() ? this.orbwalkingPoint : Game.CursorPos,
-                        config.Item("ExtraWindup").GetValue<Slider>().Value,
-                        Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
+                    Orbwalk(target, this.orbwalkingPoint.To2D().IsValid() 
+                        ? this.orbwalkingPoint
+                        : Game.CursorPos,
+                        config.Item("ExtraWindup").GetValue<Slider>().Value, Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 50));
                 }
                 catch (Exception e)
                 {
