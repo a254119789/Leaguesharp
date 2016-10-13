@@ -112,8 +112,8 @@
 
         private static void Reset()
         {
-            //Emotes();
-            //Orbwalking.LastAaTick = 0;
+            Emotes();
+           // Utility.DelayAction.Add(Ping() + MenuConfig.Qld, Orbwalking.ResetAutoAttackTimer);
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 
