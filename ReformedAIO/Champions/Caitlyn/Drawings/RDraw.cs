@@ -12,7 +12,7 @@
 
     internal sealed class RDraw : ChildBase
     {
-        public override string Name { get; set; } = "[R]";
+        public override string Name { get; set; } = "R";
 
         public void OnDraw(EventArgs args)
         {

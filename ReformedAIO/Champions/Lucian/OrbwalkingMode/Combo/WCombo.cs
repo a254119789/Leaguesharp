@@ -30,7 +30,7 @@
                 return;
             }
 
-            var target = TargetSelector.GetTarget(750, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(wSpell.Spell.Range, TargetSelector.DamageType.Physical);
 
             if (target == null
                 || ObjectManager.Player.Distance(target) <= ObjectManager.Player.AttackRange
@@ -39,9 +39,9 @@
                 return;
             }
 
-            var wPred = wSpell.Spell.GetPrediction(target, true);
+            var wPred = wSpell.Spell.GetPrediction(target);
 
-            if (wPred.Hitchance >= HitChance.High)
+            if (wPred.Hitchance >= HitChance.Medium)
             {
                 wSpell.Spell.Cast(wPred.CastPosition);
             }

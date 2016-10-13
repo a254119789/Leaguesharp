@@ -28,7 +28,7 @@
             {
                 this.drawDamage.Unit = enemy;
 
-                this.drawDamage.DrawDmg(this.ewqrLogic.EwqrDmg(enemy), this.ewqrLogic.CanExecute(enemy) ? Color.Green : Color.LimeGreen);
+                this.drawDamage.DrawDmg(this.ewqrLogic.EwqrDmg(enemy), this.ewqrLogic.CanExecute(enemy) ? Color.LimeGreen: Color.Green);
             }
         }
 

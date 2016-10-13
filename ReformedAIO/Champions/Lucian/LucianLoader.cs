@@ -18,7 +18,6 @@
     using OrbwalkingMode.Harass;
 
     using Perma_Active.Killsteal;
-    using Perma_Active.AntiGapcloser;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -69,7 +68,6 @@
             var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
 
          var killstealParnet = new Parent("Killsteal");
-         var gapcloserParent = new Parent("Gapcloser");
            var drawingParent = new Parent("Drawings");
         
 
@@ -109,18 +107,11 @@
                                         new R(rSpell).Guardian(new PlayerMustNotBeWindingUp()).Guardian(new SpellMustBeReady(SpellSlot.R))
                                     });
 
-            gapcloserParent.Add(new List<Base>
-                                    {
-                                        new GapcloseFastAsFuckBOi(eSpell)
-                                    });
-
             drawingParent.Add(new List<Base>
                                   {
                                     new DmgDraw(dmg),
                                     new RDraw(rSpell),
-                                    new WDraw(wSpell),
-                                    new QDraw(qSpell),
-
+                                    new WDraw(wSpell)
                                   });
 
             superParent.Add(new List<Base>
@@ -132,7 +123,6 @@
                                      jungleParent,
                                      killstealParnet,
                                      drawingParent,
-                                     gapcloserParent
                                   });
 
             superParent.Load();

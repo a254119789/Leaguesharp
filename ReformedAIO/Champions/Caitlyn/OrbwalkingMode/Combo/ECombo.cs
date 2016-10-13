@@ -12,7 +12,7 @@
 
     internal sealed class ECombo  : OrbwalkingChild
     {
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "E";
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.E].Range, TargetSelector.DamageType.Physical);
 
@@ -32,7 +32,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem("EMana", "Mana %").SetValue(new Slider(30, 0, 100)));
+            Menu.AddItem(new MenuItem("EMana", "Mana %").SetValue(new Slider(0, 0, 100)));
 
             Menu.AddItem(new MenuItem("AntiGapcloser", "Anti Gapcloser").SetValue(true));
 
@@ -45,7 +45,7 @@
 
             var target = gapcloser.Sender;
 
-            if (target == null || !target.IsEnemy || !Spells.Spell[SpellSlot.E].IsReady() || !CheckGuardians())
+            if (target == null || !target.IsEnemy || !CheckGuardians())
             {
                 return;
             }

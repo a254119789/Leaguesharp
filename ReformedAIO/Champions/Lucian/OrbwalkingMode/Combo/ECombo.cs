@@ -39,7 +39,7 @@
                 return;
             }
 
-            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player) + 400));
+            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player) + 425));
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {

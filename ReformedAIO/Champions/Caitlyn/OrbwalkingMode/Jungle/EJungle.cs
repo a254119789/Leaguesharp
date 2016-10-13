@@ -12,7 +12,7 @@
 
     internal sealed class EJungle  : OrbwalkingChild
     {
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "E";
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {

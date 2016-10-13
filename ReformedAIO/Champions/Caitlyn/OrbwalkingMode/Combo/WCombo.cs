@@ -13,7 +13,7 @@
 
     internal sealed class WCombo : OrbwalkingChild
     {
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "W";
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.W].Range, TargetSelector.DamageType.Physical);
 
@@ -37,7 +37,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem("WMana", "Mana %").SetValue(new Slider(30, 0, 100)));
+            Menu.AddItem(new MenuItem("WMana", "Mana %").SetValue(new Slider(5, 0, 100)));
 
             Menu.AddItem(new MenuItem("AntiGapcloser", "Anti-Gapcloser").SetValue(true));
 
@@ -91,12 +91,12 @@
 
                 if (!NavMesh.IsWallOfGrass(path, 0)) return;
 
-                Utility.DelayAction.Add(400, ()=> Spells.Spell[SpellSlot.W].Cast(path));
+                Utility.DelayAction.Add(350, ()=> Spells.Spell[SpellSlot.W].Cast(path));
             }
 
             if (Target == null 
                 || Menu.Item("WMana").GetValue<Slider>().Value > Vars.Player.ManaPercent
-                || Utils.TickCount - Spells.Spell[SpellSlot.W].LastCastAttemptT < 5000)
+                || Utils.TickCount - Spells.Spell[SpellSlot.W].LastCastAttemptT < 500)
             {
                 return;
             }
@@ -105,15 +105,12 @@
 
             if (Menu.Item("WTarget").GetValue<bool>()) 
             {
-                if (this.ewq)
+                if (wPrediction.Hitchance < HitChance.Medium)
                 {
-                    Spells.Spell[SpellSlot.W].Cast(wPrediction.CastPosition);
+                    return;
                 }
 
-                if (Target.IsInvulnerable || Target.CountEnemiesInRange(1000) < Target.CountAlliesInRange(1000))
-                {
-                    Spells.Spell[SpellSlot.W].Cast(wPrediction.CastPosition);
-                }
+                Spells.Spell[SpellSlot.W].Cast(wPrediction.CastPosition);
             }
 
             if (wPrediction.Hitchance < HitChance.Immobile || !Menu.Item("WImmobile").GetValue<bool>()) return;

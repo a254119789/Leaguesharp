@@ -51,7 +51,6 @@
             if (!sender.IsMe
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
-                || !qSpell.Spell.IsReady()
                 || Menu.Item("QMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
                 || !CheckGuardians())
             {

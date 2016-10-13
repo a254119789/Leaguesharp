@@ -25,7 +25,7 @@
 
         public Vector2 Deviation(Vector2 point1, Vector2 point2, double angle)
         {
-            angle *= Math.PI / 180.0;
+            angle *= Math.PI / 120.0;
             var temp = Vector2.Subtract(point2, point1);
             var result = new Vector2(0)
             {

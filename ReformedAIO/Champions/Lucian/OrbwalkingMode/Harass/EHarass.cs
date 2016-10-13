@@ -28,15 +28,15 @@
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsMe
+                || !CheckGuardians()
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
-                || !eSpell.Spell.IsReady()
                 || Menu.Item("EMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
 
-            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player) + 400));
+            var heroes = HeroManager.Enemies.Where(x => x.IsValidTarget(ObjectManager.Player.AttackRange));
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {

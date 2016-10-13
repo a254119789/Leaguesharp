@@ -12,7 +12,7 @@
 
     internal sealed class QCombo  : OrbwalkingChild
     {
-        public override string Name { get; set; } 
+        public override string Name { get; set; } = "Q";
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.Q].Range, TargetSelector.DamageType.Physical);
 
@@ -30,13 +30,11 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem("QMana", "Mana %").SetValue(new Slider(30, 0, 100)));
+            Menu.AddItem(new MenuItem("QMana", "Mana %").SetValue(new Slider(10, 0, 100)));
 
             Menu.AddItem(new MenuItem("QImmobile", "Q On Immobile").SetValue(true));
 
             Menu.AddItem(new MenuItem("QHit", "Cast if 2 can be hit").SetValue(true));
-
-            Menu.AddItem(new MenuItem("QHigh", "E + Q Cancel").SetValue(false));
         }
 
         private void OnUpdate(EventArgs args)
@@ -53,7 +51,7 @@
                 Spells.Spell[SpellSlot.Q].Cast(Target);
             }
 
-            if (qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("QImmobile").GetValue<bool>() || (qPrediction.Hitchance >= HitChance.VeryHigh && Menu.Item("QHigh").GetValue<bool>()))
+            if ((qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("QImmobile").GetValue<bool>()) || qPrediction.Hitchance >= HitChance.VeryHigh)
             {
                 Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition);
             }

@@ -12,7 +12,7 @@
 
     internal sealed class RKillsteal : OrbwalkingChild
     {
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "R";
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.R].Range, TargetSelector.DamageType.Physical);
 

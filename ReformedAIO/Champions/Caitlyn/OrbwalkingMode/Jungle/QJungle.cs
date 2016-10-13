@@ -13,7 +13,7 @@
 
     internal sealed class QJungle  : OrbwalkingChild
     {
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "Q";
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {

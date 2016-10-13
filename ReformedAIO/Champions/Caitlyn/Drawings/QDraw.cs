@@ -12,7 +12,7 @@
 
     internal sealed class QDraw : ChildBase
     {
-        public override string Name { get; set; } = "[Q]";
+        public override string Name { get; set; } = "Q";
 
         public void OnDraw(EventArgs args)
         {
@@ -24,7 +24,7 @@
                  Vars.Player.Position,
                 Spells.Spell[SpellSlot.Q].Range,
                 Spells.Spell[SpellSlot.Q].IsReady()
-                 ? Color.LightSlateGray
+                 ? Color.Cyan
                 : Color.DarkSlateGray);
         }
 

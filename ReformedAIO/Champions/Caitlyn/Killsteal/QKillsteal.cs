@@ -12,7 +12,7 @@
 
     internal sealed class QKillsteal : OrbwalkingChild
     {
-        public override string Name { get; set; } = "[Q]";
+        public override string Name { get; set; } = "Q";
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.Q].Range, TargetSelector.DamageType.Physical);
 

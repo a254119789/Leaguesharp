@@ -26,13 +26,11 @@
             if (!sender.IsMe 
                 || ObjectManager.Player.HasBuff("LucianPassiveBuff")
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
-                || !wSpell.Spell.IsReady()
                 || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
                 || !CheckGuardians())
             {
                 return;
             }
-
 
             var mob =
                 MinionManager.GetMinions(
