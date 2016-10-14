@@ -25,7 +25,7 @@
                 return;
             }
 
-            Console.WriteLine((Ping() + MenuConfig.Qd).ToString());
+            Console.WriteLine((Ping() + MenuConfig.Qd - AtkSpeed).ToString());
 
             switch (args.Animation)
             {
@@ -34,7 +34,7 @@
                     Qstack = 2;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd, Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd - AtkSpeed, Reset);
                     }
 
                     break;
@@ -43,7 +43,7 @@
                     Qstack = 3;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D, Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D - AtkSpeed, Reset);
                     }
 
                     break;
@@ -89,10 +89,7 @@
             }
         }
 
-        //private static int AtkSpeed()
-        //{
-        //    return (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
-        //}
+        private static int AtkSpeed => (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
 
         private static int Ping()
         {
@@ -100,7 +97,7 @@
 
             if (!MenuConfig.CancelPing)
             {
-                ping = 5;
+                ping = 0;
             }
             else
             {
@@ -113,7 +110,6 @@
         private static void Reset()
         {
             Emotes();
-           // Utility.DelayAction.Add(Ping() + MenuConfig.Qld, Orbwalking.ResetAutoAttackTimer);
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 

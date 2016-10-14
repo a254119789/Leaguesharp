@@ -110,10 +110,8 @@
     <Compile Include="Champions\Bootstrap.cs" />
     <Compile Include="Champions\Caitlyn\CaitlynLoader.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\DmgDraw.cs" />
-    <Compile Include="Champions\Caitlyn\Drawings\EDraw.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\QDraw.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\RDraw.cs" />
-    <Compile Include="Champions\Caitlyn\Drawings\WDraw.cs" />
     <Compile Include="Champions\Caitlyn\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Caitlyn\Killsteal\RKillsteal.cs" />
     <Compile Include="Champions\Caitlyn\Logic\EwqrLogic.cs" />
@@ -157,7 +155,6 @@
     <Compile Include="Champions\Lucian\Core\Spells\SpellParent\SpellParent.cs" />
     <Compile Include="Champions\Lucian\Core\Spells\WSpell.cs" />
     <Compile Include="Champions\Lucian\Drawings\DmgDraw.cs" />
-    <Compile Include="Champions\Lucian\Drawings\QDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\RDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\WDraw.cs" />
     <Compile Include="Champions\Lucian\Core\Damage\LucDamage.cs" />
@@ -175,7 +172,6 @@
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\ELaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\QLaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\WLaneClear.cs" />
-    <Compile Include="Champions\Lucian\Perma Active\AntiGapcloser\GapcloseFastAsFuckBOi.cs" />
     <Compile Include="Champions\Lucian\Perma Active\Killsteal\Q.cs" />
     <Compile Include="Champions\Lucian\Perma Active\Killsteal\R.cs" />
     <Compile Include="Champions\Lucian\Perma Active\Killsteal\W.cs" />
