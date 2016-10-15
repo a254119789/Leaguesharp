@@ -19,28 +19,23 @@
         {
             var selectedTarget = TargetSelector.GetSelectedTarget();
 
-            // THIS IS JUST A BAD HOTFIX, I'M SUPER BUSY
-            if (Spells.W.IsReady() && InRange(selectedTarget))
-            {
-                Spells.W.Cast();
-            }
-
             if (Spells.Flash.IsReady()
                 && Spells.R.IsReady()
                 && Spells.W.IsReady()
                 && MenuConfig.AlwaysF)
             {
-                if (selectedTarget != null && selectedTarget.IsValidTarget(420 + Spells.W.Range) && !selectedTarget.IsInvulnerable && Player.Distance(selectedTarget.Position) > 540)
+                if (selectedTarget == null 
+                    || !selectedTarget.IsValidTarget(410 + Spells.W.Range)
+                    || Player.Distance(selectedTarget.Position) < 500)
                 {
-                    Usables.CastYoumoo();
-
-                    Spells.E.Cast(selectedTarget.Position);
-                    Spells.R.Cast();
-
-                    Spells.W.Cast();
-
-                    Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, selectedTarget.Position));
+                    return;
                 }
+
+                Usables.CastYoumoo();
+
+                Spells.E.Cast(selectedTarget.Position);
+                Spells.R.Cast();
+                FlashW();
             }
             else
             {
@@ -50,7 +45,10 @@
 
                 if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
                 {
-                    var pred = Spells.R.GetPrediction(target, true, collisionable: new[] { CollisionableObjects.YasuoWall });
+                    var pred = Spells.R.GetPrediction(
+                        target,
+                        true,
+                        collisionable: new[] { CollisionableObjects.YasuoWall });
 
                     if (pred.Hitchance < HitChance.High)
                     {
@@ -62,13 +60,14 @@
 
                 if (Qstack == 3
                     && target.Distance(Player) >= Player.AttackRange
-                    && target.Distance(Player) <= 600 
+                    && target.Distance(Player) <= 600
                     && Spells.R.IsReady()
-                    && Spells.R.Instance.Name == IsFirstR
-                    && MenuConfig.Q3Wall
+                    && Spells.R.Instance.Name == IsFirstR && MenuConfig.Q3Wall
                     && Spells.E.IsReady())
                 {
-                    var wallPoint = FleeLogic.GetFirstWallPoint(Player.Position, Player.Position.Extend(target.Position, 650));
+                    var wallPoint = FleeLogic.GetFirstWallPoint(
+                        Player.Position,
+                        Player.Position.Extend(target.Position, 650));
 
                     Player.GetPath(wallPoint);
 
@@ -94,28 +93,28 @@
                         Spells.Q.Cast(wallPoint);
                     }
                 }
-               else if (Spells.R.IsReady()
-               && Spells.R.Instance.Name == IsFirstR
-               && Spells.E.IsReady()
-               && Spells.Q.IsReady()
-               && Spells.W.IsReady())
+                else if (Spells.R.IsReady()
+                    && Spells.R.Instance.Name == IsFirstR
+                    && Spells.E.IsReady()
+                    && Spells.Q.IsReady()
+                    && Spells.W.IsReady())
                 {
                     Spells.E.Cast(target.Position);
                     Utility.DelayAction.Add(15, () => Spells.R.Cast());
                     Utility.DelayAction.Add(140, () => CastW(target));
                     Utility.DelayAction.Add(220, () => CastQ(target));
                 }
-               else if (Spells.E.IsReady())
+                else if (Spells.E.IsReady())
                 {
                     Spells.E.Cast(target.Position);
                 }
-               else if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
+                else if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
                     Spells.R.Cast();
                 }
-               else if (Spells.W.IsReady() && !target.HasBuff("FioraW"))
+                else if (Spells.W.IsReady() && !target.HasBuff("FioraW"))
                 {
-                   CastW(target);
+                    CastW(target);
                 }
             }
         }

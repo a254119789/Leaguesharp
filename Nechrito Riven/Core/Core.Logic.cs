@@ -8,6 +8,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using NechritoRiven.Menus;
+
     #endregion
 
     /// <summary>
@@ -147,6 +149,14 @@
         public static void CastE(AttackableUnit x)
         {
             Unit = x;
+        }
+
+        public static void FlashW()
+        {
+            var target = TargetSelector.GetSelectedTarget();
+
+            Spells.W.Cast();
+            Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
         }
 
         public static void CastW(Obj_AI_Base x)

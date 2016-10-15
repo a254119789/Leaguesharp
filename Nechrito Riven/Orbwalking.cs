@@ -287,7 +287,7 @@ namespace NechritoRiven
                 return true;
             }
 
-            return Utils.GameTimeTickCount >= LastAATick + Player.AttackCastDelay * 1000;
+            return Utils.GameTimeTickCount >= LastAATick + Player.AttackCastDelay * 1000 + extraWindup;
         }
 
         /// <summary>
@@ -356,10 +356,9 @@ namespace NechritoRiven
                 return false;
             }
             var myRange = GetRealAutoAttackRange(target);
-            return
-                Vector2.DistanceSquared(
-                    (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
-                    Player.ServerPosition.To2D()) <= myRange * myRange;
+            return Vector2.DistanceSquared(
+                (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
+                Player.ServerPosition.To2D()) <= myRange * myRange;
         }
 
         /// <summary>
@@ -369,7 +368,8 @@ namespace NechritoRiven
         /// <returns><c>true</c> if the name is an auto attack; otherwise, <c>false</c>.</returns>
         public static bool IsAutoAttack(string name)
         {
-            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower())) || Attacks.Contains(name.ToLower());
+            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower()))
+                   || Attacks.Contains(name.ToLower());
         }
 
         /// <summary>

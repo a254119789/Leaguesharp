@@ -143,14 +143,14 @@
 
             if (nexus != null && nexus.IsValid)
             {
-                CastQ(nexus);
+                Spells.Q.Cast(nexus.Position - 500);
             }
 
             var inhib = args.Target as Obj_BarracksDampener;
 
             if (inhib != null && inhib.IsValid)
             {
-                CastQ(inhib);
+                Spells.Q.Cast(inhib.Position - 250);
             }
 
             var turret = args.Target as Obj_AI_Turret;
@@ -160,7 +160,7 @@
                 return;
             }
 
-           CastQ(turret);
+            Spells.Q.Cast(turret.Position - 250);
         }
 
         #endregion
