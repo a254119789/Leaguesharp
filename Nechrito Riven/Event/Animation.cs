@@ -109,7 +109,7 @@
 
         private static void Reset()
         {
-            //Emotes();
+            Emotes();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 
