@@ -25,7 +25,7 @@
                 return;
             }
 
-            Console.WriteLine((Ping() + MenuConfig.Qd - AtkSpeed).ToString());
+           // Console.WriteLine((Ping() + MenuConfig.Qd - AtkSpeed).ToString());
 
             switch (args.Animation)
             {
@@ -52,7 +52,7 @@
                     Qstack = 1;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld, Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld - AtkSpeed, Reset);
                     }
 
                     break;
@@ -89,7 +89,7 @@
             }
         }
 
-        private static int AtkSpeed => (int)((Player.Level + Player.AttackSpeedMod) * 0.625);
+        private static int AtkSpeed => (int)(1400 / Player.AttackSpeedMod * 3.75);
 
         private static int Ping()
         {
@@ -109,7 +109,7 @@
 
         private static void Reset()
         {
-            Emotes();
+            //Emotes();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 

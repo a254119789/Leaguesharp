@@ -34,9 +34,9 @@
 
                 if ((!MenuConfig.OverKillCheck && Qstack > 1)
                     || MenuConfig.OverKillCheck 
-                    && (!Spells.Q.IsReady() && Qstack == 1)
-                        || (target.Distance(Player) >= Player.AttackRange + 310 
-                        && target.HealthPercent <= 40))
+                    && (target.HealthPercent <= 40 
+                    && !Spells.Q.IsReady() && Qstack == 1
+                    || target.Distance(Player) >= Player.AttackRange + 310))
                 {
                     Spells.R.Cast(pred.CastPosition);
                 }
