@@ -65,6 +65,11 @@
 
                 if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
 
+                if (Spells.Q.IsReady())
+                {
+                    CastQ(target);
+                }
+
                 if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
                 {
                     var pred = Spells.R.GetPrediction(target);
@@ -75,11 +80,6 @@
                     }
 
                     Spells.R.Cast(pred.CastPosition);
-                }
-
-                else if (Spells.Q.IsReady())
-                {
-                    CastQ(target);
                 }
             }
 

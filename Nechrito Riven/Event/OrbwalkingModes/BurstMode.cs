@@ -26,7 +26,7 @@
             {
                 if (selectedTarget == null 
                     || !selectedTarget.IsValidTarget(410 + Spells.W.Range)
-                    || Player.Distance(selectedTarget.Position) < 500)
+                    || Player.Distance(selectedTarget.Position) < 400)
                 {
                     return;
                 }
