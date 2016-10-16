@@ -34,7 +34,7 @@
                     Qstack = 2;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd - AtkSpeed, Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd, Reset);
                     }
 
                     break;
@@ -43,7 +43,7 @@
                     Qstack = 3;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D - AtkSpeed, Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D, Reset);
                     }
 
                     break;
@@ -52,7 +52,7 @@
                     Qstack = 1;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld - AtkSpeed, Reset);
+                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld, Reset);
                     }
 
                     break;
@@ -111,6 +111,8 @@
         {
             Emotes();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+
+            Utility.DelayAction.Add(AtkSpeed, Orbwalking.ResetAutoAttackTimer);
         }
 
         private static bool SafeReset()

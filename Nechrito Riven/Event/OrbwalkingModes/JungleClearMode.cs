@@ -18,7 +18,7 @@
         {
             var mobs = MinionManager.GetMinions(
                 Player.Position,
-                Player.AttackRange + Spells.E.Range,
+                Player.AttackRange + 240,
                 MinionTypes.All,
                 MinionTeam.Neutral);
 

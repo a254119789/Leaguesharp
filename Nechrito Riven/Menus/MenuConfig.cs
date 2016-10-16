@@ -198,12 +198,27 @@
             skin.AddItem(new MenuItem("UseSkin", "Use SkinChanger").SetValue(false)).SetTooltip("Toggles Skinchanger");
             skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[]
                             {
-                                "Default", "Redeemed", "Crimson Elite", "Battle Bunny", "Championship", "Dragonblade", "Arcade", "Championship 2016"
+                "Default",
+                "Redeemed",
+                "Crimson Elite",
+                "Battle Bunny",
+                "Championship",
+                "Dragonblade",
+                "Arcade",
+                "Championship 2016",
+                "Chroma 1",
+                "Chroma 2",
+                "Chroma 3",
+                "Chroma 4",
+                "Chroma 5",
+                "Chroma 6",
+                "Chroma 7",
+                "Chroma 8"
                             })));
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.20").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.20.1").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 
