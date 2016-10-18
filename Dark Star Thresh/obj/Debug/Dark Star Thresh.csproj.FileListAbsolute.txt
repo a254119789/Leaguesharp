@@ -14,3 +14,6 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star 
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\clipper_library.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\LeagueSharp.Data.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\LeagueSharp.Data.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\SebbyLib.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\bin\Debug\SebbyLib.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Dark Star Thresh\Dark Star Thresh\obj\Debug\Dark Star Thresh.csprojResolveAssemblyReference.cache

@@ -52,10 +52,11 @@
             if (MenuConfig.DrawPred)
             {
                 var target = TargetSelector.GetSelectedTarget();
+                var pred = Spells.Q.GetPrediction(target);
 
                 if (target != null && !target.IsDead && target.IsValidTarget(Spells.Q.Range))
                 {
-                    Render.Circle.DrawCircle(Mode.QPred(target), 50, Color.GhostWhite);
+                    Render.Circle.DrawCircle(pred.UnitPosition, 50, Color.GhostWhite);
                 }
             }
         }

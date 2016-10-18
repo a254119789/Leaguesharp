@@ -40,6 +40,9 @@
     <Reference Include="LeagueSharp.Common">
       <HintPath>C:\Software\rP1k9gpY1\References\LeagueSharp.Common.dll</HintPath>
     </Reference>
+    <Reference Include="SebbyLib">
+      <HintPath>C:\Software\rP1k9gpY1\References\SebbyLib.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.dll</HintPath>
     </Reference>

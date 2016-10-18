@@ -15,13 +15,6 @@
 
     internal class Mode : Core
     {
-        public static Vector3 QPred(Obj_AI_Hero target)
-        {
-            var pos = Spells.Q.GetPrediction(target).CastPosition.To2D();
-
-            return pos.To3D2();
-        }
-
         public static void GetActiveMode(EventArgs args)
         {
             switch (Orbwalker.ActiveMode)
@@ -51,14 +44,18 @@
 
         public static void Combo()
         {
-            var qTarget = TargetSelector.GetTarget(MenuConfig.ComboQ * 10, TargetSelector.DamageType.Physical);
+            var qTarget = TargetSelector.GetTarget(MenuConfig.ComboQ, TargetSelector.DamageType.Physical);
 
             var eTarget = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
 
             var rTarget = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
             // Credits to DanZ for this line of code.
-            var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
+            var wAlly =
+                Player.GetAlliesInRange(Spells.W.Range)
+                    .Where(x => !x.IsMe)
+                    .Where(x => !x.IsDead)
+                    .FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
 
             if (Spells.E.IsReady())
             {
@@ -66,7 +63,7 @@
                 {
                     if (eTarget.Distance(Player) <= Spells.E.Range)
                     {
-                        if (wAlly == null && !eTarget.UnderAllyTurret())
+                        if (wAlly == null && !eTarget.UnderTurret(false))
                         {
                             if (MenuConfig.Debug)
                             {
@@ -82,7 +79,6 @@
                                 Game.PrintChat("Pulling");
                             }
 
-                            // Might extend it to wAlly
                             Spells.E.Cast(
                                 eTarget.Position.Extend(
                                     Player.Position,
@@ -96,12 +92,7 @@
             {
                 if (qTarget != null && !qTarget.IsDashing() && !qTarget.IsDead && qTarget.IsValidTarget())
                 {
-                    var qPrediction = Spells.Q.GetPrediction(qTarget);
-
-                    if (qPrediction.Hitchance >= HitChance.High)
-                    {
-                        Spells.Q.Cast(QPred(qTarget));
-                    }
+                    CastQ(qTarget);
                 }
 
                 if (MenuConfig.ComboTaxi && Spells.E.IsReady())
@@ -117,17 +108,17 @@
                             foreach (var m in minions)
                             {
                                 if (m == null 
-                                    || !m.IsValidTarget() 
+                                    || !m.IsValidTarget()
                                     || !(m.Health > Spells.Q.GetDamage(m))
-                                    ||!qTarget.IsFacing(Player)) continue;
-
-                                if (!ThreshQ(m) && !(m.Distance(Player) >= 900f)) continue;
-
-                                if (!(m.Distance(Player) <= Spells.Q.Range) || !(qTarget.Distance(Player) <= Spells.Q.Range + Spells.E.Range - 50)) continue;
+                                    || !qTarget.IsFacing(Player)
+                                    || m.Distance(Player) > 900f
+                                    || m.Distance(Player) > Spells.Q.Range
+                                    || qTarget.Distance(Player) <= Spells.Q.Range / 2)
+                                    continue;
 
                                 if (MenuConfig.Debug) Game.PrintChat("Taxi Mode Active...");
 
-                                Spells.Q.Cast(m);
+                                CastQ(m);
                             }
                         }
                     }
@@ -153,7 +144,7 @@
             }
 
             if (!Spells.R.IsReady() || rTarget == null || rTarget.IsDead || !rTarget.IsValidTarget()) return;
-          
+
             if (Player.CountEnemiesInRange(Spells.R.Range - 45) >= MenuConfig.ComboR)
             {
                 Spells.R.Cast();
@@ -171,8 +162,6 @@
                 Orbwalker.SetAttack(true);
             }
 
-            var qTarget = TargetSelector.GetTarget(Spells.Q.Range, TargetSelector.DamageType.Physical);
-
             var eTarget = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
 
             if (MenuConfig.HarassE)
@@ -189,17 +178,12 @@
                 }
             }
 
-            // The reason we can return here is because we wont go further. Better code and we don't have to put unecessary if statements
-            if (!MenuConfig.HarassQ) return;
+            var qTarget = TargetSelector.GetTarget(Spells.Q.Range, TargetSelector.DamageType.Physical);
 
-            if (qTarget == null || qTarget.IsDashing() || qTarget.IsDead || !qTarget.IsValidTarget() || !Spells.Q.IsReady()) return;
+            if (!MenuConfig.HarassQ || qTarget == null || qTarget.IsDashing() || qTarget.IsDead
+                || !qTarget.IsValidTarget() || !Spells.Q.IsReady()) return;
 
-            var qPrediction = Spells.Q.GetPrediction(qTarget);
-
-            if (Spells.Q.WillHit(qTarget, qPrediction.CastPosition))
-            {
-                Spells.Q.Cast(QPred(qTarget));
-            }
+            CastQ(qTarget);
         }
 
         public static void LastHit()
@@ -210,7 +194,11 @@
             foreach (var m in minions)
             {
                 if (!m.IsValidTarget(1050) || m == null || m.IsDead) continue;
-                var range = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).Where(x => !x.IsDead).FirstOrDefault(x => x.Distance(Player.Position) <= 1050);
+                var range =
+                    Player.GetAlliesInRange(Spells.W.Range)
+                        .Where(x => !x.IsMe)
+                        .Where(x => !x.IsDead)
+                        .FirstOrDefault(x => x.Distance(Player.Position) <= 1050);
 
                 if (!(Player.GetAutoAttackDamage(m, true) > m.Health) || range == null) continue;
                 if (!MenuConfig.Debug) continue;
@@ -241,7 +229,10 @@
 
             if (qPrediction.Hitchance <= HitChance.High) return;
 
-            var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
+            var wAlly =
+                Player.GetAlliesInRange(Spells.W.Range)
+                    .Where(x => !x.IsMe)
+                    .FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
 
             if (wAlly != null)
             {
@@ -251,7 +242,7 @@
             if (Spells.Flash == SpellSlot.Unknown || Player.Spellbook.CanUseSpell(Spells.Flash) != SpellState.Ready) return;
 
             Player.Spellbook.CastSpell(Spells.Flash, qPrediction.CastPosition);
-            Spells.Q.Cast(qPrediction.CastPosition);
+            CastQ(qTarget);
         }
 
         public static void Flee()
@@ -259,18 +250,24 @@
             // Snippet From Nechrito Diana
             if (!MenuConfig.Flee) return;
 
-            var jump = JumpPos.FirstOrDefault(x => x.Value.Distance(ObjectManager.Player.Position) < 300f && x.Value.Distance(Game.CursorPos) < Spells.Q.Range);
-            var monster = MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.Health).FirstOrDefault();
+            var jump =
+                JumpPos.FirstOrDefault(
+                    x =>
+                    x.Value.Distance(ObjectManager.Player.Position) < 300f
+                    && x.Value.Distance(Game.CursorPos) < Spells.Q.Range);
+            var monster =
+                MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.Health)
+                    .FirstOrDefault();
             var mobs = MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.NotAlly);
 
             if (jump.Value.IsValid() && Spells.Q.IsReady())
             {
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, jump.Value);
 
-
                 foreach (var pos in JunglePos)
                 {
-                    if (Game.CursorPos.Distance(pos) <= 350 && ObjectManager.Player.Position.Distance(pos) <= Spells.Q.Range && Spells.Q.IsReady())
+                    if (Game.CursorPos.Distance(pos) <= 350
+                        && ObjectManager.Player.Position.Distance(pos) <= Spells.Q.Range && Spells.Q.IsReady())
                     {
                         Spells.Q.Cast(pos);
                     }
@@ -280,7 +277,6 @@
             {
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             }
-
 
             if (!mobs.Any() || !Spells.Q.IsReady()) return;
 
@@ -294,13 +290,29 @@
             }
         }
 
-        public static readonly Dictionary<string, Vector3> JumpPos = new Dictionary<string, Vector3> {
-            { "mid_Dragon" , new Vector3 (9122f, 4058f, 53.95995f) },
-            { "left_dragon" , new Vector3 (9088f, 4544f, 52.24316f) },
-            { "baron" , new Vector3 (5774f, 10706f, 55.77578F) },
-            { "red_wolves" , new Vector3 (11772f, 8856f, 50.30728f) },
-            { "blue_wolves" , new Vector3 (3046f, 6132f, 57.04655f) }
-        };
+        public static readonly Dictionary<string, Vector3> JumpPos = new Dictionary<string, Vector3>
+                                                                         {
+                                                                             {
+                                                                                 "mid_Dragon",
+                                                                                 new Vector3(9122f, 4058f, 53.95995f)
+                                                                             },
+                                                                             {
+                                                                                 "left_dragon",
+                                                                                 new Vector3(9088f, 4544f, 52.24316f)
+                                                                             },
+                                                                             {
+                                                                                 "baron",
+                                                                                 new Vector3(5774f, 10706f, 55.77578F)
+                                                                             },
+                                                                             {
+                                                                                 "red_wolves",
+                                                                                 new Vector3(11772f, 8856f, 50.30728f)
+                                                                             },
+                                                                             {
+                                                                                 "blue_wolves",
+                                                                                 new Vector3(3046f, 6132f, 57.04655f)
+                                                                             }
+                                                                         };
 
         public static readonly List<Vector3> JunglePos = new List<Vector3>
                                                              {
