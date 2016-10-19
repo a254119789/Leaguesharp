@@ -17,6 +17,7 @@
     {
         public static void GetActiveMode(EventArgs args)
         {
+            AutoQ();
             switch (Orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.None:
@@ -38,8 +39,55 @@
 
         public static bool ThreshQ(Obj_AI_Base t)
         {
-            // In case of inheritance
             return t.HasBuff("ThreshQ");
+        }
+
+        public static void OnPing(GamePingEventArgs args)
+        {
+            if (!MenuConfig.WJungler || !Spells.W.IsReady())
+            {
+                return;
+            }
+
+            var allyJungler = args.Source as Obj_AI_Hero;
+
+            if (allyJungler == null 
+                || allyJungler.Distance(Player.ServerPosition) <= Spells.W.Range + 550
+                || !allyJungler.Spellbook.GetSpell(SpellSlot.Summoner1).Name.ToLower().Contains("smite")
+                || !allyJungler.Spellbook.GetSpell(SpellSlot.Summoner2).Name.ToLower().Contains("smite")
+                || args.PingType != PingCategory.Fallback 
+                || args.PingType != PingCategory.Danger)
+            {
+                return;
+            }
+
+            Utility.DelayAction.Add(330, () => Spells.W.Cast(args.Position.To3D()));   
+        }
+
+        public static void AutoQ()
+        {
+            var qTarget = TargetSelector.GetTarget(MenuConfig.ComboQ, TargetSelector.DamageType.Physical);
+
+            if (!Spells.Q.IsReady() || !qTarget.IsValidTarget(Spells.Q.Range) || qTarget == null)
+            {
+                return; 
+            }
+
+            if (MenuConfig.AutoCC // Hotfix, .IsActive isn't working properly?
+                && GetStunDuration(qTarget) < Spells.Q.Delay
+                && (qTarget.HasBuffOfType(BuffType.Stun) 
+                || qTarget.HasBuffOfType(BuffType.Knockback)
+                || qTarget.HasBuffOfType(BuffType.Charm) 
+                || qTarget.HasBuffOfType(BuffType.Suppression)
+                || qTarget.HasBuffOfType(BuffType.Snare)))
+            {
+                CastQ(qTarget);
+            }
+
+            if (MenuConfig.AutoDashing && qTarget.IsDashing())
+            {
+                CastQ(qTarget);
+            }
         }
 
         public static void Combo()
@@ -54,14 +102,22 @@
             var wAlly =
                 Player.GetAlliesInRange(Spells.W.Range)
                     .Where(x => !x.IsMe)
-                    .Where(x => !x.IsDead)
-                    .FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
+                    .FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 375);
 
             if (Spells.E.IsReady())
             {
-                if (eTarget != null && !eTarget.IsDashing() && !eTarget.IsDead && eTarget.IsValidTarget(Spells.E.Range))
+                if (eTarget != null && eTarget.IsValidTarget(Spells.E.Range))
                 {
-                    if (eTarget.Distance(Player) <= Spells.E.Range)
+                    if (MenuConfig.ESmart && GetStunDuration(eTarget) < Spells.E.Delay)
+                    {
+                        Spells.E.Cast(eTarget.Position.Extend(Player.Position, Vector3.Distance(eTarget.Position, Player.Position) + 400));
+
+                        if (MenuConfig.Debug)
+                        {
+                            Game.PrintChat("Pulling, E Smart Active");
+                        }
+                    }
+                    else
                     {
                         if (wAlly == null && !eTarget.UnderTurret(false))
                         {
@@ -79,10 +135,7 @@
                                 Game.PrintChat("Pulling");
                             }
 
-                            Spells.E.Cast(
-                                eTarget.Position.Extend(
-                                    Player.Position,
-                                    Vector3.Distance(eTarget.Position, Player.Position) + 400));
+                            Spells.E.Cast(eTarget.Position.Extend(Player.Position, Vector3.Distance(eTarget.Position, Player.Position) + 400));
                         }
                     }
                 }
@@ -90,51 +143,46 @@
 
             if (Spells.Q.IsReady())
             {
-                if (qTarget != null && !qTarget.IsDashing() && !qTarget.IsDead && qTarget.IsValidTarget())
+                if (qTarget == null || !qTarget.IsValidTarget(Spells.Q.Range) || (MenuConfig.AutoCC && GetStunDuration(qTarget) > Spells.Q.Delay))
                 {
-                    CastQ(qTarget);
+                    return;
                 }
 
-                if (MenuConfig.ComboTaxi && Spells.E.IsReady())
+                CastQ(qTarget);
+
+                if (Player.ManaPercent < 30)
                 {
-                    if (qTarget != null && qTarget.IsValidTarget())
+                    return;
+                }
+
+                if (MenuConfig.ComboTaxi && (Spells.E.IsReady() || Spells.W.IsReady()))
+                {
+                    var minions = MinionManager.GetMinions(Player.Position, Spells.Q.Range + Spells.E.Range);
+
+                    foreach (var m in minions)
                     {
-                        var qPrediction = Spells.Q.GetPrediction(qTarget);
+                        if (m == null
+                            || !m.IsValidTarget()
+                            || !(m.Health > Spells.Q.GetDamage(m))
+                            || !qTarget.IsFacing(Player) 
+                            || m.Distance(Player) > 900f
+                            || m.Distance(Player) > Spells.Q.Range 
+                            || qTarget.Distance(Player) <= Spells.Q.Range / 2)
+                            continue;
 
-                        if (Player.ManaPercent >= 55 && !Spells.Q.WillHit(qTarget, qPrediction.CastPosition))
+                        CastQ(m);
+
+                        if (MenuConfig.Debug)
                         {
-                            var minions = MinionManager.GetMinions(Player.Position, Spells.Q.Range + Spells.E.Range);
-
-                            foreach (var m in minions)
-                            {
-                                if (m == null 
-                                    || !m.IsValidTarget()
-                                    || !(m.Health > Spells.Q.GetDamage(m))
-                                    || !qTarget.IsFacing(Player)
-                                    || m.Distance(Player) > 900f
-                                    || m.Distance(Player) > Spells.Q.Range
-                                    || qTarget.Distance(Player) <= Spells.Q.Range / 2)
-                                    continue;
-
-                                if (MenuConfig.Debug) Game.PrintChat("Taxi Mode Active...");
-
-                                CastQ(m);
-                            }
+                            Game.PrintChat("Taxi Mode Active...");
                         }
                     }
                 }
             }
 
-            if (wAlly != null)
+            if (wAlly != null && qTarget != null)
             {
-                if (qTarget.IsValidTarget() && qTarget != null && ThreshQ(qTarget))
-                {
-                    if (Spells.W.IsReady())
-                    {
-                        Spells.W.Cast(wAlly);
-                    }
-                }
-                else if (eTarget.IsValidTarget() && eTarget != null && eTarget.Distance(Player) <= Spells.E.Range)
+                if (ThreshQ(qTarget) || qTarget.Distance(Player) <= Spells.E.Range + 250)
                 {
                     if (Spells.W.IsReady())
                     {
@@ -143,7 +191,10 @@
                 }
             }
 
-            if (!Spells.R.IsReady() || rTarget == null || rTarget.IsDead || !rTarget.IsValidTarget()) return;
+            if (!Spells.R.IsReady() || rTarget == null || !rTarget.IsValidTarget())
+            {
+                return;
+            }
 
             if (Player.CountEnemiesInRange(Spells.R.Range - 45) >= MenuConfig.ComboR)
             {
@@ -188,20 +239,26 @@
 
         public static void LastHit()
         {
-            var minions = MinionManager.GetMinions(1050f);
+            var minions = MinionManager.GetMinions(Orbwalking.GetAttackRange(Player));
             if (Dmg.TalentReaper == 0) return;
 
             foreach (var m in minions)
             {
-                if (!m.IsValidTarget(1050) || m == null || m.IsDead) continue;
+                if (!m.IsValidTarget(Orbwalking.GetAttackRange(Player)) || m == null)
+                {
+                    continue;
+                }
                 var range =
                     Player.GetAlliesInRange(Spells.W.Range)
                         .Where(x => !x.IsMe)
                         .Where(x => !x.IsDead)
-                        .FirstOrDefault(x => x.Distance(Player.Position) <= 1050);
+                        .FirstOrDefault(x => x.Distance(Player.Position) <= Orbwalking.GetAttackRange(Player));
 
-                if (!(Player.GetAutoAttackDamage(m, true) > m.Health) || range == null) continue;
-                if (!MenuConfig.Debug) continue;
+                if (Player.GetAutoAttackDamage(m, true) < m.Health || range == null || !MenuConfig.Debug)
+                {
+                    continue;
+                }
+               
                 Game.PrintChat("Damage = " + (float)Player.GetAutoAttackDamage(m, true) + " | Minion Hp = " + m.Health);
 
                 Render.Circle.DrawCircle(m.Position, 75, m.Distance(Player) <= 225f ? Color.Green : Color.Red);
@@ -216,7 +273,7 @@
 
             if (!Spells.Q.IsReady()) return;
 
-            var qTarget = TargetSelector.GetTarget(Spells.Q.Range + 400, TargetSelector.DamageType.Physical);
+            var qTarget = TargetSelector.GetTarget(Spells.Q.Range + 420, TargetSelector.DamageType.Physical);
 
             if (qTarget == null || !qTarget.IsValidTarget()) return;
 
@@ -229,45 +286,38 @@
 
             if (qPrediction.Hitchance <= HitChance.High) return;
 
-            var wAlly =
-                Player.GetAlliesInRange(Spells.W.Range)
-                    .Where(x => !x.IsMe)
-                    .FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 250);
+            if (Spells.Flash == SpellSlot.Unknown || Player.Spellbook.CanUseSpell(Spells.Flash) != SpellState.Ready) return;
+
+            var wAlly = Player.GetAlliesInRange(Spells.W.Range).Where(x => !x.IsMe).FirstOrDefault(x => x.Distance(Player.Position) <= Spells.W.Range + 500);
 
             if (wAlly != null)
             {
                 Spells.W.Cast(wAlly);
             }
 
-            if (Spells.Flash == SpellSlot.Unknown || Player.Spellbook.CanUseSpell(Spells.Flash) != SpellState.Ready) return;
-
             Player.Spellbook.CastSpell(Spells.Flash, qPrediction.CastPosition);
+
             CastQ(qTarget);
         }
 
         public static void Flee()
         {
-            // Snippet From Nechrito Diana
-            if (!MenuConfig.Flee) return;
+            if (!MenuConfig.Flee || !Spells.Q.IsReady())
+            {
+                return;
+            }
 
-            var jump =
-                JumpPos.FirstOrDefault(
-                    x =>
-                    x.Value.Distance(ObjectManager.Player.Position) < 300f
-                    && x.Value.Distance(Game.CursorPos) < Spells.Q.Range);
-            var monster =
-                MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.Health)
-                    .FirstOrDefault();
+            var jump = JumpPos.FirstOrDefault(x => x.Value.Distance(ObjectManager.Player.Position) < Spells.Q.Range && x.Value.Distance(Game.CursorPos) <= 350);
+
             var mobs = MinionManager.GetMinions(Spells.Q.Range, MinionTypes.All, MinionTeam.NotAlly);
 
-            if (jump.Value.IsValid() && Spells.Q.IsReady())
+            if (jump.Value.IsValid())
             {
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, jump.Value);
 
                 foreach (var pos in JunglePos)
                 {
-                    if (Game.CursorPos.Distance(pos) <= 350
-                        && ObjectManager.Player.Position.Distance(pos) <= Spells.Q.Range && Spells.Q.IsReady())
+                    if (Game.CursorPos.Distance(pos) <= 350 && ObjectManager.Player.Position.Distance(pos) <= Spells.Q.Range)
                     {
                         Spells.Q.Cast(pos);
                     }
@@ -278,16 +328,16 @@
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             }
 
-            if (!mobs.Any() || !Spells.Q.IsReady()) return;
+            if (!mobs.Any()) return;
 
             var m = mobs.MaxOrDefault(x => x.MaxHealth);
 
-            if (!(m.Distance(Game.CursorPos) <= Spells.Q.Range) || !(m.Distance(Player) >= 475)) return;
-
-            if (m.Health > Spells.Q.GetDamage(m))
+            if (m.Distance(Game.CursorPos) > Spells.Q.Range || !(m.Distance(Player) >= 475) || m.Health < Spells.Q.GetDamage(m))
             {
-                Spells.Q.Cast(m.Position);
+                return;
             }
+
+            Spells.Q.Cast(m.Position);
         }
 
         public static readonly Dictionary<string, Vector3> JumpPos = new Dictionary<string, Vector3>

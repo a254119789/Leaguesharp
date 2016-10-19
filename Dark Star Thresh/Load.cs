@@ -14,6 +14,7 @@
             Spells.Load();
             MenuConfig.LoadMenu();
 
+            Game.OnPing += Mode.OnPing;
             Game.OnUpdate += Misc.Skinchanger;
             Game.OnUpdate += Mode.GetActiveMode;
 

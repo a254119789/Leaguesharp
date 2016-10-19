@@ -1,6 +1,7 @@
 ﻿namespace Dark_Star_Thresh.Update
 {
     using System;
+    using System.Linq;
 
     using Dark_Star_Thresh.Core;
 
@@ -40,6 +41,16 @@
             if (!MenuConfig.Gapcloser || gapcloser.Sender.IsEnemy) return;
 
             var sender = gapcloser.Sender;
+
+            var wAlly =
+               Player.GetAlliesInRange(Spells.W.Range)
+                   .Where(x => !x.IsMe)
+                   .FirstOrDefault(x => x.Distance(gapcloser.End) <= Spells.W.Range + 375);
+
+            if (Spells.W.IsReady() && wAlly != null)
+            {
+                Spells.W.Cast(wAlly.Position);
+            }
 
             if (Spells.E.IsReady() && sender.IsValidTarget(Spells.E.Range))
             {

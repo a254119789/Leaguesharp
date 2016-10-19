@@ -1,5 +1,8 @@
 ﻿namespace Dark_Star_Thresh.Core
 {
+    using System;
+    using System.Linq;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
@@ -12,6 +15,15 @@
         public static Orbwalking.Orbwalker Orbwalker;
 
         public static Obj_AI_Hero Player => ObjectManager.Player;
+
+        public static float GetStunDuration(Obj_AI_Base target)
+        {
+            return target.Buffs.Where(b => b.IsActive && Game.Time < b.EndTime
+                && (b.Type == BuffType.Charm
+                || b.Type == BuffType.Stun
+                || b.Type == BuffType.Suppression 
+                || b.Type == BuffType.Snare)).Aggregate(0f, (current, buff) => Math.Max(current, buff.EndTime)) - Game.Time;
+        }
 
         public static void CastQ(Obj_AI_Base target)
         {

@@ -22,15 +22,19 @@
             combo.AddItem(new MenuItem("ComboR", "Enemies For R").SetValue(new Slider(3, 0, 5)));
             combo.AddItem(new MenuItem("ComboQ", "Max Q Range").SetValue(new Slider(1100, 0, 1100)));
             combo.AddItem(new MenuItem("ComboTaxi", "Taxi Mode").SetValue(true).SetTooltip("Will Cast Q To Minions near Enemies"));
+            combo.AddItem(new MenuItem("WJungler", "Auto W To Ally Jungler").SetValue(true).SetTooltip("W To Jungler"));
+            combo.AddItem(new MenuItem("ESmart", "Smart E").SetValue(true).SetTooltip("No E On CC'd targets"));
             Config.AddSubMenu(combo);
 
             var harass = new Menu("Harass", "Harass");
-            harass.AddItem(new MenuItem("HarassAA", "Disable AA In Harass").SetValue(false).SetTooltip("Wont Use AA"));
-            harass.AddItem(new MenuItem("HarassQ", "Use Q").SetValue(true).SetTooltip("Wont cast Q2"));
-            harass.AddItem(new MenuItem("HarassE", "Use E").SetValue(true).SetTooltip("Throws the target away from you"));
+            harass.AddItem(new MenuItem("HarassAA", "Disable AA In Harass").SetValue(false));
+            harass.AddItem(new MenuItem("HarassQ", "Use Q").SetValue(true));
+            harass.AddItem(new MenuItem("HarassE", "Use E").SetValue(true));
             Config.AddSubMenu(harass);
 
             var misc = new Menu("Misc", "Misc");
+            misc.AddItem(new MenuItem("AutoCC", "Auto Q On CC").SetValue(true));
+            misc.AddItem(new MenuItem("AutoDashing", "Auto Q On Dashing").SetValue(true));
             misc.AddItem(new MenuItem("Interrupt", "Interrupter").SetValue(true));
             misc.AddItem(new MenuItem("Gapcloser", "Gapcloser").SetValue(true));
             misc.AddItem(new MenuItem("UseSkin", "Use Skinchanger").SetValue(false));
@@ -40,7 +44,7 @@
 
 
             var draw = new Menu("Draw", "Draw");
-            draw.AddItem(new MenuItem("DrawDmg", "Draw Damage").SetValue(true).SetTooltip("Somewhat Fps Heavy, Be Careful"));
+            draw.AddItem(new MenuItem("DrawDmg", "Draw Damage").SetValue(true));
             draw.AddItem(new MenuItem("DrawPred", "Draw Q Prediction").SetValue(true));
             draw.AddItem(new MenuItem("DrawQ", "Draw Q Range").SetValue(true));
             draw.AddItem(new MenuItem("DrawW", "Draw W Range").SetValue(true));
@@ -48,7 +52,7 @@
             draw.AddItem(new MenuItem("DrawR", "Draw R Range").SetValue(true));
             Config.AddSubMenu(draw);
 
-            Config.AddItem(new MenuItem("Debug", "Debug Mode").SetValue(false).SetTooltip("Prints In Chat What's Going On"));
+            Config.AddItem(new MenuItem("Debug", "Debug Mode").SetValue(false));
 
             Config.AddToMainMenu();
         }
@@ -73,6 +77,11 @@
         public static bool HarassQ => Config.Item("HarassQ").GetValue<bool>();
         public static bool HarassE => Config.Item("HarassE").GetValue<bool>();
 
+        public static bool ESmart => Config.Item("ESmart").GetValue<bool>();
+
+        public static bool WJungler => Config.Item("WJungler").GetValue<bool>();
+        public static bool AutoCC => Config.Item("AutoCC").GetValue<bool>();
+        public static bool AutoDashing => Config.Item("AutoDashing").GetValue<bool>();
         public static bool Interrupt => Config.Item("Interrupt").GetValue<bool>();
         public static bool Gapcloser => Config.Item("Gapcloser").GetValue<bool>();
 
