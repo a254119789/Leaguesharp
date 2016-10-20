@@ -4,7 +4,6 @@
     using System.Drawing;
 
     using Dark_Star_Thresh.Core;
-    using Dark_Star_Thresh.Update;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -21,8 +20,10 @@
             {
                 Render.Circle.DrawCircle(
                     Player.Position,
-                    Spells.Q.Range,
-                    Spells.Q.IsReady() ? Color.White : Color.DarkSlateGray);
+                    MenuConfig.ComboQ,
+                    Spells.Q.IsReady() 
+                    ? Color.White 
+                    : Color.DarkSlateGray);
             }
 
             if (MenuConfig.DrawW)
@@ -30,7 +31,9 @@
                 Render.Circle.DrawCircle(
                     Player.Position,
                     Spells.W.Range,
-                    Spells.W.IsReady() ? Color.White : Color.DarkSlateGray);
+                    Spells.W.IsReady()
+                    ? Color.White 
+                    : Color.DarkSlateGray);
             }
 
             if (MenuConfig.DrawE)
@@ -38,7 +41,9 @@
                 Render.Circle.DrawCircle(
                     Player.Position,
                     Spells.E.Range,
-                    Spells.E.IsReady() ? Color.White : Color.DarkSlateGray);
+                    Spells.E.IsReady() 
+                    ? Color.White
+                    : Color.DarkSlateGray);
             }
 
             if (MenuConfig.DrawR)
@@ -46,18 +51,9 @@
                 Render.Circle.DrawCircle(
                     Player.Position,
                     Spells.R.Range,
-                    Spells.R.IsReady() ? Color.White : Color.DarkSlateGray);
-            }
-
-            if (MenuConfig.DrawPred)
-            {
-                var target = TargetSelector.GetSelectedTarget();
-                var pred = Spells.Q.GetPrediction(target);
-
-                if (target != null && !target.IsDead && target.IsValidTarget(Spells.Q.Range))
-                {
-                    Render.Circle.DrawCircle(pred.UnitPosition, 50, Color.GhostWhite);
-                }
+                    Spells.R.IsReady()
+                    ? Color.White 
+                    : Color.DarkSlateGray);
             }
         }
     }

@@ -27,7 +27,7 @@
 
         public static void CastQ(Obj_AI_Base target)
         {
-            if (target == null)
+            if (target == null || MenuConfig.Config.Item("blacklist" + target.CharData.BaseSkinName).GetValue<bool>())
             {
                 return;
             }
@@ -49,9 +49,22 @@
 
                     var prediction = SebbyLib.Prediction.Prediction.GetPrediction(predictionInput);
 
-                    if (prediction.Hitchance < HitChance.High)
+                    if (MenuConfig.Hitchance.SelectedIndex == 0 && prediction.Hitchance < HitChance.High)
                     {
-                        break;
+                        if (MenuConfig.Debug)
+                        {
+                            Console.WriteLine("OKTW: High");
+                        }
+                        return;
+                    }
+
+                    if (MenuConfig.Hitchance.SelectedIndex == 1 && prediction.Hitchance < HitChance.VeryHigh)
+                    {
+                        if (MenuConfig.Debug)
+                        {
+                            Console.WriteLine("OKTW: Very High");
+                        }
+                        return;
                     }
 
                     Spells.Q.Cast(prediction.CastPosition);
@@ -62,9 +75,23 @@
 
                     var commonPred = Spells.Q.GetPrediction(target);
 
-                    if (commonPred.Hitchance < LeagueSharp.Common.HitChance.High)
+
+                    if (MenuConfig.Hitchance.SelectedIndex == 0 && commonPred.Hitchance < LeagueSharp.Common.HitChance.High)
                     {
-                        break;
+                        if (MenuConfig.Debug)
+                        {
+                            Console.WriteLine("L# Common: High");
+                        }
+                        return;
+                    }
+
+                    if (MenuConfig.Hitchance.SelectedIndex == 1 && commonPred.Hitchance < LeagueSharp.Common.HitChance.VeryHigh)
+                    {
+                        if (MenuConfig.Debug)
+                        {
+                            Console.WriteLine("L# Common: Very High");
+                        }
+                        return;
                     }
 
                     Spells.Q.Cast(commonPred.CastPosition);

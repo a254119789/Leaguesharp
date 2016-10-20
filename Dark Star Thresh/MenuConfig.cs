@@ -1,5 +1,8 @@
 ﻿namespace Dark_Star_Thresh
 {
+    using System.Linq;
+
+    using LeagueSharp;
     using LeagueSharp.Common;
 
     internal class MenuConfig : Core.Core
@@ -16,8 +19,17 @@
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
 
+            var blackList = new Menu("Blacklist", "Blacklist");
+            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(o => o.IsEnemy))
+            {
+                blackList.AddItem(new MenuItem("blacklist" + enemy.CharData.BaseSkinName,
+                    $"{enemy.CharData.BaseSkinName}").SetValue(true));
+            }
+             Config.AddSubMenu(blackList);
+
             var combo = new Menu("Combo", "Combo");
             combo.AddItem(new MenuItem("Prediction", "Prediction").SetValue(new StringList(new[] { "OKTW", "Common" })));
+            combo.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "High", "Very High" })));
             combo.AddItem(new MenuItem("ComboFlash", "Flash Combo").SetValue(new KeyBind('T', KeyBindType.Press)));
             combo.AddItem(new MenuItem("ComboR", "Enemies For R").SetValue(new Slider(3, 0, 5)));
             combo.AddItem(new MenuItem("ComboQ", "Max Q Range").SetValue(new Slider(1100, 0, 1100)));
@@ -45,7 +57,6 @@
 
             var draw = new Menu("Draw", "Draw");
             draw.AddItem(new MenuItem("DrawDmg", "Draw Damage").SetValue(true));
-            draw.AddItem(new MenuItem("DrawPred", "Draw Q Prediction").SetValue(true));
             draw.AddItem(new MenuItem("DrawQ", "Draw Q Range").SetValue(true));
             draw.AddItem(new MenuItem("DrawW", "Draw W Range").SetValue(true));
             draw.AddItem(new MenuItem("DrawE", "Draw E Range").SetValue(true));
@@ -79,6 +90,8 @@
 
         public static bool ESmart => Config.Item("ESmart").GetValue<bool>();
 
+        public static StringList Hitchance => Config.Item("Hitchance").GetValue<StringList>();
+
         public static bool WJungler => Config.Item("WJungler").GetValue<bool>();
         public static bool AutoCC => Config.Item("AutoCC").GetValue<bool>();
         public static bool AutoDashing => Config.Item("AutoDashing").GetValue<bool>();
@@ -88,7 +101,6 @@
         public static bool UseSkin => Config.Item("UseSkin").GetValue<bool>();
 
         public static bool DrawDmg => Config.Item("DrawDmg").GetValue<bool>();
-        public static bool DrawPred => Config.Item("DrawPred").GetValue<bool>();
         public static bool DrawQ => Config.Item("DrawQ").GetValue<bool>();
         public static bool DrawW => Config.Item("DrawW").GetValue<bool>();
         public static bool DrawE => Config.Item("DrawE").GetValue<bool>();
