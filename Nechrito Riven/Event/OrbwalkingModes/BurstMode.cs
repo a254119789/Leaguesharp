@@ -31,18 +31,6 @@
                     return;
                 }
 
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && Qstack > 1)
-                {
-                    var pred = Spells.R.GetPrediction(selectedTarget);
-
-                    if (pred.Hitchance < HitChance.High)
-                    {
-                        return;
-                    }
-
-                    Spells.R.Cast(pred.CastPosition);
-                }
-
                 Usables.CastYoumoo();
 
                 Spells.E.Cast(selectedTarget.Position);

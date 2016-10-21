@@ -61,10 +61,12 @@
                         if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
                         {
                             Utility.DelayAction.Add(MenuConfig.Q2D, Reset);
+                            Console.WriteLine("Q2 Slow Delay: " + MenuConfig.Q2D * (int)1.5);
                         }
                         else
                         {
                             Utility.DelayAction.Add(MenuConfig.Q2D * (int)1.5, Reset);
+                            Console.WriteLine("Q2 Fast Delay: " + MenuConfig.Q2D * (int)1.5);
                         }
                     }
 
@@ -77,10 +79,13 @@
                         if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
                         {
                             Utility.DelayAction.Add(MenuConfig.Qld, Reset);
+                            Console.WriteLine("Q3 Fast Delay: " + MenuConfig.Qld);
                         }
                         else
                         {
                             Utility.DelayAction.Add(MenuConfig.Qld * (int)1.5, Reset);
+                            Console.WriteLine("Q3 Slow Delay: " + MenuConfig.Qld * (int)1.5);
+                            Console.WriteLine(">----END----<");
                         }
                     }
 
@@ -94,7 +99,7 @@
 
         private static void Emotes()
         {
-            if (ObjectManager.Player.HasBuffOfType(BuffType.Stun))
+            if (ObjectManager.Player.HasBuffOfType(BuffType.Stun) || ObjectManager.Player.HasBuffOfType(BuffType.Snare))
             {
                 return;
             }
