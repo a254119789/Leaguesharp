@@ -43,7 +43,7 @@
 
                 if (!target.IsValidTarget(Player.AttackRange + 360) || target == null) return;
 
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && Qstack > 1)
                 {
                     var pred = Spells.R.GetPrediction(
                         target,

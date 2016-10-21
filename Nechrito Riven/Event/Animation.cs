@@ -42,8 +42,8 @@
                     {
                         if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
                         {
-                            Utility.DelayAction.Add(MenuConfig.Qd * (int)1.5, Reset);
-                            Console.WriteLine("Q1 Slow Delay: " + MenuConfig.Qd * (int)1.5);
+                            Utility.DelayAction.Add((int)(MenuConfig.Qd * 1.125), Reset);
+                            Console.WriteLine("Q1 Slow Delay: " + (MenuConfig.Qd * 1.125));
                         }
                         else
                         {
@@ -60,13 +60,13 @@
                     {
                         if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
                         {
-                            Utility.DelayAction.Add(MenuConfig.Q2D, Reset);
-                            Console.WriteLine("Q2 Slow Delay: " + MenuConfig.Q2D * (int)1.5);
+                            Utility.DelayAction.Add((int)(MenuConfig.Q2D * 1.125), Reset);
+                            Console.WriteLine("Q2 Slow Delay: " + MenuConfig.Q2D * 1.125);
                         }
                         else
                         {
-                            Utility.DelayAction.Add(MenuConfig.Q2D * (int)1.5, Reset);
-                            Console.WriteLine("Q2 Fast Delay: " + MenuConfig.Q2D * (int)1.5);
+                            Utility.DelayAction.Add(MenuConfig.Q2D, Reset);
+                            Console.WriteLine("Q2 Fast Delay: " + MenuConfig.Q2D);
                         }
                     }
 
@@ -78,13 +78,15 @@
                     {
                         if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
                         {
-                            Utility.DelayAction.Add(MenuConfig.Qld, Reset);
-                            Console.WriteLine("Q3 Fast Delay: " + MenuConfig.Qld);
+                            Utility.DelayAction.Add((int)(MenuConfig.Qld * 1.125), Reset);
+                            Console.WriteLine("Q3 Slow Delay: " + MenuConfig.Qld * 1.125);
+                            Console.WriteLine(">----END----<");
+
                         }
                         else
                         {
-                            Utility.DelayAction.Add(MenuConfig.Qld * (int)1.5, Reset);
-                            Console.WriteLine("Q3 Slow Delay: " + MenuConfig.Qld * (int)1.5);
+                            Utility.DelayAction.Add(MenuConfig.Qld, Reset);
+                            Console.WriteLine("Q3 Fast Delay: " + MenuConfig.Qld);
                             Console.WriteLine(">----END----<");
                         }
                     }
