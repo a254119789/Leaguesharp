@@ -3,6 +3,7 @@
     #region
 
     using System;
+    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -25,7 +26,12 @@
                 return;
             }
 
-           // Console.WriteLine((Ping() + MenuConfig.Qd - AtkSpeed).ToString());
+            var target = TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50, TargetSelector.DamageType.Physical);
+
+            var mob = MinionManager.GetMinions(
+              ObjectManager.Player.AttackRange + 50,
+              MinionTypes.All,
+              MinionTeam.Neutral).FirstOrDefault();
 
             switch (args.Animation)
             {
@@ -34,8 +40,16 @@
                     Qstack = 2;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qd, Reset);
-                        Utility.DelayAction.Add(AtkSpeed, Orbwalking.ResetAutoAttackTimer);
+                        if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
+                        {
+                            Utility.DelayAction.Add(MenuConfig.Qd * (int)1.5, Reset);
+                            Console.WriteLine("Q1 Slow Delay: " + MenuConfig.Qd * (int)1.5);
+                        }
+                        else
+                        {
+                            Utility.DelayAction.Add(MenuConfig.Qd, Reset);
+                            Console.WriteLine("Q1 Fast Delay: " + MenuConfig.Qd);
+                        }
                     }
 
                     break;
@@ -44,8 +58,14 @@
                     Qstack = 3;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Q2D, Reset);
-                        Utility.DelayAction.Add(AtkSpeed, Orbwalking.ResetAutoAttackTimer);
+                        if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
+                        {
+                            Utility.DelayAction.Add(MenuConfig.Q2D, Reset);
+                        }
+                        else
+                        {
+                            Utility.DelayAction.Add(MenuConfig.Q2D * (int)1.5, Reset);
+                        }
                     }
 
                     break;
@@ -54,8 +74,14 @@
                     Qstack = 1;
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(Ping() + MenuConfig.Qld, Reset);
-                        Utility.DelayAction.Add(AtkSpeed, Orbwalking.ResetAutoAttackTimer);
+                        if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
+                        {
+                            Utility.DelayAction.Add(MenuConfig.Qld, Reset);
+                        }
+                        else
+                        {
+                            Utility.DelayAction.Add(MenuConfig.Qld * (int)1.5, Reset);
+                        }
                     }
 
                     break;
@@ -68,7 +94,7 @@
 
         private static void Emotes()
         {
-            if (ObjectManager.Player.IsImmovable)
+            if (ObjectManager.Player.HasBuffOfType(BuffType.Stun))
             {
                 return;
             }

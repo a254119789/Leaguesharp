@@ -134,8 +134,8 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(220, 220, 340)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(220, 220, 340)));
+            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 340)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 340)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(270, 270, 475)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));
@@ -218,7 +218,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.20.1").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.21").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 

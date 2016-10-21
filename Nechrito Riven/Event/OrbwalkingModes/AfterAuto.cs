@@ -69,18 +69,6 @@
                 {
                     CastQ(target);
                 }
-
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
-                {
-                    var pred = Spells.R.GetPrediction(target);
-
-                    if (pred.Hitchance < HitChance.High)
-                    {
-                        return;
-                    }
-
-                    Spells.R.Cast(pred.CastPosition);
-                }
             }
 
             if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)
