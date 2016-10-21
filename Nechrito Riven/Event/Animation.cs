@@ -139,6 +139,7 @@
         private static void Reset()
         {
             Emotes();
+            Orbwalking.ResetAutoAttackTimer();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 
