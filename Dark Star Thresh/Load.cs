@@ -11,8 +11,8 @@
     {
         public static void LoadAssembly()
         {
-            Spells.Load();
             MenuConfig.LoadMenu();
+            Spells.Load();
 
             Game.OnPing += Mode.OnPing;
             Game.OnUpdate += Misc.Skinchanger;

@@ -19,17 +19,23 @@
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Config.AddSubMenu(orbwalker);
 
+            var spell = new Menu("Q Spell", "Spell");
+            spell.AddItem(new MenuItem("blank", "F8 To Reload Values"));
+            spell.AddItem(new MenuItem("Prediction", "Prediction").SetValue(new StringList(new[] { "OKTW", "Common" })));
+            spell.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "High", "Very High" })));
+            spell.AddItem(new MenuItem("Speed", "Speed").SetValue(new Slider(1500, 1000, 1750)));
+            spell.AddItem(new MenuItem("Range", "Range").SetValue(new Slider(1100, 0, 1100)));
+            spell.AddItem(new MenuItem("Width", "Width").SetValue(new Slider(60, 0, 80)));
+            Config.AddSubMenu(spell);
+
             var blackList = new Menu("Blacklist", "Blacklist");
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(o => o.IsEnemy))
             {
-                blackList.AddItem(new MenuItem("blacklist" + enemy.CharData.BaseSkinName,
-                    $"{enemy.CharData.BaseSkinName}").SetValue(true));
+                blackList.AddItem(new MenuItem("blacklist" + enemy.CharData.BaseSkinName, $"{enemy.CharData.BaseSkinName}").SetValue(false));
             }
              Config.AddSubMenu(blackList);
 
             var combo = new Menu("Combo", "Combo");
-            combo.AddItem(new MenuItem("Prediction", "Prediction").SetValue(new StringList(new[] { "OKTW", "Common" })));
-            combo.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "High", "Very High" })));
             combo.AddItem(new MenuItem("ComboFlash", "Flash Combo").SetValue(new KeyBind('T', KeyBindType.Press)));
             combo.AddItem(new MenuItem("ComboR", "Enemies For R").SetValue(new Slider(3, 0, 5)));
             combo.AddItem(new MenuItem("ComboQ", "Max Q Range").SetValue(new Slider(1100, 0, 1100)));
@@ -77,6 +83,10 @@
         // Slider
         public static int ComboR => Config.Item("ComboR").GetValue<Slider>().Value;
         public static int ComboQ => Config.Item("ComboQ").GetValue<Slider>().Value;
+
+        public static int Speed => Config.Item("Speed").GetValue<Slider>().Value;
+        public static int Range => Config.Item("Range").GetValue<Slider>().Value;
+        public static int Width => Config.Item("Width").GetValue<Slider>().Value;
 
         // Array
         public static StringList PredMode => Config.Item("Prediction").GetValue<StringList>();

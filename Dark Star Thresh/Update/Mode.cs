@@ -75,9 +75,9 @@
 
             if (MenuConfig.AutoCC // Hotfix, .IsActive isn't working properly?
                 && GetStunDuration(qTarget) < Spells.Q.Delay
-                && (qTarget.HasBuffOfType(BuffType.Stun) 
+                && (qTarget.HasBuffOfType(BuffType.Stun)
                 || qTarget.HasBuffOfType(BuffType.Knockback)
-                || qTarget.HasBuffOfType(BuffType.Charm) 
+                || qTarget.HasBuffOfType(BuffType.Charm)
                 || qTarget.HasBuffOfType(BuffType.Suppression)
                 || qTarget.HasBuffOfType(BuffType.Snare)))
             {
@@ -94,11 +94,8 @@
         {
             var qTarget = TargetSelector.GetTarget(MenuConfig.ComboQ, TargetSelector.DamageType.Physical);
 
-            var eTarget = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
-
             var rTarget = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            // Credits to DanZ for this line of code.
             var wAlly =
                 Player.GetAlliesInRange(Spells.W.Range)
                     .Where(x => !x.IsMe)
@@ -106,6 +103,8 @@
 
             if (Spells.E.IsReady())
             {
+                var eTarget = TargetSelector.GetTarget(Spells.E.Range, TargetSelector.DamageType.Physical);
+
                 if (eTarget != null && eTarget.IsValidTarget(Spells.E.Range))
                 {
                     if (MenuConfig.ESmart && GetStunDuration(eTarget) < Spells.E.Delay)
@@ -143,19 +142,12 @@
 
             if (Spells.Q.IsReady())
             {
-                if (qTarget == null || !qTarget.IsValidTarget(Spells.Q.Range) || (MenuConfig.AutoCC && GetStunDuration(qTarget) > Spells.Q.Delay))
+                if (qTarget == null)
                 {
                     return;
                 }
 
-                CastQ(qTarget);
-
-                if (Player.ManaPercent < 30)
-                {
-                    return;
-                }
-
-                if (MenuConfig.ComboTaxi && (Spells.E.IsReady() || Spells.W.IsReady()))
+                if (MenuConfig.ComboTaxi && Spells.W.IsReady() && Player.ManaPercent >= 30 && qTarget.Distance(Player) > Player.AttackRange + 200 && wAlly != null)
                 {
                     var minions = MinionManager.GetMinions(Player.Position, Spells.Q.Range + Spells.E.Range);
 
@@ -165,18 +157,20 @@
                             || !m.IsValidTarget()
                             || !(m.Health > Spells.Q.GetDamage(m))
                             || !qTarget.IsFacing(Player) 
-                            || m.Distance(Player) > 900f
-                            || m.Distance(Player) > Spells.Q.Range 
-                            || qTarget.Distance(Player) <= Spells.Q.Range / 2)
-                            continue;
+                            || qTarget.Distance(m) > 150)
+                            return;
 
-                        CastQ(m);
+                        Spells.Q.Cast(m);
 
                         if (MenuConfig.Debug)
                         {
                             Game.PrintChat("Taxi Mode Active...");
                         }
                     }
+                }
+                else
+                {
+                    CastQ(qTarget);
                 }
             }
 
