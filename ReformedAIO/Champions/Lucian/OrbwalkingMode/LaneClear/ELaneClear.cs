@@ -27,7 +27,6 @@
             if ((Menu.Item("EnemiesCheck").GetValue<bool>()
                 && ObjectManager.Player.CountEnemiesInRange(1500) >= 1)
                 || (ObjectManager.Player.ManaPercent <= Menu.Item("EMana").GetValue<Slider>().Value)
-                || ObjectManager.Player.HasBuff("LucianPassiveBuff") 
                 || !CheckGuardians())
             {
                 return;

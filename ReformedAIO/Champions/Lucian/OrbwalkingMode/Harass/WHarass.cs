@@ -21,12 +21,9 @@
             this.wSpell = wSpell;
         }
 
-        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
         {
-            if (!sender.IsMe
-                || !CheckGuardians()
-                || ObjectManager.Player.HasBuff("LucianPassiveBuff")
-                || !Orbwalking.IsAutoAttack(args.SData.Name)
+            if (!CheckGuardians()
                 || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
@@ -62,12 +59,12 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Obj_AI_Base.OnDoCast -= OnDoCast;
+             Orbwalking.AfterAttack -= AfterAttack;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Obj_AI_Base.OnDoCast += OnDoCast;
+            Orbwalking.AfterAttack += AfterAttack;
         }
     }
 }

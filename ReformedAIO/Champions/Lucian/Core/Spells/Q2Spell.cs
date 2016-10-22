@@ -48,8 +48,8 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Spell = new Spell(SpellSlot.Q, 900);
-            Spell.SetSkillshot(.5f, 50, float.MaxValue, false, SkillshotType.SkillshotLine);
+            Spell = new Spell(SpellSlot.Q, 950);
+            Spell.SetSkillshot(.5f, 60, float.MaxValue, false, SkillshotType.SkillshotLine);
         }
 
         protected override void SetSwitch()
