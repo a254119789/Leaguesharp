@@ -7,6 +7,7 @@
     using LeagueSharp.Common;
 
     using ReformedAIO.Champions.Gnar.Core;
+    using ReformedAIO.Core.Drawings;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 

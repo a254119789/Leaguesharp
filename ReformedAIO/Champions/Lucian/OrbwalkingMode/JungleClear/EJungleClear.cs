@@ -5,7 +5,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core.Spells;
+    using ReformedAIO.Champions.Lucian.Spells;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -46,7 +46,7 @@
                 return;
             }
 
-            eSpell.Spell.Cast(eSpell.Deviation(ObjectManager.Player.Position.To2D(), mob.Position.To2D(), Menu.Item("Range").GetValue<Slider>().Value));
+            eSpell.Spell.Cast(ObjectManager.Player.Position.Extend(Game.CursorPos, 70));
         }
 
 

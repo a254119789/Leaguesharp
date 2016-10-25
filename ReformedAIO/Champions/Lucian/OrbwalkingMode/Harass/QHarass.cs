@@ -6,7 +6,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Lucian.Core.Spells;
+    using ReformedAIO.Champions.Lucian.Spells;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -33,16 +33,22 @@
 
             var target = TargetSelector.GetTarget(q2Spell.Spell.Range, TargetSelector.DamageType.Physical);
 
-            if (target == null || ObjectManager.Player.IsDashing())
+            if (target == null
+                || ObjectManager.Player.IsDashing()
+                || !Menu.Item("ExtendedQ").GetValue<bool>()
+                || target.Distance(ObjectManager.Player) < qSpell.Spell.Range)
             {
                 return;
             }
 
-            if (Menu.Item("ExtendedQ").GetValue<bool>() && target.Distance(ObjectManager.Player) > qSpell.Spell.Range && q2Spell.QMinionExtend())
-            {
-                var m = MinionManager.GetMinions(qSpell.Spell.Range).FirstOrDefault();
+            var minions = MinionManager.GetMinions(qSpell.Spell.Range);
 
-                qSpell.Spell.CastOnUnit(m);
+            foreach (var m in minions)
+            {
+                if (q2Spell.QMinionExtend(m))
+                {
+                    qSpell.Spell.Cast(m);
+                }
             }
         }
 

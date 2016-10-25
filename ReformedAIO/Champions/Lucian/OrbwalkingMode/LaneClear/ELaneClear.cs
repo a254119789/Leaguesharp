@@ -6,7 +6,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Lucian.Core.Spells;
+    using ReformedAIO.Champions.Lucian.Spells;
+    using ReformedAIO.Core.Dash_Handler;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
@@ -17,9 +18,12 @@
 
         private readonly ESpell eSpell;
 
-        public ELaneClear(ESpell eSpell)
+        private readonly DashSmart dashSmart;
+
+        public ELaneClear(ESpell eSpell, DashSmart dashSmart)
         {
             this.eSpell = eSpell;
+            this.dashSmart = dashSmart;
         }
 
         private void OnUpdate(EventArgs args)
@@ -39,7 +43,7 @@
                 return;
             }
 
-            eSpell.Spell.Cast(eSpell.Deviation(ObjectManager.Player.Position.To2D(), minion.Position.To2D(), Menu.Item("Range").GetValue<Slider>().Value));
+            eSpell.Spell.Cast(dashSmart.Deviation(ObjectManager.Player.Position.To2D(), minion.Position.To2D(), Menu.Item("Range").GetValue<Slider>().Value));
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)

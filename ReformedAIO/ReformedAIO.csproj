@@ -107,7 +107,7 @@
     <Compile Include="Champions\Ashe\OrbwalkingMode\Mixed\QMixed.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Mixed\WMixed.cs" />
     <Compile Include="Champions\Ashe\Variable.cs" />
-    <Compile Include="Champions\Bootstrap.cs" />
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="Champions\Caitlyn\CaitlynLoader.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\DmgDraw.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\QDraw.cs" />
@@ -147,17 +147,17 @@
     <Compile Include="Champions\Gnar\PermaActive\Flee.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\WKillsteal.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\ESpell.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\Q2Spell.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\QSpell.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\RSpell.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\SpellParent\ISpellIndex.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\SpellParent\SpellParent.cs" />
-    <Compile Include="Champions\Lucian\Core\Spells\WSpell.cs" />
+    <Compile Include="Champions\Lucian\Spells\ESpell.cs" />
+    <Compile Include="Champions\Lucian\Spells\Q2Spell.cs" />
+    <Compile Include="Champions\Lucian\Spells\QSpell.cs" />
+    <Compile Include="Champions\Lucian\Spells\RSpell.cs" />
+    <Compile Include="Champions\Lucian\Spells\SpellParent\ISpellIndex.cs" />
+    <Compile Include="Champions\Lucian\Spells\SpellParent\SpellParent.cs" />
+    <Compile Include="Champions\Lucian\Spells\WSpell.cs" />
     <Compile Include="Champions\Lucian\Drawings\DmgDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\RDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\WDraw.cs" />
-    <Compile Include="Champions\Lucian\Core\Damage\LucDamage.cs" />
+    <Compile Include="Champions\Lucian\Damage\LucDamage.cs" />
     <Compile Include="Champions\Lucian\LucianLoader.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\ECombo.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\Combo\QCombo.cs" />
@@ -172,9 +172,9 @@
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\ELaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\QLaneClear.cs" />
     <Compile Include="Champions\Lucian\OrbwalkingMode\LaneClear\WLaneClear.cs" />
-    <Compile Include="Champions\Lucian\Perma Active\Killsteal\Q.cs" />
-    <Compile Include="Champions\Lucian\Perma Active\Killsteal\R.cs" />
-    <Compile Include="Champions\Lucian\Perma Active\Killsteal\W.cs" />
+    <Compile Include="Champions\Lucian\Killsteal\Q.cs" />
+    <Compile Include="Champions\Lucian\Killsteal\R.cs" />
+    <Compile Include="Champions\Lucian\Killsteal\W.cs" />
     <Compile Include="Champions\OrbwalkerModule.cs" />
     <Compile Include="Champions\Vars.cs" />
     <Compile Include="Champions\Diana\DianaLoader.cs" />
@@ -195,7 +195,8 @@
     <Compile Include="Champions\Gragas\Menus\Draw\DrawIndicator.cs" />
     <Compile Include="Champions\Gragas\Menus\Draw\DrawQ.cs" />
     <Compile Include="Champions\Gragas\Menus\Draw\DrawR.cs" />
-    <Compile Include="HpBarIndicator.cs" />
+    <Compile Include="Core\Dash Handler\DashSmart.cs" />
+    <Compile Include="Core\Drawings\HpBarIndicator.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\CrescentStrike.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\LunarRush.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\Moonfall.cs" />
@@ -224,15 +225,17 @@
     <Compile Include="Champions\Gragas\OrbwalkingMode\Lane\LaneW.cs" />
     <Compile Include="Champions\Gragas\OrbwalkingMode\Mixed\QMixed.cs" />
     <Compile Include="Champions\Gragas\Variable.cs" />
+    <Compile Include="Core\WallExtension\WallExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\UtilityLoader.cs" />
+    <Compile Include="Utilities\Modules\Skinchanger\Skinchanger.cs" />
+    <Compile Include="Utilities\ReformedUtlity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Champions\Lucian\Guardians\" />
+    <Folder Include="Core\Activator\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

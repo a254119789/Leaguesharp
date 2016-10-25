@@ -4,13 +4,14 @@
 
     using System.Collections.Generic;
 
-    using ReformedAIO.Champions;
+  //  using ReformedAIO.Champions;
     using ReformedAIO.Champions.Ashe;
     using ReformedAIO.Champions.Caitlyn;
     using ReformedAIO.Champions.Diana;
     using ReformedAIO.Champions.Gnar;
     using ReformedAIO.Champions.Gragas;
     using ReformedAIO.Champions.Lucian;
+    using ReformedAIO.Utilities;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
 
@@ -29,8 +30,14 @@
                 new DianaLoader(),
                 new LucianLoader(),
                 new GragasLoader(),
-                new GnarLoader()
-            });
+                new GnarLoader(),
+
+
+                new ReformedUtlity()
+            },
+            new List<string>() {"Reformed Utility"});
+
+          //  bootstrap.AddString("Reformed Utility");
 
             bootstrap.Run();
         }
