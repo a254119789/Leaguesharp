@@ -36,7 +36,7 @@
                 return;
             }
 
-            var target = TargetSelector.GetTarget(ObjectManager.Player.AttackRange + eSpell.Spell.Range, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(ObjectManager.Player.AttackRange + Menu.Item("EDistance").GetValue<Slider>().Value, TargetSelector.DamageType.Physical);
 
             if (!Menu.Item("Execute").GetValue<bool>() || target == null || target.Health > (damage.GetComboDamage(target) * 1.3))
             {
@@ -82,7 +82,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem("EMode", "Mode").SetValue(new StringList(new [] {"Cursor", "Side", "Automatic"}, 2)));
+            Menu.AddItem(new MenuItem("EMode", "Mode").SetValue(new StringList(new [] {"Cursor", "Kite", "Automatic"}, 2)));
             Menu.AddItem(new MenuItem("Execute", "Dive E If Killable").SetValue(true));
             Menu.AddItem(new MenuItem("EDistance", "E Distance").SetValue(new Slider(65, 1, 425)).SetTooltip("Less = Faster"));
             Menu.AddItem(new MenuItem("EMana", "Min Mana %").SetValue(new Slider(5, 0, 100)));
@@ -90,16 +90,18 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
             Orbwalking.AfterAttack -= AfterAttack;
-           
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
             Orbwalking.AfterAttack += AfterAttack;
-            // Orbwalking.AfterAttack += AfterAttack;
         }
     }
 }

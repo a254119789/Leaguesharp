@@ -18,7 +18,7 @@
 
         public Vector2 Deviation(Vector2 point1, Vector2 point2, double angle)
         {
-            angle *= Math.PI / 160.0;
+            angle *= Math.PI / 200.0;
             var temp = Vector2.Subtract(point2, point1);
             var result = new Vector2(0)
             {
@@ -33,9 +33,8 @@
         private static bool IsDangerous(Obj_AI_Base target, Vector3 position)
         {
             return (ObjectManager.Player.CountEnemiesInRange(1000) > ObjectManager.Player.CountAlliesInRange(1000))
-                   || target.Distance(ObjectManager.Player) < ObjectManager.Player.AttackRange / 2
                    || (target.Position.UnderTurret(true) && target.HealthPercent >= 70)
-                   || (target.IsMe && target.Distance(ObjectManager.Player) <= target.AttackRange + target.BoundingRadius);
+                   || (target.IsMelee && target.Distance(ObjectManager.Player) <= (target.AttackRange + target.BoundingRadius) / 2);
         }
     }
 }

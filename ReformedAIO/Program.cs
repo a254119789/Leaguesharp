@@ -31,13 +31,7 @@
                 new LucianLoader(),
                 new GragasLoader(),
                 new GnarLoader(),
-
-
-                new ReformedUtlity()
-            },
-            new List<string>() {"Reformed Utility"});
-
-          //  bootstrap.AddString("Reformed Utility");
+            });
 
             bootstrap.Run();
         }

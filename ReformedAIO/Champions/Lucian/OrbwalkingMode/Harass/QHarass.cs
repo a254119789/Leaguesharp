@@ -78,13 +78,16 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
-             Orbwalking.AfterAttack -= AfterAttack;
+            Orbwalking.AfterAttack -= AfterAttack;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Game.OnUpdate += OnUpdate;
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Orbwalking.AfterAttack += AfterAttack;
         }
     }
