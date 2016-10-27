@@ -78,10 +78,12 @@
 
             var lucianPassiveGuardian = new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true };
             var eMustNotBeReadyGuardian = new SpellMustBeReady(SpellSlot.E) { Negated = true };
+            var wMustNotBeReadyGuardian = new SpellMustBeReady(SpellSlot.W) { Negated = true };
             var qMustNotBeReadyGuardian = new SpellMustBeReady(SpellSlot.Q) { Negated = true };
             var qReadyGuardian = new SpellMustBeReady(SpellSlot.Q);
             var wReadyGuardian = new SpellMustBeReady(SpellSlot.W);
             var eReadyGuardian = new SpellMustBeReady(SpellSlot.E);
+            var rReadyGuardian = new SpellMustBeReady(SpellSlot.R);
 
             comboParent.Add(new List<Base>
                                 {
@@ -97,7 +99,7 @@
                                     .Guardian(eReadyGuardian),
 
                                     new RCombo(rSpell, dmg).Guardian(lucianPassiveGuardian)
-                                    .Guardian(new SpellMustBeReady(SpellSlot.R)),
+                                    .Guardian(rReadyGuardian),
                                  });
 
             harassParent.Add(new List<Base>
@@ -126,7 +128,7 @@
                                     {
                                         new Q(qSpell, q2Spell).Guardian(lucianPassiveGuardian).Guardian(qReadyGuardian),
                                         new W(wSpell).Guardian(wReadyGuardian),
-                                        new R(rSpell).Guardian(new SpellMustBeReady(SpellSlot.R))
+                                        new R(rSpell).Guardian(rReadyGuardian),
                                     });
 
             drawingParent.Add(new List<Base>
