@@ -37,7 +37,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "WMana", "Mana %").SetValue(new Slider(10, 0, 100)));
         }

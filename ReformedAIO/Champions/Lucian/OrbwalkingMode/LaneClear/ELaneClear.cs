@@ -9,7 +9,6 @@
     using ReformedAIO.Champions.Lucian.Spells;
     using ReformedAIO.Core.Dash_Handler;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class ELaneClear : OrbwalkingChild

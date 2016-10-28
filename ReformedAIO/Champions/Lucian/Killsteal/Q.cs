@@ -1,7 +1,6 @@
 ﻿namespace ReformedAIO.Champions.Lucian.Killsteal
 {
     using System;
-    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;

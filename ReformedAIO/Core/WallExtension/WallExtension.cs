@@ -1,7 +1,5 @@
 ﻿namespace ReformedAIO.Core.WallExtension
 {
-    using System;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 

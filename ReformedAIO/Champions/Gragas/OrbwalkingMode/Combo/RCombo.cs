@@ -52,24 +52,17 @@
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Drawing.OnDraw -= OnDraw;
-            //  Obj_AI_Base.OnProcessSpellCast -= OnProcessSpellCast;
+            Obj_AI_Base.OnProcessSpellCast -= OnProcessSpellCast;
             Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Drawing.OnDraw += OnDraw;
-            //   Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
+            Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Game.OnUpdate += OnUpdate;
         }
-
-        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        //{
-        //    qLogic = new QLogic();
-        //    rLogic = new RLogic();
-        //    base.OnLoad(sender, featureBaseEventArgs);
-        //}
-
+     
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(
@@ -103,22 +96,22 @@
             rLogic = new RLogic();
         }
 
-        // Need to fix this to make better QRQ Combo
-        //private void OnProcessSpellCast(GameObject sender, GameObjectProcessSpellCastEventArgs args)
-        //{
-        //    if (!Menu.Item(Menu.Name + "QRQ").GetValue<bool>() || !Variable.Spells[SpellSlot.Q].IsReady() ||
-        //        Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
+        private void OnProcessSpellCast(GameObject sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (!Menu.Item(Menu.Name + "QRQ").GetValue<bool>() || !Variable.Spells[SpellSlot.Q].IsReady())
+            {
+                return;
+            }
 
-        //    var target = args.Target as Obj_AI_Hero;
-        //    // args.SData.Name == "Gragas_Base_Q_Ally.troy"
+            var target = args.Target as Obj_AI_Hero;
 
-        //    if (target == null || !target.IsValidTarget(1150) || !sender.IsMe) return;
+            if (target == null || !target.IsValidTarget(1150) || !sender.IsMe) return;
 
-        //    var pred = LeagueSharp.Common.Prediction.GetPrediction(target, Variable.Spells[SpellSlot.R].Delay
-        //        + Variable.Player.Position.Distance(args.End) / Variable.Spells[SpellSlot.R].Speed).CastPosition;
+            var pred = LeagueSharp.Common.Prediction.GetPrediction(target, Variable.Spells[SpellSlot.R].Delay
+                + Variable.Player.Position.Distance(args.End) / Variable.Spells[SpellSlot.R].Speed).CastPosition;
 
-        //    Variable.Spells[SpellSlot.Q].Cast(args.End.Extend(pred, Variable.Spells[SpellSlot.R].Width));
-        //}
+            Variable.Spells[SpellSlot.Q].Cast(args.End.Extend(pred, Variable.Spells[SpellSlot.R].Range));
+        }
 
         private void ExplosiveCask()
         {
@@ -126,11 +119,11 @@
 
             if (target == null || !target.IsValidTarget() || target.IsDashing()) return;
 
-            if (Menu.Item(Menu.Name + "QRQ").GetValue<bool>() && Variable.Spells[SpellSlot.Q].IsReady()
-                && Menu.Item(Menu.Name + "QRQDistance").GetValue<Slider>().Value >= target.Distance(Variable.Player))
-            {
-                Variable.Spells[SpellSlot.Q].Cast(InsecQ(target));
-            }
+            //if (Menu.Item(Menu.Name + "QRQ").GetValue<bool>() && Variable.Spells[SpellSlot.Q].IsReady()
+            //    && Menu.Item(Menu.Name + "QRQDistance").GetValue<Slider>().Value >= target.Distance(Variable.Player))
+            //{
+            //    Variable.Spells[SpellSlot.Q].Cast(InsecQ(target));
+            //}
 
             Variable.Spells[SpellSlot.R].Cast(InsecTo(target));
         }

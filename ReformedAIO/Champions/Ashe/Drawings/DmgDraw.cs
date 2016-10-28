@@ -21,7 +21,7 @@
     {
         #region Fields
 
-        private HpBarIndicator drawDamage;
+        private HeroHealthBarIndicator drawDamage;
 
         private RLogic logic;
 
@@ -29,7 +29,7 @@
 
         #region Public Properties
 
-        public override sealed string Name { get; set; }
+        public sealed override string Name { get; set; }
 
         #endregion
 
@@ -69,7 +69,7 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             logic = new RLogic();
-            drawDamage = new HpBarIndicator();
+            drawDamage = new HeroHealthBarIndicator();
             base.OnLoad(sender, featureBaseEventArgs);
         }
         #endregion

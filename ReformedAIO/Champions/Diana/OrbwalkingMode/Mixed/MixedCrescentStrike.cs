@@ -66,7 +66,7 @@
         //    base.OnLoad(sender, featureBaseEventArgs);
         //}
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "QRange", "Q Range ").SetValue(new Slider(820, 0, 825)));
 

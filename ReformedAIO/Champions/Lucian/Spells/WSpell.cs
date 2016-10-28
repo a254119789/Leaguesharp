@@ -6,7 +6,7 @@
     using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.FeatureSystem.Switches;
 
-    class WSpell : SpellChild
+    internal class WSpell : SpellChild
     {
         public override string Name { get; set; } = "Ardent Blaze";
 

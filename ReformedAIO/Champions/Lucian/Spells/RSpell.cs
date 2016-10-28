@@ -6,7 +6,7 @@
     using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.FeatureSystem.Switches;
 
-    class RSpell : SpellChild
+    internal class RSpell : SpellChild
     {
         public override string Name { get; set; } = "The Culling";
 

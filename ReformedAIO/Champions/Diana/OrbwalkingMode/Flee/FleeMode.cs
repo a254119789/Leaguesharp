@@ -48,7 +48,7 @@
         //    base.OnLoad(sender, featureBaseEventArgs);
         //}
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(
                 new MenuItem(Name + "FleeKey", "Flee Key").SetValue(new KeyBind('A', KeyBindType.Press)));

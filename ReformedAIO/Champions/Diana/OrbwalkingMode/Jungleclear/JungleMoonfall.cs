@@ -39,7 +39,7 @@
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Name + "JungleEHealth", "Health %").SetValue(new Slider(15, 0, 35)));
 

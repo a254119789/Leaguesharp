@@ -40,7 +40,7 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
         }
     }

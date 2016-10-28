@@ -15,7 +15,7 @@
 
     internal sealed class DmgDraw : ChildBase
     {
-        private HpBarIndicator drawDamage;
+        private HeroHealthBarIndicator drawDamage;
 
         private EwqrLogic ewqrLogic;
 
@@ -46,7 +46,7 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             this.ewqrLogic = new EwqrLogic();
-            this.drawDamage = new HpBarIndicator();
+            this.drawDamage = new HeroHealthBarIndicator();
             base.OnLoad(sender, featureBaseEventArgs);
         }
     }

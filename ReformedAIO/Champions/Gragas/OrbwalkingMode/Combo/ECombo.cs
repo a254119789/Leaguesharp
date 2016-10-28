@@ -55,7 +55,7 @@
         //    base.OnLoad(sender, featureBaseEventArgs);
         //}
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Name + "EKillable", "Only If Killable").SetValue(false));
 
@@ -72,16 +72,17 @@
                 Menu.Item(Menu.Name + "ERange").GetValue<Slider>().Value,
                 TargetSelector.DamageType.Magical);
 
-            if (target == null || !target.IsValid) return;
-
-            if (Menu.Item(Menu.Name + "EKillable").GetValue<bool>()
-                && logic.ComboDmg(target) < target.Health) return;
+            if (target == null 
+                || !target.IsValid
+                || (Menu.Item(Menu.Name + "EKillable").GetValue<bool>() 
+                && logic.ComboDmg(target) < target.Health))
+            {
+                return;
+            }
 
             var ePred = Variable.Spells[SpellSlot.E].GetSPrediction(target);
 
-            if (target.HasBuffOfType(BuffType.Knockback)) return;
-
-            if (ePred.HitChance < HitChance.Medium) return;
+            if (target.HasBuffOfType(BuffType.Knockback) || ePred.HitChance < HitChance.High) return;
 
             Variable.Spells[SpellSlot.E].Cast(ePred.CastPosition);
         }

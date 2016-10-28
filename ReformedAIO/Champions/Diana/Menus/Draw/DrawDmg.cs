@@ -21,7 +21,7 @@
     {
         #region Fields
 
-        private HpBarIndicator drawDamage;
+        private HeroHealthBarIndicator drawDamage;
 
         private LogicAll logic;
 
@@ -69,18 +69,18 @@
         //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         //{
         //    logic = new LogicAll();
-        //    drawDamage = new HpBarIndicator();
+        //    drawDamage = new HeroHealthBarIndicator();
         //    base.OnLoad(sender, featureBaseEventArgs);
         //}
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu = new Menu(Name, Name);
 
             Menu.AddItem(new MenuItem(Name + "Enabled", "Enabled").SetValue(true));
 
             logic = new LogicAll();
-            drawDamage = new HpBarIndicator();
+            drawDamage = new HeroHealthBarIndicator();
             base.OnLoad(sender, featureBaseEventArgs);
         }
 

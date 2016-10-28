@@ -6,7 +6,7 @@
     using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.FeatureSystem.Switches;
 
-    class QSpell : SpellChild
+    internal class QSpell : SpellChild
     {
         public override string Name { get; set; } = "Piercing Light";
 

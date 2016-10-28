@@ -22,7 +22,7 @@
             this.damage = damage;
         }
 
-        private HpBarIndicator hpBarIndicator;
+        private HeroHealthBarIndicator heroHealthBarIndicator;
 
         public readonly LucDamage damage;
 
@@ -32,8 +32,8 @@
 
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
             {
-                this.hpBarIndicator.Unit = enemy;
-                this.hpBarIndicator.DrawDmg(this.damage.GetComboDamage(enemy), enemy.Health <= this.damage.GetComboDamage(enemy) * 1.25 ? Color.LawnGreen : Color.Yellow);
+                this.heroHealthBarIndicator.Unit = enemy;
+                this.heroHealthBarIndicator.DrawDmg(this.damage.GetComboDamage(enemy), enemy.Health <= this.damage.GetComboDamage(enemy) * 1.25 ? Color.LawnGreen : Color.Yellow);
             }
         }
 
@@ -49,7 +49,7 @@
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            this.hpBarIndicator = new HpBarIndicator();
+            this.heroHealthBarIndicator = new HeroHealthBarIndicator();
         }
     }
 }

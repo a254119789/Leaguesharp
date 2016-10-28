@@ -9,11 +9,11 @@
 
     using ReformedAIO.Champions.Gragas.Logic;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
     #endregion
 
-    internal class QCombo : ChildBase
+    internal class QCombo : OrbwalkingChild
     {
         #region Fields
 
@@ -36,21 +36,19 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
         }
 
-        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        //{
-        //    qLogic = new QLogic();
-        //    base.OnLoad(sender, featureBaseEventArgs);
-        //}
-
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Menu.AddItem(new MenuItem(Menu.Name + "QRange", "Q Range ").SetValue(new Slider(835, 0, 850)));
 
@@ -61,13 +59,16 @@
 
         private void BarrelRoll()
         {
+            if (!CheckGuardians())
+            {
+                return;
+            }
+
             var target = TargetSelector.GetTarget(
                 Menu.Item(Menu.Name + "QRange").GetValue<Slider>().Value,
                 TargetSelector.DamageType.Magical);
 
             if (target == null || !target.IsValid) return;
-
-            if (target.HasBuffOfType(BuffType.Knockback)) return;
 
             if (qLogic.CanThrowQ())
             {

@@ -1,14 +1,11 @@
 ﻿namespace ReformedAIO.Utilities.Modules.Skinchanger
 {
     using System;
-    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
-
-    using System.Drawing;
 
     internal class Skinchanger : ChildBase
     {

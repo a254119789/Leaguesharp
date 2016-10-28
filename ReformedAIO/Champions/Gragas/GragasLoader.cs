@@ -7,8 +7,8 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ReformedAIO.Champions.Gragas.Draw;
     using ReformedAIO.Champions.Gragas.Logic;
-    using ReformedAIO.Champions.Gragas.Menus.Draw;
     using ReformedAIO.Champions.Gragas.OrbwalkingMode.Combo;
     using ReformedAIO.Champions.Gragas.OrbwalkingMode.Jungle;
     using ReformedAIO.Champions.Gragas.OrbwalkingMode.Lane;
@@ -16,6 +16,7 @@
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.FeatureSystem.Implementations;
 
     using Prediction = SPrediction.Prediction;
@@ -54,7 +55,7 @@
 
             comboParent.Add(new ChildBase[]
             {
-                new QCombo(orbwalker), 
+                new QCombo(orbwalker).Guardian(new SpellMustBeReady(SpellSlot.R) { Negated = true }), 
                 new WCombo(orbwalker), 
                 new ECombo(orbwalker), 
                 new RCombo(orbwalker)

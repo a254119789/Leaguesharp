@@ -10,7 +10,7 @@
 
     using SharpDX;
 
-    class Q2Spell : SpellChild
+    internal class Q2Spell : SpellChild
     {
         public override string Name { get; set; } = "Piercing Light";
 

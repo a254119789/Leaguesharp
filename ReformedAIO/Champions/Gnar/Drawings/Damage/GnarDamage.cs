@@ -24,7 +24,7 @@
 
         private Dmg dmg;
 
-        private HpBarIndicator hpBarIndicator;
+        private HeroHealthBarIndicator heroHealthBarIndicator;
 
         public void OnDraw(EventArgs args)
         {
@@ -33,8 +33,8 @@
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
             {
 
-                this.hpBarIndicator.Unit = enemy;
-                this.hpBarIndicator.DrawDmg(this.dmg.GetDamage(enemy), enemy.Health <= this.dmg.GetDamage(enemy) * 1.25 ? Color.LawnGreen : Color.Yellow);
+                this.heroHealthBarIndicator.Unit = enemy;
+                this.heroHealthBarIndicator.DrawDmg(this.dmg.GetDamage(enemy), enemy.Health <= this.dmg.GetDamage(enemy) * 1.25 ? Color.LawnGreen : Color.Yellow);
             }
         }
 
@@ -48,9 +48,9 @@
             Drawing.OnDraw += OnDraw;
         }
 
-        protected override sealed void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            this.hpBarIndicator = new HpBarIndicator();
+            this.heroHealthBarIndicator = new HeroHealthBarIndicator();
             this.dmg = new Dmg();
         }
     }

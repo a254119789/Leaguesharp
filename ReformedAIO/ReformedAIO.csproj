@@ -123,6 +123,30 @@
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Jungle\EJungle.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Jungle\QJungle.cs" />
     <Compile Include="Champions\Caitlyn\OrbwalkingMode\Lane\QLane.cs" />
+    <Compile Include="Champions\Ezreal\Core\Damage\EzrealDamage.cs" />
+    <Compile Include="Champions\Ezreal\Core\Spells\ESpell.cs" />
+    <Compile Include="Champions\Ezreal\Core\Spells\QSpell.cs" />
+    <Compile Include="Champions\Ezreal\Core\Spells\RSpell.cs" />
+    <Compile Include="Champions\Ezreal\Core\Spells\WSpell.cs" />
+    <Compile Include="Champions\Ezreal\Drawings\DmgDraw.cs" />
+    <Compile Include="Champions\Ezreal\Drawings\QDraw.cs" />
+    <Compile Include="Champions\Ezreal\Drawings\WDraw.cs" />
+    <Compile Include="Champions\Ezreal\EzrealLoader.cs" />
+    <Compile Include="Champions\Ezreal\Killsteal\EKillsteal.cs" />
+    <Compile Include="Champions\Ezreal\Killsteal\QKillsteal.cs" />
+    <Compile Include="Champions\Ezreal\Killsteal\RCombo.cs" />
+    <Compile Include="Champions\Ezreal\Killsteal\WKillsteal.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Combo\ECombo.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Combo\QCombo.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Combo\RCombo.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Harass\QHarass.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Harass\WHarass.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\JungleClear\QJungle.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\JungleClear\WJungle.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\LaneClear\QLane.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\LaneClear\WLane.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\None\StackTear.cs" />
     <Compile Include="Champions\Gnar\Core\Dmg.cs" />
     <Compile Include="Champions\Gnar\Core\GnarState.cs" />
     <Compile Include="Champions\Gnar\Core\Spells.cs" />
@@ -151,8 +175,19 @@
     <Compile Include="Champions\Lucian\Spells\Q2Spell.cs" />
     <Compile Include="Champions\Lucian\Spells\QSpell.cs" />
     <Compile Include="Champions\Lucian\Spells\RSpell.cs" />
-    <Compile Include="Champions\Lucian\Spells\SpellParent\ISpellIndex.cs" />
-    <Compile Include="Champions\Lucian\Spells\SpellParent\SpellParent.cs" />
+    <Compile Include="Champions\Nidalee WIP\Core\Logic\CooldownCalculations.cs" />
+    <Compile Include="Champions\Nidalee WIP\Core\Logic\Logic.cs" />
+    <Compile Include="Champions\Nidalee WIP\Core\Spells\ESpell.cs" />
+    <Compile Include="Champions\Nidalee WIP\Core\Spells\QSpell.cs" />
+    <Compile Include="Champions\Nidalee WIP\Core\Spells\RSpell.cs" />
+    <Compile Include="Champions\Nidalee WIP\Core\Spells\WSpell.cs" />
+    <Compile Include="Core\Extensions\GetRandom\GetRandom.cs" />
+    <Compile Include="Core\Extensions\JungleCamps\JungleCampsExtension.cs" />
+    <Compile Include="Core\Extensions\PlayerInfo\PlayerInfo.cs" />
+    <Compile Include="Core\Extensions\TargetInfo\TargetInfo.cs" />
+    <Compile Include="Core\Global Ults\Global Ults.cs" />
+    <Compile Include="Core\SpellParent\ISpellIndex.cs" />
+    <Compile Include="Core\SpellParent\SpellParent.cs" />
     <Compile Include="Champions\Lucian\Spells\WSpell.cs" />
     <Compile Include="Champions\Lucian\Drawings\DmgDraw.cs" />
     <Compile Include="Champions\Lucian\Drawings\RDraw.cs" />
@@ -191,12 +226,12 @@
     <Compile Include="Champions\Diana\Menus\Draw\DrawE.cs" />
     <Compile Include="Champions\Diana\Menus\Draw\DrawPred.cs" />
     <Compile Include="Champions\Diana\Menus\Draw\DrawQ.cs" />
-    <Compile Include="Champions\Gragas\Menus\Draw\DrawE.cs" />
-    <Compile Include="Champions\Gragas\Menus\Draw\DrawIndicator.cs" />
-    <Compile Include="Champions\Gragas\Menus\Draw\DrawQ.cs" />
-    <Compile Include="Champions\Gragas\Menus\Draw\DrawR.cs" />
+    <Compile Include="Champions\Gragas\Draw\DrawE.cs" />
+    <Compile Include="Champions\Gragas\Draw\DrawIndicator.cs" />
+    <Compile Include="Champions\Gragas\Draw\DrawQ.cs" />
+    <Compile Include="Champions\Gragas\Draw\DrawR.cs" />
     <Compile Include="Core\Dash Handler\DashSmart.cs" />
-    <Compile Include="Core\Drawings\HpBarIndicator.cs" />
+    <Compile Include="Core\Drawings\HeroHealthBarIndicator.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\CrescentStrike.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\LunarRush.cs" />
     <Compile Include="Champions\Diana\OrbwalkingMode\Combo\Moonfall.cs" />
@@ -235,8 +270,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Champions\Nidalee\" />
-    <Folder Include="Core\Activator\" />
+    <Folder Include="Champions\Ezreal\OrbwalkingMode\Flee\" />
+    <Folder Include="Champions\Nidalee WIP\Core\Damage\" />
+    <Folder Include="Champions\Nidalee WIP\Drawings\" />
+    <Folder Include="Champions\Nidalee WIP\Killsteal\" />
+    <Folder Include="Champions\Nidalee WIP\OrbwalkingMode\Combo\" />
+    <Folder Include="Utilities\Modules\Activator\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

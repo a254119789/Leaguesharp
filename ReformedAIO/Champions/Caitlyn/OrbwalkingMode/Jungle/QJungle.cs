@@ -8,7 +8,6 @@
 
     using ReformedAIO.Champions.Caitlyn.Logic;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class QJungle  : OrbwalkingChild
