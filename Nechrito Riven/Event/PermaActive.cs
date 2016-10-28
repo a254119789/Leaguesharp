@@ -38,11 +38,10 @@
                 return;
             }
 
-            if (Utils.GameTimeTickCount - LastQ >= 3650
-                && !Player.InFountain()
-                && !Player.InShop()
-                && !Player.IsRecalling()
+            if (Utils.GameTimeTickCount - LastQ >= 3600 + Game.Ping / 2
                 && MenuConfig.KeepQ
+                && !Player.InFountain()
+                && !Player.HasBuff("Recall")
                 && Player.HasBuff("RivenTriCleave"))
             {
                 Spells.Q.Cast(Game.CursorPos);

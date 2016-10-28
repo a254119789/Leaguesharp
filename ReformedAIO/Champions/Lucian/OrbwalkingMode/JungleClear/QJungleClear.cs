@@ -33,7 +33,7 @@
                     ObjectManager.Player.Position,
                     ObjectManager.Player.AttackRange,
                     MinionTypes.All,
-                    MinionTeam.Neutral).FirstOrDefault();
+                    MinionTeam.Neutral).OrderBy(x => x.Health).FirstOrDefault();
 
             if (mob == null)
             {

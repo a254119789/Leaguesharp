@@ -15,11 +15,11 @@
 
     using Damage;
     using Killsteal;
+
+    using ReformedAIO.Library.Dash_Handler;
+    using ReformedAIO.Library.SpellParent;
+
     using Spells;
-
-    using Core.Dash_Handler;
-
-    using ReformedAIO.Core.SpellParent;
 
     using Utilities.Modules.Skinchanger;
 

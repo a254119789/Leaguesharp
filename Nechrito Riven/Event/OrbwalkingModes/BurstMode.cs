@@ -35,7 +35,7 @@
 
                 Spells.E.Cast(selectedTarget.Position);
                 Spells.R.Cast();
-                FlashW();
+                Utility.DelayAction.Add(170, FlashW);
             }
             else
             {

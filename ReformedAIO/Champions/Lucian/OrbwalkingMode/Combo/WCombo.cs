@@ -45,11 +45,12 @@
             }
         }
 
-        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!CheckGuardians()
-               
-               || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
+            if (!sender.IsMe
+                || !Orbwalking.IsAutoAttack(args.SData.Name)
+                || !CheckGuardians()
+                || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
@@ -64,7 +65,7 @@
                 }
                 else
                 {
-                    var wPred = wSpell.Spell.GetPrediction(target, true);
+                    var wPred = wSpell.Spell.GetPrediction(target);
 
                     if (wPred.Hitchance > HitChance.Medium)
                     {
@@ -86,13 +87,13 @@
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Game.OnUpdate -= OnUpdate;
-            Orbwalking.AfterAttack -= AfterAttack;
+            Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             Game.OnUpdate += OnUpdate;
-            Orbwalking.AfterAttack += AfterAttack;
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
 }

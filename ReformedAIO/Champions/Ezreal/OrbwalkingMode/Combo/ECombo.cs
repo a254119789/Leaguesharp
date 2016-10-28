@@ -8,7 +8,7 @@
 
     using Core.Spells;
 
-    using ReformedAIO.Core.Dash_Handler;
+    using ReformedAIO.Library.Dash_Handler;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -55,7 +55,7 @@
                     eSpell.Spell.Cast(Game.CursorPos);
                     break;
                 case 1:
-                    eSpell.Spell.Cast(dashSmart.Deviation(ObjectManager.Player.Position.To2D(), Target.Position.To2D(), eSpell.Spell.Range).To3D());
+                    eSpell.Spell.Cast(dashSmart.Kite(Target.Position.To2D(), eSpell.Spell.Range).To3D());
                     break;
                 case 2:
                     eSpell.Spell.Cast(dashSmart.ToSafePosition(Target, Target.Position, eSpell.Spell.Range));

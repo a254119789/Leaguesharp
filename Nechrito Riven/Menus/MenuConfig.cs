@@ -134,8 +134,8 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(230, 230, 340)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(230, 230, 340)));
+            animation.AddItem(new MenuItem("QD", "Q1 Delay").SetValue(new Slider(240, 240, 340)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Delay").SetValue(new Slider(240, 240, 340)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Delay").SetValue(new Slider(300, 300, 475)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));

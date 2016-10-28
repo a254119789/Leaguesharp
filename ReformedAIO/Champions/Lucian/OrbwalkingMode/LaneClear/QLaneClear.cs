@@ -27,9 +27,8 @@
         private void OnUpdate(EventArgs args)
         {
               if ((Menu.Item("EnemiesCheck").GetValue<bool>()
-                && ObjectManager.Player.CountEnemiesInRange(1500) >= 1)
+                && ObjectManager.Player.CountEnemiesInRange(1750) >= 1)
                 || (ObjectManager.Player.ManaPercent <= Menu.Item("QMana").GetValue<Slider>().Value)
-                 
                 || !CheckGuardians())
             {
                 return;

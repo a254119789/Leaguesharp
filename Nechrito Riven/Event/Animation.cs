@@ -33,6 +33,10 @@
               MinionTypes.All,
               MinionTeam.Neutral).FirstOrDefault();
 
+            var isMoving = (target != null && target.IsMoving) || (mob != null && mob.IsMoving);
+
+            var delay = Ping();
+
             switch (args.Animation)
             {
                 case "Spell1a":
@@ -40,15 +44,15 @@
                     Qstack = 2;
                     if (SafeReset())
                     {
-                        if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
+                        if (isMoving)
                         {
-                            Utility.DelayAction.Add((int)(MenuConfig.Qd * 1.125), Reset);
-                            Console.WriteLine("Q1 Slow Delay: " + (MenuConfig.Qd * 1.125));
+                            Utility.DelayAction.Add((int)((MenuConfig.Qd + delay)* 1.18), Reset);
+                            Console.WriteLine("Q1 Slow Delay: " + (MenuConfig.Qd + delay) * 1.18);
                         }
                         else
                         {
-                            Utility.DelayAction.Add(MenuConfig.Qd, Reset);
-                            Console.WriteLine("Q1 Fast Delay: " + MenuConfig.Qd);
+                            Utility.DelayAction.Add(MenuConfig.Qd + delay, Reset);
+                            Console.WriteLine("Q1 Fast Delay: " + (MenuConfig.Qd + delay));
                         }
                     }
 
@@ -58,15 +62,15 @@
                     Qstack = 3;
                     if (SafeReset())
                     {
-                        if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
+                        if (isMoving)
                         {
-                            Utility.DelayAction.Add((int)(MenuConfig.Q2D * 1.125), Reset);
-                            Console.WriteLine("Q2 Slow Delay: " + MenuConfig.Q2D * 1.125);
+                            Utility.DelayAction.Add((int)((MenuConfig.Q2D + delay)* 1.18), Reset);
+                            Console.WriteLine("Q2 Slow Delay: " + (MenuConfig.Q2D + delay)* 1.18);
                         }
                         else
                         {
-                            Utility.DelayAction.Add(MenuConfig.Q2D, Reset);
-                            Console.WriteLine("Q2 Fast Delay: " + MenuConfig.Q2D);
+                            Utility.DelayAction.Add(MenuConfig.Q2D + delay, Reset);
+                            Console.WriteLine("Q2 Fast Delay: " + (delay + MenuConfig.Q2D));
                         }
                     }
 
@@ -76,17 +80,17 @@
                     Qstack = 1;
                     if (SafeReset())
                     {
-                        if ((target != null && target.IsMoving) || (mob != null && mob.IsMoving))
+                        if (isMoving)
                         {
-                            Utility.DelayAction.Add((int)(MenuConfig.Qld * 1.125), Reset);
-                            Console.WriteLine("Q3 Slow Delay: " + MenuConfig.Qld * 1.125);
+                            Utility.DelayAction.Add((int)((MenuConfig.Qld + delay)* 1.18), Reset);
+                            Console.WriteLine("Q3 Slow Delay: " + (MenuConfig.Qld + delay)* 1.18);
                             Console.WriteLine(">----END----<");
 
                         }
                         else
                         {
-                            Utility.DelayAction.Add(MenuConfig.Qld, Reset);
-                            Console.WriteLine("Q3 Fast Delay: " + MenuConfig.Qld);
+                            Utility.DelayAction.Add(MenuConfig.Qld + delay, Reset);
+                            Console.WriteLine("Q3 Fast Delay: " + (MenuConfig.Qld + delay));
                             Console.WriteLine(">----END----<");
                         }
                     }
@@ -125,7 +129,7 @@
             }
         }
 
-        private static int AtkSpeed => (int)(1400 / Player.AttackSpeedMod * 3.75);
+       // private static int AtkSpeed => (int)(1400 / Player.AttackSpeedMod * 3.75);
 
         private static int Ping()
         {
@@ -148,6 +152,7 @@
             Emotes();
             Orbwalking.ResetAutoAttackTimer();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+           // Player.IssueOrder(GameObjectOrder.AttackTo, Game.CursorPos);
         }
 
         private static bool SafeReset()

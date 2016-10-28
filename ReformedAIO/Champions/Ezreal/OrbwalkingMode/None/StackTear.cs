@@ -8,8 +8,6 @@
 
     using Core.Spells;
 
-    using ReformedAIO.Core.Extensions.PlayerInfo;
-
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class StackTear : OrbwalkingChild
@@ -113,9 +111,9 @@
 
             Menu.AddItem(new MenuItem("Tear", "Stack Tear").SetValue(true));
 
-            Menu.AddItem(new MenuItem("Fountain", "Stack In Fountain").SetValue(true));
+            Menu.AddItem(new MenuItem("Fountain", "Don't Stack In Fountain").SetValue(true));
 
-            Menu.AddItem(new MenuItem("Shop", "Stack In Shop").SetValue(true));
+            Menu.AddItem(new MenuItem("Shop", " Don't Stack In Shop").SetValue(true));
 
             Menu.AddItem(new MenuItem("Mana", "Min Mana").SetValue(new Slider(50, 0, 100)));
         }

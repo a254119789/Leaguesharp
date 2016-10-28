@@ -17,8 +17,8 @@
     using ReformedAIO.Champions.Ezreal.OrbwalkingMode.JungleClear;
     using ReformedAIO.Champions.Ezreal.OrbwalkingMode.LaneClear;
     using ReformedAIO.Champions.Ezreal.OrbwalkingMode.None;
-    using ReformedAIO.Core.Dash_Handler;
-    using ReformedAIO.Core.SpellParent;
+    using ReformedAIO.Library.Dash_Handler;
+    using ReformedAIO.Library.SpellParent;
 
     using Utilities.Modules.Skinchanger;
 
@@ -65,12 +65,12 @@
             var harassParent = new OrbwalkingParent("Harass", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
             var laneParent = new OrbwalkingParent("Lane", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
-            var miscParent = new Parent("Misc");
+           //var miscParent = new Parent("Misc");
             var killstealParnet = new Parent("Killsteal");
             var drawingParent = new Parent("Drawings");
-            var reformedUtilityParent = new Parent("Reformed Utility");
+            var utilityParent = new Parent("Reformed Utility");
 
-            reformedUtilityParent.Add(new Skinchanger());
+            utilityParent.Add(new Skinchanger());
 
             var dmg = new EzrealDamage(eSpell, wSpell, qSpell, rSpell);
             var dashSmart = new DashSmart();
@@ -121,7 +121,7 @@
 
             superParent.Add(new List<Base>
                                   {
-                                     reformedUtilityParent,
+                                     utilityParent,
                                      orbwalkerModule,
                                      comboParent,
                                      harassParent,
@@ -134,8 +134,8 @@
 
             superParent.Load();
 
-            reformedUtilityParent.Menu.Style = FontStyle.Bold;
-            reformedUtilityParent.Menu.Color = Color.Cyan;
+            utilityParent.Menu.Style = FontStyle.Bold;
+            utilityParent.Menu.Color = Color.Cyan;
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;

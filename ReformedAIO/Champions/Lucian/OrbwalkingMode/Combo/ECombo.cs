@@ -8,7 +8,7 @@
 
     using ReformedAIO.Champions.Lucian.Damage;
     using ReformedAIO.Champions.Lucian.Spells;
-    using ReformedAIO.Core.Dash_Handler;
+    using ReformedAIO.Library.Dash_Handler;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -49,10 +49,12 @@
             }
         }
 
-        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Menu.Item("EMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent 
-                || !CheckGuardians())
+            if (!sender.IsMe
+                || !Orbwalking.IsAutoAttack(args.SData.Name)
+                || !CheckGuardians()
+                || Menu.Item("EMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
@@ -67,7 +69,7 @@
                         eSpell.Spell.Cast(ObjectManager.Player.Position.Extend(Game.CursorPos, Menu.Item("EDistance").GetValue<Slider>().Value));
                         break;
                     case 1:
-                        eSpell.Spell.Cast(dashSmart.Deviation(ObjectManager.Player.Position.To2D(), target.Position.To2D(), Menu.Item("EDistance").GetValue<Slider>().Value).To3D());
+                        eSpell.Spell.Cast(dashSmart.Kite(target.Position.To2D(), Menu.Item("EDistance").GetValue<Slider>().Value).To3D());
                         break;
                     case 2:
                         eSpell.Spell.Cast(dashSmart.ToSafePosition(target, target.Position, Menu.Item("EDistance").GetValue<Slider>().Value));
@@ -75,8 +77,6 @@
                 }
             }
         }
-
-
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -93,7 +93,7 @@
             base.OnDisable(sender, featureBaseEventArgs);
 
             Game.OnUpdate -= OnUpdate;
-            Orbwalking.AfterAttack -= AfterAttack;
+            Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
@@ -101,7 +101,7 @@
             base.OnEnable(sender, featureBaseEventArgs);
 
             Game.OnUpdate += OnUpdate;
-            Orbwalking.AfterAttack += AfterAttack;
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
 }
