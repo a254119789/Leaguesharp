@@ -14,21 +14,9 @@
 
     internal sealed class QLane : ChildBase
     {
-        #region Constructors and Destructors
-
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QLane(string name, Orbwalking.Orbwalker orbwalker)
-        {
-            Name = name;
-            this.orbwalker = orbwalker;
-        }
-
-        #endregion
-
         #region Public Properties
 
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "[Q]";
 
         #endregion
 
@@ -36,11 +24,15 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
         }
 
@@ -48,9 +40,9 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem(Name + "LaneQEnemy", "Only If No Enemies Visible").SetValue(true));
+            Menu.AddItem(new MenuItem("LaneQEnemy", "Only If No Enemies Visible").SetValue(true));
 
-            Menu.AddItem(new MenuItem(Name + "LaneQMana", "Mana %").SetValue(new Slider(65, 0, 100)));
+            Menu.AddItem(new MenuItem("LaneQMana", "Mana %").SetValue(new Slider(65, 0, 100)));
         }
 
         private void GetMinions()
@@ -59,7 +51,7 @@
 
             if (minions == null) return;
 
-            if (Menu.Item(Menu.Name + "LaneQEnemy").GetValue<bool>()
+            if (Menu.Item("LaneQEnemy").GetValue<bool>()
                 && minions.Any(m => m.CountEnemiesInRange(2500) > 0))
             {
                 return;
@@ -70,10 +62,9 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
-                || !Variable.Spells[SpellSlot.W].IsReady()) return;
+            if (!Variable.Spells[SpellSlot.Q].IsReady()) return;
 
-            if (Menu.Item(Menu.Name + "LaneQMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
+            if (Menu.Item("LaneQMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 
             GetMinions();
         }

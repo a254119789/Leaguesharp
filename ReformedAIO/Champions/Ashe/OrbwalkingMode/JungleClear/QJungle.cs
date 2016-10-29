@@ -14,21 +14,9 @@
 
     internal sealed class QJungle : ChildBase
     {
-        #region Constructors and Destructors
-
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QJungle(string name, Orbwalking.Orbwalker orbwalker)
-        {
-            Name = name;
-            this.orbwalker = orbwalker;
-        }
-
-        #endregion
-
         #region Public Properties
 
-        public override string Name { get; set; }
+        public override string Name { get; set; } = "[Q]";
 
         #endregion
 
@@ -36,11 +24,15 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
         }
 
@@ -48,13 +40,12 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem(Menu.Name + "QOverkill", "Overkill Check").SetValue(true));
+            Menu.AddItem(new MenuItem("QOverkill", "Overkill Check").SetValue(true));
         }
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear
-                || !Variable.Spells[SpellSlot.Q].IsReady() || Variable.Player.IsWindingUp) return;
+            if (!Variable.Spells[SpellSlot.Q].IsReady() || Variable.Player.IsWindingUp) return;
 
             RangersFocus();
         }
@@ -68,10 +59,10 @@
                     MinionTeam.Neutral,
                     MinionOrderTypes.MaxHealth).FirstOrDefault();
 
-            if (mobs == null || !mobs.IsValid) return;
-
-            if (Menu.Item(Menu.Name + "QOverkill").GetValue<bool>()
-                && mobs.Health < Variable.Player.GetAutoAttackDamage(mobs) * 2 && Variable.Player.HealthPercent >= 13) return;
+            if (mobs == null 
+                || (Menu.Item("QOverkill").GetValue<bool>()
+                && mobs.Health < Variable.Player.GetAutoAttackDamage(mobs) * 2 
+                && Variable.Player.HealthPercent >= 13)) return;
 
             Variable.Spells[SpellSlot.Q].Cast();
         }

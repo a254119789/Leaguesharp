@@ -29,24 +29,19 @@
 
         #region Public Properties
 
-        public sealed override string Name { get; set; }
+        public sealed override string Name { get; set; } = "Damage";
 
         #endregion
 
         #region Public Methods and Operators
 
-        public DmgDraw(string name)
-        {
-            Name = name;
-        }
-
+    
         public void OnDraw(EventArgs args)
         {
             if (Variable.Player.IsDead) return;
 
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
             {
-                
                 drawDamage.Unit = enemy;
                 drawDamage.DrawDmg(logic.ComboDamage(enemy), Color.LawnGreen);
             }
@@ -58,19 +53,24 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Drawing.OnDraw -= OnDraw;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Drawing.OnDraw += OnDraw;
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnLoad(sender, featureBaseEventArgs);
+
             logic = new RLogic();
             drawDamage = new HeroHealthBarIndicator();
-            base.OnLoad(sender, featureBaseEventArgs);
         }
         #endregion
     }

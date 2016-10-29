@@ -75,7 +75,7 @@
 
         #region Methods
 
-        private int QCount()
+        private static int QCount()
         {
             return Variable.Player.GetBuffCount("AsheQ");
         }

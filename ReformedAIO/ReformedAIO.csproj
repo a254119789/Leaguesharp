@@ -95,7 +95,6 @@
     <Compile Include="Champions\Ashe\Logic\QLogic.cs" />
     <Compile Include="Champions\Ashe\Logic\RLogic.cs" />
     <Compile Include="Champions\Ashe\Core\SetSpells.cs" />
-    <Compile Include="Champions\Ashe\Logic\WLogic.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Combo\ECombo.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Combo\RCombo.cs" />
