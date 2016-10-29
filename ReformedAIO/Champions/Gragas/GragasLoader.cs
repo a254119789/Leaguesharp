@@ -96,11 +96,6 @@
             Prediction.Initialize(superParent.Menu);
 
             superParent.Load();
-
-            if (superParent.Loaded)
-            {
-                Game.PrintChat("Reformed Gragas - Loaded");
-            }
         }
 
         #endregion

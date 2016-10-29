@@ -8,21 +8,15 @@
     using ReformedAIO.Champions.Gnar.Core;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class W2Jungle : ChildBase
+    internal sealed class W2Jungle : OrbwalkingChild
     {
         public override string Name { get; set; } = "W";
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public W2Jungle(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
         private void GameOnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear || ObjectManager.Player.IsWindingUp || !Spells.W2.IsReady())
+            if (!CheckGuardians())
             {
                 return;
             }

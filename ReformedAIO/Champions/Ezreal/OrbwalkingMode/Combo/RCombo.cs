@@ -34,31 +34,33 @@
 
             rSpell.Spell.CastIfWillHit(Target, Menu.Item("Hit").GetValue<Slider>().Value);
 
+            if (Target.HealthPercent > Menu.Item("Health").GetValue<Slider>().Value)
+            {
+                return;
+            }
+
             var prediction = rSpell.Spell.GetPrediction(Target);
 
-            if (Target.HealthPercent <= Menu.Item("Health").GetValue<Slider>().Value)
+            switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
             {
-                switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
-                {
-                    case 0:
-                        if (prediction.Hitchance >= HitChance.Medium)
-                        {
-                            rSpell.Spell.Cast(prediction.CastPosition);
-                        }
-                        break;
-                    case 1:
-                        if (prediction.Hitchance >= HitChance.High)
-                        {
-                            rSpell.Spell.Cast(prediction.CastPosition);
-                        }
-                        break;
-                    case 2:
-                        if (prediction.Hitchance >= HitChance.VeryHigh)
-                        {
-                            rSpell.Spell.Cast(prediction.CastPosition);
-                        }
-                        break;
-                }
+                case 0:
+                    if (prediction.Hitchance >= HitChance.Medium)
+                    {
+                        rSpell.Spell.Cast(prediction.CastPosition);
+                    }
+                    break;
+                case 1:
+                    if (prediction.Hitchance >= HitChance.High)
+                    {
+                        rSpell.Spell.Cast(prediction.CastPosition);
+                    }
+                    break;
+                case 2:
+                    if (prediction.Hitchance >= HitChance.VeryHigh)
+                    {
+                        rSpell.Spell.Cast(prediction.CastPosition);
+                    }
+                    break;
             }
         }
 

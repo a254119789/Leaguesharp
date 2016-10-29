@@ -40,9 +40,10 @@
             {
                 if (Unit != null)
                 {
-                    return Unit.IsAlly ? new Vector2(34, 9) : new Vector2(10, 20);
+                    return Unit.IsAlly 
+                        ? new Vector2(34, 9) 
+                        : new Vector2(10, 20);
                 }
-
                 return new Vector2();
             }
         }

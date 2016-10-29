@@ -8,26 +8,18 @@
     using ReformedAIO.Champions.Gnar.Core;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class W2Lane : ChildBase
+    internal sealed class W2Lane : OrbwalkingChild
     {
         private GnarState gnarState;
 
         public override string Name { get; set; } = "W";
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public W2Lane(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
         private void GameOnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear 
-                || ObjectManager.Player.IsWindingUp
-                || this.gnarState.Mini
-                || !Spells.W2.IsReady())
+            if (this.gnarState.Mini
+                || !CheckGuardians())
             {
                 return;
             }

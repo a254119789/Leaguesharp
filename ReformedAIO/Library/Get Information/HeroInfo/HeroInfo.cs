@@ -1,11 +1,17 @@
 ﻿namespace ReformedAIO.Library.Get_Information.TargetInfo
 {
+    using System;
     using System.Linq;
 
     using LeagueSharp;
 
-    internal class TargetInfo
+    internal class HeroInfo
     {
+        public float GetBuffEndTime(Obj_AI_Base target, string buffname)
+        {
+            return Math.Max(0, target.GetBuff(buffname).EndTime) - Game.Time;
+        }
+
         public bool Unkillable(Obj_AI_Hero target)
         {
             if (target.Buffs.Any(b => b.IsValid 
@@ -31,6 +37,14 @@
             }
          
             return target.HasBuffOfType(BuffType.SpellShield) || target.HasBuffOfType(BuffType.SpellImmunity);
+        }
+
+        public int GetStunDuration(Obj_AI_Hero target)
+        {
+            return (int)(target.Buffs.Where(b => b.IsActive
+            && Game.Time < b.EndTime
+            && Immobilized(target))
+            .Aggregate(0f, (current, buff) => Math.Max(current, buff.EndTime)) - Game.Time) * 1000;
         }
 
         public bool Immobilized(Obj_AI_Hero target)

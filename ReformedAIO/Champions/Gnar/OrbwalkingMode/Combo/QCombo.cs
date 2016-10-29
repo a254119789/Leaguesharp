@@ -12,23 +12,17 @@
     using ReformedAIO.Champions.Gnar.Core;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.Menu;
     using RethoughtLib.Menu.Presets;
 
     #endregion
 
-    internal sealed class QCombo : ChildBase
+    internal sealed class QCombo : OrbwalkingChild
     {
         private GnarState gnarState;
       
         public override string Name { get; set; } = "Q";
-
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QCombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
 
         private void GameOnUpdate(EventArgs args)
         {
@@ -36,7 +30,7 @@
 
             if ((Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
                 && Vars.Player.ManaPercent >= 90 && Vars.Player.ManaPercent < 100)
-                || Vars.Player.IsWindingUp)
+                || !CheckGuardians())
             {
                 return;
             }

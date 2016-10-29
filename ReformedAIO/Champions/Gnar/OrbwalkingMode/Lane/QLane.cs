@@ -9,27 +9,26 @@
     using ReformedAIO.Champions.Gnar.Core;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.Menu;
     using RethoughtLib.Menu.Presets;
 
-    internal sealed class QLane : ChildBase
+    internal sealed class QLane : OrbwalkingChild
     {
         private GnarState gnarState;
 
         public override string Name { get; set; } = "Q";
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public QLane(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
         private void GameOnUpdate(EventArgs args)
         {
+            if (!CheckGuardians())
+            {
+                return;
+            }
+
             var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear || Vars.Player.IsWindingUp)
+            if (Vars.Player.IsWindingUp)
             {
                 return;
             }

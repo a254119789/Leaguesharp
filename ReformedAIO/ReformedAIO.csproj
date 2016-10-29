@@ -157,7 +157,7 @@
     <Compile Include="Champions\Gnar\Drawings\SpellRange\WRange.cs" />
     <Compile Include="Champions\Gnar\GnarLoader.cs" />
     <Compile Include="Champions\Gnar\Logic\FleeLogic.cs" />
-    <Compile Include="Champions\Gnar\Logic\WallDetection.cs" />
+    <Compile Include="Champions\Gnar\Logic\GnarWallDetection.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\ECombo.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\QCombo.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Combo\RCombo.cs" />
@@ -175,16 +175,9 @@
     <Compile Include="Champions\Lucian\Spells\Q2Spell.cs" />
     <Compile Include="Champions\Lucian\Spells\QSpell.cs" />
     <Compile Include="Champions\Lucian\Spells\RSpell.cs" />
-    <Compile Include="Champions\Nidalee WIP\Core\Logic\CooldownCalculations.cs" />
-    <Compile Include="Champions\Nidalee WIP\Core\Logic\Logic.cs" />
-    <Compile Include="Champions\Nidalee WIP\Core\Spells\ESpell.cs" />
-    <Compile Include="Champions\Nidalee WIP\Core\Spells\QSpell.cs" />
-    <Compile Include="Champions\Nidalee WIP\Core\Spells\RSpell.cs" />
-    <Compile Include="Champions\Nidalee WIP\Core\Spells\WSpell.cs" />
     <Compile Include="Library\Get Information\GetRandom\GetRandom.cs" />
     <Compile Include="Library\Get Information\JungleCamps\JungleCampsExtension.cs" />
-    <Compile Include="Library\Get Information\PlayerInfo\PlayerInfo.cs" />
-    <Compile Include="Library\Get Information\TargetInfo\TargetInfo.cs" />
+    <Compile Include="Library\Get Information\HeroInfo\HeroInfo.cs" />
     <Compile Include="Library\Global Ults\Global Ults.cs" />
     <Compile Include="Library\SpellParent\ISpellIndex.cs" />
     <Compile Include="Library\SpellParent\SpellParent.cs" />
@@ -271,10 +264,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Champions\Ezreal\OrbwalkingMode\Flee\" />
-    <Folder Include="Champions\Nidalee WIP\Core\Damage\" />
-    <Folder Include="Champions\Nidalee WIP\Drawings\" />
-    <Folder Include="Champions\Nidalee WIP\Killsteal\" />
-    <Folder Include="Champions\Nidalee WIP\OrbwalkingMode\Combo\" />
     <Folder Include="Utilities\Modules\Activator\" />
   </ItemGroup>
   <ItemGroup>

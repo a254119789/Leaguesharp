@@ -139,11 +139,6 @@
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;
-
-            if (superParent.Loaded)
-            {
-                Game.PrintChat(DisplayName + " - Loaded");
-            }
         }
     }
 }

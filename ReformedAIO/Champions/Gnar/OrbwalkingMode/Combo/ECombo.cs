@@ -9,8 +9,9 @@
     using ReformedAIO.Champions.Gnar.Core;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class ECombo : ChildBase
+    internal sealed class ECombo : OrbwalkingChild
     {
         private GnarState gnarState;
 
@@ -18,18 +19,11 @@
 
         public override string Name { get; set; } = "E";
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public ECombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
         private void GameOnUpdate(EventArgs args)
         {
             var target = TargetSelector.GetTarget(Menu.Item("E1Range").GetValue<Slider>().Value * 2, TargetSelector.DamageType.Physical);
 
-            if (target == null || target.UnderTurret(true))
+            if (target == null || target.UnderTurret(true) || !CheckGuardians())
             {
                 return;
             }
@@ -109,12 +103,16 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             AntiGapcloser.OnEnemyGapcloser -= Gapcloser;
             Game.OnUpdate -= GameOnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             AntiGapcloser.OnEnemyGapcloser += Gapcloser;
             Game.OnUpdate += GameOnUpdate;
         }

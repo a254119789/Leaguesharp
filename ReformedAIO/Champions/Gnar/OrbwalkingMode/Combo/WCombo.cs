@@ -9,23 +9,17 @@
     using ReformedAIO.Champions.Gnar.Core;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class WCombo : ChildBase
+    internal sealed class WCombo : OrbwalkingChild
     {
         private GnarState gnarState;
 
         public override string Name { get; set; } = "W";
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public WCombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
-
         private void GameOnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo || !Spells.W2.IsReady())
+            if (!CheckGuardians())
             {
                 return;
             }

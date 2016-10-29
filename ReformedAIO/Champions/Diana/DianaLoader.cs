@@ -115,11 +115,6 @@
             });
 
             superParent.Load();
-
-            if (superParent.Loaded)
-            {
-                Game.PrintChat(DisplayName + " - Loaded");
-            }
         }
         #endregion
     }
