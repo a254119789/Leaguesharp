@@ -178,7 +178,7 @@
     <Compile Include="Library\Get Information\GetRandom\GetRandom.cs" />
     <Compile Include="Library\Get Information\JungleCamps\JungleCampsExtension.cs" />
     <Compile Include="Library\Get Information\HeroInfo\HeroInfo.cs" />
-    <Compile Include="Library\Global Ults\Global Ults.cs" />
+    <Compile Include="Library\Spell Information\Global Ults.cs" />
     <Compile Include="Library\SpellParent\ISpellIndex.cs" />
     <Compile Include="Library\SpellParent\SpellParent.cs" />
     <Compile Include="Champions\Lucian\Spells\WSpell.cs" />
@@ -210,15 +210,15 @@
     <Compile Include="Champions\Gragas\GragasLoader.cs" />
     <Compile Include="Champions\Diana\Logic\CrescentStrikeLogic.cs" />
     <Compile Include="Champions\Diana\Logic\FleeLogic.cs" />
-    <Compile Include="Champions\Diana\Logic\Killsteal\ksCrescentStrike.cs" />
-    <Compile Include="Champions\Diana\Logic\Killsteal\ksPaleCascade.cs" />
+    <Compile Include="Champions\Diana\Killsteal\ksCrescentStrike.cs" />
+    <Compile Include="Champions\Diana\Killsteal\ksPaleCascade.cs" />
     <Compile Include="Champions\Diana\Logic\LogicAll.cs" />
     <Compile Include="Champions\Diana\Logic\MoonfallLogic.cs" />
     <Compile Include="Champions\Diana\Logic\PaleCascadeLogic.cs" />
-    <Compile Include="Champions\Diana\Menus\Draw\DrawDmg.cs" />
-    <Compile Include="Champions\Diana\Menus\Draw\DrawE.cs" />
-    <Compile Include="Champions\Diana\Menus\Draw\DrawPred.cs" />
-    <Compile Include="Champions\Diana\Menus\Draw\DrawQ.cs" />
+    <Compile Include="Champions\Diana\Draw\DrawDmg.cs" />
+    <Compile Include="Champions\Diana\Draw\DrawE.cs" />
+    <Compile Include="Champions\Diana\Draw\DrawPred.cs" />
+    <Compile Include="Champions\Diana\Draw\DrawQ.cs" />
     <Compile Include="Champions\Gragas\Draw\DrawE.cs" />
     <Compile Include="Champions\Gragas\Draw\DrawIndicator.cs" />
     <Compile Include="Champions\Gragas\Draw\DrawQ.cs" />
@@ -265,6 +265,7 @@
   <ItemGroup>
     <Folder Include="Champions\Ezreal\OrbwalkingMode\Flee\" />
     <Folder Include="Utilities\Modules\Activator\" />
+    <Folder Include="Utilities\Modules\TradeSmart\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

@@ -7,7 +7,7 @@
 
     using ReformedAIO.Champions.Gnar.Core;
     using ReformedAIO.Champions.Gnar.Logic;
-    using ReformedAIO.Library.Get_Information.TargetInfo;
+    using ReformedAIO.Library.Get_Information.HeroInfo;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;

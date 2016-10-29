@@ -1,4 +1,4 @@
-﻿namespace ReformedAIO.Library.Get_Information.TargetInfo
+﻿namespace ReformedAIO.Library.Get_Information.HeroInfo
 {
     using System;
     using System.Linq;

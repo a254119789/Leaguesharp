@@ -10,23 +10,17 @@
     using ReformedAIO.Champions.Diana.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
     #endregion
 
-    internal class Moonfall : ChildBase
+    internal class Moonfall : OrbwalkingChild
     {
         #region Fields
 
         private LogicAll logic;
 
         #endregion
-
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        public Moonfall(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
 
         #region Public Properties
 
@@ -38,6 +32,8 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Interrupter2.OnInterruptableTarget -= Interrupt;
 
             AntiGapcloser.OnEnemyGapcloser -= Gapcloser;
@@ -47,19 +43,14 @@
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Interrupter2.OnInterruptableTarget += Interrupt;
 
             AntiGapcloser.OnEnemyGapcloser += Gapcloser;
 
             Game.OnUpdate += OnUpdate;
         }
-
-        //protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
-        //{
-        //    logic = new LogicAll();
-
-        //    base.OnLoad(sender, featureBaseEventArgs);
-        //}
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -127,10 +118,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo
-                || !Variables.Spells[SpellSlot.E].IsReady()) return;
-
-            // if (Menu.Item(Menu.Name + "EMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
+            if (!CheckGuardians()) return;
 
             moonfall();
         }

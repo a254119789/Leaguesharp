@@ -1,8 +1,9 @@
-﻿namespace ReformedAIO.Champions.Diana.OrbwalkingMode.Mixed
+﻿namespace ReformedAIO.Champions.Diana.Draw
 {
     #region Using Directives
 
     using System;
+    using System.Drawing;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -10,11 +11,10 @@
     using ReformedAIO.Champions.Diana.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
-    using RethoughtLib.FeatureSystem.Implementations;
 
     #endregion
 
-    internal class MixedCrescentStrike : OrbwalkingChild
+    internal class DrawPred : ChildBase
     {
         #region Fields
 
@@ -22,22 +22,25 @@
 
         #endregion
 
+
         #region Public Properties
 
-        public override string Name { get; set; } = "[Q] Crescent Strike";
+        public override string Name { get; set; } = "Draw Prediction";
 
         #endregion
 
         #region Public Methods and Operators
 
-        public void OnUpdate(EventArgs args)
+        public void OnDraw(EventArgs args)
         {
-            if (!CheckGuardians() || Menu.Item("QMana").GetValue<Slider>().Value > Variables.Player.ManaPercent)
-            {
-                return;
-            }
+            if (Variables.Player.IsDead) return;
 
-            Crescent();
+            var target = TargetSelector.GetTarget(825, TargetSelector.DamageType.Magical);
+
+            if (target != null && target.IsVisible)
+            {
+                Render.Circle.DrawCircle(qLogic.QPred(target), 50, Color.Aqua);
+            }
         }
 
         #endregion
@@ -48,34 +51,21 @@
         {
             base.OnDisable(sender, featureBaseEventArgs);
 
-            Game.OnUpdate -= OnUpdate;
+            Drawing.OnDraw -= OnDraw;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnEnable(sender, featureBaseEventArgs);
 
-            Game.OnUpdate += OnUpdate;
+            Drawing.OnDraw += OnDraw;
         }
 
         protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Menu.AddItem(new MenuItem("QRange", "Q Range ").SetValue(new Slider(820, 0, 825)));
-
-            Menu.AddItem(new MenuItem("QMana", "Mana %").SetValue(new Slider(45, 0, 100)));
+            base.OnLoad(sender, featureBaseEventArgs);
 
             qLogic = new CrescentStrikeLogic();
-        }
-
-        private void Crescent()
-        {
-            var target = TargetSelector.GetTarget(
-                Menu.Item("QRange").GetValue<Slider>().Value,
-                TargetSelector.DamageType.Magical);
-
-            if (target == null || !target.IsValid) return;
-
-            Variables.Spells[SpellSlot.Q].Cast(qLogic.QPred(target));
         }
 
         #endregion
