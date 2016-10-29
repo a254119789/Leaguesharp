@@ -11,6 +11,7 @@
     using ReformedAIO.Champions.Gragas.Logic;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
+    using RethoughtLib.FeatureSystem.Implementations;
 
     using SharpDX;
 
@@ -20,24 +21,11 @@
 
     #endregion
 
-    internal class RCombo : ChildBase
+    internal class RCombo : OrbwalkingChild
     {
         #region Fields
 
-        private readonly Orbwalking.Orbwalker orbwalker;
-
-        private QLogic qLogic;
-
         private RLogic rLogic;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public RCombo(Orbwalking.Orbwalker orbwalker)
-        {
-            this.orbwalker = orbwalker;
-        }
 
         #endregion
 
@@ -51,6 +39,8 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Drawing.OnDraw -= OnDraw;
             Obj_AI_Base.OnProcessSpellCast -= OnProcessSpellCast;
             Game.OnUpdate -= OnUpdate;
@@ -58,6 +48,8 @@
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Game.OnUpdate += OnUpdate;
@@ -65,40 +57,41 @@
      
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnLoad(sender, featureBaseEventArgs);
+
             Menu.AddItem(
-                new MenuItem(Menu.Name + "InsecTo", "Insec To").SetValue(
+                new MenuItem("InsecTo", "Insec To").SetValue(
                     new StringList(new[] { "Ally / Turret", " Player", " Cursor" })));
 
             Menu.AddItem(
-                new MenuItem(Menu.Name + "AllyRange", "Range To Find Allies").SetValue(new Slider(1500, 0, 2400)));
+                new MenuItem("AllyRange", "Range To Find Allies").SetValue(new Slider(1500, 0, 2400)));
 
             Menu.AddItem(
-                new MenuItem(Menu.Name + "TurretRange", "Range To Find Turret").SetValue(new Slider(1300, 0, 1600)));
+                new MenuItem("TurretRange", "Range To Find Turret").SetValue(new Slider(1300, 0, 1600)));
 
-            Menu.AddItem(new MenuItem(Menu.Name + "RRange", "R Range ").SetValue(new Slider(950, 0, 1050)));
-
-            Menu.AddItem(
-                new MenuItem(Menu.Name + "RRangePred", "Range Behind Target").SetValue(new Slider(150, 0, 185)));
-
-            Menu.AddItem(new MenuItem(Menu.Name + "RMana", "Mana %").SetValue(new Slider(45, 0, 100)));
+            Menu.AddItem(new MenuItem("RRange", "R Range ").SetValue(new Slider(950, 0, 1050)));
 
             Menu.AddItem(
-                new MenuItem(Menu.Name + "QRQ", "Use Q?").SetValue(true).SetTooltip("Will do QRQ insec (BETA)"));
+                new MenuItem("RRangePred", "Range Behind Target").SetValue(new Slider(150, 0, 185)));
+
+            Menu.AddItem(new MenuItem("RMana", "Mana %").SetValue(new Slider(45, 0, 100)));
 
             Menu.AddItem(
-                new MenuItem(Menu.Name + "QRQDistance", "Max Distance For QRQ Combo").SetValue(new Slider(725, 0, 800)));
+                new MenuItem("QRQ", "Use Q?").SetValue(true).SetTooltip("Will do QRQ insec (BETA)"));
 
-            Menu.AddItem(new MenuItem(Menu.Name + "RDraw", "Draw R Prediction").SetValue(false));
+            Menu.AddItem(
+                new MenuItem("QRQDistance", "Max Distance For QRQ Combo").SetValue(new Slider(725, 0, 800)));
 
-            Menu.AddItem(new MenuItem(Menu.Name + "Enabled", "Enabled").SetValue(false));
+            Menu.AddItem(new MenuItem("RDraw", "Draw R Prediction").SetValue(false));
 
-            qLogic = new QLogic();
+            Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(false));
+
             rLogic = new RLogic();
         }
 
         private void OnProcessSpellCast(GameObject sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!Menu.Item(Menu.Name + "QRQ").GetValue<bool>() || !Variable.Spells[SpellSlot.Q].IsReady())
+            if (!Menu.Item("QRQ").GetValue<bool>() || !Variable.Spells[SpellSlot.Q].IsReady())
             {
                 return;
             }
@@ -119,8 +112,8 @@
 
             if (target == null || !target.IsValidTarget() || target.IsDashing()) return;
 
-            //if (Menu.Item(Menu.Name + "QRQ").GetValue<bool>() && Variable.Spells[SpellSlot.Q].IsReady()
-            //    && Menu.Item(Menu.Name + "QRQDistance").GetValue<Slider>().Value >= target.Distance(Variable.Player))
+            //if (Menu.Item("QRQ").GetValue<bool>() && Variable.Spells[SpellSlot.Q].IsReady()
+            //    && Menu.Item("QRQDistance").GetValue<Slider>().Value >= target.Distance(Variable.Player))
             //{
             //    Variable.Spells[SpellSlot.Q].Cast(InsecQ(target));
             //}
@@ -134,7 +127,7 @@
             var rPred = rLogic.RPred(target)
                 .Extend(
                     Variable.Player.Position,
-                    Variable.Spells[SpellSlot.R].Width - Menu.Item(Menu.Name + "RRangePred").GetValue<Slider>().Value);
+                    Variable.Spells[SpellSlot.R].Width - Menu.Item("RRangePred").GetValue<Slider>().Value);
 
             return rPred;
         }
@@ -144,18 +137,18 @@
             var mePos = Variable.Player.Position;
             // Doing this we can extend to our own position if we can't access anything else (Tower, Ally)
 
-            switch (Menu.Item(Menu.Name + "InsecTo").GetValue<StringList>().SelectedIndex)
+            switch (Menu.Item("InsecTo").GetValue<StringList>().SelectedIndex)
             {
                 case 0:
                     var ally =
                         HeroManager.Allies.Where(
                             x =>
                             x.IsValidTarget(
-                                Menu.Item(Menu.Name + "AllyRange").GetValue<Slider>().Value,
+                                Menu.Item("AllyRange").GetValue<Slider>().Value,
                                 false,
                                 target.ServerPosition) && x.Distance(target) > 325 && !x.IsMe && x.IsAlly)
                             .MaxOrDefault(
-                                x => x.CountAlliesInRange(Menu.Item(Menu.Name + "AllyRange").GetValue<Slider>().Value));
+                                x => x.CountAlliesInRange(Menu.Item("AllyRange").GetValue<Slider>().Value));
 
                     if (ally != null)
                     {
@@ -167,7 +160,7 @@
                             .Where(
                                 x =>
                                 x.IsAlly && x.Distance(target) > 325
-                                && x.Distance(target) < Menu.Item(Menu.Name + "TurretRange").GetValue<Slider>().Value
+                                && x.Distance(target) < Menu.Item("TurretRange").GetValue<Slider>().Value
                                 && !x.IsEnemy)
                             .OrderBy(x => x.Distance(Variable.Player.Position))
                             .FirstOrDefault();
@@ -190,14 +183,14 @@
                 Variable.Spells[SpellSlot.R].GetVectorSPrediction(target, 980)
                     .CastTargetPosition.Extend(
                         mePos.To2D(),
-                        -Menu.Item(Menu.Name + "RRangePred").GetValue<Slider>().Value);
+                        -Menu.Item("RRangePred").GetValue<Slider>().Value);
 
             return pos.To3D();
         }
 
         private void OnDraw(EventArgs args)
         {
-            if (Variable.Player.IsDead || !Menu.Item(Menu.Name + "RDraw").GetValue<bool>()) return;
+            if (Variable.Player.IsDead || !Menu.Item("RDraw").GetValue<bool>()) return;
 
             var target = TargetSelector.GetSelectedTarget();
 
@@ -205,7 +198,7 @@
 
             Render.Circle.DrawCircle(InsecTo(target), 100, Color.Cyan);
 
-            if (Menu.Item(Menu.Name + "QRQ").GetValue<bool>())
+            if (Menu.Item("QRQ").GetValue<bool>())
             {
                 Render.Circle.DrawCircle(InsecQ(target), 60, Color.Cyan);
             }
@@ -213,8 +206,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (this.orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo || !Variable.Spells[SpellSlot.R].IsReady()
-                || Menu.Item(Menu.Name + "RMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
+            if (!CheckGuardians() || Menu.Item("RMana").GetValue<Slider>().Value > Variable.Player.ManaPercent) return;
 
             ExplosiveCask();
         }

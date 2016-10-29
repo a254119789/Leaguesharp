@@ -21,7 +21,7 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Spell = new Spell(SpellSlot.R, 1400);
+            Spell = new Spell(SpellSlot.R, 1200);
             Spell.SetSkillshot(.2f, 110f, 2500f, true, SkillshotType.SkillshotLine);
         }
 

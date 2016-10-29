@@ -170,6 +170,7 @@
     <Compile Include="Champions\Gnar\PermaActive\Flee.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\WKillsteal.cs" />
+    <Compile Include="Champions\Lucian\Drawings\QDraw.cs" />
     <Compile Include="Champions\Lucian\Spells\ESpell.cs" />
     <Compile Include="Champions\Lucian\Spells\Q2Spell.cs" />
     <Compile Include="Champions\Lucian\Spells\QSpell.cs" />

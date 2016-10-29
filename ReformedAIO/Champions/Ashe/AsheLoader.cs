@@ -3,6 +3,7 @@
     #region Using Directives
 
     using System.Collections.Generic;
+    using System.Drawing;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -19,6 +20,8 @@
     using RethoughtLib.FeatureSystem.Implementations;
     using RethoughtLib.Orbwalker.Implementations;
     using RethoughtLib.Utility;
+
+    using Color = SharpDX.Color;
 
     #endregion
 
@@ -95,6 +98,9 @@
             });
 
             superParent.Load();
+
+            superParent.Menu.Style = FontStyle.Bold;
+            superParent.Menu.Color = Color.Cyan;
         }
         #endregion
     }

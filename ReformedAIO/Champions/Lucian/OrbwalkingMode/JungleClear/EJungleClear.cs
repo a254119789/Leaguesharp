@@ -20,19 +20,12 @@
             this.eSpell = eSpell;
         }
 
-        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!CheckGuardians())
+            if (!CheckGuardians() || !sender.IsMe || Menu.Item("EMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
-
-            if (!eSpell.Spell.IsReady()
-                || Menu.Item("EMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
-            {
-                return;
-            }
-
 
             var mob =
                 MinionManager.GetMinions(
@@ -60,12 +53,16 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-             Orbwalking.AfterAttack -= AfterAttack;
+             base.OnDisable(sender, featureBaseEventArgs);
+
+            Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Orbwalking.AfterAttack += AfterAttack;
+            base.OnEnable(sender, featureBaseEventArgs);
+
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
 }

@@ -11,12 +11,12 @@
     using Core.Damage;
     using Core.Spells;
 
-    using ReformedAIO.Champions.Ezreal.Drawings;
-    using ReformedAIO.Champions.Ezreal.Killsteal;
-    using ReformedAIO.Champions.Ezreal.OrbwalkingMode.Harass;
-    using ReformedAIO.Champions.Ezreal.OrbwalkingMode.JungleClear;
-    using ReformedAIO.Champions.Ezreal.OrbwalkingMode.LaneClear;
-    using ReformedAIO.Champions.Ezreal.OrbwalkingMode.None;
+    using Ezreal.Drawings;
+    using Ezreal.Killsteal;
+    using Ezreal.OrbwalkingMode.Harass;
+    using Ezreal.OrbwalkingMode.JungleClear;
+    using Ezreal.OrbwalkingMode.LaneClear;
+    using Ezreal.OrbwalkingMode.None;
     using ReformedAIO.Library.Dash_Handler;
     using ReformedAIO.Library.SpellParent;
 

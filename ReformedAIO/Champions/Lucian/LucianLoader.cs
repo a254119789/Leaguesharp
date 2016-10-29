@@ -79,7 +79,7 @@
 
             reformedUtilityParent.Add(new Skinchanger());
 
-            var lucianPassiveGuardian = new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true };
+           // var new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true } = new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true };
             var eMustNotBeReadyGuardian = new SpellMustBeReady(SpellSlot.E) { Negated = true };
             var wMustNotBeReadyGuardian = new SpellMustBeReady(SpellSlot.W) { Negated = true };
             var qMustNotBeReadyGuardian = new SpellMustBeReady(SpellSlot.Q) { Negated = true };
@@ -90,56 +90,57 @@
 
             comboParent.Add(new List<Base>
                                 {
-                                    new QCombo(qSpell, q2Spell).Guardian(lucianPassiveGuardian)
+                                    new QCombo(qSpell, q2Spell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true })
                                     .Guardian(eMustNotBeReadyGuardian)
                                     .Guardian(qReadyGuardian),
 
-                                    new WCombo(wSpell).Guardian(lucianPassiveGuardian)
+                                    new WCombo(wSpell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true })
                                     .Guardian(qMustNotBeReadyGuardian)
                                     .Guardian(wReadyGuardian),
 
-                                    new ECombo(eSpell, dmg, dashSmart).Guardian(lucianPassiveGuardian)
+                                    new ECombo(eSpell, dmg, dashSmart).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true })
                                     .Guardian(eReadyGuardian),
 
-                                    new RCombo(rSpell, dmg).Guardian(lucianPassiveGuardian)
+                                    new RCombo(rSpell, dmg).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true })
                                     .Guardian(rReadyGuardian),
                                  });
 
             harassParent.Add(new List<Base>
                                  {
-                                    new QHarass(qSpell, q2Spell).Guardian(lucianPassiveGuardian).Guardian(qReadyGuardian),
-                                    new WHarass(wSpell).Guardian(lucianPassiveGuardian).Guardian(qMustNotBeReadyGuardian).Guardian(wReadyGuardian),
-                                    new EHarass(eSpell, dmg, dashSmart).Guardian(lucianPassiveGuardian)
+                                    new QHarass(qSpell, q2Spell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(qReadyGuardian),
+                                    new WHarass(wSpell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(qMustNotBeReadyGuardian).Guardian(wReadyGuardian),
+                                    new EHarass(eSpell, dmg, dashSmart).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true })
                                     .Guardian(eReadyGuardian),
                                  });
 
             laneParent.Add(new List<Base>
                                {
-                                    new QLaneClear(qSpell).Guardian(lucianPassiveGuardian).Guardian(qReadyGuardian).Guardian(eMustNotBeReadyGuardian),
-                                    new WLaneClear(wSpell).Guardian(lucianPassiveGuardian).Guardian(wReadyGuardian).Guardian(eMustNotBeReadyGuardian),
-                                    new ELaneClear(eSpell, dashSmart).Guardian(lucianPassiveGuardian).Guardian(eReadyGuardian),
+                                    new QLaneClear(qSpell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(qReadyGuardian).Guardian(eMustNotBeReadyGuardian),
+                                    new WLaneClear(wSpell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(wReadyGuardian).Guardian(eMustNotBeReadyGuardian),
+                                    new ELaneClear(eSpell, dashSmart).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(eReadyGuardian),
                                });
 
             jungleParent.Add(new List<Base>
                                  {
-                                     new QJungleClear(qSpell).Guardian(lucianPassiveGuardian).Guardian(eMustNotBeReadyGuardian),
-                                     new WJungleClear(wSpell).Guardian(lucianPassiveGuardian).Guardian(wReadyGuardian).Guardian(qMustNotBeReadyGuardian),
+                                     new QJungleClear(qSpell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(eMustNotBeReadyGuardian),
+                                     new WJungleClear(wSpell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(wReadyGuardian).Guardian(qMustNotBeReadyGuardian),
                                      new EJungleClear(eSpell).Guardian(eReadyGuardian)
                                  });
 
             killstealParnet.Add(new List<Base>
-                                    {
-                                        new Q(qSpell, q2Spell).Guardian(lucianPassiveGuardian).Guardian(qReadyGuardian),
-                                        new W(wSpell).Guardian(wReadyGuardian),
-                                        new R(rSpell).Guardian(rReadyGuardian),
-                                    });
+                                   {
+                                      new Q(qSpell, q2Spell).Guardian(new PlayerMustHaveBuff("LucianPassiveBuff") { Negated = true }).Guardian(qReadyGuardian),
+                                      new W(wSpell).Guardian(wReadyGuardian),
+                                      new R(rSpell).Guardian(rReadyGuardian),
+                                   });
 
             drawingParent.Add(new List<Base>
-                                  {
-                                    new DmgDraw(dmg),
-                                    new RDraw(rSpell),
-                                    new WDraw(wSpell)
-                                  });
+                                   {
+                                        new DmgDraw(dmg),
+                                        new QDraw(qSpell, q2Spell),
+                                        new WDraw(wSpell),
+                                        new RDraw(rSpell),
+                                   });
 
             superParent.Add(new List<Base>
                                   {

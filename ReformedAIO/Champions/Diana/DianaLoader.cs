@@ -15,8 +15,8 @@
     using OrbwalkingMode.Misaya;
     using OrbwalkingMode.Mixed;
 
-    using ReformedAIO.Champions.Diana.Draw;
-    using ReformedAIO.Champions.Diana.Killsteal;
+    using Diana.Draw;
+    using Diana.Killsteal;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;

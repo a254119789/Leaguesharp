@@ -19,12 +19,12 @@
 
         public DmgDraw(EzrealDamage damage)
         {
-            this.damage = damage;
+            this.Damage = damage;
         }
 
         private HeroHealthBarIndicator heroHealthBarIndicator;
 
-        public readonly EzrealDamage damage;
+        public readonly EzrealDamage Damage;
 
         public void OnDraw(EventArgs args)
         {
@@ -34,8 +34,8 @@
             {
                 heroHealthBarIndicator.Unit = enemy;
 
-                heroHealthBarIndicator.DrawDmg(damage.GetComboDamage(enemy),
-                    enemy.Health <= damage.GetComboDamage(enemy) * 1.25
+                heroHealthBarIndicator.DrawDmg(Damage.GetComboDamage(enemy),
+                    enemy.Health <= Damage.GetComboDamage(enemy) * 1.25
                     ? Color.LawnGreen 
                     : Color.Yellow);
             }

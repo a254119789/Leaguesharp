@@ -52,7 +52,6 @@
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsMe
-                || !Orbwalking.IsAutoAttack(args.SData.Name)
                 || !CheckGuardians()
                 || Menu.Item("EMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {

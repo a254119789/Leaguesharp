@@ -6,15 +6,15 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Gnar.Core;
-    using ReformedAIO.Champions.Gnar.Drawings.Damage;
-    using ReformedAIO.Champions.Gnar.Drawings.SpellRange;
-    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Harass;
-    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Jungle;
-    using ReformedAIO.Champions.Gnar.OrbwalkingMode.Lane;
-    using ReformedAIO.Champions.Gnar.PermaActive;
-    using ReformedAIO.Champions.Gnar.PermaActive.Killsteal;
+    using Core;
+    using Drawings.Damage;
+    using Drawings.SpellRange;
+    using OrbwalkingMode.Combo;
+    using OrbwalkingMode.Harass;
+    using OrbwalkingMode.Jungle;
+    using OrbwalkingMode.Lane;
+    using PermaActive;
+    using PermaActive.Killsteal;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -120,11 +120,6 @@
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;
-
-            //if (superParent.Loaded)
-            //{
-            //    Game.PrintChat(DisplayName + " - Loaded");
-            //}
         }
     }
 }

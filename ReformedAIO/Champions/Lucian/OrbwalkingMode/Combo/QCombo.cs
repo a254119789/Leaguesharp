@@ -54,9 +54,10 @@
             }
         }
 
-        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Menu.Item("QMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
+            if (!sender.IsMe
+                ||Menu.Item("QMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
                 || !CheckGuardians())
             {
                 return;
@@ -80,14 +81,18 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
-            Orbwalking.AfterAttack -= AfterAttack;
+            Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
-            Orbwalking.AfterAttack += AfterAttack;
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
 }

@@ -20,9 +20,10 @@
             this.qSpell = qSpell;
         }
 
-        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Menu.Item("QMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
+            if (!sender.IsMe
+                ||Menu.Item("QMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
                 || !CheckGuardians())
             {
                 return;
@@ -33,7 +34,7 @@
                     ObjectManager.Player.Position,
                     ObjectManager.Player.AttackRange,
                     MinionTypes.All,
-                    MinionTeam.Neutral).OrderBy(x => x.Health).FirstOrDefault();
+                    MinionTeam.Neutral).OrderBy(x => x.MaxHealth).FirstOrDefault();
 
             if (mob == null)
             {
@@ -53,12 +54,16 @@
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-             Orbwalking.AfterAttack -= AfterAttack;
+            base.OnDisable(sender, featureBaseEventArgs);
+
+            Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            Orbwalking.AfterAttack += AfterAttack;
+            base.OnEnable(sender, featureBaseEventArgs);
+
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
 }

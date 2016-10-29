@@ -19,37 +19,46 @@
 
         public DmgDraw(LucDamage damage)
         {
-            this.damage = damage;
+            this.Damage = damage;
         }
 
         private HeroHealthBarIndicator heroHealthBarIndicator;
 
-        public readonly LucDamage damage;
+        public readonly LucDamage Damage;
 
         public void OnDraw(EventArgs args)
         {
             if (ObjectManager.Player.IsDead) return;
 
-            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
+            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500) && ene.IsVisible))
             {
-                this.heroHealthBarIndicator.Unit = enemy;
-                this.heroHealthBarIndicator.DrawDmg(this.damage.GetComboDamage(enemy), enemy.Health <= this.damage.GetComboDamage(enemy) * 1.25 ? Color.LawnGreen : Color.Yellow);
+                heroHealthBarIndicator.Unit = enemy;
+
+                heroHealthBarIndicator.DrawDmg(Damage.GetComboDamage(enemy), enemy.Health <= Damage.GetComboDamage(enemy) * 1.25 
+                    ? Color.LawnGreen
+                    : Color.Yellow);
             }
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Drawing.OnDraw -= OnDraw;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Drawing.OnDraw += OnDraw;
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
-            this.heroHealthBarIndicator = new HeroHealthBarIndicator();
+            base.OnLoad(sender, featureBaseEventArgs);
+
+            heroHealthBarIndicator = new HeroHealthBarIndicator();
         }
     }
 }

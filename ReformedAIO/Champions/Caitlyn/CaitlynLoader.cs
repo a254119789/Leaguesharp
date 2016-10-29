@@ -6,12 +6,12 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Caitlyn.Drawings;
-    using ReformedAIO.Champions.Caitlyn.Killsteal;
-    using ReformedAIO.Champions.Caitlyn.Logic;
-    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo;
-    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Jungle;
-    using ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Lane;
+    using Caitlyn.Drawings;
+    using Caitlyn.Killsteal;
+    using Caitlyn.Logic;
+    using Caitlyn.OrbwalkingMode.Combo;
+    using Caitlyn.OrbwalkingMode.Jungle;
+    using Caitlyn.OrbwalkingMode.Lane;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
