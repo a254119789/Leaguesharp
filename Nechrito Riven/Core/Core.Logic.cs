@@ -110,7 +110,7 @@
 
             if (canQ && Spells.Q.IsReady())
             {
-                if (Items.CanUseItem(Item) && Item != 0)
+                if (Items.CanUseItem(Item) && Item != 0 && Qstack > 1)
                 {
                     Items.UseItem(Item);
                     Utility.DelayAction.Add(1, () => Spells.Q.Cast(Unit.Position));

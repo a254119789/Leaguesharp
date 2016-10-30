@@ -84,12 +84,11 @@
                     return;
                 }
 
-                var minions = MinionManager.GetMinions(Player.AttackRange + 360).Where(x => x != null);
-                    // Redundant af?? whatever
+                var minions = MinionManager.GetMinions(Player.AttackRange + 360);
 
                 foreach (var m in minions)
                 {
-                    if (!MenuConfig.LaneQ || m.UnderTurret(true))
+                    if (!MenuConfig.LaneQ || (m.UnderTurret(true) && ObjectManager.Player.CountEnemiesInRange(1500) >= 1))
                     {
                         return;
                     }
