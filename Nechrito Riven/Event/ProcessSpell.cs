@@ -15,7 +15,7 @@
 
         public static void OnProcessSpell(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsEnemy || !sender.IsValidTarget(Spells.W.Range + 65) || !InRange(sender))
+            if (!sender.IsEnemy || !sender.IsValidTarget(1000))
             {
                 return;
             }
@@ -28,7 +28,7 @@
                 }
             }
 
-            if (!WAntiSpell.Contains(args.SData.Name) || !Spells.W.IsReady())
+            if (!WAntiSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !InRange(sender))
             {
                 return;
             }

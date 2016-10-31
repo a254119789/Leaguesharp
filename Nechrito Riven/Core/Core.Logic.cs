@@ -77,7 +77,8 @@
            : Items.CanUseItem(3074) && Items.HasItem(3074)
            ? 3074
            : Items.CanUseItem(3748) && Items.HasItem(3748)
-           ? 3748 : 0;
+           ? 3748 
+           : 0;
 
         public static bool R1 { get; set; }
 
@@ -134,10 +135,11 @@
                 }
             }
 
-            if (R1 && Spells.R.Instance.Name == IsFirstR)
+            if (!R1 || Spells.R.Instance.Name != IsFirstR)
             {
-                Spells.R.Cast();
+                return;
             }
+            Spells.R.Cast();
         }
 
         public static void CastQ(AttackableUnit x)

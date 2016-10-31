@@ -57,7 +57,7 @@ namespace NechritoRiven
         /// <summary>
         ///     The last auto attack tick
         /// </summary>
-        public static int LastAATick;
+        public static int LastAaTick;
 
         /// <summary>
         ///     The tick the most recent attack command was sent.
@@ -82,7 +82,7 @@ namespace NechritoRiven
         /// <summary>
         ///     The random
         /// </summary>
-        private static readonly Random _random = new Random(DateTime.Now.Millisecond);
+        private static readonly Random Random = new Random(DateTime.Now.Millisecond);
 
         /// <summary>
         ///     Spells that are attacks even if they dont have the "attack" word in their name.
@@ -125,27 +125,27 @@ namespace NechritoRiven
         /// <summary>
         ///     The champion name
         /// </summary>
-        private static string _championName;
+        public static string ChampionName { get; }
 
         /// <summary>
-        ///     The delay
+        ///     The movementDelay
         /// </summary>
-        private static int _delay;
+        public static int MovementDelay { get; private set; }
 
         /// <summary>
         ///     The last target
         /// </summary>
-        private static AttackableUnit _lastTarget;
+        private static AttackableUnit lastTarget;
 
         /// <summary>
         ///     The minimum distance
         /// </summary>
-        private static float _minDistance = 400;
+        private static float minDistance = 400;
 
         /// <summary>
         ///     <c>true</c> if the auto attack missile was launched from the player.
         /// </summary>
-        private static bool _missileLaunched;
+        private static bool missileLaunched;
 
         #endregion
 
@@ -157,7 +157,8 @@ namespace NechritoRiven
         static Orbwalking()
         {
             Player = ObjectManager.Player;
-            _championName = Player.ChampionName;
+            ChampionName = Player.ChampionName;
+
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpell;
             Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
             Spellbook.OnStopCast += SpellbookOnStopCast;
@@ -267,7 +268,7 @@ namespace NechritoRiven
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack()
         {
-            return Utils.GameTimeTickCount >= LastAATick + Player.AttackDelay * 1000 && Attack;
+            return Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 && Attack;
         }
 
         /// <summary>
@@ -282,12 +283,12 @@ namespace NechritoRiven
                 return false;
             }
 
-            if (_missileLaunched && Orbwalker.MissileCheck)
+            if (missileLaunched && Orbwalker.MissileCheck)
             {
                 return true;
             }
 
-            return Utils.GameTimeTickCount >= LastAATick + Player.AttackCastDelay * 1000 + extraWindup;
+            return Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup;
         }
 
         /// <summary>
@@ -327,21 +328,25 @@ namespace NechritoRiven
         public static float GetRealAutoAttackRange(AttackableUnit target)
         {
             var result = Player.AttackRange + Player.BoundingRadius;
-            if (target.IsValidTarget())
-            {
-                var aiBase = target as Obj_AI_Base;
-                if (aiBase != null && Player.ChampionName == "Caitlyn")
-                {
-                    if (aiBase.HasBuff("caitlynyordletrapinternal"))
-                    {
-                        result += 650;
-                    }
-                }
 
+            if (!target.IsValidTarget())
+            {
+                return result;
+            }
+
+            var aiBase = target as Obj_AI_Base;
+
+            if (aiBase == null || Player.ChampionName != "Caitlyn")
+            {
                 return result + target.BoundingRadius;
             }
 
-            return result;
+            if (aiBase.HasBuff("caitlynyordletrapinternal"))
+            {
+                result += 650;
+            }
+
+            return result + target.BoundingRadius;
         }
 
         /// <summary>
@@ -356,8 +361,9 @@ namespace NechritoRiven
                 return false;
             }
             var myRange = GetRealAutoAttackRange(target);
-            return Vector2.DistanceSquared(
-                (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
+
+            return Vector2.DistanceSquared((target as Obj_AI_Base)?.ServerPosition.To2D() 
+                ?? target.Position.To2D(),
                 Player.ServerPosition.To2D()) <= myRange * myRange;
         }
 
@@ -368,8 +374,7 @@ namespace NechritoRiven
         /// <returns><c>true</c> if the name is an auto attack; otherwise, <c>false</c>.</returns>
         public static bool IsAutoAttack(string name)
         {
-            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower()))
-                   || Attacks.Contains(name.ToLower());
+            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower())) || Attacks.Contains(name.ToLower());
         }
 
         /// <summary>
@@ -391,12 +396,16 @@ namespace NechritoRiven
 
             if (playerPosition.Distance(position, true) < holdAreaRadius * holdAreaRadius)
             {
-                if (Player.Path.Length > 0)
+                if (Player.Path.Length <= 0)
                 {
-                    Player.IssueOrder(GameObjectOrder.Stop, playerPosition);
-                    LastMoveCommandPosition = playerPosition;
-                    LastMoveCommandT = Utils.GameTimeTickCount - 70;
+                    return;
                 }
+
+                Player.IssueOrder(GameObjectOrder.Stop, playerPosition);
+
+                LastMoveCommandPosition = playerPosition;
+                LastMoveCommandT = Utils.GameTimeTickCount - 70;
+
                 return;
             }
 
@@ -404,12 +413,13 @@ namespace NechritoRiven
 
             if (Player.Distance(point, true) < 150 * 150)
             {
-                point = playerPosition.Extend(
-                    position,
-                    randomizeMinDistance ? (_random.NextFloat(0.6f, 1) + 0.2f) * _minDistance : _minDistance);
+                point = playerPosition.Extend(position, randomizeMinDistance
+                    ? (Random.NextFloat(0.6f, 1) + 0.2f) * minDistance 
+                    : minDistance);
             }
             var angle = 0f;
             var currentPath = Player.GetWaypoints();
+
             if (currentPath.Count > 1 && currentPath.PathLength() > 100)
             {
                 var movePath = Player.GetPath(point);
@@ -428,8 +438,7 @@ namespace NechritoRiven
                 }
             }
 
-            if (Utils.GameTimeTickCount - LastMoveCommandT < 70 + Math.Min(60, Game.Ping) && !overrideTimer
-                && angle < 60)
+            if (Utils.GameTimeTickCount - LastMoveCommandT < 70 + Math.Min(60, Game.Ping) && !overrideTimer && angle < 60)
             {
                 return;
             }
@@ -453,13 +462,7 @@ namespace NechritoRiven
         /// <param name="holdAreaRadius">The hold area radius.</param>
         /// <param name="useFixedDistance">if set to <c>true</c> [use fixed distance].</param>
         /// <param name="randomizeMinDistance">if set to <c>true</c> [randomize minimum distance].</param>
-        public static void Orbwalk(
-            AttackableUnit target,
-            Vector3 position,
-            float extraWindup = 90,
-            float holdAreaRadius = 0,
-            bool useFixedDistance = true,
-            bool randomizeMinDistance = true)
+        public static void Orbwalk(AttackableUnit target, Vector3 position, float extraWindup = 90, float holdAreaRadius = 0, bool useFixedDistance = true, bool randomizeMinDistance = true)
         {
             if (Utils.GameTimeTickCount - LastAttackCommandT < 70 + Math.Min(60, Game.Ping))
             {
@@ -472,17 +475,20 @@ namespace NechritoRiven
                 {
                     DisableNextAttack = false;
                     FireBeforeAttack(target);
+
                     Player.IssueOrder(GameObjectOrder.AttackUnit, target);
-                    if (!DisableNextAttack)
+
+                    if (DisableNextAttack)
                     {
-                        if (Player.IssueOrder(GameObjectOrder.AttackUnit, target))
-                        {
-                            LastAttackCommandT = Utils.GameTimeTickCount;
-                            _lastTarget = target;
-                        }
+                        return;
+                    }
+
+                    if (Player.IssueOrder(GameObjectOrder.AttackUnit, target))
+                    {
+                        LastAttackCommandT = Utils.GameTimeTickCount;
+                        lastTarget = target;
                     }
                 }
-
                 else if (CanMove(extraWindup))
                 {
                     MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance);
@@ -499,7 +505,7 @@ namespace NechritoRiven
         /// </summary>
         public static void ResetAutoAttackTimer()
         {
-            LastAATick = 0;
+            LastAaTick = 0;
         }
 
         /// <summary>
@@ -508,16 +514,16 @@ namespace NechritoRiven
         /// <param name="d">The d.</param>
         public static void SetMinimumOrbwalkDistance(float d)
         {
-            _minDistance = d;
+            minDistance = d;
         }
 
         /// <summary>
-        ///     Sets the movement delay.
+        ///     Sets the movement movementDelay.
         /// </summary>
-        /// <param name="delay">The delay.</param>
+        /// <param name="delay">The movementDelay.</param>
         public static void SetMovementDelay(int delay)
         {
-            _delay = delay;
+            MovementDelay = delay;
         }
 
         #endregion
@@ -578,9 +584,9 @@ namespace NechritoRiven
         /// <param name="newTarget">The new target.</param>
         private static void FireOnTargetSwitch(AttackableUnit newTarget)
         {
-            if (OnTargetChange != null && (!_lastTarget.IsValidTarget() || _lastTarget != newTarget))
+            if (OnTargetChange != null && (!lastTarget.IsValidTarget() || lastTarget != newTarget))
             {
-                OnTargetChange(_lastTarget, newTarget);
+                OnTargetChange(lastTarget, newTarget);
             }
         }
 
@@ -591,16 +597,18 @@ namespace NechritoRiven
         /// <param name="args">The <see cref="GameObjectProcessSpellCastEventArgs" /> instance containing the event data.</param>
         private static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsMe)
+            if (!sender.IsMe)
             {
-                if (Game.Ping <= 30) //First world problems kappa
-                {
-                    Utility.DelayAction.Add(30, () => Obj_AI_Base_OnDoCast_Delayed(sender, args));
-                    return;
-                }
-
-                Obj_AI_Base_OnDoCast_Delayed(sender, args);
+                return;
             }
+
+            if (Game.Ping <= 30) //First world problems kappa
+            {
+                Utility.DelayAction.Add(30, () => Obj_AI_Base_OnDoCast_Delayed(sender, args));
+                return;
+            }
+
+            Obj_AI_Base_OnDoCast_Delayed(sender, args);
         }
 
         /// <summary>
@@ -610,23 +618,25 @@ namespace NechritoRiven
         /// <param name="args">The <see cref="GameObjectProcessSpellCastEventArgs" /> instance containing the event data.</param>
         private static void Obj_AI_Base_OnDoCast_Delayed(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (IsAutoAttack(args.SData.Name))
+            if (!IsAutoAttack(args.SData.Name))
             {
-                FireAfterAttack(sender, args.Target as AttackableUnit);
-                _missileLaunched = true;
+                return;
             }
+
+            FireAfterAttack(sender, args.Target as AttackableUnit);
+            missileLaunched = true;
         }
 
         /// <summary>
         ///     Handles the <see cref="E:ProcessSpell" /> event.
         /// </summary>
         /// <param name="unit">The unit.</param>
-        /// <param name="Spell">The <see cref="GameObjectProcessSpellCastEventArgs" /> instance containing the event data.</param>
-        private static void OnProcessSpell(Obj_AI_Base unit, GameObjectProcessSpellCastEventArgs Spell)
+        /// <param name="spell">The <see cref="GameObjectProcessSpellCastEventArgs" /> instance containing the event data.</param>
+        private static void OnProcessSpell(Obj_AI_Base unit, GameObjectProcessSpellCastEventArgs spell)
         {
             try
             {
-                var spellName = Spell.SData.Name;
+                var spellName = spell.SData.Name;
 
                 if (!IsAutoAttack(spellName))
                 {
@@ -634,25 +644,28 @@ namespace NechritoRiven
                 }
 
                 if (unit.IsMe
-                    && (Spell.Target is Obj_AI_Base || Spell.Target is Obj_BarracksDampener || Spell.Target is Obj_HQ))
+                    && (spell.Target is Obj_AI_Base
+                    || spell.Target is Obj_BarracksDampener
+                    || spell.Target is Obj_HQ))
                 {
-                    LastAATick = Utils.GameTimeTickCount - Game.Ping / 2;
-                    _missileLaunched = false;
+                    LastAaTick = Utils.GameTimeTickCount - Game.Ping / 2;
+
+                    missileLaunched = false;
                     LastMoveCommandT = 0;
 
-                    var @base = Spell.Target as Obj_AI_Base;
+                    var @base = spell.Target as Obj_AI_Base;
                     if (@base != null)
                     {
                         var target = @base;
                         if (target.IsValid)
                         {
                             FireOnTargetSwitch(target);
-                            _lastTarget = target;
+                            lastTarget = target;
                         }
                     }
                 }
 
-                FireOnAttack(unit, _lastTarget);
+                FireOnAttack(unit, lastTarget);
             }
             catch (Exception e)
             {
@@ -695,7 +708,7 @@ namespace NechritoRiven
             /// <summary>
             ///     <c>true</c> if the orbwalker should continue with the attack.
             /// </summary>
-            private bool _process = true;
+            private bool process = true;
 
             #endregion
 
@@ -709,12 +722,12 @@ namespace NechritoRiven
             {
                 get
                 {
-                    return _process;
+                    return process;
                 }
                 set
                 {
                     DisableNextAttack = !value;
-                    _process = value;
+                    process = value;
                 }
             }
 
@@ -746,7 +759,7 @@ namespace NechritoRiven
             /// <summary>
             ///     The configuration
             /// </summary>
-            private static Menu _config;
+            private static Menu config;
 
             #endregion
 
@@ -755,32 +768,32 @@ namespace NechritoRiven
             /// <summary>
             ///     The player
             /// </summary>
-            private readonly Obj_AI_Hero Player;
+            private readonly Obj_AI_Hero player;
 
             /// <summary>
             ///     The forced target
             /// </summary>
-            private Obj_AI_Base _forcedTarget;
+            private Obj_AI_Base forcedTarget;
 
             /// <summary>
             ///     The orbalker mode
             /// </summary>
-            private OrbwalkingMode _mode = OrbwalkingMode.None;
+            private OrbwalkingMode mode = OrbwalkingMode.None;
 
             /// <summary>
             ///     The orbwalking point
             /// </summary>
-            private Vector3 _orbwalkingPoint;
+            private Vector3 orbwalkingPoint;
 
             /// <summary>
             ///     The previous minion the orbwalker was targeting.
             /// </summary>
-            private Obj_AI_Minion _prevMinion;
+            private Obj_AI_Minion prevMinion;
 
             /// <summary>
             ///     The name of the CustomMode if it is set.
             /// </summary>
-            private string CustomModeName;
+            private string customModeName;
 
             #endregion
 
@@ -792,7 +805,7 @@ namespace NechritoRiven
             /// <param name="attachToMenu">The menu the orbwalker should attach to.</param>
             public Orbwalker(Menu attachToMenu)
             {
-                _config = attachToMenu;
+                config = attachToMenu;
                 /* Drawings submenu */
                 var drawings = new Menu("Drawings", "drawings");
                 drawings.AddItem(
@@ -805,12 +818,12 @@ namespace NechritoRiven
                     new MenuItem("HoldZone", "HoldZone").SetShared()
                         .SetValue(new Circle(false, Color.FromArgb(155, 255, 255, 0))));
                 drawings.AddItem(new MenuItem("AALineWidth", "Line Width")).SetShared().SetValue(new Slider(2, 1, 6));
-                _config.AddSubMenu(drawings);
+                config.AddSubMenu(drawings);
 
                 /* Misc options */
                 var misc = new Menu("Misc", "Misc");
                 misc.AddItem(
-                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetShared().SetValue(new Slider(0, 0, 250)));
+                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetShared().SetValue(new Slider(50, 50, 250)));
                 misc.AddItem(new MenuItem("PriorizeFarm", "Priorize farm over harass").SetShared().SetValue(true));
                 misc.AddItem(new MenuItem("AttackWards", "Auto attack wards").SetShared().SetValue(false));
                 misc.AddItem(new MenuItem("AttackPetsnTraps", "Auto attack pets & traps").SetShared().SetValue(true));
@@ -820,45 +833,46 @@ namespace NechritoRiven
                     new MenuItem("FocusMinionsOverTurrets", "Focus minions over objectives").SetShared()
                         .SetValue(new KeyBind('M', KeyBindType.Toggle)));
 
-                _config.AddSubMenu(misc);
+                config.AddSubMenu(misc);
 
                 /* Missile check */
-                _config.AddItem(new MenuItem("MissileCheck", "Use Missile Check").SetShared().SetValue(true));
+                config.AddItem(new MenuItem("MissileCheck", "Use Missile Check").SetShared().SetValue(true));
 
                 /* Delay sliders */
-                _config.AddItem(new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(35)));
-                _config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(0)));
+                config.AddItem(new MenuItem("ExtraWindup", "Extra windup time").SetShared().SetValue(new Slider(50)));
+                config.AddItem(new MenuItem("FarmDelay", "Farm movementDelay").SetShared().SetValue(new Slider(0)));
 
                 /*Load the menu*/
 
-                _config.AddItem(new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
+                config.AddItem(new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
 
-                _config.AddItem(
+                config.AddItem(
                     new MenuItem("LastHit", "Last hit").SetShared().SetValue(new KeyBind('X', KeyBindType.Press)));
 
-                _config.AddItem(new MenuItem("Farm", "Mixed").SetShared().SetValue(new KeyBind('C', KeyBindType.Press)));
+                config.AddItem(new MenuItem("Farm", "Mixed").SetShared().SetValue(new KeyBind('C', KeyBindType.Press)));
 
-                _config.AddItem(new MenuItem("LWH", "Last Hit While Harass").SetShared().SetValue(false));
+                config.AddItem(new MenuItem("LWH", "Last Hit While Harass").SetShared().SetValue(false));
 
-                _config.AddItem(
+                config.AddItem(
                     new MenuItem("LaneClear", "LaneClear").SetShared().SetValue(new KeyBind('V', KeyBindType.Press)));
 
-                _config.AddItem(
+                config.AddItem(
                     new MenuItem("Orbwalk", "Combo").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
 
-                _config.AddItem(
+                config.AddItem(
                     new MenuItem("Burst", "Burst").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
 
-                _config.AddItem(
+                config.AddItem(
                     new MenuItem("FastHarass", "Fast Harass").SetShared().SetValue(new KeyBind('Y', KeyBindType.Press)));
 
-                _config.AddItem(
+                config.AddItem(
                     new MenuItem("StillCombo", "Combo without moving").SetShared()
                         .SetValue(new KeyBind('N', KeyBindType.Press)));
 
-                Player = ObjectManager.Player;
+                player = ObjectManager.Player;
                 Game.OnUpdate += GameOnOnGameUpdate;
                 Drawing.OnDraw += DrawingOnOnDraw;
+
                 Instances.Add(this);
             }
 
@@ -870,7 +884,7 @@ namespace NechritoRiven
             ///     Gets a value indicating whether the orbwalker is orbwalking by checking the missiles.
             /// </summary>
             /// <value><c>true</c> if the orbwalker is orbwalking by checking the missiles; otherwise, <c>false</c>.</value>
-            public static bool MissileCheck => _config.Item("MissileCheck").GetValue<bool>();
+            public static bool MissileCheck => config.Item("MissileCheck").GetValue<bool>();
 
             /// <summary>
             ///     Gets or sets the active mode.
@@ -880,52 +894,52 @@ namespace NechritoRiven
             {
                 get
                 {
-                    if (_mode != OrbwalkingMode.None)
+                    if (mode != OrbwalkingMode.None)
                     {
-                        return _mode;
+                        return mode;
                     }
 
-                    if (_config.Item("Orbwalk").GetValue<KeyBind>().Active)
-                    {
-                        return OrbwalkingMode.Combo;
-                    }
-
-                    if (_config.Item("StillCombo").GetValue<KeyBind>().Active)
+                    if (config.Item("Orbwalk").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Combo;
                     }
 
-                    if (_config.Item("LaneClear").GetValue<KeyBind>().Active)
+                    if (config.Item("StillCombo").GetValue<KeyBind>().Active)
+                    {
+                        return OrbwalkingMode.Combo;
+                    }
+
+                    if (config.Item("LaneClear").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.LaneClear;
                     }
 
-                    if (_config.Item("Farm").GetValue<KeyBind>().Active)
+                    if (config.Item("Farm").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Mixed;
                     }
 
-                    if (_config.Item("LastHit").GetValue<KeyBind>().Active)
+                    if (config.Item("LastHit").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.LastHit;
                     }
 
-                    if (_config.Item("Flee").GetValue<KeyBind>().Active)
+                    if (config.Item("Flee").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Flee;
                     }
 
-                    if (_config.Item("FastHarass").GetValue<KeyBind>().Active)
+                    if (config.Item("FastHarass").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.FastHarass;
                     }
 
-                    if (_config.Item("Burst").GetValue<KeyBind>().Active)
+                    if (config.Item("Burst").GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.Burst;
                     }
 
-                    if (_config.Item(CustomModeName) != null && _config.Item(CustomModeName).GetValue<KeyBind>().Active)
+                    if (config.Item(customModeName) != null && config.Item(customModeName).GetValue<KeyBind>().Active)
                     {
                         return OrbwalkingMode.CustomMode;
                     }
@@ -934,7 +948,7 @@ namespace NechritoRiven
                 }
                 set
                 {
-                    _mode = value;
+                    mode = value;
                 }
             }
 
@@ -943,10 +957,10 @@ namespace NechritoRiven
             #region Properties
 
             /// <summary>
-            ///     Gets the farm delay.
+            ///     Gets the farm movementDelay.
             /// </summary>
-            /// <value>The farm delay.</value>
-            private int FarmDelay => _config.Item("FarmDelay").GetValue<Slider>().Value;
+            /// <value>The farm movementDelay.</value>
+            private static int FarmDelay => config.Item("FarmDelay").GetValue<Slider>().Value;
 
             #endregion
 
@@ -958,7 +972,7 @@ namespace NechritoRiven
             /// <param name="target">The target.</param>
             public void ForceTarget(Obj_AI_Base target)
             {
-                _forcedTarget = target;
+                forcedTarget = target;
             }
 
             /// <summary>
@@ -969,11 +983,13 @@ namespace NechritoRiven
             {
                 AttackableUnit result = null;
 
-                if ((ActiveMode == OrbwalkingMode.Mixed || ActiveMode == OrbwalkingMode.LaneClear)
-                    && !_config.Item("PriorizeFarm").GetValue<bool>())
+                if ((ActiveMode == OrbwalkingMode.Mixed
+                    || ActiveMode == OrbwalkingMode.LaneClear)
+                    && !config.Item("PriorizeFarm").GetValue<bool>())
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target != null && InAutoAttackRange(target))
+
+                    if (target != null && InAutoRange(target))
                     {
                         return target;
                     }
@@ -981,41 +997,42 @@ namespace NechritoRiven
 
                 /*Killable Minion*/
                 if (ActiveMode == OrbwalkingMode.LaneClear
-                    || (ActiveMode == OrbwalkingMode.Mixed && _config.Item("LWH").GetValue<bool>())
+                    || (ActiveMode == OrbwalkingMode.Mixed && config.Item("LWH").GetValue<bool>())
                     || ActiveMode == OrbwalkingMode.LastHit)
                 {
-                    var MinionList =
+                    var minionList =
                         ObjectManager.Get<Obj_AI_Minion>()
-                            .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion))
+                            .Where(minion => minion.IsValidTarget() && InAutoRange(minion))
                             .OrderByDescending(minion => minion.CharData.BaseSkinName.Contains("Siege"))
                             .ThenBy(minion => minion.CharData.BaseSkinName.Contains("Super"))
                             .ThenBy(minion => minion.Health)
                             .ThenByDescending(minion => minion.MaxHealth);
 
-                    foreach (var minion in MinionList)
+                    foreach (var minion in minionList)
                     {
-                        var t = (int)(Player.AttackCastDelay * 1000) - 100 + Game.Ping / 2
-                                + 1000 * (int)Math.Max(0, Player.Distance(minion) - Player.BoundingRadius)
+                        var t = (int)(player.AttackCastDelay * 1000) - 100 + Game.Ping / 2
+                                + 1000 * (int)Math.Max(0, player.Distance(minion) - player.BoundingRadius)
                                 / int.MaxValue;
+
                         var predHealth = HealthPrediction.GetHealthPrediction(minion, t, FarmDelay);
 
                         if (minion.Team != GameObjectTeam.Neutral
-                            && (_config.Item("AttackPetsnTraps").GetValue<bool>()
+                            && (config.Item("AttackPetsnTraps").GetValue<bool>()
                                 && minion.CharData.BaseSkinName != "jarvanivstandard"
-                                || MinionManager.IsMinion(minion, _config.Item("AttackWards").GetValue<bool>())))
+                                || MinionManager.IsMinion(minion, config.Item("AttackWards").GetValue<bool>())))
                         {
                             if (predHealth <= 0)
                             {
                                 FireOnNonKillableMinion(minion);
                             }
 
-                            if (predHealth > 0 && predHealth <= Player.GetAutoAttackDamage(minion, true))
+                            if (predHealth > 0 && predHealth <= player.GetAutoAttackDamage(minion, true))
                             {
                                 return minion;
                             }
                         }
 
-                        if (minion.Team == GameObjectTeam.Neutral && _config.Item("AttackBarrel").GetValue<bool>()
+                        if (minion.Team == GameObjectTeam.Neutral && config.Item("AttackBarrel").GetValue<bool>()
                             && minion.CharData.BaseSkinName == "gangplankbarrel" && minion.IsHPBarRendered)
                         {
                             if (minion.Health < 2)
@@ -1027,35 +1044,30 @@ namespace NechritoRiven
                 }
 
                 //Forced target
-                if (_forcedTarget.IsValidTarget() && InAutoAttackRange(_forcedTarget))
+                if (forcedTarget.IsValidTarget() && InAutoRange(forcedTarget))
                 {
-                    return _forcedTarget;
+                    return forcedTarget;
                 }
 
                 /* turrets / inhibitors / nexus */
                 if (ActiveMode == OrbwalkingMode.LaneClear
-                    && (!_config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active
-                        || !MinionManager.GetMinions(
-                            ObjectManager.Player.Position,
-                            GetRealAutoAttackRange(ObjectManager.Player)).Any()))
+                    && (!config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active
+                        || !MinionManager.GetMinions(ObjectManager.Player.Position, GetRealAutoAttackRange(ObjectManager.Player)).Any()))
                 {
                     /* turrets */
-                    foreach (var turret in
-                        ObjectManager.Get<Obj_AI_Turret>().Where(t => t.IsValidTarget() && InAutoAttackRange(t)))
+                    foreach (var turret in ObjectManager.Get<Obj_AI_Turret>().Where(t => t.IsValidTarget() && InAutoRange(t)))
                     {
                         return turret;
                     }
 
                     /* inhibitor */
-                    foreach (var turret in
-                        ObjectManager.Get<Obj_BarracksDampener>().Where(t => t.IsValidTarget() && InAutoAttackRange(t)))
+                    foreach (var turret in ObjectManager.Get<Obj_BarracksDampener>().Where(t => t.IsValidTarget() && InAutoRange(t)))
                     {
                         return turret;
                     }
 
                     /* nexus */
-                    foreach (var nexus in
-                        ObjectManager.Get<Obj_HQ>().Where(t => t.IsValidTarget() && InAutoAttackRange(t)))
+                    foreach (var nexus in ObjectManager.Get<Obj_HQ>().Where(t => t.IsValidTarget() && InAutoRange(t)))
                     {
                         return nexus;
                     }
@@ -1065,7 +1077,7 @@ namespace NechritoRiven
                 if (ActiveMode != OrbwalkingMode.LastHit && ActiveMode != OrbwalkingMode.Flee)
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target.IsValidTarget() && InAutoAttackRange(target))
+                    if (target.IsValidTarget() && InAutoRange(target))
                     {
                         return target;
                     }
@@ -1078,10 +1090,10 @@ namespace NechritoRiven
                         ObjectManager.Get<Obj_AI_Minion>()
                             .Where(
                                 mob =>
-                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && this.InAutoAttackRange(mob)
+                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && this.InAutoRange(mob)
                                 && mob.CharData.BaseSkinName != "gangplankbarrel");
 
-                    result = _config.Item("Smallminionsprio").GetValue<bool>()
+                    result = config.Item("Smallminionsprio").GetValue<bool>()
                                  ? jminions.MinOrDefault(mob => mob.MaxHealth)
                                  : jminions.MaxOrDefault(mob => mob.MaxHealth);
 
@@ -1096,16 +1108,16 @@ namespace NechritoRiven
                 {
                     if (!ShouldWait())
                     {
-                        if (_prevMinion.IsValidTarget() && InAutoAttackRange(_prevMinion))
+                        if (prevMinion.IsValidTarget() && InAutoRange(prevMinion))
                         {
                             var predHealth = HealthPrediction.LaneClearHealthPrediction(
-                                _prevMinion,
-                                (int)(Player.AttackDelay * 1000 * LaneClearWaitTimeMod),
+                                prevMinion,
+                                (int)(player.AttackDelay * 1000 * LaneClearWaitTimeMod),
                                 FarmDelay);
-                            if (predHealth >= 2 * Player.GetAutoAttackDamage(_prevMinion)
-                                || Math.Abs(predHealth - _prevMinion.Health) < float.Epsilon)
+                            if (predHealth >= 2 * player.GetAutoAttackDamage(prevMinion)
+                                || Math.Abs(predHealth - prevMinion.Health) < float.Epsilon)
                             {
-                                return _prevMinion;
+                                return prevMinion;
                             }
                         }
 
@@ -1113,29 +1125,29 @@ namespace NechritoRiven
                                       ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
                                           minion =>
-                                          minion.IsValidTarget() && InAutoAttackRange(minion)
-                                          && (_config.Item("AttackWards").GetValue<bool>()
+                                          minion.IsValidTarget() && InAutoRange(minion)
+                                          && (config.Item("AttackWards").GetValue<bool>()
                                               || !MinionManager.IsWard(minion))
-                                          && (_config.Item("AttackPetsnTraps").GetValue<bool>()
+                                          && (config.Item("AttackPetsnTraps").GetValue<bool>()
                                               && minion.CharData.BaseSkinName != "jarvanivstandard"
                                               || MinionManager.IsMinion(
                                                   minion,
-                                                  _config.Item("AttackWards").GetValue<bool>()))
+                                                  config.Item("AttackWards").GetValue<bool>()))
                                           && minion.CharData.BaseSkinName != "gangplankbarrel")
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
                                           minion,
-                                          (int)(Player.AttackDelay * 1000 * LaneClearWaitTimeMod),
+                                          (int)(player.AttackDelay * 1000 * LaneClearWaitTimeMod),
                                           FarmDelay)
                                   where
-                                      predHealth >= 2 * Player.GetAutoAttackDamage(minion)
+                                      predHealth >= 2 * player.GetAutoAttackDamage(minion)
                                       || Math.Abs(predHealth - minion.Health) < float.Epsilon
                                   select minion).MaxOrDefault(
                                       m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
 
                         if (result != null)
                         {
-                            _prevMinion = (Obj_AI_Minion)result;
+                            prevMinion = (Obj_AI_Minion)result;
                         }
                     }
                 }
@@ -1148,9 +1160,9 @@ namespace NechritoRiven
             /// </summary>
             /// <param name="target">The target.</param>
             /// <returns><c>true</c> if a target is in auto attack range, <c>false</c> otherwise.</returns>
-            public virtual bool InAutoAttackRange(AttackableUnit target)
+            protected virtual bool InAutoRange(AttackableUnit target)
             {
-                return Orbwalking.InAutoAttackRange(target);
+                return InAutoAttackRange(target);
             }
 
             /// <summary>
@@ -1161,10 +1173,10 @@ namespace NechritoRiven
             /// <param name="key">The default key for this mode.</param>
             public virtual void RegisterCustomMode(string name, string displayname, uint key)
             {
-                CustomModeName = name;
-                if (_config.Item(name) == null)
+                customModeName = name;
+                if (config.Item(name) == null)
                 {
-                    _config.AddItem(
+                    config.AddItem(
                         new MenuItem(name, displayname).SetShared().SetValue(new KeyBind(key, KeyBindType.Press)));
                 }
             }
@@ -1193,7 +1205,7 @@ namespace NechritoRiven
             /// <param name="point">The point.</param>
             public void SetOrbwalkingPoint(Vector3 point)
             {
-                _orbwalkingPoint = point;
+                orbwalkingPoint = point;
             }
 
             #endregion
@@ -1206,16 +1218,16 @@ namespace NechritoRiven
             /// <param name="args">The <see cref="EventArgs" /> instance containing the event data.</param>
             private void DrawingOnOnDraw(EventArgs args)
             {
-                if (_config.Item("AACircle").GetValue<Circle>().Active)
+                if (config.Item("AACircle").GetValue<Circle>().Active)
                 {
                     Render.Circle.DrawCircle(
-                        Player.Position,
+                        player.Position,
                         GetRealAutoAttackRange(null) + 65,
-                        _config.Item("AACircle").GetValue<Circle>().Color,
-                        _config.Item("AALineWidth").GetValue<Slider>().Value);
+                        config.Item("AACircle").GetValue<Circle>().Color,
+                        config.Item("AALineWidth").GetValue<Slider>().Value);
                 }
 
-                if (_config.Item("AACircle2").GetValue<Circle>().Active)
+                if (config.Item("AACircle2").GetValue<Circle>().Active)
                 {
                     foreach (var target in
                         HeroManager.Enemies.FindAll(target => target.IsValidTarget(1175)))
@@ -1223,22 +1235,22 @@ namespace NechritoRiven
                         Render.Circle.DrawCircle(
                             target.Position,
                             GetAttackRange(target),
-                            _config.Item("AACircle2").GetValue<Circle>().Color,
-                            _config.Item("AALineWidth").GetValue<Slider>().Value);
+                            config.Item("AACircle2").GetValue<Circle>().Color,
+                            config.Item("AALineWidth").GetValue<Slider>().Value);
                     }
                 }
 
-                if (_config.Item("HoldZone").GetValue<Circle>().Active)
+                if (config.Item("HoldZone").GetValue<Circle>().Active)
                 {
                     Render.Circle.DrawCircle(
-                        Player.Position,
-                        _config.Item("HoldPosRadius").GetValue<Slider>().Value,
-                        _config.Item("HoldZone").GetValue<Circle>().Color,
-                        _config.Item("AALineWidth").GetValue<Slider>().Value,
+                        player.Position,
+                        config.Item("HoldPosRadius").GetValue<Slider>().Value,
+                        config.Item("HoldZone").GetValue<Circle>().Color,
+                        config.Item("AALineWidth").GetValue<Slider>().Value,
                         true);
                 }
-                _config.Item("FocusMinionsOverTurrets")
-                    .Permashow(_config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active);
+                config.Item("FocusMinionsOverTurrets")
+                    .Permashow(config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active);
             }
 
             /// <summary>
@@ -1255,10 +1267,10 @@ namespace NechritoRiven
                     }
 
                     //Block movement if StillCombo is used
-                    Move = !_config.Item("StillCombo").GetValue<KeyBind>().Active;
+                    Move = !config.Item("StillCombo").GetValue<KeyBind>().Active;
 
                     //Prevent canceling important spells
-                    if (Player.IsCastingInterruptableSpell(true))
+                    if (player.IsCastingInterruptableSpell(true))
                     {
                         return;
                     }
@@ -1266,9 +1278,9 @@ namespace NechritoRiven
                     var target = GetTarget();
                     Orbwalk(
                         target,
-                        _orbwalkingPoint.To2D().IsValid() ? _orbwalkingPoint : Game.CursorPos,
-                        _config.Item("ExtraWindup").GetValue<Slider>().Value,
-                        Math.Max(_config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
+                        orbwalkingPoint.To2D().IsValid() ? orbwalkingPoint : Game.CursorPos,
+                        config.Item("ExtraWindup").GetValue<Slider>().Value,
+                        Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
                 }
                 catch (Exception e)
                 {
@@ -1286,12 +1298,12 @@ namespace NechritoRiven
                     ObjectManager.Get<Obj_AI_Minion>()
                         .Any(
                             minion =>
-                            minion.IsValidTarget() && minion.Team != GameObjectTeam.Neutral && InAutoAttackRange(minion)
-                            && MinionManager.IsMinion(minion, false)
+                            minion.IsValidTarget() && minion.Team != GameObjectTeam.Neutral && InAutoRange(minion)
+                            && MinionManager.IsMinion(minion)
                             && HealthPrediction.LaneClearHealthPrediction(
                                 minion,
-                                (int)(Player.AttackDelay * 1000 * LaneClearWaitTimeMod),
-                                FarmDelay) <= Player.GetAutoAttackDamage(minion));
+                                (int)(player.AttackDelay * 1000 * LaneClearWaitTimeMod),
+                                FarmDelay) <= player.GetAutoAttackDamage(minion));
             }
 
             #endregion

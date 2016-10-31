@@ -34,6 +34,11 @@
 
             foreach (var target in targets)
             {
+                if (target.HasBuff("FioraW") && Qstack == 3)
+                {
+                    return;
+                }
+
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
                     if (Spells.Q.IsReady())
