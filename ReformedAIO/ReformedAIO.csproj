@@ -145,7 +145,7 @@
     <Compile Include="Champions\Ezreal\OrbwalkingMode\JungleClear\WJungle.cs" />
     <Compile Include="Champions\Ezreal\OrbwalkingMode\LaneClear\QLane.cs" />
     <Compile Include="Champions\Ezreal\OrbwalkingMode\LaneClear\WLane.cs" />
-    <Compile Include="Champions\Ezreal\OrbwalkingMode\None\StackTear.cs" />
+    <Compile Include="Champions\Ezreal\OrbwalkingMode\Stack\StackTear.cs" />
     <Compile Include="Champions\Gnar\Core\Dmg.cs" />
     <Compile Include="Champions\Gnar\Core\GnarState.cs" />
     <Compile Include="Champions\Gnar\Core\Spells.cs" />
