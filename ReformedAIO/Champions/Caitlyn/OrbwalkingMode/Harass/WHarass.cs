@@ -10,13 +10,13 @@
 
     using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class WCombo : OrbwalkingChild
+    internal sealed class WHarass : OrbwalkingChild
     {
         public override string Name { get; set; } = "W";
 
         private readonly WSpell wSpell;
 
-        public WCombo(WSpell wSpell)
+        public WHarass(WSpell wSpell)
         {
             this.wSpell = wSpell;
         }
@@ -64,7 +64,7 @@
             {
                 return;
             }
-          
+
             this.ewq = args.SData.Name == "CaitlynPiltoverPeacemaker";
         }
 
@@ -75,7 +75,7 @@
             wSpell.Spell.Cast(gapcloser.End);
         }
 
-      
+
         private void OnUpdate(EventArgs args)
         {
             if (!CheckGuardians())
@@ -94,10 +94,10 @@
 
                 if (!NavMesh.IsWallOfGrass(path, 0)) return;
 
-                Utility.DelayAction.Add(350, ()=> wSpell.Spell.Cast(path));
+                Utility.DelayAction.Add(350, () => wSpell.Spell.Cast(path));
             }
 
-            if (Target == null 
+            if (Target == null
                 || Menu.Item("Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
                 || Utils.TickCount - wSpell.Spell.LastCastAttemptT < 500)
             {
@@ -106,7 +106,7 @@
 
             var wPrediction = wSpell.Spell.GetPrediction(Target);
 
-            if (Menu.Item("Target").GetValue<bool>()) 
+            if (Menu.Item("Target").GetValue<bool>() && Utils.TickCount - wSpell.Spell.LastCastAttemptT < 1250)
             {
                 if (wPrediction.Hitchance < HitChance.VeryHigh)
                 {

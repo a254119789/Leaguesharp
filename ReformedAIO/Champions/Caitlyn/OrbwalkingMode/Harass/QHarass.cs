@@ -1,22 +1,21 @@
-﻿namespace ReformedAIO.Champions.Caitlyn.Killsteal
+﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Combo
 {
     using System;
 
     using LeagueSharp;
     using LeagueSharp.Common;
-    using LeagueSharp.SDK.Utils;
 
     using ReformedAIO.Champions.Caitlyn.Spells;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class QKillsteal : OrbwalkingChild
+    internal sealed class QHarass : OrbwalkingChild
     {
         public override string Name { get; set; } = "Q";
 
-        public readonly QSpell qSpell;
+        private readonly QSpell qSpell;
 
-        public QKillsteal(QSpell qSpell)
+        public QHarass(QSpell qSpell)
         {
             this.qSpell = qSpell;
         }
@@ -40,21 +39,35 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
             base.OnLoad(sender, featureBaseEventArgs);
+
+            Menu.AddItem(new MenuItem("Mana", "Mana %").SetValue(new Slider(10, 0, 100)));
+
+            Menu.AddItem(new MenuItem("Immobile", "Q On Immobile").SetValue(true));
+
+            Menu.AddItem(new MenuItem("Hit", "Cast if 2 can be hit").SetValue(true));
         }
 
         private void OnUpdate(EventArgs args)
         {
             if (Target == null
-                || Target.Health > qSpell.Spell.GetDamage(Target)
-                || Target.Distance(ObjectManager.Player) < ObjectManager.Player.GetRealAutoAttackRange()
-                || !CheckGuardians())
+                || Menu.Item("Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
+                || !CheckGuardians()
+                || Target.Distance(ObjectManager.Player) < ObjectManager.Player.AttackRange + 50)
             {
                 return;
             }
 
-            var pos = qSpell.Spell.GetPrediction(Target);
+            var qPrediction = qSpell.Spell.GetPrediction(Target, true);
 
-            qSpell.Spell.Cast(pos.CastPosition);
+            if (Menu.Item("Hit").GetValue<bool>())
+            {
+                qSpell.Spell.CastIfWillHit(Target, 2);
+            }
+
+            if (qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("Immobile").GetValue<bool>())
+            {
+                qSpell.Spell.Cast(qPrediction.CastPosition);
+            }
         }
     }
 }

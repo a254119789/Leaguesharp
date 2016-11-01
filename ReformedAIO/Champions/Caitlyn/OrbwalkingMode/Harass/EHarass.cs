@@ -9,13 +9,13 @@
 
     using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class ECombo  : OrbwalkingChild
+    internal sealed class EHarass : OrbwalkingChild
     {
         public override string Name { get; set; } = "E";
 
         private readonly ESpell eSpell;
 
-        public ECombo(ESpell eSpell)
+        public EHarass(ESpell eSpell)
         {
             this.eSpell = eSpell;
         }
@@ -60,7 +60,7 @@
                 return;
             }
 
-           eSpell.Spell.Cast(gapcloser.End);
+            eSpell.Spell.Cast(gapcloser.End);
         }
 
         private void OnUpdate(EventArgs args)

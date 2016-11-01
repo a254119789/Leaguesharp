@@ -31,7 +31,7 @@
 
                 if(prediction.Hitchance >= HitChance.High
                     || prediction.AoeTargetsHitCount > 1
-                    || Vars.Player.IsCastingInterruptableSpell())
+                    || ObjectManager.Player.IsCastingInterruptableSpell())
                 {
                     Spells.W2.Cast(prediction.CastPosition);
                 }

@@ -6,7 +6,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Caitlyn.Logic;
+    using ReformedAIO.Champions.Caitlyn.Spells;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -14,13 +14,24 @@
     {
         public override string Name { get; set; } = "Q";
 
+        private readonly QSpell qSpell;
+
+        public QJungle(QSpell qSpell)
+        {
+            this.qSpell = qSpell;
+        }
+
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
         }
 
@@ -33,18 +44,18 @@
 
         private void OnUpdate(EventArgs args)
         {
-            var mobs = MinionManager.GetMinions(Spells.Spell[SpellSlot.E].Range, MinionTypes.All, MinionTeam.Neutral,MinionOrderTypes.MaxHealth).FirstOrDefault();
+            var mobs = MinionManager.GetMinions(qSpell.Spell.Range, MinionTypes.All, MinionTeam.Neutral,MinionOrderTypes.MaxHealth).FirstOrDefault();
 
             if (mobs == null || !mobs.IsValid || !CheckGuardians()) return;
 
-            var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(mobs);
+            var qPrediction = qSpell.Spell.GetPrediction(mobs);
 
-            if (Menu.Item("QOverkill").GetValue<bool>() && mobs.Health < Vars.Player.GetAutoAttackDamage(mobs) * 4)
+            if (Menu.Item("QOverkill").GetValue<bool>() && mobs.Health < ObjectManager.Player.GetAutoAttackDamage(mobs) * 4)
             {
                 return;
             }
 
-            Utility.DelayAction.Add(5, ()=> Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition));
+            Utility.DelayAction.Add(5, ()=> qSpell.Spell.Cast(qPrediction.CastPosition));
 
         }
     }

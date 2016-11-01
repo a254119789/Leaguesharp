@@ -47,7 +47,7 @@
 
         private void Mini()
         {
-            if (!Spells.Q.IsReady() || Vars.Player.IsWindingUp)
+            if (!Spells.Q.IsReady() || ObjectManager.Player.IsWindingUp)
             {
                 return;
             }

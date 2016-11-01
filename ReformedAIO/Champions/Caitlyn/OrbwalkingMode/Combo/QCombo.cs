@@ -5,7 +5,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Caitlyn.Logic;
+    using ReformedAIO.Champions.Caitlyn.Spells;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -13,7 +13,14 @@
     {
         public override string Name { get; set; } = "Q";
 
-        private Obj_AI_Hero Target => TargetSelector.GetTarget(Spells.Spell[SpellSlot.Q].Range, TargetSelector.DamageType.Physical);
+        private readonly QSpell qSpell;
+
+        public QCombo(QSpell qSpell)
+        {
+            this.qSpell = qSpell;
+        }
+
+        private Obj_AI_Hero Target => TargetSelector.GetTarget(qSpell.Spell.Range, TargetSelector.DamageType.Physical);
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
@@ -33,30 +40,33 @@
         {
             base.OnLoad(sender, featureBaseEventArgs);
 
-            Menu.AddItem(new MenuItem("QMana", "Mana %").SetValue(new Slider(10, 0, 100)));
+            Menu.AddItem(new MenuItem("Mana", "Mana %").SetValue(new Slider(10, 0, 100)));
 
-            Menu.AddItem(new MenuItem("QImmobile", "Q On Immobile").SetValue(true));
+            Menu.AddItem(new MenuItem("Immobile", "Q On Immobile").SetValue(true));
 
-            Menu.AddItem(new MenuItem("QHit", "Cast if 2 can be hit").SetValue(true));
+            Menu.AddItem(new MenuItem("Hit", "Cast if 2 can be hit").SetValue(true));
         }
 
         private void OnUpdate(EventArgs args)
         {
-            if (Target == null || Menu.Item("QMana").GetValue<Slider>().Value > Vars.Player.ManaPercent || !CheckGuardians())
+            if (Target == null
+                || Menu.Item("Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
+                || !CheckGuardians() 
+                || Target.Distance(ObjectManager.Player) < ObjectManager.Player.AttackRange + 50)
             {
                 return;
             }
 
-            var qPrediction = Spells.Spell[SpellSlot.Q].GetPrediction(this.Target, true);
+            var qPrediction = qSpell.Spell.GetPrediction(Target, true);
 
-            if (Menu.Item("QHit").GetValue<bool>() && qPrediction.AoeTargetsHitCount >= 2)
+            if (Menu.Item("Hit").GetValue<bool>())
             {
-                Spells.Spell[SpellSlot.Q].Cast(Target);
+                qSpell.Spell.CastIfWillHit(Target, 2);
             }
 
-            if ((qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("QImmobile").GetValue<bool>()) || qPrediction.Hitchance >= HitChance.VeryHigh)
+            if (qPrediction.Hitchance >= HitChance.Immobile && Menu.Item("Immobile").GetValue<bool>())
             {
-                Spells.Spell[SpellSlot.Q].Cast(qPrediction.CastPosition);
+                qSpell.Spell.Cast(qPrediction.CastPosition);
             }
         }
     }

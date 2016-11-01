@@ -17,9 +17,9 @@
 
             float dmg = 0;
 
-            if (!Vars.Player.IsWindingUp)
+            if (!ObjectManager.Player.IsWindingUp)
             {
-                dmg += (float)Vars.Player.GetAutoAttackDamage(x);
+                dmg += (float)ObjectManager.Player.GetAutoAttackDamage(x);
             }
 
             if (Spells.Q.IsReady())

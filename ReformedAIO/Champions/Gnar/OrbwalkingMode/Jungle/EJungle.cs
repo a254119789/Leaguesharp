@@ -36,7 +36,7 @@
 
         private void Mini()
         {
-            if (!Spells.E.IsReady() || Vars.Player.IsWindingUp || (Menu.Item("BlockIfTransforming").GetValue<bool>()
+            if (!Spells.E.IsReady() || ObjectManager.Player.IsWindingUp || (Menu.Item("BlockIfTransforming").GetValue<bool>()
                 && this.gnarState.TransForming))
             {
                 return;

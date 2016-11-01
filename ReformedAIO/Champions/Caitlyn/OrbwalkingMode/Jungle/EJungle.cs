@@ -6,7 +6,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Caitlyn.Logic;
+    using ReformedAIO.Champions.Caitlyn.Spells;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -14,13 +14,24 @@
     {
         public override string Name { get; set; } = "E";
 
+        private readonly ESpell eSpell;
+
+        public EJungle(ESpell eSpell)
+        {
+            this.eSpell = eSpell;
+        }
+
         protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnDisable(sender, featureBaseEventArgs);
+
             Game.OnUpdate -= OnUpdate;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
         {
+            base.OnEnable(sender, featureBaseEventArgs);
+
             Game.OnUpdate += OnUpdate;
         }
 
@@ -31,15 +42,13 @@
 
         private void OnUpdate(EventArgs args)
         {
-            var mobs = MinionManager.GetMinions(Spells.Spell[SpellSlot.E].Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth).FirstOrDefault();
+            var mobs = MinionManager.GetMinions(eSpell.Spell.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth).FirstOrDefault();
 
-            if (mobs == null || !mobs.IsValid || !CheckGuardians()) return;
+            if (mobs == null || !CheckGuardians() || mobs.Health < ObjectManager.Player.GetAutoAttackDamage(mobs) * 3 || mobs.CharData.BaseSkinName == "Baron") return;
 
-            var qPrediction = Spells.Spell[SpellSlot.E].GetPrediction(mobs);
+            var qPrediction = eSpell.Spell.GetPrediction(mobs);
 
-            if (mobs.Health < Vars.Player.GetAutoAttackDamage(mobs) * 3) return;
-
-            Spells.Spell[SpellSlot.E].Cast(qPrediction.CastPosition);
+            eSpell.Spell.Cast(qPrediction.CastPosition);
         }
     }
 }

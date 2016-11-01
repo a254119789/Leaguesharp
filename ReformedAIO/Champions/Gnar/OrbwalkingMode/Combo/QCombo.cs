@@ -29,7 +29,7 @@
             var menu = Menu.SubMenu(Menu.Name + "Dynamic Menu");
 
             if ((Menu.Item(menu.Name + "BlockIfTransforming").GetValue<bool>()
-                && Vars.Player.ManaPercent >= 90 && Vars.Player.ManaPercent < 100)
+                && ObjectManager.Player.ManaPercent >= 90 && ObjectManager.Player.ManaPercent < 100)
                 || !CheckGuardians())
             {
                 return;
