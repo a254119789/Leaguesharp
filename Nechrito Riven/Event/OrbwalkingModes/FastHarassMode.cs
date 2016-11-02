@@ -21,12 +21,12 @@
                 return;
             }
 
-            if (!InRange(target))
+            if (!BackgroundData.InRange(target))
             {
                 Spells.E.Cast(target.Position);
             }
 
-            Utility.DelayAction.Add(170, () => CastQ(target));
+            Utility.DelayAction.Add(170, () => BackgroundData.CastQ(target));
         }
 
         #endregion

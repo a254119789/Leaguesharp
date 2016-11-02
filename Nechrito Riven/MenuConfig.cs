@@ -96,6 +96,8 @@
 
         public static bool Doublecast => config.Item("Doublecast").GetValue<bool>();
 
+        public static bool Flash => config.Item("FlashOften").GetValue<bool>();
+
         public static bool OverKillCheck => config.Item("OverKillCheck").GetValue<bool>();
 
         public static int Q2D => config.Item("Q2D").GetValue<Slider>().Value;
@@ -127,7 +129,7 @@
             config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
             var orbwalker = new Menu("Orbwalker", "rorb");
-            Orbwalker = new NechritoRiven.Orbwalking.Orbwalker(orbwalker);
+            Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
@@ -141,6 +143,7 @@
 
             var combo = new Menu("Combo", "Combo");
             combo.AddItem(new MenuItem("Q3Wall", "Q3 Over Wall").SetValue(true));
+            combo.AddItem(new MenuItem("FlashOften", "Flash Burst Frequently").SetValue(false).SetTooltip("Will flash if killable, always."));
             combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true));
             combo.AddItem(new MenuItem("Doublecast", "Doublecast").SetValue(true)).SetTooltip("Fast Combo, less dmg");
             combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle)));

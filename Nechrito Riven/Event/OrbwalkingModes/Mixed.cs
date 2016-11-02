@@ -26,12 +26,12 @@
 
             if (Spells.Q.IsReady() && Spells.W.IsReady() && Qstack == 1)
             {
-               CastQ(target);
+                BackgroundData.CastQ(target);
             }
 
             if (Spells.W.IsReady())
             {
-                CastW(target);
+                BackgroundData.CastW(target);
             }
 
             if (!Spells.Q.IsReady()

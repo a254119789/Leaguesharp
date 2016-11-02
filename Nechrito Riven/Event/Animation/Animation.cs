@@ -31,8 +31,6 @@
                 return;
             }
 
-            var isMoving = (Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving);
-
             switch (args.Animation)
             {
                 case "Spell1a":
@@ -43,7 +41,7 @@
                     {
                         Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Qd), Reset);
 
-                        Console.WriteLine("Q1 Delay: " + ResetDelay( PingActive, MenuConfig.Qd));
+                        Console.WriteLine("Q1 Delay: " + ResetDelay(PingActive, MenuConfig.Qd));
                     }
                     break;
                 case "Spell1b":
@@ -54,7 +52,7 @@
                     {
                         Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Q2D), Reset);
 
-                        Console.WriteLine("Q2 Delay: " + ResetDelay( PingActive, MenuConfig.Q2D));
+                        Console.WriteLine("Q2 Delay: " + ResetDelay(PingActive, MenuConfig.Q2D));
                     }
                     break;
                 case "Spell1c":
@@ -66,8 +64,8 @@
                         Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Qld), Reset);
 
                         Console.WriteLine("Q3 Delay: " 
-                            + ResetDelay( PingActive, MenuConfig.Qld)
-                            + Environment.NewLine + ">----END----<");
+                         + ResetDelay( PingActive, MenuConfig.Qld)
+                         + Environment.NewLine + ">----END----<");
                     }
                     break;
             }
@@ -108,16 +106,16 @@
 
         private static int ResetDelay(bool ping, int qDelay)
         {
+            qDelay -= ObjectManager.Player.Level / 2;
+
             if (ping)
             {
                 qDelay += Game.Ping / 2;
             }
 
-            qDelay -= ObjectManager.Player.Level / 2;
-
             return (int)((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) 
-                             ? qDelay * 1.15
-                             : qDelay);
+                ? qDelay * 1.15 
+                : qDelay);
         }
         
         private static void Reset()

@@ -46,7 +46,7 @@
 
             QMove();
 
-            ForceSkill();
+            BackgroundData.ForceSkill();
 
             switch (Orbwalker.ActiveMode)
             {

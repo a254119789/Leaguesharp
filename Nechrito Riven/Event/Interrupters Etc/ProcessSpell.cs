@@ -22,18 +22,18 @@
 
             if (Spells.E.IsReady())
             {
-                if (AntigapclosingSpells.Contains(args.SData.Name) || (TargetedSpells.Contains(args.SData.Name) && args.Target.IsMe))
+                if (BackgroundData.AntigapclosingSpells.Contains(args.SData.Name) || (BackgroundData.TargetedSpells.Contains(args.SData.Name) && args.Target.IsMe))
                 {
                     Utility.DelayAction.Add(90, ()=> Spells.E.Cast(Game.CursorPos));
                 }
             }
 
-            if (!InterrupterSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !InRange(sender))
+            if (!BackgroundData.InterrupterSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !BackgroundData.InRange(sender))
             {
                 return;
             }
 
-            CastW(sender);
+            BackgroundData.CastW(sender);
         }
 
         #endregion

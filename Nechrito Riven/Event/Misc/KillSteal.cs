@@ -18,7 +18,7 @@
         {
             var target = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            if (target == null || target.HasBuff(InvulnerableList.ToString()))
+            if (target == null || target.HasBuff(BackgroundData.InvulnerableList.ToString()))
             {
                 return;
             }
@@ -27,7 +27,7 @@
                 && MenuConfig.KsW 
                 && target.Health <= Spells.W.GetDamage(target))
             {
-                CastW(target);
+                BackgroundData.CastW(target);
             }
 
             if (Spells.R.IsReady()

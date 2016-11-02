@@ -15,17 +15,16 @@
 
         public static void Burst()
         {
-            
             if (Spells.Flash.IsReady()
-                && Spells.R.IsReady()
-                && Spells.W.IsReady()
                 && MenuConfig.AlwaysF)
             {
                 var selectedTarget = TargetSelector.GetSelectedTarget();
 
                 if (selectedTarget == null 
                     || !selectedTarget.IsValidTarget(410 + Spells.W.Range)
-                    || Player.Distance(selectedTarget.Position) < 400)
+                    || Player.Distance(selectedTarget.Position) < 400
+                    || (MenuConfig.Flash && selectedTarget.Health > Dmg.GetComboDamage(selectedTarget))
+                    || (!MenuConfig.Flash && (!Spells.R.IsReady() || !Spells.W.IsReady())))
                 {
                     return;
                 }
@@ -34,7 +33,7 @@
 
                 Spells.E.Cast(selectedTarget.Position);
                 Spells.R.Cast();
-                Utility.DelayAction.Add(170, FlashW);
+                Utility.DelayAction.Add(170, BackgroundData.FlashW);
             }
             else
             {
@@ -42,7 +41,7 @@
 
                 if (target == null) return;
 
-                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && Qstack > 2)
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR && Qstack > 1)
                 {
                     var pred = Spells.R.GetPrediction(
                         target,
@@ -61,14 +60,14 @@
                 {
                     Spells.E.Cast(target.Position);
                 }
-                else if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
+                if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
                     Spells.R.Cast();
                 }
-                else if (Spells.W.IsReady())
+                if (Spells.W.IsReady())
                 {
-                    CastW(target);
-                    DoubleCastQ(target);
+                    BackgroundData.CastW(target);
+                    BackgroundData.DoubleCastQ(target);
                 }
             }
         }

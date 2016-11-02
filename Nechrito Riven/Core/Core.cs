@@ -25,6 +25,8 @@
 
         public static int Qstack = 1;
 
+        public static float LastQ;
+
         #endregion
 
         #region Public Properties

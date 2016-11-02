@@ -31,7 +31,7 @@
 
             Obj_AI_Base.OnDoCast += AfterAuto.OnDoCast;
             Obj_AI_Base.OnProcessSpellCast += ProcessSpell.OnProcessSpell;
-            Obj_AI_Base.OnProcessSpellCast += Core.Core.OnCast;
+            Obj_AI_Base.OnProcessSpellCast += BackgroundData.OnCast;
             Obj_AI_Base.OnPlayAnimation += Animation.OnPlay;
 
             Drawing.OnEndScene += DrawDmg.DmgDraw;

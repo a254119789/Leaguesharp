@@ -81,7 +81,7 @@
   <ItemGroup>
     <Compile Include="Core\Core.cs" />
     <Compile Include="Core\Dmg.cs" />
-    <Compile Include="Core\Core.Logic.cs" />
+    <Compile Include="Core\BackgroundData.cs" />
     <Compile Include="Core\Spells.cs" />
     <Compile Include="Core\Usables.cs" />
     <Compile Include="Draw\DrawDmg.cs" />

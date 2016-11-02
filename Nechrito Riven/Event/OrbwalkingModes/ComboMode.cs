@@ -25,7 +25,7 @@
             {
                 var pred = Spells.R.GetPrediction(target, true, collisionable: new[] { CollisionableObjects.YasuoWall });
 
-                if (pred.Hitchance < HitChance.High || target.HasBuff(InvulnerableList.ToString()))
+                if (pred.Hitchance < HitChance.High || target.HasBuff(BackgroundData.InvulnerableList.ToString()))
                 {
                     return;
                 }
@@ -88,25 +88,25 @@
                     Utility.DelayAction.Add(10, Usables.CastHydra);
                 }
             }
-           else if (!Spells.W.IsReady() || !InRange(target))
+           else if (!Spells.W.IsReady() || !BackgroundData.InRange(target))
             {
                 return;
             }
 
             if (MenuConfig.Doublecast)
             {
-                CastW(target);
+                BackgroundData.CastW(target);
 
                 if (Spells.Q.IsReady() && Qstack == 1)
                 {
-                    DoubleCastQ(target);
+                    BackgroundData.DoubleCastQ(target);
                 }
             }
             else
             {
                 if (!MenuConfig.Doublecast && Qstack != 1)
                 {
-                    CastW(target);
+                    BackgroundData.CastW(target);
                 }
             }
         }

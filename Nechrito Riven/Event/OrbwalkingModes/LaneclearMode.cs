@@ -48,7 +48,7 @@
 
                 if (m.Health < Spells.Q.GetDamage(m) && Spells.Q.IsReady())
                 {
-                    CastQ(m);
+                    BackgroundData.CastQ(m);
                 }
                 else if (!Spells.W.IsReady()
                          || !MenuConfig.LaneW
@@ -58,7 +58,7 @@
                     return;
                 }
 
-                CastW(m);
+                BackgroundData.CastW(m);
             }
         }
 

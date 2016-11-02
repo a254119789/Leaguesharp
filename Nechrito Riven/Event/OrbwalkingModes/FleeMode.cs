@@ -52,7 +52,7 @@
             }
             else
             {
-                var enemy = HeroManager.Enemies.Where(target => InRange(target) && Spells.W.IsReady());
+                var enemy = HeroManager.Enemies.Where(target => BackgroundData.InRange(target) && Spells.W.IsReady());
 
                 var x = Player.Position.Extend(Game.CursorPos, 300);
 
@@ -62,7 +62,7 @@
                 {
                     foreach (var target in targets)
                     {
-                        if (InRange(target))
+                        if (BackgroundData.InRange(target))
                         {
                             Spells.W.Cast();
                         }
