@@ -17,25 +17,27 @@
 
             float damage = 0;
 
+            var attackDmg = (float)Player.GetAutoAttackDamage(enemy);
+
             if (Spells.W.IsReady())
             {
-                damage += Spells.W.GetDamage(enemy);
+                damage += Spells.W.GetDamage(enemy) + attackDmg;
             }
 
             if (Spells.Q.IsReady())
             {
                 var qcount = 4 - Qstack;
-                damage += Spells.Q.GetDamage(enemy) * qcount + (float)Player.GetAutoAttackDamage(enemy) * qcount;
+                damage += Spells.Q.GetDamage(enemy) * qcount + attackDmg * qcount;
             }
 
             if (Spells.R.IsReady())
             {
-                damage += Spells.R.GetDamage(enemy);
+                damage += Spells.R.GetDamage(enemy) + attackDmg;
             }
 
             if (!Player.IsWindingUp)
             {
-                damage += (float)Player.GetAutoAttackDamage(enemy);
+                damage += attackDmg;
             }
 
             return damage;

@@ -113,7 +113,7 @@
                 qDelay += Game.Ping / 2;
             }
 
-            qDelay -= ObjectManager.Player.Level;
+            qDelay -= ObjectManager.Player.Level / 2;
 
             return (int)((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) 
                              ? qDelay * 1.15

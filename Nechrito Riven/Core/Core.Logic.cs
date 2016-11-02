@@ -100,7 +100,7 @@
 
             if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
             {
-                Utility.DelayAction.Add(165, () => Spells.Q.Cast(Unit.Position));
+                Utility.DelayAction.Add(190, () => Spells.Q.Cast(Unit.Position));
             }
 
             if (canQ && Spells.Q.IsReady())
