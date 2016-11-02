@@ -93,21 +93,14 @@
                 return;
             }
 
-            if (MenuConfig.Doublecast)
+            if (MenuConfig.Doublecast && Spells.Q.IsReady() && Qstack == 1)
             {
                 BackgroundData.CastW(target);
-
-                if (Spells.Q.IsReady() && Qstack == 1)
-                {
-                    BackgroundData.DoubleCastQ(target);
-                }
+                BackgroundData.DoubleCastQ(target);
             }
             else
             {
-                if (!MenuConfig.Doublecast && Qstack != 1)
-                {
-                    BackgroundData.CastW(target);
-                }
+                BackgroundData.CastW(target);
             }
         }
 

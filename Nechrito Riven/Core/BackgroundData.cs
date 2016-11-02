@@ -96,11 +96,6 @@
                 return;
             }
 
-            if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
-            {
-                Utility.DelayAction.Add(145, () => Spells.Q.Cast(Unit.Position));
-            }
-
             if (canQ && Spells.Q.IsReady())
             {
                 if (Items.CanUseItem(Item) && Item != 0 && Qstack > 1)
@@ -125,9 +120,16 @@
                 {
                     Spells.W.Cast();
                 }
+
+                if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
+                {
+                    var delay = Spells.R.IsReady() ? 240 : 175;
+
+                    Utility.DelayAction.Add(delay, () => Spells.Q.Cast(Unit.Position));
+                }
             }
 
-            if (!R1 || Spells.R.Instance.Name != Core.IsFirstR)
+            if (!R1 || Spells.R.Instance.Name != IsFirstR)
             {
                 return;
             }
