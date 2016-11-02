@@ -22,13 +22,13 @@
 
             if (Spells.E.IsReady())
             {
-                if (EAntiSpell.Contains(args.SData.Name) || (TargetedAntiSpell.Contains(args.SData.Name) && args.Target.IsMe))
+                if (AntigapclosingSpells.Contains(args.SData.Name) || (TargetedSpells.Contains(args.SData.Name) && args.Target.IsMe))
                 {
                     Utility.DelayAction.Add(90, ()=> Spells.E.Cast(Game.CursorPos));
                 }
             }
 
-            if (!WAntiSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !InRange(sender))
+            if (!InterrupterSpell.Contains(args.SData.Name) || !Spells.W.IsReady() || !InRange(sender))
             {
                 return;
             }

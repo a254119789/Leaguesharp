@@ -28,7 +28,7 @@
         /// <summary>
         ///     The e anti spell.
         /// </summary>
-        public static List<string> EAntiSpell = new List<string>
+        public static List<string> AntigapclosingSpells = new List<string>
                                                     {
                                                         "MonkeyKingSpinToWin", "KatarinaRTrigger", "HungeringStrike",
                                                         "TwitchEParticle", "RengarPassiveBuffDashAADummy",
@@ -44,7 +44,7 @@
         /// <summary>
         ///     The targeted anti spell.
         /// </summary>
-        public static List<string> TargetedAntiSpell = new List<string>
+        public static List<string> TargetedSpells = new List<string>
                                                            {
                                                                "MonkeyKingQAttack", "YasuoDash", "FizzPiercingStrike",
                                                                "RengarQ", "GarenQAttack", "GarenRPreCast",
@@ -55,14 +55,13 @@
         /// <summary>
         ///     The w anti spell.
         /// </summary>
-        public static List<string> WAntiSpell = new List<string>
+        public static List<string> InterrupterSpell = new List<string>
                                                     {
                                                         "RenektonPreExecute", "TalonCutthroat", "IreliaEquilibriumStrike",
                                                         "XenZhaoThrust3", "KatarinaRTrigger", "KatarinaE",
-                                                        "MonkeyKingSpinToWin"
                                                     };
 
-        public static List<string> NoRList = new List<string>
+        public static List<string> InvulnerableList = new List<string>
                                                            {
                                                                "FioraW", "kindrednodeathbuff", "Undying Rage", "JudicatorIntervention"
                                                            };
@@ -142,7 +141,7 @@
         {
             Unit = x;
             doublecastQ = true;
-           // Utility.DelayAction.Add(500, ()=> doublecastQ = false);
+            Utility.DelayAction.Add(300, () => doublecastQ = false);
         }
 
         public static void CastQ(AttackableUnit x)

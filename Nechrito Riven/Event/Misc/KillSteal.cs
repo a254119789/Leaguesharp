@@ -18,7 +18,7 @@
         {
             var target = TargetSelector.GetTarget(Spells.R.Range, TargetSelector.DamageType.Physical);
 
-            if (target == null || target.HasBuff(NoRList.ToString()))
+            if (target == null || target.HasBuff(InvulnerableList.ToString()))
             {
                 return;
             }

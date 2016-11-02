@@ -41,7 +41,7 @@
 
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(ResetDelay( PingActive, MenuConfig.Qd), Reset);
+                        Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Qd), Reset);
 
                         Console.WriteLine("Q1 Delay: " + ResetDelay( PingActive, MenuConfig.Qd));
                     }
@@ -52,7 +52,7 @@
 
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(ResetDelay( PingActive, MenuConfig.Q2D), Reset);
+                        Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Q2D), Reset);
 
                         Console.WriteLine("Q2 Delay: " + ResetDelay( PingActive, MenuConfig.Q2D));
                     }
@@ -63,7 +63,7 @@
 
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(ResetDelay( PingActive, MenuConfig.Qld), Reset);
+                        Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Qld), Reset);
 
                         Console.WriteLine("Q3 Delay: " 
                             + ResetDelay( PingActive, MenuConfig.Qld)
@@ -81,7 +81,8 @@
         {
             if (ObjectManager.Player.HasBuffOfType(BuffType.Stun) 
                 || ObjectManager.Player.HasBuffOfType(BuffType.Snare)
-                || ObjectManager.Player.HasBuffOfType(BuffType.Knockback))
+                || ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
+                || ObjectManager.Player.HasBuffOfType(BuffType.Knockup))
             {
                 return;
             }
@@ -105,10 +106,6 @@
             }
         }
 
-        private static int Ping => MenuConfig.CancelPing 
-                                   ? Game.Ping / 2
-                                   : 0;
-
         private static int ResetDelay(bool ping, int qDelay)
         {
             if (ping)
@@ -116,8 +113,10 @@
                 qDelay += Game.Ping / 2;
             }
 
+            qDelay -= ObjectManager.Player.Level;
+
             return (int)((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) 
-                             ? qDelay * 1.13
+                             ? qDelay * 1.15
                              : qDelay);
         }
         
