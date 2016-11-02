@@ -84,7 +84,7 @@
             }
 
             if (Menu.Item("Bush").GetValue<bool>()
-                && Utils.TickCount - wSpell.Spell.LastCastAttemptT > 5000
+                && Utils.TickCount - wSpell.Spell.LastCastAttemptT < 2500
                 && !ObjectManager.Player.IsRecalling())
             {
                 // Beta
@@ -94,12 +94,12 @@
 
                 if (!NavMesh.IsWallOfGrass(path, 0)) return;
 
-                Utility.DelayAction.Add(350, ()=> wSpell.Spell.Cast(path));
+                Utility.DelayAction.Add(100, ()=> wSpell.Spell.Cast(path));
             }
 
             if (Target == null 
                 || Menu.Item("Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
-                || Utils.TickCount - wSpell.Spell.LastCastAttemptT < 500)
+                || Utils.TickCount - wSpell.Spell.LastCastAttemptT < 1100)
             {
                 return;
             }
