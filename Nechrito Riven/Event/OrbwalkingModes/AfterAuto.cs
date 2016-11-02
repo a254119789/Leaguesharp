@@ -10,8 +10,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
-
     using Orbwalking = Orbwalking;
 
     #endregion

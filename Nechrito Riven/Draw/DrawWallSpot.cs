@@ -12,8 +12,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
-
     #endregion
 
     internal class DrawWallSpot : Core
@@ -32,14 +30,13 @@
 
             var wallPoint = FleeLogic.GetFirstWallPoint(Player.ServerPosition, end);
 
-            if (isWallDash)
+            if (!isWallDash || wallPoint.Distance(Player.ServerPosition) > 600)
             {
-                if (wallPoint.Distance(Player.ServerPosition) <= 600)
-                {
-                    Render.Circle.DrawCircle(wallPoint, 60, Color.DarkSlateGray);
-                    Render.Circle.DrawCircle(end, 60, Color.White);
-                }
+                return;
             }
+
+            Render.Circle.DrawCircle(wallPoint, 60, Color.DarkSlateGray);
+            Render.Circle.DrawCircle(end, 60, Color.White);
         }
 
         #endregion

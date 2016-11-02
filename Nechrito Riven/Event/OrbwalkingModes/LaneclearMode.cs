@@ -7,8 +7,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
-
     #endregion
 
     internal class LaneclearMode : Core
@@ -43,7 +41,7 @@
                     Utility.DelayAction.Add(10, Usables.CastHydra);
                 }
 
-                if (!MenuConfig.laneQFast)
+                if (!MenuConfig.LaneQFast)
                 {
                     return;
                 }

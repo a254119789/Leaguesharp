@@ -9,8 +9,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
-
     #endregion
 
     internal class ComboMode : Core
@@ -21,7 +19,7 @@
         {
             var target = TargetSelector.GetTarget(Player.AttackRange + 310, TargetSelector.DamageType.Physical);
 
-            if (target == null || !target.IsValidTarget()) return;
+            if (target == null || !target.IsValidTarget(Player.AttackRange + 310)) return;
 
             if (Spells.R.IsReady() && Spells.R.Instance.Name == IsSecondR)
             {
@@ -42,7 +40,9 @@
                 }
             }
 
-           if (Qstack == 3
+            #region Q3 Wall
+
+            if (Qstack == 3
                     && target.Distance(Player) >= Player.AttackRange
                     && target.Distance(Player) <= 650
                     && MenuConfig.Q3Wall
@@ -70,25 +70,25 @@
                 {
                     Spells.Q.Cast(wallPoint);
                 }
-            }
+            } 
+            #endregion
+
            else if (Spells.E.IsReady()) 
             {
                 Spells.E.Cast(target.Position);
 
-                if (Spells.R.IsReady())
-                {
-                    return;
-                }
-
-                Utility.DelayAction.Add(10, Usables.CastHydra);
-            }
-           else if (MenuConfig.AlwaysR
+                if (MenuConfig.AlwaysR
                 && Spells.R.IsReady()
                 && Spells.R.Instance.Name == IsFirstR)
-            {
-                Spells.R.Cast();
+                {
+                    Spells.R.Cast();
+                }
+                else
+                {
+                    Utility.DelayAction.Add(10, Usables.CastHydra);
+                }
             }
-           else if (!Spells.W.IsReady() || target.HasBuff("FioraW"))
+           else if (!Spells.W.IsReady())
             {
                 return;
             }
@@ -98,9 +98,16 @@
                 CastW(target);
             }
 
-            if (!MenuConfig.NechLogic && (Player.HasBuff("RivenFeint") || target.IsFacing(Player)))
+            if (MenuConfig.NechLogic || !InRange(target))
             {
-                CastW(target);
+                return;
+            }
+
+            CastW(target);
+
+            if (Spells.Q.IsReady() && Qstack == 1)
+            {
+                DoubleCastQ(target);
             }
         }
 

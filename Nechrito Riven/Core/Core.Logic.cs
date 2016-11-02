@@ -8,8 +8,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Menus;
-
     #endregion
 
     /// <summary>
@@ -20,6 +18,8 @@
         #region Static Fields
 
         private static AttackableUnit Unit { get; set; }
+
+        private static bool doublecastQ;
 
         private static bool canQ;
 
@@ -82,16 +82,6 @@
 
         public static bool R1 { get; set; }
 
-        private static bool CanQ(AttackableUnit x)
-        {
-            return canQ && InRange(x);  
-        }
-
-        private static bool CanW(AttackableUnit x)
-        {
-            return canW && InRange(x);
-        }
-
         public static bool InRange(AttackableUnit x)
         {
             return ObjectManager.Player.HasBuff("RivenFengShuiEngine")
@@ -107,6 +97,11 @@
             if (Unit == null)
             {
                 return;
+            }
+
+            if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
+            {
+                Utility.DelayAction.Add(165, () => Spells.Q.Cast(Unit.Position));
             }
 
             if (canQ && Spells.Q.IsReady())
@@ -139,7 +134,15 @@
             {
                 return;
             }
+
             Spells.R.Cast();
+        }
+
+        public static void DoubleCastQ(AttackableUnit x)
+        {
+            Unit = x;
+            doublecastQ = true;
+           // Utility.DelayAction.Add(500, ()=> doublecastQ = false);
         }
 
         public static void CastQ(AttackableUnit x)
@@ -159,11 +162,12 @@
 
             Spells.W.Cast();
             Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
+            Utility.DelayAction.Add(30, ()=> DoubleCastQ(target));
         }
 
         public static void CastW(Obj_AI_Base x)
         {
-            canW = Spells.W.IsReady() && InRange(x);
+            canW = Spells.W.IsReady() && InRange(x) && !x.HasBuff("FioraW");
             Utility.DelayAction.Add(500, () => canW = false);
         }
 
@@ -185,11 +189,14 @@
             if (argsName.Contains("RivenTriCleave"))
             {
                 canQ = false;
+                doublecastQ = false;
             }
 
             if (argsName.Contains("RivenMartyr"))
             {
                 canW = false;
+                doublecastQ = true;
+                Utility.DelayAction.Add(300, () => doublecastQ = false);
             }
 
             if (argsName == IsFirstR)

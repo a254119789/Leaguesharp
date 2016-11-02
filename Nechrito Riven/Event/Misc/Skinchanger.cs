@@ -1,11 +1,10 @@
-﻿namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event.Misc
 {
     #region
 
     using System;
 
-    using Core;
-    using Menus;
+    using NechritoRiven.Core;
 
     #endregion
 
@@ -15,9 +14,9 @@
 
         public static void Update(EventArgs args)
         {
-            Player.SetSkin(
-                Player.CharData.BaseSkinName,
-                MenuConfig.UseSkin ? MenuConfig.SkinList.SelectedIndex : Player.BaseSkinId);
+            Player.SetSkin(Player.CharData.BaseSkinName, MenuConfig.UseSkin 
+                ? MenuConfig.SkinList.SelectedIndex
+                : Player.BaseSkinId);
         }
 
         #endregion

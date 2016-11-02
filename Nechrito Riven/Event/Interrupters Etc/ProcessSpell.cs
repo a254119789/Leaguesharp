@@ -1,11 +1,11 @@
-﻿namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event.Interrupters_Etc
 {
     #region
 
-    using Core;
-
     using LeagueSharp;
     using LeagueSharp.Common;
+
+    using NechritoRiven.Core;
 
     #endregion
 
@@ -24,7 +24,7 @@
             {
                 if (EAntiSpell.Contains(args.SData.Name) || (TargetedAntiSpell.Contains(args.SData.Name) && args.Target.IsMe))
                 {
-                    Spells.E.Cast(Game.CursorPos);
+                    Utility.DelayAction.Add(90, ()=> Spells.E.Cast(Game.CursorPos));
                 }
             }
 

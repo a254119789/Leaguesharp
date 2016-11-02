@@ -14,7 +14,9 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
+    using NechritoRiven.Event.Animation;
+    using NechritoRiven.Event.Interrupters_Etc;
+    using NechritoRiven.Event.Misc;
 
     #endregion
 
@@ -33,7 +35,7 @@
             Obj_AI_Base.OnPlayAnimation += Animation.OnPlay;
 
             Drawing.OnEndScene += DrawDmg.DmgDraw;
-            Drawing.OnDraw += DrawRange.RangeDraw;
+            Drawing.OnDraw += DrawMisc.RangeDraw;
             Drawing.OnDraw += DrawWallSpot.WallDraw;
 
             Game.OnUpdate += KillSteal.Update;

@@ -1,14 +1,12 @@
-﻿namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event.Misc
 {
     #region
 
     using System;
 
-    using Core;
-
     using LeagueSharp.Common;
 
-    using Menus;
+    using NechritoRiven.Core;
 
     #endregion
 

@@ -10,11 +10,9 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
-
     #endregion
 
-    internal class DrawRange : Core
+    internal class DrawMisc : Core
     {
         #region Public Methods and Operators
 
@@ -35,7 +33,7 @@
                         Spells.Q.IsReady()
                         ? Color.DodgerBlue
                         : Color.DarkSlateGray,
-                        5,
+                        3,
                         true);
                 }
                 else
@@ -45,7 +43,8 @@
                         Player.AttackRange,
                         Spells.Q.IsReady() 
                         ? Color.LightBlue 
-                        : Color.DarkSlateGray);
+                        : Color.DarkSlateGray,
+                        3);
                 }
             }
 
@@ -58,8 +57,7 @@
                     && Spells.Flash.IsReady()
                     ? Color.Orange
                     : Color.DarkSlateGray,
-                    5,
-                    true);
+                    1);
             }
 
             if (MenuConfig.DrawFh)
@@ -69,7 +67,8 @@
                     450 + Player.AttackRange + 70,
                     Spells.E.IsReady() && Spells.Q.IsReady()
                     ? Color.LightBlue 
-                    : Color.DarkSlateGray);
+                    : Color.DarkSlateGray,
+                    3);
             }
 
             if (MenuConfig.DrawHs)
@@ -79,7 +78,8 @@
                     400,
                     Spells.Q.IsReady() && Spells.W.IsReady()
                     ? Color.LightBlue 
-                    : Color.DarkSlateGray);
+                    : Color.DarkSlateGray,
+                    3);
             }
 
             var pos = Drawing.WorldToScreen(Player.Position);
@@ -91,8 +91,12 @@
                 Drawing.DrawText(
                     pos.X + 43,
                     pos.Y + 20,
-                    MenuConfig.AlwaysR ? Color.Yellow : Color.Red,
-                    MenuConfig.AlwaysR ? "On" : "Off");
+                    MenuConfig.AlwaysR 
+                    ? Color.Yellow
+                    : Color.Red,
+                    MenuConfig.AlwaysR 
+                    ? "On"
+                    : "Off");
             }
 
             if (!MenuConfig.ForceFlash)
@@ -102,7 +106,12 @@
 
             Drawing.DrawText(pos.X - 20, pos.Y + 40, Color.DodgerBlue, "Use Flash  (     )");
 
-            Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF ? Color.Yellow : Color.Red, MenuConfig.AlwaysF ? "On" : "Off");
+            Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF 
+                ? Color.Yellow
+                : Color.Red,
+                MenuConfig.AlwaysF
+                ? "On"
+                : "Off");
         }
 
         #endregion

@@ -53,16 +53,12 @@
 
         public static float RDmg(Obj_AI_Hero target)
         {
-            float dmg = 0;
-
             if (target == null || !Spells.R.IsReady())
             {
                 return 0;
             }
 
-            dmg += Spells.R.GetDamage(target);
-
-            return dmg;
+            return Spells.R.GetDamage(target);
         }
 
         #endregion

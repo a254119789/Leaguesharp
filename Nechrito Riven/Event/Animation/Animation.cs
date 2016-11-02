@@ -1,4 +1,4 @@
-﻿namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event.Animation
 {
     #region
 
@@ -8,8 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Core;
-    using Menus;
+    using NechritoRiven.Core;
 
     using Orbwalking = Orbwalking;
 
@@ -19,6 +18,12 @@
     {
         #region Public Methods and Operators
 
+        private static readonly bool PingActive = MenuConfig.CancelPing;
+
+        private static Obj_AI_Hero Target => TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50, TargetSelector.DamageType.Physical);
+
+        private static Obj_AI_Minion Mob => (Obj_AI_Minion)MinionManager.GetMinions(ObjectManager.Player.AttackRange + 50, MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
+
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
             if (!sender.IsMe)
@@ -26,73 +31,44 @@
                 return;
             }
 
-            var target = TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50, TargetSelector.DamageType.Physical);
-
-            var mob = MinionManager.GetMinions(
-              ObjectManager.Player.AttackRange + 50,
-              MinionTypes.All,
-              MinionTeam.Neutral).FirstOrDefault();
-
-            var isMoving = (target != null && target.IsMoving) || (mob != null && mob.IsMoving);
+            var isMoving = (Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving);
 
             switch (args.Animation)
             {
                 case "Spell1a":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
+
                     if (SafeReset())
                     {
-                        if (isMoving)
-                        {
-                            Utility.DelayAction.Add((int)((MenuConfig.Qd + Ping)* 1.133), Reset);
-                            Console.WriteLine("Q1 Slow Delay: " + (MenuConfig.Qd + Ping) * 1.133);
-                        }
-                        else
-                        {
-                            Utility.DelayAction.Add(MenuConfig.Qd + Ping, Reset);
-                            Console.WriteLine("Q1 Fast Delay: " + (MenuConfig.Qd + Ping));
-                        }
-                    }
+                        Utility.DelayAction.Add(ResetDelay( PingActive, MenuConfig.Qd), Reset);
 
+                        Console.WriteLine("Q1 Delay: " + ResetDelay( PingActive, MenuConfig.Qd));
+                    }
                     break;
                 case "Spell1b":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
+
                     if (SafeReset())
                     {
-                        if (isMoving)
-                        {
-                            Utility.DelayAction.Add((int)((MenuConfig.Q2D + Ping)* 1.133), Reset);
-                            Console.WriteLine("Q2 Slow Delay: " + (MenuConfig.Q2D + Ping)* 1.133);
-                        }
-                        else
-                        {
-                            Utility.DelayAction.Add(MenuConfig.Q2D + Ping, Reset);
-                            Console.WriteLine("Q2 Fast Delay: " + (Ping + MenuConfig.Q2D));
-                        }
-                    }
+                        Utility.DelayAction.Add(ResetDelay( PingActive, MenuConfig.Q2D), Reset);
 
+                        Console.WriteLine("Q2 Delay: " + ResetDelay( PingActive, MenuConfig.Q2D));
+                    }
                     break;
                 case "Spell1c":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
+
                     if (SafeReset())
                     {
-                        if (isMoving)
-                        {
-                            Utility.DelayAction.Add((int)((MenuConfig.Qld + Ping)* 1.133), Reset);
-                            Console.WriteLine("Q3 Slow Delay: " + (MenuConfig.Qld + Ping)* 1.133);
-                            Console.WriteLine(">----END----<");
+                        Utility.DelayAction.Add(ResetDelay( PingActive, MenuConfig.Qld), Reset);
 
-                        }
-                        else
-                        {
-                            Utility.DelayAction.Add(MenuConfig.Qld + Ping, Reset);
-                            Console.WriteLine("Q3 Fast Delay: " + (MenuConfig.Qld + Ping));
-                            Console.WriteLine(">----END----<");
-                        }
+                        Console.WriteLine("Q3 Delay: " 
+                            + ResetDelay( PingActive, MenuConfig.Qld)
+                            + Environment.NewLine + ">----END----<");
                     }
-
                     break;
             }
         }
@@ -129,18 +105,28 @@
             }
         }
 
-       // private static int AtkSpeed => (int)(1400 / Player.AttackSpeedMod * 3.75);
-
         private static int Ping => MenuConfig.CancelPing 
                                    ? Game.Ping / 2
                                    : 0;
+
+        private static int ResetDelay(bool ping, int qDelay)
+        {
+            if (ping)
+            {
+                qDelay += Game.Ping / 2;
+            }
+
+            return (int)((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) 
+                             ? qDelay * 1.13
+                             : qDelay);
+        }
         
         private static void Reset()
         {
             Emotes();
             Orbwalking.ResetAutoAttackTimer();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-            Player.IssueOrder(GameObjectOrder.AttackTo, ObjectManager.Player.Position.Extend(ObjectManager.Player.Direction, 400));
+           // Player.IssueOrder(GameObjectOrder.AttackTo, ObjectManager.Player.Position.Extend(ObjectManager.Player.Direction, 50));
         }
 
         private static bool SafeReset()

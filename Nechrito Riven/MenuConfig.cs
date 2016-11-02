@@ -1,19 +1,16 @@
-﻿namespace NechritoRiven.Menus
+﻿namespace NechritoRiven
 {
     #region
 
     using System.Drawing;
 
-     using Core;
-
     using LeagueSharp.Common;
 
     using Color = SharpDX.Color;
-    using Orbwalking = Orbwalking;
 
     #endregion
 
-    internal class MenuConfig : Core
+    internal class MenuConfig : Core.Core
     {
         #region Constants
 
@@ -35,7 +32,7 @@
 
         public static bool AnimSemi => config.Item("animSemi").GetValue<bool>();
 
-        public static bool laneQFast => config.Item("laneQFast").GetValue<bool>();
+        public static bool LaneQFast => config.Item("laneQFast").GetValue<bool>();
 
         public static bool AnimDance => config.Item("animDance").GetValue<bool>();
 
@@ -130,7 +127,7 @@
             config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
             var orbwalker = new Menu("Orbwalker", "rorb");
-            Orbwalker = new Orbwalking.Orbwalker(orbwalker);
+            Orbwalker = new NechritoRiven.Orbwalking.Orbwalker(orbwalker);
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");

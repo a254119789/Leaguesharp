@@ -10,8 +10,6 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Menus;
-
     #endregion
 
     internal class FleeMode : Core

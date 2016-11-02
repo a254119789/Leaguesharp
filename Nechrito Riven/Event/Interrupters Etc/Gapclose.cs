@@ -1,10 +1,10 @@
-﻿namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Event.Interrupters_Etc
 {
     #region
 
     using LeagueSharp.Common;
 
-    using Core;
+    using NechritoRiven.Core;
 
     #endregion
 

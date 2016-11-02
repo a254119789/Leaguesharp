@@ -1,8 +1,6 @@
-﻿namespace NechritoRiven.Event
+﻿namespace NechritoRiven.Core
 {
     #region
-
-    using System;
 
     using LeagueSharp;
     using LeagueSharp.Common;
