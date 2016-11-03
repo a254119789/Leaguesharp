@@ -17,7 +17,7 @@
         {
             var minions = MinionManager.GetMinions(Player.AttackRange + 380);
 
-            if (minions == null || Player.IsWindingUp || (MenuConfig.LaneEnemy && ObjectManager.Player.CountEnemiesInRange(1350) > 0))
+            if (minions == null || Player.IsWindingUp || (MenuConfig.LaneEnemy && ObjectManager.Player.CountEnemiesInRange(1500) > 0))
             {
                 return;
             }
@@ -36,29 +36,22 @@
 
                 if (Spells.E.IsReady() && MenuConfig.LaneE)
                 {
-                    Spells.E.Cast(m);
-
-                    Utility.DelayAction.Add(10, Usables.CastHydra);
+                    BackgroundData.CastE(m);
                 }
 
-                if (!MenuConfig.LaneQFast)
-                {
-                    return;
-                }
-
-                if (m.Health < Spells.Q.GetDamage(m) && Spells.Q.IsReady())
+                if (MenuConfig.LaneQFast && m.Health < Spells.Q.GetDamage(m) && Spells.Q.IsReady())
                 {
                     BackgroundData.CastQ(m);
                 }
-                else if (!Spells.W.IsReady()
-                         || !MenuConfig.LaneW
-                         || Player.IsWindingUp
-                         || m.Health > Spells.W.GetDamage(m))
-                {
-                    return;
-                }
 
-                BackgroundData.CastW(m);
+               else if (Spells.W.IsReady()
+                    && MenuConfig.LaneW 
+                    && !Player.IsWindingUp
+                    && !(m.Health > Spells.W.GetDamage(m))
+                    && BackgroundData.InRange(m))
+                {
+                    BackgroundData.CastW(m);
+                }
             }
         }
 

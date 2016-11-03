@@ -58,15 +58,19 @@
                 {
                     Spells.E.Cast(target.Position);
                 }
+
                 if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
                     Spells.R.Cast();
                 }
-                if (Spells.W.IsReady())
+
+                if (!Spells.W.IsReady() || !BackgroundData.InRange(target))
                 {
-                    BackgroundData.CastW(target);
-                    BackgroundData.DoubleCastQ(target);
+                    return;
                 }
+
+                BackgroundData.CastW(target);
+                BackgroundData.DoubleCastQ(target);
             }
         }
 

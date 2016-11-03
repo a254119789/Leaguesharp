@@ -24,7 +24,7 @@
             {
                 if (BackgroundData.AntigapclosingSpells.Contains(args.SData.Name) || (BackgroundData.TargetedSpells.Contains(args.SData.Name) && args.Target.IsMe))
                 {
-                    Utility.DelayAction.Add(90, ()=> Spells.E.Cast(Game.CursorPos));
+                    Utility.DelayAction.Add(120, ()=> Spells.E.Cast(Game.CursorPos));
                 }
             }
 

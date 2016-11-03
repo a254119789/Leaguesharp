@@ -70,13 +70,11 @@
             } 
             #endregion
 
-           else if (Spells.E.IsReady()) 
+            if (Spells.E.IsReady())
             {
                 Spells.E.Cast(target.Position);
 
-                if (MenuConfig.AlwaysR
-                && Spells.R.IsReady()
-                && Spells.R.Instance.Name == IsFirstR)
+                if (MenuConfig.AlwaysR && Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR)
                 {
                     Spells.R.Cast();
                 }
@@ -85,7 +83,8 @@
                     Utility.DelayAction.Add(10, Usables.CastHydra);
                 }
             }
-           else if (!Spells.W.IsReady() || !BackgroundData.InRange(target))
+
+            if (!Spells.W.IsReady() || !BackgroundData.InRange(target))
             {
                 return;
             }

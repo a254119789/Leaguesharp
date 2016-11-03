@@ -133,9 +133,9 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(245, 245, 340)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(245, 245, 340)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(325, 325, 475)));
+            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(220, 200, 340)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(220, 220, 340)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(320, 320, 380)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));
             animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));

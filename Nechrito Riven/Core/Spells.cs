@@ -33,9 +33,9 @@
 
         public static void Load()
         {
-            Q = new Spell(SpellSlot.Q, 260);
-            W = new Spell(SpellSlot.W, Player.AttackRange);
-            E = new Spell(SpellSlot.E, 270);
+            Q = new Spell(SpellSlot.Q, 150);
+            W = new Spell(SpellSlot.W, 200);
+            E = new Spell(SpellSlot.E, 325);
             R = new Spell(SpellSlot.R, 900);
 
             Q.SetSkillshot(0.25f, 100f, 2200f, false, SkillshotType.SkillshotCircle);

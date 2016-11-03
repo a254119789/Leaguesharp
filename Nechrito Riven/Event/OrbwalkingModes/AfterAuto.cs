@@ -55,14 +55,15 @@
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.FastHarass)
                 {
-                    if (Spells.Q.IsReady())
+                    if (Spells.Q.IsReady() && Qstack == 1)
                     {
                         BackgroundData.CastQ(target);
                     }
 
-                    if (!Spells.Q.IsReady())
+                    if (Spells.W.IsReady() && BackgroundData.InRange(target))
                     {
                         BackgroundData.CastW(target);
+                        BackgroundData.DoubleCastQ(target);
                     }
                 }
 
@@ -115,7 +116,7 @@
                         BackgroundData.CastQ(m);
                     }
 
-                    if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint"))
+                    if (!Spells.W.IsReady() || !MenuConfig.JnglW || Player.HasBuff("RivenFeint") || !BackgroundData.InRange(m))
                     {
                         return;
                     }
@@ -133,6 +134,7 @@
 
             if (nexus != null && nexus.IsValid)
             {
+                IsGameObject = true;
                 Spells.Q.Cast(nexus.Position - 500);
             }
 
@@ -140,6 +142,7 @@
 
             if (inhib != null && inhib.IsValid)
             {
+                IsGameObject = true;
                 Spells.Q.Cast(inhib.Position - 250);
             }
 
@@ -150,6 +153,7 @@
                 return;
             }
 
+            IsGameObject = true;
             Spells.Q.Cast(turret.Position - 250);
         }
 

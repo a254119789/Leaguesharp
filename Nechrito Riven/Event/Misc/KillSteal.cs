@@ -25,7 +25,8 @@
 
             if (Spells.W.IsReady()
                 && MenuConfig.KsW 
-                && target.Health <= Spells.W.GetDamage(target))
+                && target.Health <= Spells.W.GetDamage(target)
+                && BackgroundData.InRange(target))
             {
                 BackgroundData.CastW(target);
             }

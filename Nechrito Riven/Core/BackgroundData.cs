@@ -78,9 +78,12 @@
 
         public static bool R1 { get; set; }
 
+
         public static bool InRange(AttackableUnit x)
         {
-            return Player.Distance(x) <= ObjectManager.Player.AttackRange;
+            return ObjectManager.Player.HasBuff("RivenFengShuiEngine")
+            ? Player.Distance(x) <= 200 + x.BoundingRadius
+            : Player.Distance(x) <= 125 + x.BoundingRadius;
         }
         #endregion
 
@@ -95,7 +98,7 @@
 
             if (canQ && Spells.Q.IsReady())
             {
-                if (Items.CanUseItem(Item) && Item != 0 && Qstack > 1)
+                if (Items.CanUseItem(Item) && Item != 0 && Qstack == 3)
                 {
                     Items.UseItem(Item);
                     Utility.DelayAction.Add(1, () => Spells.Q.Cast(Unit.Position));
@@ -111,7 +114,7 @@
                 if (Items.CanUseItem(Item) && Item != 0)
                 {
                     Items.UseItem(Item);
-                    Utility.DelayAction.Add(1, () => Spells.W.Cast());
+                    Utility.DelayAction.Add(5, () => Spells.W.Cast());
                 }
                 else
                 {
@@ -120,9 +123,10 @@
 
                 if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
                 {
-                    var delay = Spells.R.IsReady() ? 240 : 175;
+                     var delay = Spells.R.IsReady() ? 190 : 90;
 
-                    Utility.DelayAction.Add(delay, () => Spells.Q.Cast(Unit.Position));
+                     Utility.DelayAction.Add(delay, () => Spells.Q.Cast(Unit.Position));
+                    //Spells.Q.Cast(Unit.Position);
                 }
             }
 

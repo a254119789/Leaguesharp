@@ -103,10 +103,10 @@
 
             Drawing.DrawText(pos.X + 64, pos.Y + 40, MenuConfig.AlwaysF 
                 ? Color.Yellow
-                : Color.Red,
+                  : Color.Red,
                 MenuConfig.AlwaysF
                 ? "On"
-                : "Off");
+                  : "Off");
         }
 
         #endregion

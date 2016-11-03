@@ -18,8 +18,6 @@
     {
         #region Public Methods and Operators
 
-        private static readonly bool PingActive = MenuConfig.CancelPing;
-
         private static Obj_AI_Hero Target => TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50, TargetSelector.DamageType.Physical);
 
         private static Obj_AI_Minion Mob => (Obj_AI_Minion)MinionManager.GetMinions(ObjectManager.Player.AttackRange + 50, MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
@@ -39,9 +37,9 @@
 
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Qd), Reset);
+                        Utility.DelayAction.Add(ResetDelay(MenuConfig.Qd), Reset);
 
-                        Console.WriteLine("Q1 Delay: " + ResetDelay(PingActive, MenuConfig.Qd));
+                        Console.WriteLine("Q1 Delay: " + ResetDelay(MenuConfig.Qd));
                     }
                     break;
                 case "Spell1b":
@@ -50,9 +48,9 @@
 
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Q2D), Reset);
+                        Utility.DelayAction.Add(ResetDelay(MenuConfig.Q2D), Reset);
 
-                        Console.WriteLine("Q2 Delay: " + ResetDelay(PingActive, MenuConfig.Q2D));
+                        Console.WriteLine("Q2 Delay: " + ResetDelay(MenuConfig.Q2D));
                     }
                     break;
                 case "Spell1c":
@@ -61,10 +59,10 @@
 
                     if (SafeReset())
                     {
-                        Utility.DelayAction.Add(ResetDelay(PingActive, MenuConfig.Qld), Reset);
+                        Utility.DelayAction.Add(ResetDelay(MenuConfig.Qld), Reset);
 
                         Console.WriteLine("Q3 Delay: " 
-                         + ResetDelay( PingActive, MenuConfig.Qld)
+                         + ResetDelay( MenuConfig.Qld)
                          + Environment.NewLine + ">----END----<");
                     }
                     break;
@@ -104,18 +102,19 @@
             }
         }
 
-        private static int ResetDelay(bool ping, int qDelay)
+        private static int ResetDelay(int qDelay)
         {
-            qDelay -= ObjectManager.Player.Level/4;
-
-            if (ping)
+            if (MenuConfig.CancelPing)
             {
-                qDelay += Game.Ping / 2;
+               return qDelay + Game.Ping / 2 - ObjectManager.Player.Level / 2;
+            }
+           
+            if((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) || IsGameObject)
+            {
+                return (int)(qDelay * 1.13);
             }
 
-            return (int)((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) 
-                ? qDelay * 1.15 
-                : qDelay);
+            return qDelay;
         }
         
         private static void Reset()

@@ -29,7 +29,7 @@
                 BackgroundData.CastQ(target);
             }
 
-            if (Spells.W.IsReady())
+            if (Spells.W.IsReady() && BackgroundData.InRange(target))
             {
                 BackgroundData.CastW(target);
             }

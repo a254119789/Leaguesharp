@@ -20,9 +20,9 @@
 
         public static void DmgDraw(EventArgs args)
         {
-            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1500)))
+            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>().Where(ene => ene.IsValidTarget(1750)))
             {
-                if (!MenuConfig.Dind)
+                if (!MenuConfig.Dind || ObjectManager.Player.IsDead)
                 {
                     return;
                 }
@@ -30,7 +30,7 @@
                 Indicator.Unit = enemy;
 
                 Indicator.DrawDmg(Dmg.GetComboDamage(enemy), 
-                   enemy.Health <= Dmg.GetComboDamage(enemy) * .7
+                   enemy.Health <= Dmg.GetComboDamage(enemy) * .85
                    ? Color.LawnGreen 
                    : Color.Yellow);
             }

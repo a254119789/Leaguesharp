@@ -27,6 +27,8 @@
 
         public static float LastQ;
 
+        public static bool IsGameObject = false;
+
         #endregion
 
         #region Public Properties
