@@ -531,7 +531,7 @@ namespace NechritoRiven
                         return;
                     }
 
-                 
+
                     LastAttackCommandT = Utils.GameTimeTickCount;
                     lastTarget = target;
                 }

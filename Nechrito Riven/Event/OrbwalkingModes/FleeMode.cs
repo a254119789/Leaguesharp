@@ -2,7 +2,6 @@
 {
     #region
 
-    using System;
     using System.Linq;
 
     using Core;

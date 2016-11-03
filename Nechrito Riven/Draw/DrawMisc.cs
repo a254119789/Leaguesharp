@@ -48,16 +48,13 @@
                 }
             }
 
-            if (MenuConfig.DrawBt && Spells.Flash != SpellSlot.Unknown)
+            if (MenuConfig.DrawBt && Spells.Flash != SpellSlot.Unknown && Spells.Flash.IsReady())
             {
                 Render.Circle.DrawCircle(
-                    Player.Position,
-                    425 + Spells.W.Range,
-                    Spells.R.IsReady() 
-                    && Spells.Flash.IsReady()
-                    ? Color.Orange
-                    : Color.DarkSlateGray,
-                    1);
+                     Player.Position,
+                     Player.AttackRange + 625,
+                     Color.Orange,
+                    3);
             }
 
             if (MenuConfig.DrawFh)
@@ -88,15 +85,13 @@
             {
                 Drawing.DrawText(pos.X - 20, pos.Y + 20, Color.DodgerBlue, "Use R1  (     )");
 
-                Drawing.DrawText(
-                    pos.X + 43,
-                    pos.Y + 20,
+                Drawing.DrawText(pos.X + 43, pos.Y + 20, MenuConfig.AlwaysR 
+                     ? Color.Yellow
+                       : Color.Red,
+
                     MenuConfig.AlwaysR 
-                    ? Color.Yellow
-                    : Color.Red,
-                    MenuConfig.AlwaysR 
-                    ? "On"
-                    : "Off");
+                     ? "On"
+                       : "Off");
             }
 
             if (!MenuConfig.ForceFlash)

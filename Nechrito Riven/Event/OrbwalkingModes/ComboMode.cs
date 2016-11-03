@@ -2,11 +2,8 @@
 {
     #region
 
-    using System;
-
     using Core;
 
-    using LeagueSharp;
     using LeagueSharp.Common;
 
     #endregion
@@ -25,7 +22,7 @@
             {
                 var pred = Spells.R.GetPrediction(target, true, collisionable: new[] { CollisionableObjects.YasuoWall });
 
-                if (pred.Hitchance < HitChance.High || target.HasBuff(BackgroundData.InvulnerableList.ToString()))
+                if (pred.Hitchance < HitChance.High || target.HasBuff(BackgroundData.InvulnerableList.ToString()) || Player.IsWindingUp)
                 {
                     return;
                 }

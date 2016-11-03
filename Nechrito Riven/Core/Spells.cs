@@ -33,8 +33,8 @@
 
         public static void Load()
         {
-            Q = new Spell(SpellSlot.Q, 260f);
-            W = new Spell(SpellSlot.W, 250f);
+            Q = new Spell(SpellSlot.Q, 260);
+            W = new Spell(SpellSlot.W, Player.AttackRange);
             E = new Spell(SpellSlot.E, 270);
             R = new Spell(SpellSlot.R, 900);
 

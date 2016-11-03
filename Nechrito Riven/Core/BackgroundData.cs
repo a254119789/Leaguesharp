@@ -2,7 +2,6 @@
 {
     #region
 
-    using System;
     using System.Collections.Generic;
 
     using LeagueSharp;
@@ -70,20 +69,18 @@
 
         private static int Item =>
              Items.CanUseItem(3077) && Items.HasItem(3077)
-           ? 3077
-           : Items.CanUseItem(3074) && Items.HasItem(3074)
-           ? 3074
-           : Items.CanUseItem(3748) && Items.HasItem(3748)
-           ? 3748 
-           : 0;
+            ? 3077
+             : Items.CanUseItem(3074) && Items.HasItem(3074)
+              ? 3074
+               : Items.CanUseItem(3748) && Items.HasItem(3748)
+                ? 3748 
+                 : 0;
 
         public static bool R1 { get; set; }
 
         public static bool InRange(AttackableUnit x)
         {
-            return ObjectManager.Player.HasBuff("RivenFengShuiEngine")
-            ? Player.Distance(x) <= 330
-            : Player.Distance(x) <= 265;
+            return Player.Distance(x) <= ObjectManager.Player.AttackRange;
         }
         #endregion
 

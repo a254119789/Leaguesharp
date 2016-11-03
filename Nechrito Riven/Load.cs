@@ -8,7 +8,6 @@
 
     using Draw;
 
-    using Event;
     using Event.OrbwalkingModes;
 
     using LeagueSharp;

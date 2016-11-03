@@ -4,7 +4,6 @@
 
     using Core;
 
-    using LeagueSharp;
     using LeagueSharp.Common;
 
     #endregion
@@ -21,16 +20,15 @@
                 var selectedTarget = TargetSelector.GetSelectedTarget();
 
                 if (selectedTarget == null 
-                    || !selectedTarget.IsValidTarget(410 + Spells.W.Range)
-                    || Player.Distance(selectedTarget.Position) < 400
-                    || (MenuConfig.Flash && selectedTarget.Health > Dmg.GetComboDamage(selectedTarget))
+                    || !selectedTarget.IsValidTarget(Player.AttackRange + 625)
+                    || Player.Distance(selectedTarget.Position) < Player.AttackRange
+                    || (MenuConfig.Flash && selectedTarget.Health > Dmg.GetComboDamage(selectedTarget) && !Spells.R.IsReady())
                     || (!MenuConfig.Flash && (!Spells.R.IsReady() || !Spells.W.IsReady())))
                 {
                     return;
                 }
 
                 Usables.CastYoumoo();
-
                 Spells.E.Cast(selectedTarget.Position);
                 Spells.R.Cast();
                 Utility.DelayAction.Add(170, BackgroundData.FlashW);

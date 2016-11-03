@@ -7,8 +7,6 @@
 
     using Core;
 
-    using Event;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 

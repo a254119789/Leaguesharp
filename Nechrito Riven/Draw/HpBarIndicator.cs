@@ -9,8 +9,6 @@
     using SharpDX;
     using SharpDX.Direct3D9;
 
-    using Color = System.Drawing.Color;
-
     #endregion
 
     internal class HpBarIndicator
@@ -77,7 +75,7 @@
             var hpPosNow = this.GetHpPosAfterDmg(0);
             var hpPosAfter = this.GetHpPosAfterDmg(dmg);
 
-            this.FillHpBar(hpPosNow, hpPosAfter, color);
+            FillHpBar(hpPosNow, hpPosAfter, color);
 
             // fillHPBar((int)(hpPosNow.X - startPosition.X), (int)(hpPosAfter.X- startPosition.X), color);
         }
@@ -101,16 +99,7 @@
             DxLine.OnLostDevice();
         }
 
-        private void FillHpBar(int to, int from, Color color)
-        {
-            var sPos = this.StartPosition;
-            for (var i = from; i < to; i++)
-            {
-                Drawing.DrawLine(sPos.X + i, sPos.Y, sPos.X + i, sPos.Y + 9, 1, color);
-            }
-        }
-
-        private void FillHpBar(Vector2 from, Vector2 to, ColorBGRA color)
+        private static void FillHpBar(Vector2 from, Vector2 to, ColorBGRA color)
         {
             DxLine.Begin();
 

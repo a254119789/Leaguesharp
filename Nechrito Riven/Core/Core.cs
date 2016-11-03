@@ -9,7 +9,7 @@
     /// <summary>
     /// The core.
     /// </summary>
-    internal partial class Core
+    internal class Core
     {
         #region Constants
 

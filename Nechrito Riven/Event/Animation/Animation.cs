@@ -106,7 +106,7 @@
 
         private static int ResetDelay(bool ping, int qDelay)
         {
-            qDelay -= (int)ObjectManager.Player.Level/4;
+            qDelay -= ObjectManager.Player.Level/4;
 
             if (ping)
             {

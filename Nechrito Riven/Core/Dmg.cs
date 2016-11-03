@@ -19,6 +19,11 @@
 
             var attackDmg = (float)Player.GetAutoAttackDamage(enemy);
 
+            if (Spells.E.IsReady())
+            {
+                damage += attackDmg;
+            }
+
             if (Spells.W.IsReady())
             {
                 damage += Spells.W.GetDamage(enemy) + attackDmg;

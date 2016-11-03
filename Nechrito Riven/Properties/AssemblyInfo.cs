@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 
 #endregion
 
-// 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
-// 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
-// 이러한 특성 값을 변경하세요.
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
 [assembly: AssemblyTitle("Nechrito Riven")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -17,18 +17,23 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// ComVisible을 false로 설정하면 이 어셈블리의 형식이 COM 구성 요소에 
-// 표시되지 않습니다.  COM에서 이 어셈블리의 형식에 액세스하려면 
-// 해당 형식에 대해 ComVisible 특성을 true로 설정하세요.
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-// 이 프로젝트가 COM에 노출되는 경우 다음 GUID는 typelib의 ID를 나타냅니다.
+// The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c2ce7153-5221-42c4-87fe-4fe6d09642bf")]
 
-// 어셈블리의 버전 정보는 다음 네 가지 값으로 구성됩니다.
-//      주 버전
-//      부 버전 
-//      빌드 번호
-//      수정 버전
-[assembly: AssemblyVersion("6.18.0.0")]
-[assembly: AssemblyFileVersion("6.18.0.0")]
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("6.21.0.0")]
+[assembly: AssemblyFileVersion("6.21.0.0")]

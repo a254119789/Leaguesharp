@@ -25,7 +25,6 @@
                 return;
             }
 
-            Console.WriteLine("Loading...");
             Load.LoadAssembly();
         }
 
