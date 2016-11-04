@@ -133,7 +133,7 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(220, 200, 340)));
+            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(220, 220, 340)));
             animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(220, 220, 340)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(320, 320, 380)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));

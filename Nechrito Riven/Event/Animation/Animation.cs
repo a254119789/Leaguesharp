@@ -111,7 +111,7 @@
            
             if((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) || IsGameObject)
             {
-                return (int)(qDelay * 1.13);
+                return (int)(qDelay * 1.15);
             }
 
             return qDelay;
