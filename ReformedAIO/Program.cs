@@ -12,6 +12,7 @@
     using ReformedAIO.Champions.Gnar;
     using ReformedAIO.Champions.Gragas;
     using ReformedAIO.Champions.Lucian;
+    using ReformedAIO.Champions.Olaf;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
 
@@ -32,6 +33,7 @@
                 new GnarLoader(),
                 new EzrealLoader(),
                 new LucianLoader(),
+                new OlafLoader()
             });
 
             bootstrap.Run();

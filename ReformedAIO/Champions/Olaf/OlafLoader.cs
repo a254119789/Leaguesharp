@@ -1,4 +1,4 @@
-﻿namespace ReformedAIO.Champions.Ezreal
+﻿namespace ReformedAIO.Champions.Olaf
 {
     using System.Collections.Generic;
     using System.Drawing;
@@ -6,19 +6,14 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using OrbwalkingMode.Combo;
-
-    using Core.Damage;
-    using Core.Spells;
-
-    using Ezreal.Drawings;
-    using Ezreal.Killsteal;
-    using Ezreal.OrbwalkingMode.Harass;
-    using Ezreal.OrbwalkingMode.JungleClear;
-    using Ezreal.OrbwalkingMode.LaneClear;
-
-    using ReformedAIO.Champions.Ezreal.OrbwalkingMode.Stack;
-    using ReformedAIO.Library.Dash_Handler;
+    using ReformedAIO.Champions.Olaf.Core.Damage;
+    using ReformedAIO.Champions.Olaf.Core.Spells;
+    using ReformedAIO.Champions.Olaf.Drawings;
+    using ReformedAIO.Champions.Olaf.Killsteal;
+    using ReformedAIO.Champions.Olaf.OrbwalkingMode.Combo;
+    using ReformedAIO.Champions.Olaf.OrbwalkingMode.Jungle;
+    using ReformedAIO.Champions.Olaf.OrbwalkingMode.Lane;
+    using ReformedAIO.Champions.Olaf.OrbwalkingMode.Mixed;
     using ReformedAIO.Library.SpellParent;
 
     using Utilities.Modules.Skinchanger;
@@ -31,13 +26,13 @@
 
     using Color = SharpDX.Color;
 
-    internal sealed class EzrealLoader : LoadableBase
+    internal sealed class OlafLoader : LoadableBase
     {
-        public override string DisplayName { get; set; } = "Reformed Ezreal";
+        public override string DisplayName { get; set; } = "Reformed Olaf";
 
-        public override string InternalName { get; set; } = "Ezreal";
+        public override string InternalName { get; set; } = "Olaf";
 
-        public override IEnumerable<string> Tags { get; set; } = new[] { "Ezreal" };
+        public override IEnumerable<string> Tags { get; set; } = new[] { "Olaf" };
 
         public override void Load()
         {
@@ -66,15 +61,14 @@
             var harassParent = new OrbwalkingParent("Harass", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
             var laneParent = new OrbwalkingParent("Lane", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
-           //var miscParent = new Parent("Misc");
+            var miscParent = new Parent("Harass");
             var killstealParnet = new Parent("Killsteal");
             var drawingParent = new Parent("Drawings");
             var utilityParent = new Parent("Reformed Utility");
 
-            utilityParent.Add(new Skinchanger());
+            var olafDmg = new OlafDamage(eSpell, wSpell, qSpell);
 
-            var dmg = new EzrealDamage(eSpell, wSpell, qSpell, rSpell);
-            var dashSmart = new DashSmart();
+            utilityParent.Add(new Skinchanger());
 
             var mustNotBeWindingUpGuardian = new PlayerMustNotBeWindingUp();
             var qReadyGuardian = new SpellMustBeReady(SpellSlot.Q);
@@ -85,39 +79,41 @@
             comboParent.Add(new List<Base>()
                                 {
                                     new QCombo(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
-                                    new WCombo(wSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(wReadyGuardian),
-                                    new ECombo(eSpell, dashSmart).Guardian(mustNotBeWindingUpGuardian).Guardian(eReadyGuardian),
-                                    new RCombo(rSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(rReadyGuardian)
+                                    new WCombo(wSpell).Guardian(wReadyGuardian),
+                                    new ECombo(eSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(eReadyGuardian),
+                                    new RCombo(rSpell, olafDmg).Guardian(mustNotBeWindingUpGuardian).Guardian(rReadyGuardian)
                                 });
             harassParent.Add(new List<Base>()
                                  {
-                                     new QHarass(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
-                                     new WHarass(wSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(wReadyGuardian),
+                                     new QMixed(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
+                                     new WMixed(wSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(wReadyGuardian),
+                                     new EMixed(eSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(eReadyGuardian),
                                  });
             laneParent.Add(new List<Base>()
                                {
                                    new QLane(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
                                    new WLane(wSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(wReadyGuardian),
+                                   new ELane(eSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(eReadyGuardian),
                                });
 
             jungleParent.Add(new List<Base>()
                                  {
                                      new QJungle(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
                                      new WJungle(wSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(wReadyGuardian),
+                                     new EJungle(eSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(eReadyGuardian),
                                  });
 
             killstealParnet.Add(new List<Base>
                                     {
                                         new QKillsteal(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
-                                        new WKillsteal(wSpell).Guardian(wReadyGuardian).Guardian(mustNotBeWindingUpGuardian).Guardian(wReadyGuardian),
-                                      //  new RKillsteal(rSpell).Guardian(rReadyGuardian),
+                                        new EKillsteal(eSpell).Guardian(eReadyGuardian),
                                     });
 
             drawingParent.Add(new List<Base>
                                   {
-                                    new DmgDraw(dmg),
+                                    new OlafDamageDraw(olafDmg),
                                     new QDraw(qSpell),
-                                    new WDraw(wSpell)
+                                    new EDraw(eSpell)
                                   });
 
             superParent.Add(new List<Base>
@@ -128,7 +124,6 @@
                                      harassParent,
                                      laneParent,
                                      jungleParent,
-                                     new StackTear(qSpell, wSpell).Guardian(new PlayerMustNotBeWindingUp()),
                                      killstealParnet,
                                      drawingParent,
                                   });
@@ -141,7 +136,7 @@
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;
 
-            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Reformed AIO</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> - Ezreal!</font></b>");
+            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Reformed AIO</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> - Olaf!</font></b>");
         }
     }
 }

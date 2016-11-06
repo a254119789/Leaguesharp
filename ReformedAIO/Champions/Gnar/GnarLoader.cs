@@ -120,6 +120,8 @@
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;
+
+            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Reformed AIO</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> - Gnar!</font></b>");
         }
     }
 }

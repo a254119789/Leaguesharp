@@ -70,14 +70,14 @@
                 return;
             }
 
-            if (ObjectManager.Player.Distance(Target) < ObjectManager.Player.AttackRange / 2 && Menu.Item("AntiMelee").GetValue<bool>())
+            var ePrediction = eSpell.Spell.GetPrediction(Target);
+
+            if (ObjectManager.Player.Distance(Target) < ObjectManager.Player.AttackRange / 2 && Menu.Item("AntiMelee").GetValue<bool>() && ePrediction.Hitchance >= HitChance.High)
             {
                 eSpell.Spell.Cast(Target.Position);
             }
 
-            var ePrediction = eSpell.Spell.GetPrediction(Target);
-
-            if (ePrediction.Hitchance < HitChance.High)
+            if (ePrediction.Hitchance < HitChance.VeryHigh)
             {
                 return;
             }
