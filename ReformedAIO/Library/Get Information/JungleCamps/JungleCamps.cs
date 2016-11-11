@@ -6,7 +6,7 @@
     using LeagueSharp;
     using LeagueSharp.SDK;
 
-    internal class JungleCampsExtension
+    internal class JungleCamps
     {
         public List<Obj_AI_Minion> GetSmallJungle(float range)
         {

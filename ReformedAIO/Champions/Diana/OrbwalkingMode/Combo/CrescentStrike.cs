@@ -71,10 +71,10 @@
         ///     Called when [disable].
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="featureBaseEventArgs">The <see cref="Base.FeatureBaseEventArgs" /> instance containing the event data.</param>
-        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        /// <param name="eventArgs">The <see cref="Base.FeatureBaseEventArgs" /> instance containing the event data.</param>
+        protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnDisable(sender, featureBaseEventArgs);
+            base.OnDisable(sender, eventArgs);
 
             Game.OnUpdate -= OnUpdate;
         }
@@ -83,10 +83,10 @@
         ///     Called when [enable].
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="featureBaseEventArgs">The <see cref="Base.FeatureBaseEventArgs" /> instance containing the event data.</param>
-        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        /// <param name="eventArgs">The <see cref="Base.FeatureBaseEventArgs" /> instance containing the event data.</param>
+        protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnEnable(sender, featureBaseEventArgs);
+            base.OnEnable(sender, eventArgs);
 
             Game.OnUpdate += OnUpdate;
         }
@@ -95,8 +95,8 @@
         ///     Called when [load].
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="featureBaseEventArgs">The <see cref="Base.FeatureBaseEventArgs" /> instance containing the event data.</param>
-        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        /// <param name="eventArgs">The <see cref="Base.FeatureBaseEventArgs" /> instance containing the event data.</param>
+        protected sealed override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
             if (Variables.Spells != null)
             {

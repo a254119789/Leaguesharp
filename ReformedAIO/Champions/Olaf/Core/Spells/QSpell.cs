@@ -17,9 +17,9 @@
             return Spell.GetDamage(target);
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
             Spell = new Spell(SpellSlot.Q, 1000);
             Spell.SetSkillshot(.2f, 75f, 1500, false, SkillshotType.SkillshotLine);

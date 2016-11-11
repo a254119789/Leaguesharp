@@ -88,6 +88,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Champions\Annie\AnnieLoader.cs" />
+    <Compile Include="Champions\Annie\Core\Damage\AnnieDamage.cs" />
+    <Compile Include="Champions\Annie\Core\PassiveCount.cs" />
+    <Compile Include="Champions\Annie\Core\Spells\ESpell.cs" />
+    <Compile Include="Champions\Annie\Core\Spells\QSpell.cs" />
+    <Compile Include="Champions\Annie\Core\Spells\RSpell.cs" />
+    <Compile Include="Champions\Annie\Core\Spells\WSpell.cs" />
+    <Compile Include="Champions\Annie\Drawings\AnnieDamageDraw.cs" />
+    <Compile Include="Champions\Annie\Drawings\PassiveDraw.cs" />
+    <Compile Include="Champions\Annie\Drawings\QDraw.cs" />
+    <Compile Include="Champions\Annie\Drawings\RDraw.cs" />
+    <Compile Include="Champions\Annie\Drawings\WDraw.cs" />
+    <Compile Include="Champions\Annie\Killsteal\QKillsteal.cs" />
+    <Compile Include="Champions\Annie\Killsteal\RKillsteal.cs" />
+    <Compile Include="Champions\Annie\Killsteal\WKillsteal.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Combo\ECombo.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Combo\QCombo.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Combo\RCombo.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Combo\WCombo.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Harass\EHarass.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Harass\QHarass.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Harass\WHarass.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Jungleclear\EJungle.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Jungleclear\QJungle.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Jungleclear\WJungle.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Laneclear\QLane.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Laneclear\WLane.cs" />
+    <Compile Include="Champions\Annie\OrbwalkingMode\Lasthit\QLasthit.cs" />
+    <Compile Include="Champions\Annie\Stack\PassiveStack.cs" />
+    <Compile Include="Champions\Annie\TibbersAI\TibbersAI.cs" />
+    <Compile Include="Champions\Annie\Utility\AnnieSkinchanger.cs" />
     <Compile Include="Champions\Ashe\AsheLoader.cs" />
     <Compile Include="Champions\Ashe\Drawings\DmgDraw.cs" />
     <Compile Include="Champions\Ashe\Drawings\WDraw.cs" />
@@ -105,6 +136,7 @@
     <Compile Include="Champions\Ashe\OrbwalkingMode\LaneClear\WLane.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Mixed\QMixed.cs" />
     <Compile Include="Champions\Ashe\OrbwalkingMode\Mixed\WMixed.cs" />
+    <Compile Include="Champions\Ashe\Utility\AsheSkinchanger.cs" />
     <Compile Include="Champions\Ashe\Variable.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Champions\Caitlyn\CaitlynLoader.cs" />
@@ -127,6 +159,8 @@
     <Compile Include="Champions\Caitlyn\Spells\QSpell.cs" />
     <Compile Include="Champions\Caitlyn\Spells\RSpell.cs" />
     <Compile Include="Champions\Caitlyn\Spells\WSpell.cs" />
+    <Compile Include="Champions\Caitlyn\Utility\CaitlynSkinchanger.cs" />
+    <Compile Include="Champions\Diana\Utility\DianaSkinchanger.cs" />
     <Compile Include="Champions\Ezreal\Core\Damage\EzrealDamage.cs" />
     <Compile Include="Champions\Ezreal\Core\Spells\ESpell.cs" />
     <Compile Include="Champions\Ezreal\Core\Spells\QSpell.cs" />
@@ -151,6 +185,7 @@
     <Compile Include="Champions\Ezreal\OrbwalkingMode\LaneClear\QLane.cs" />
     <Compile Include="Champions\Ezreal\OrbwalkingMode\LaneClear\WLane.cs" />
     <Compile Include="Champions\Ezreal\OrbwalkingMode\Stack\StackTear.cs" />
+    <Compile Include="Champions\Ezreal\Utility\EzrealSkinchanger.cs" />
     <Compile Include="Champions\Gnar\Core\Dmg.cs" />
     <Compile Include="Champions\Gnar\Core\GnarState.cs" />
     <Compile Include="Champions\Gnar\Core\Spells.cs" />
@@ -175,11 +210,14 @@
     <Compile Include="Champions\Gnar\PermaActive\Flee.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\WKillsteal.cs" />
+    <Compile Include="Champions\Gnar\Utility\GnarSkinchanger.cs" />
+    <Compile Include="Champions\Gragas\Utility\GragasSkinchanger.cs" />
     <Compile Include="Champions\Lucian\Drawings\QDraw.cs" />
     <Compile Include="Champions\Lucian\Spells\ESpell.cs" />
     <Compile Include="Champions\Lucian\Spells\Q2Spell.cs" />
     <Compile Include="Champions\Lucian\Spells\QSpell.cs" />
     <Compile Include="Champions\Lucian\Spells\RSpell.cs" />
+    <Compile Include="Champions\Lucian\Utility\LucianSkinchanger.cs" />
     <Compile Include="Champions\Olaf\Core\Damage\OlafDamage.cs" />
     <Compile Include="Champions\Olaf\Core\Spells\ESpell.cs" />
     <Compile Include="Champions\Olaf\Core\Spells\QSpell.cs" />
@@ -204,10 +242,11 @@
     <Compile Include="Champions\Olaf\OrbwalkingMode\Mixed\EMixed.cs" />
     <Compile Include="Champions\Olaf\OrbwalkingMode\Mixed\QMixed.cs" />
     <Compile Include="Champions\Olaf\OrbwalkingMode\Mixed\WMixed.cs" />
+    <Compile Include="Champions\Olaf\Utility\OlafSkinchanger.cs" />
     <Compile Include="Library\Get Information\GetRandom\GetRandom.cs" />
-    <Compile Include="Library\Get Information\JungleCamps\JungleCampsExtension.cs" />
+    <Compile Include="Library\Get Information\JungleCamps\JungleCamps.cs" />
     <Compile Include="Library\Get Information\HeroInfo\HeroInfo.cs" />
-    <Compile Include="Library\Spell Information\Global Ults.cs" />
+    <Compile Include="Library\Spell Information\SpellInformation.cs" />
     <Compile Include="Library\SpellParent\ISpellIndex.cs" />
     <Compile Include="Library\SpellParent\SpellParent.cs" />
     <Compile Include="Champions\Lucian\Spells\WSpell.cs" />
@@ -283,16 +322,13 @@
     <Compile Include="Library\WallExtension\WallExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Modules\Skinchanger\Skinchanger.cs" />
-    <Compile Include="Utilities\ReformedUtlity.cs" />
+    <Compile Include="Utility\ReformedUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Champions\Ezreal\OrbwalkingMode\Flee\" />
-    <Folder Include="Utilities\Modules\Activator\" />
-    <Folder Include="Utilities\Modules\TradeSmart\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

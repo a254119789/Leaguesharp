@@ -14,10 +14,9 @@
     using ReformedAIO.Champions.Olaf.OrbwalkingMode.Jungle;
     using ReformedAIO.Champions.Olaf.OrbwalkingMode.Lane;
     using ReformedAIO.Champions.Olaf.OrbwalkingMode.Mixed;
+    using ReformedAIO.Champions.Olaf.Utility;
     using ReformedAIO.Library.SpellParent;
-
-    using Utilities.Modules.Skinchanger;
-
+   
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -61,14 +60,13 @@
             var harassParent = new OrbwalkingParent("Harass", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
             var laneParent = new OrbwalkingParent("Lane", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
             var jungleParent = new OrbwalkingParent("Jungle", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.LaneClear);
-            var miscParent = new Parent("Harass");
             var killstealParnet = new Parent("Killsteal");
             var drawingParent = new Parent("Drawings");
             var utilityParent = new Parent("Reformed Utility");
 
             var olafDmg = new OlafDamage(eSpell, wSpell, qSpell);
 
-            utilityParent.Add(new Skinchanger());
+            utilityParent.Add(new OlafSkinchanger());
 
             var mustNotBeWindingUpGuardian = new PlayerMustNotBeWindingUp();
             var qReadyGuardian = new SpellMustBeReady(SpellSlot.Q);

@@ -31,32 +31,31 @@
                 return;
             }
 
-            if (Target.HealthPercent <= Menu.Item("Health").GetValue<Slider>().Value)
-            {
+           // if (Target.HealthPercent <= Menu.Item("Health").GetValue<Slider>().Value)
+           // {
                 spell.Spell.Cast(Target);
-            }
+           // }
         }
 
-        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnDisable(sender, featureBaseEventArgs);
+            base.OnDisable(sender, eventArgs);
 
             Game.OnUpdate -= OnUpdate;
         }
 
-        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnEnable(sender, featureBaseEventArgs);
+            base.OnEnable(sender, eventArgs);
 
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
-
-            Menu.AddItem(new MenuItem("Health", "Use When Target Health %").SetValue(new Slider(100, 0, 100)));
+           // Menu.AddItem(new MenuItem("Health", "Use When Target Health %").SetValue(new Slider(100, 0, 100)));
 
             Menu.AddItem(new MenuItem("Mana", "Min Mana %").SetValue(new Slider(0, 0, 100)));
         }

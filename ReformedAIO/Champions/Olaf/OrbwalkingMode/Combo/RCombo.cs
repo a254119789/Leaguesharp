@@ -28,7 +28,7 @@
             this.damage = damage;
         }
 
-        private static Obj_AI_Hero Target => TargetSelector.GetTarget(800, TargetSelector.DamageType.Physical);
+        private static Obj_AI_Hero Target => TargetSelector.GetTarget(550, TargetSelector.DamageType.Physical);
 
         private void OnUpdate(EventArgs args)
         {
@@ -40,29 +40,29 @@
             }
 
             if ((heroInfo.Immobilized(ObjectManager.Player) && Menu.Item("Immobilized").GetValue<bool>())
-                || damage.GetComboDamage(Target) * 1.3 >= Target.Health && Menu.Item("Killable").GetValue<bool>())
+                || damage.GetComboDamage(Target) * 1.15 >= Target.Health && Menu.Item("Killable").GetValue<bool>())
             {
                 spell.Spell.Cast();
             }
         }
 
-        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnDisable(sender, featureBaseEventArgs);
+            base.OnDisable(sender, eventArgs);
 
             Game.OnUpdate -= OnUpdate;
         }
 
-        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnEnable(sender, featureBaseEventArgs);
+            base.OnEnable(sender, eventArgs);
 
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
             Menu.AddItem(new MenuItem("Killable", "Use When Killable").SetValue(true));
 

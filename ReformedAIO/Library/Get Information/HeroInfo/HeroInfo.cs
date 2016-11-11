@@ -52,12 +52,11 @@
             return target.HasBuffOfType(BuffType.Stun)
                    || target.HasBuffOfType(BuffType.Snare)
                    || target.HasBuffOfType(BuffType.Knockup)
+                   || target.HasBuffOfType(BuffType.Knockback)
                    || target.HasBuffOfType(BuffType.Charm)
                    || target.HasBuffOfType(BuffType.Fear)
-                   || target.HasBuffOfType(BuffType.Knockback)
                    || target.HasBuffOfType(BuffType.Taunt)
-                   || target.HasBuffOfType(BuffType.Suppression)
-                   || target.IsStunned;
+                   || target.HasBuffOfType(BuffType.Suppression);
         }
     }
 }

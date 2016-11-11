@@ -1,9 +1,7 @@
-﻿namespace ReformedAIO.Utilities
+﻿namespace ReformedAIO.Utility
 {
     using System.Collections.Generic;
     using System.Drawing;
-
-    using ReformedAIO.Utilities.Modules.Skinchanger;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -25,7 +23,7 @@
 
             superParent.Add(new List<Base>()
                                 {
-                                    new Skinchanger()
+                                 
                                 });
 
 

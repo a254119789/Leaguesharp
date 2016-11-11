@@ -15,6 +15,8 @@
     using OrbwalkingMode.LaneClear;
     using OrbwalkingMode.Mixed;
 
+    using ReformedAIO.Champions.Ashe.Utility;
+
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
@@ -53,6 +55,10 @@
             var mixedParent = new OrbwalkingParent("Mixed", orbwalkerModule.OrbwalkerInstance, Orbwalking.OrbwalkingMode.Mixed);
             var drawingParent = new Parent("Drawings");
 
+            var utilityParent = new Parent("Reformed Utility");
+
+            utilityParent.Add(new AsheSkinchanger());
+
             var setSpell = new SetSpells();
             setSpell.Load();
 
@@ -89,6 +95,7 @@
             });
            
             superParent.Add(new Base[] {
+                utilityParent,
                 orbwalkerModule,
                 comboParent,
                 mixedParent,
@@ -98,6 +105,9 @@
             });
 
             superParent.Load();
+
+            utilityParent.Menu.Style = FontStyle.Bold;
+            utilityParent.Menu.Color = Color.Cyan;
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;

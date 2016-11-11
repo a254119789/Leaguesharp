@@ -7,6 +7,8 @@
 
     using Core.Spells;
 
+    using ReformedAIO.Library.Spell_Information;
+
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class QCombo : OrbwalkingChild
@@ -20,6 +22,8 @@
             this.spell = spell;
         }
 
+        private SpellInformation spellInfo;
+
         private Obj_AI_Hero Target => TargetSelector.GetTarget(spell.Spell.Range, TargetSelector.DamageType.Physical);
 
         private void OnUpdate(EventArgs args)
@@ -31,54 +35,45 @@
                 return;
             }
 
-            var prediction = spell.Spell.GetPrediction(Target, true);
-
             switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
             {
-                case 0: 
-                    if (prediction.Hitchance >= HitChance.Medium)
-                    {
-                        spell.Spell.Cast(prediction.CastPosition.Extend(ObjectManager.Player.Position, -Menu.Item("Distance").GetValue<Slider>().Value));
-                    }
+                case 0:
+                    spell.Spell.CastIfHitchanceEquals(Target, HitChance.Medium);
                     break;
                 case 1:
-                    if (prediction.Hitchance >= HitChance.High)
-                    {
-                        spell.Spell.Cast(prediction.CastPosition.Extend(ObjectManager.Player.Position, -Menu.Item("Distance").GetValue<Slider>().Value));
-                    }
+                    spell.Spell.CastIfHitchanceEquals(Target, HitChance.High);
                     break;
                 case 2:
-                    if (prediction.Hitchance >= HitChance.VeryHigh)
-                    {
-                        spell.Spell.Cast(prediction.CastPosition.Extend(ObjectManager.Player.Position, -Menu.Item("Distance").GetValue<Slider>().Value));
-                    }
+                    spell.Spell.CastIfHitchanceEquals(Target, HitChance.VeryHigh);
                     break;
             }
         }
 
-        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnDisable(sender, featureBaseEventArgs);
+            base.OnDisable(sender, eventArgs);
 
             Game.OnUpdate -= OnUpdate;
         }
 
-        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnEnable(sender, featureBaseEventArgs);
+            base.OnEnable(sender, eventArgs);
 
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
             Menu.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
 
-            Menu.AddItem(new MenuItem("Distance", "Shortened Throw Distance").SetValue(new Slider(30, 0, 60)));
+           // Menu.AddItem(new MenuItem("Distance", "Shortened Throw Distance").SetValue(new Slider(10, 0, 50)));
 
             Menu.AddItem(new MenuItem("Mana", "Min Mana %").SetValue(new Slider(0, 0, 100)));
+
+            spellInfo = new SpellInformation();
         }
     }
 }

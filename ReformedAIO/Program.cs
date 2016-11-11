@@ -4,7 +4,9 @@
 
     using System.Collections.Generic;
 
-  //  using ReformedAIO.Champions;
+    using ReformedAIO.Champions.Annie;
+
+    //  using ReformedAIO.Champions;
     using ReformedAIO.Champions.Ashe;
     using ReformedAIO.Champions.Caitlyn;
     using ReformedAIO.Champions.Diana;
@@ -26,6 +28,7 @@
         {
             var bootstrap = new Bootstrap(new List<LoadableBase>
             {
+                new AnnieLoader(),
                 new AsheLoader(),
                 new CaitlynLoader(),
                 new DianaLoader(),

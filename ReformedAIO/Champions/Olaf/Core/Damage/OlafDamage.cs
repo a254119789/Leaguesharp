@@ -34,7 +34,7 @@
 
             if (wSpell.Spell.IsReady())
             {
-                comboDmg += (float)ObjectManager.Player.GetAutoAttackDamage(target, true) * 4;
+                comboDmg += (float)ObjectManager.Player.GetAutoAttackDamage(target, true) * 3;
             }
 
 

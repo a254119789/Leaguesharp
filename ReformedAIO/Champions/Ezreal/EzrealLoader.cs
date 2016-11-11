@@ -18,10 +18,9 @@
     using Ezreal.OrbwalkingMode.LaneClear;
 
     using ReformedAIO.Champions.Ezreal.OrbwalkingMode.Stack;
+    using ReformedAIO.Champions.Ezreal.Utility;
     using ReformedAIO.Library.Dash_Handler;
     using ReformedAIO.Library.SpellParent;
-
-    using Utilities.Modules.Skinchanger;
 
     using RethoughtLib.FeatureSystem.Guardians;
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -71,7 +70,7 @@
             var drawingParent = new Parent("Drawings");
             var utilityParent = new Parent("Reformed Utility");
 
-            utilityParent.Add(new Skinchanger());
+            utilityParent.Add(new EzrealSkinchanger());
 
             var dmg = new EzrealDamage(eSpell, wSpell, qSpell, rSpell);
             var dashSmart = new DashSmart();

@@ -62,27 +62,27 @@
             }
         }
 
-        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnDisable(sender, featureBaseEventArgs);
+            base.OnDisable(sender, eventArgs);
 
             GameObject.OnDelete -= GameObjectOnOnDelete;
             GameObject.OnCreate -= GameObjectOnOnCreate;
             Drawing.OnDraw -= OnDraw;
         }
 
-        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnEnable(sender, featureBaseEventArgs);
+            base.OnEnable(sender, eventArgs);
 
             GameObject.OnDelete += GameObjectOnOnDelete;
             GameObject.OnCreate += GameObjectOnOnCreate;
             Drawing.OnDraw += OnDraw;
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
             Menu.AddItem(new MenuItem("Axe", "Axe Circle").SetValue(true));
         }

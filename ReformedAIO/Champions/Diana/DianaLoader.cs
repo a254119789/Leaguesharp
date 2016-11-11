@@ -18,6 +18,8 @@
     using Diana.Draw;
     using Diana.Killsteal;
 
+    using ReformedAIO.Champions.Diana.Utility;
+
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Guardians;
@@ -58,6 +60,10 @@
             var ksParent = new Parent("Killsteal");
             var drawParent = new Parent("Drawings");
             var fleeParent = new Parent("Flee");
+
+            var utilityParent = new Parent("Reformed Utility");
+
+            utilityParent.Add(new DianaSkinchanger());
 
             var qReady = new SpellMustBeReady(SpellSlot.Q);
             var wReady = new SpellMustBeReady(SpellSlot.W);
@@ -114,7 +120,7 @@
             });
 
             superParent.Add(new Base[] {
-
+                utilityParent,
                 comboParent,
                 misayaParent,
                 mixedParent,
@@ -126,6 +132,9 @@
             });
 
             superParent.Load();
+
+            utilityParent.Menu.Style = FontStyle.Bold;
+            utilityParent.Menu.Color = Color.Cyan;
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;

@@ -1,4 +1,4 @@
-﻿namespace ReformedAIO.Utilities.Modules.Skinchanger
+﻿namespace ReformedAIO.Champions.Annie.Utility
 {
     using System;
 
@@ -7,7 +7,7 @@
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 
-    internal class Skinchanger : ChildBase
+    internal class AnnieSkinchanger : ChildBase
     {
         public override string Name { get; set; } = "Skinchanger";
 
@@ -16,20 +16,31 @@
             ObjectManager.Player.SetSkin(ObjectManager.Player.CharData.BaseSkinName, Menu.Item("Skin").GetValue<StringList>().SelectedIndex);
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
-            Menu.AddItem(new MenuItem("Skin", "Skin")).SetValue(new StringList(new []
+            Menu.AddItem(new MenuItem("Skin", "Skin")).SetValue(new StringList(new[]
                                                                                    {
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"
-                                                                                   }));
+                "Classic Annie",
+                "Goth Annie",
+                "Red Riding Annie",
+                "Annie In Wonderland",
+                "Prom Queen Annie",
+                "Frostfire Annie",
+                "Reverse Annie",
+                "FrankenTibbers Annie",
+                "Panda Annie",
+                "Sweetheart Annie",
+                "Hextech Annie",
+                                                                                   }, 10));
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnDisable(sender, eventArgs);
             Game.OnUpdate -= OnUpdate;
+            ObjectManager.Player.SetSkin(ObjectManager.Player.CharData.BaseSkinName, ObjectManager.Player.BaseSkinId);
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)

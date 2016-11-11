@@ -23,7 +23,7 @@
 
         private Obj_AI_Base Mob =>
              MinionManager.GetMinions(ObjectManager.Player.Position,
-                 spell.Spell.Range).FirstOrDefault(m => m.Health < spell.Spell.GetDamage(m));
+                 spell.Spell.Range).FirstOrDefault(m => m.Health < spell.Spell.GetDamage(m) && m.Distance(ObjectManager.Player) > ObjectManager.Player.AttackRange + 200);
 
         private void OnUpdate(EventArgs args)
         {
@@ -40,23 +40,23 @@
             spell.Spell.Cast(prediction.CastPosition.Extend(ObjectManager.Player.Position, -Menu.Item("Distance").GetValue<Slider>().Value));
         }
 
-        protected override void OnDisable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnDisable(sender, featureBaseEventArgs);
+            base.OnDisable(sender, eventArgs);
 
             Game.OnUpdate -= OnUpdate;
         }
 
-        protected override void OnEnable(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnEnable(sender, featureBaseEventArgs);
+            base.OnEnable(sender, eventArgs);
 
             Game.OnUpdate += OnUpdate;
         }
 
-        protected override void OnLoad(object sender, FeatureBaseEventArgs featureBaseEventArgs)
+        protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
-            base.OnLoad(sender, featureBaseEventArgs);
+            base.OnLoad(sender, eventArgs);
 
             Menu.AddItem(new MenuItem("Enemy", "Return If Nearby Enemy").SetValue(true));
 

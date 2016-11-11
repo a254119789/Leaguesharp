@@ -1,6 +1,7 @@
 ﻿namespace ReformedAIO.Champions.Olaf.OrbwalkingMode.Jungle
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using LeagueSharp;
@@ -22,10 +23,10 @@
         }
 
         private IOrderedEnumerable<Obj_AI_Base> Mob =>
-            MinionManager.GetMinions(ObjectManager.Player.Position,
-                spell.Spell.Range,
-                MinionTypes.All,
-                MinionTeam.Neutral).OrderBy(m => m.MaxHealth);
+           MinionManager.GetMinions(ObjectManager.Player.Position,
+               spell.Spell.Range,
+               MinionTypes.All,
+               MinionTeam.Neutral).OrderBy(m => m.MaxHealth);
 
         private void OnUpdate(EventArgs args)
         {

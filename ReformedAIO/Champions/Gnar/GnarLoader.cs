@@ -16,6 +16,8 @@
     using PermaActive;
     using PermaActive.Killsteal;
 
+    using ReformedAIO.Champions.Gnar.Utility;
+
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Guardians;
@@ -50,6 +52,10 @@
             var killstealParent = new Parent("Killsteal");
             var fleeParent = new Parent("Flee");
             var drawingParent = new Parent("Drawing");
+
+            var reformedUtilityParent = new Parent("Reformed Utility");
+
+            reformedUtilityParent.Add(new GnarSkinchanger());
 
             var mustNotBeWindingUp = new PlayerMustNotBeWindingUp();
             var qReady = new SpellMustBeReady(SpellSlot.Q);
@@ -105,6 +111,7 @@
 
             superParent.Add(new Base[]
             {
+                reformedUtilityParent,
                 orbwalker,
                 comboParent,
                 harassParent,
@@ -117,6 +124,9 @@
 
             superParent.Load();
 
+
+            reformedUtilityParent.Menu.Style = FontStyle.Bold;
+            reformedUtilityParent.Menu.Color = Color.Cyan;
 
             superParent.Menu.Style = FontStyle.Bold;
             superParent.Menu.Color = Color.Cyan;
