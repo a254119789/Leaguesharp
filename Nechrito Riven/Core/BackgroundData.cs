@@ -114,9 +114,9 @@
                 Spells.W.Cast();
             }
 
-            if (doublecastQ && Spells.Q.IsReady() && Qstack != 2)
+            if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
             {
-                var delay = Spells.R.IsReady() ? 200 : 100;
+                var delay = Spells.R.IsReady() ? 200 : 90;
 
                 Utility.DelayAction.Add(delay, () => Spells.Q.Cast(Unit.Position));
             }
