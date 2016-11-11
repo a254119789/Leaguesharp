@@ -31,7 +31,7 @@
 
             switch (args.Animation)
             {
-                case "Spell1a":
+                case "c29a362b":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 2;
 
@@ -42,7 +42,7 @@
                         Console.WriteLine("Q1 Delay: " + ResetDelay(MenuConfig.Qd));
                     }
                     break;
-                case "Spell1b":
+                case "c39a37be":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
 
@@ -53,7 +53,7 @@
                         Console.WriteLine("Q2 Delay: " + ResetDelay(MenuConfig.Q2D));
                     }
                     break;
-                case "Spell1c":
+                case "c49a3951":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
 
@@ -75,29 +75,19 @@
 
         private static void Emotes()
         {
-            if (ObjectManager.Player.HasBuffOfType(BuffType.Stun) 
-                || ObjectManager.Player.HasBuffOfType(BuffType.Snare)
-                || ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
-                || ObjectManager.Player.HasBuffOfType(BuffType.Knockup))
-            {
-                return;
-            }
-
             switch (MenuConfig.EmoteList.SelectedIndex)
             {
                 case 0:
-                    Game.SendEmote(Emote.Laugh);
+                    Game.Say("/l");
                     break;
                 case 1:
-                    Game.SendEmote(Emote.Taunt);
+                    Game.Say("/t");
                     break;
                 case 2:
-                    Game.SendEmote(Emote.Joke);
+                    Game.Say("/j");
                     break;
                 case 3:
-                    Game.SendEmote(Emote.Dance);
-                    break;
-                case 4:
+                    Game.Say("/d");
                     break;
             }
         }
@@ -106,10 +96,10 @@
         {
             if (MenuConfig.CancelPing)
             {
-               return qDelay + Game.Ping / 2 - ObjectManager.Player.Level / 2;
+                return qDelay + Game.Ping / 2;
             }
-           
-            if((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) || IsGameObject)
+
+            if ((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) || IsGameObject)
             {
                 return (int)(qDelay * 1.15);
             }
@@ -119,15 +109,23 @@
         
         private static void Reset()
         {
-            Emotes();
             Orbwalking.ResetAutoAttackTimer();
-            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
-           // Player.IssueOrder(GameObjectOrder.AttackTo, ObjectManager.Player.Position.Extend(ObjectManager.Player.Direction, 50));
+            Emotes();
+            Player.IssueOrder(GameObjectOrder.MoveTo, ObjectManager.Player.Position.Extend(Game.CursorPos, 650));
         }
 
         private static bool SafeReset()
         {
-            return Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None || MenuConfig.AnimSemi;
+            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Flee
+                || Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
+            {
+                return false;
+            }
+
+            return !ObjectManager.Player.HasBuffOfType(BuffType.Stun)
+                && !ObjectManager.Player.HasBuffOfType(BuffType.Snare) 
+                && !ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
+                && !ObjectManager.Player.HasBuffOfType(BuffType.Knockup);
         }
 
         #endregion

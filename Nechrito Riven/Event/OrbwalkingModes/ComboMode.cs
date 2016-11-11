@@ -89,7 +89,7 @@
                 return;
             }
 
-            if (MenuConfig.Doublecast && Spells.Q.IsReady() && Qstack == 1)
+            if (MenuConfig.Doublecast && Spells.Q.IsReady() && Qstack != 2)
             {
                 BackgroundData.CastW(target);
                 BackgroundData.DoubleCastQ(target);

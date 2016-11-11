@@ -30,8 +30,6 @@
 
         public static bool AlwaysR => config.Item("AlwaysR").GetValue<KeyBind>().Active;
 
-        public static bool AnimSemi => config.Item("animSemi").GetValue<bool>();
-
         public static bool LaneQFast => config.Item("laneQFast").GetValue<bool>();
 
         public static bool AnimDance => config.Item("animDance").GetValue<bool>();
@@ -135,9 +133,8 @@
             var animation = new Menu("Animations", "Animation");
             animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(220, 220, 340)));
             animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(220, 220, 340)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(320, 320, 380)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(330, 330, 380)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
-            animation.AddItem(new MenuItem("animSemi", "Semi Manual").SetValue(true));
             animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
             config.AddSubMenu(animation);
 

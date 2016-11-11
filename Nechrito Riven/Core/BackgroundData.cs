@@ -111,23 +111,14 @@
 
             if (canW)
             {
-                if (Items.CanUseItem(Item) && Item != 0)
-                {
-                    Items.UseItem(Item);
-                    Utility.DelayAction.Add(5, () => Spells.W.Cast());
-                }
-                else
-                {
-                    Spells.W.Cast();
-                }
+                Spells.W.Cast();
+            }
 
-                if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
-                {
-                     var delay = Spells.R.IsReady() ? 190 : 90;
+            if (doublecastQ && Spells.Q.IsReady() && Qstack != 2)
+            {
+                var delay = Spells.R.IsReady() ? 200 : 100;
 
-                     Utility.DelayAction.Add(delay, () => Spells.Q.Cast(Unit.Position));
-                    //Spells.Q.Cast(Unit.Position);
-                }
+                Utility.DelayAction.Add(delay, () => Spells.Q.Cast(Unit.Position));
             }
 
             if (!R1 || Spells.R.Instance.Name != IsFirstR)
