@@ -109,9 +109,9 @@
         
         private static void Reset()
         {
-            Orbwalking.ResetAutoAttackTimer();
             Emotes();
-            Player.IssueOrder(GameObjectOrder.MoveTo, ObjectManager.Player.Position.Extend(Game.CursorPos, 650));
+            Orbwalking.ResetAutoAttackTimer();
+            Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 
         private static bool SafeReset()

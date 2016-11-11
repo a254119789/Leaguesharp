@@ -29,7 +29,7 @@
                 {
                     Render.Circle.DrawCircle(
                         Player.Position,
-                        310 + Player.AttackRange,
+                        370 + Player.AttackRange,
                         Spells.Q.IsReady()
                         ? Color.DodgerBlue
                         : Color.DarkSlateGray,
