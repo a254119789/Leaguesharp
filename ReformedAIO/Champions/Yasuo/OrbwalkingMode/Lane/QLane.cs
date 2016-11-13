@@ -43,36 +43,16 @@
             {
                 if (q3Spell.Active)
                 {
-                    var pred = q3Spell.Spell.GetPrediction(m, true);
+                    var pred = q3Spell.Spell.GetLineFarmLocation(Minion);
 
-                    if (ObjectManager.Player.IsDashing() && (m.Health < qSpell.GetDamage(m) || dashPos.DashEndPosition(m, 475).Distance(pred.UnitPosition) > qSpell.Spell.Range))
+                    if (ObjectManager.Player.IsDashing() && (m.Health < qSpell.GetDamage(m) || !qSpell.EqRange(dashPos.DashEndPosition(m, 475))))
                     {
                         return;
                     }
 
-                    if (pred.AoeTargetsHitCount >= Menu.Item("LQ3").GetValue<Slider>().Value)
+                    if (pred.MinionsHit >= Menu.Item("LQ3").GetValue<Slider>().Value)
                     {
-                        switch (Menu.Item("LHitchance").GetValue<StringList>().SelectedIndex)
-                        {
-                            case 0:
-                                if (pred.Hitchance >= HitChance.Medium)
-                                {
-                                    q3Spell.Spell.Cast(pred.CastPosition);
-                                }
-                                break;
-                            case 1:
-                                if (pred.Hitchance >= HitChance.High)
-                                {
-                                    q3Spell.Spell.Cast(pred.CastPosition);
-                                }
-                                break;
-                            case 2:
-                                if (pred.Hitchance >= HitChance.VeryHigh)
-                                {
-                                    q3Spell.Spell.Cast(pred.CastPosition);
-                                }
-                                break;
-                        }
+                        q3Spell.Spell.Cast(pred.Position);
                     }
                 }
                 else
@@ -104,7 +84,7 @@
 
             Menu.AddItem(new MenuItem("LQ3", "Use Q3 If X Hit Count").SetValue(new Slider(4, 0, 7)));
 
-            Menu.AddItem(new MenuItem("LHitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
+           // Menu.AddItem(new MenuItem("LHitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
         }
     }
 }

@@ -40,7 +40,7 @@
 
             foreach (var m in Minion)
             {
-                if (ObjectManager.Player.IsDashing() && m.Distance(dashPos.DashEndPosition(m, 475)) > qSpell.Spell.Range || m.Health > qSpell.GetDamage(m))
+                if (ObjectManager.Player.IsDashing() && !qSpell.EqRange(dashPos.DashEndPosition(m, 475)) || m.Health > qSpell.GetDamage(m))
                 {
                     return;
                 }

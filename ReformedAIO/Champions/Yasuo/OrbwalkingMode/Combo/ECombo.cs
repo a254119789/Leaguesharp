@@ -28,9 +28,9 @@
         private static Obj_AI_Hero Target => TargetSelector.GetTarget(1500, TargetSelector.DamageType.Physical);
 
         private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position,
-                 spell.Spell.Range).LastOrDefault(m =>
+                 1000).LastOrDefault(m =>
                  m.Distance(ObjectManager.Player.Position.Extend(Target.Position, 475))
-                 <= ObjectManager.Player.AttackRange);
+                 <= 320);
 
         private void OnUpdate(EventArgs args)
         {
@@ -71,7 +71,7 @@
 
             dashPos = new DashPosition();
 
-            Menu.AddItem(new MenuItem("Enemies", "Don't E Into X Enemies").SetValue(new Slider(3, 1, 5)));
+            Menu.AddItem(new MenuItem("Enemies", "Don't E Into X Enemies").SetValue(new Slider(3, 0, 5)));
 
             Menu.AddItem(new MenuItem("Turret", "Turret Check").SetValue(true));
         }

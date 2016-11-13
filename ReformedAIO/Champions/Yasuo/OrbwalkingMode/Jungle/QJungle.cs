@@ -7,6 +7,7 @@
     using LeagueSharp.Common;
 
     using ReformedAIO.Champions.Yasuo.Core.Spells;
+    using ReformedAIO.Library.Dash_Handler;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
@@ -17,6 +18,8 @@
         private readonly Q1Spell qSpell;
 
         private readonly Q3Spell q3Spell;
+
+        private DashPosition dashPos;
 
         public QJungle(Q1Spell qSpell, Q3Spell q3Spell)
         {
@@ -41,7 +44,7 @@
 
             foreach (var m in Mob)
             {
-                if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(m) > 475)
+                if (ObjectManager.Player.IsDashing() && !qSpell.EqRange(dashPos.DashEndPosition(m, 475)))
                 {
                     return;
                 }
@@ -96,6 +99,8 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnLoad(sender, eventArgs);
+
+            dashPos = new DashPosition();
 
             Menu.AddItem(new MenuItem("JHitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
         }

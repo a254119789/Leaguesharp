@@ -27,7 +27,7 @@
 
             Spell = new Spell(SpellSlot.Q, 1000);
 
-            Spell.SetSkillshot(.4f, 90, float.MaxValue, false, SkillshotType.SkillshotLine);
+            Spell.SetSkillshot(.3f, 90, float.MaxValue, false, SkillshotType.SkillshotLine);
         }
 
         protected override void SetSwitch()

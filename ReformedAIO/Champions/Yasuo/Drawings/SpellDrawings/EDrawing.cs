@@ -44,10 +44,14 @@
 
             if (Menu.Item("Path").GetValue<bool>())
             {
-              Render.Circle.DrawCircle(
-              dashPos.DashEndPosition(Minion, 475),
-              Minion.BoundingRadius,
-              spell.Spell.IsReady() ? Color.White : Color.DarkSlateGray);
+                Render.Circle.DrawCircle(
+                dashPos.DashEndPosition(Minion, 475),
+                Minion.BoundingRadius,
+                spell.Spell.IsReady() 
+                ? Color.White
+                : Color.DarkSlateGray);
+
+                Drawing.DrawLine(Drawing.WorldToScreen(Minion.Position),Drawing.WorldToScreen(dashPos.DashEndPosition(Minion, 475)), 2, Color.White);
             }
         }
 

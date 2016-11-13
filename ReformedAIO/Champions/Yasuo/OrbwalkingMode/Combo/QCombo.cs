@@ -50,8 +50,7 @@
 
                 if (ObjectManager.Player.IsDashing()
                     && Minion != null
-                    && (dashPos.DashEndPosition(Minion, 475).Distance(pred.UnitPosition) > ObjectManager.Player.AttackRange
-                    || dashPos.DashEndPosition(Target, 475).Distance(pred.UnitPosition) > ObjectManager.Player.AttackRange))
+                    && !qSpell.EqRange(dashPos.DashEndPosition(Target, 475)))
                 {
                     return;
                 }
