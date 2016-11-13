@@ -50,31 +50,29 @@
                         return;
                     }
 
-                    if (Menu.Item("LQ3").GetValue<Slider>().Value < pred.AoeTargetsHitCount)
+                    if (Menu.Item("LQ3").GetValue<Slider>().Value >= pred.AoeTargetsHitCount)
                     {
-                        return;
-                    }
-
-                    switch (Menu.Item("LHitchance").GetValue<StringList>().SelectedIndex)
-                    {
-                        case 0:
-                            if (pred.Hitchance >= HitChance.Medium)
-                            {
-                                q3Spell.Spell.Cast(pred.CastPosition);
-                            }
-                            break;
-                        case 1:
-                            if (pred.Hitchance >= HitChance.High)
-                            {
-                                q3Spell.Spell.Cast(pred.CastPosition);
-                            }
-                            break;
-                        case 2:
-                            if (pred.Hitchance >= HitChance.VeryHigh)
-                            {
-                                q3Spell.Spell.Cast(pred.CastPosition);
-                            }
-                            break;
+                        switch (Menu.Item("LHitchance").GetValue<StringList>().SelectedIndex)
+                        {
+                            case 0:
+                                if (pred.Hitchance >= HitChance.Medium)
+                                {
+                                    q3Spell.Spell.Cast(pred.CastPosition);
+                                }
+                                break;
+                            case 1:
+                                if (pred.Hitchance >= HitChance.High)
+                                {
+                                    q3Spell.Spell.Cast(pred.CastPosition);
+                                }
+                                break;
+                            case 2:
+                                if (pred.Hitchance >= HitChance.VeryHigh)
+                                {
+                                    q3Spell.Spell.Cast(pred.CastPosition);
+                                }
+                                break;
+                        }
                     }
                 }
                 else

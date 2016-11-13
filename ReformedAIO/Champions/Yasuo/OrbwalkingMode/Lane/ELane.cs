@@ -25,15 +25,14 @@
 
         private DashPosition dashPos;
 
-        private static Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position,
-                 700).LastOrDefault(m => m.Distance(Game.CursorPos) <= 400);
+        private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position, spell.Spell.Range).LastOrDefault(m => m.Distance(Game.CursorPos) <= 475);
 
         private void OnUpdate(EventArgs args)
         {
             if (Minion == null
                 || !CheckGuardians()
                 || (Menu.Item("ETurret").GetValue<bool>() && (dashPos.DashEndPosition(Minion, spell.Spell.Range).UnderTurret(true) || Minion.UnderTurret(true)))
-                || (Menu.Item("EEnemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(750))
+                || (Menu.Item("EEnemies").GetValue<Slider>().Value < dashPos.DashEndPosition(Minion, spell.Spell.Range).CountEnemiesInRange(500))
                 || (Menu.Item("EKillable").GetValue<bool>() && Minion.Health > spell.Spell.GetDamage(Minion)))
             {
                 return;

@@ -30,7 +30,7 @@
         private Obj_AI_Base Minion
             =>
                 MinionManager.GetMinions(ObjectManager.Player.Position, spell.Spell.Range)
-                    .LastOrDefault(m => m.Distance(Game.CursorPos) <= 600);
+                    .LastOrDefault(m => m.Distance(Game.CursorPos) <= 400 && m.CountEnemiesInRange(475) == 0);
 
         private IOrderedEnumerable<Obj_AI_Base> Mob
             =>
@@ -49,8 +49,7 @@
 
             ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
 
-            if ((Menu.Item("Turret").GetValue<bool>() && Minion != null && dashPos.DashEndPosition(Minion, 475).UnderTurret(true))
-                || (Menu.Item("Enemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(750)))
+            if (Menu.Item("Turret").GetValue<bool>() && Minion != null && dashPos.DashEndPosition(Minion, 475).UnderTurret(true))
             {
                 return;
             }

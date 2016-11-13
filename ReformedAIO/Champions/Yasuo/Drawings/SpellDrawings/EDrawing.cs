@@ -28,7 +28,7 @@
         private Obj_AI_Base Minion
             =>
                 MinionManager.GetMinions(ObjectManager.Player.Position, spell.Spell.Range)
-                    .LastOrDefault(m => m.Distance(Game.CursorPos) <= 350 && !m.HasBuff("YasuoDashWrapper"));
+                    .LastOrDefault(m => m.Distance(Game.CursorPos) <= 400 && !m.HasBuff("YasuoDashWrapper"));
 
         public void OnDraw(EventArgs args)
         {
