@@ -1,4 +1,4 @@
-﻿namespace ReformedAIO.Champions.Yasuo.OrbwalkingMode.Lane
+﻿namespace ReformedAIO.Champions.Yasuo.OrbwalkingMode.Lasthit
 {
     using System;
     using System.Collections.Generic;
@@ -8,11 +8,10 @@
 
     using ReformedAIO.Champions.Yasuo.Core.Spells;
     using ReformedAIO.Library.Dash_Handler;
-    using ReformedAIO.Library.Get_Information.HeroInfo;
 
     using RethoughtLib.FeatureSystem.Implementations;
 
-    internal sealed class QLane : OrbwalkingChild
+    internal sealed class QLasthit : OrbwalkingChild
     {
         public override string Name { get; set; } = "Q";
 
@@ -22,7 +21,7 @@
 
         private DashPosition dashPos;
 
-        public QLane(Q1Spell qSpell, Q3Spell q3Spell)
+        public QLasthit(Q1Spell qSpell, Q3Spell q3Spell)
         {
             this.qSpell = qSpell;
             this.q3Spell = q3Spell;
@@ -41,40 +40,40 @@
 
             foreach (var m in Minion)
             {
-                if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(dashPos.DashEndPosition(m, 475)) > qSpell.Spell.Range)
+                if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(dashPos.DashEndPosition(m, 475)) > qSpell.Spell.Range || m.Health > qSpell.GetDamage(m))
                 {
                     return;
                 }
 
                 if (q3Spell.Active)
                 {
-                    var pred = q3Spell.Spell.GetPrediction(m, true);
-
-                    switch (Menu.Item("LHitchance").GetValue<StringList>().SelectedIndex)
+                    switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
                     {
                         case 0:
-                            if (pred.Hitchance >= HitChance.Medium)
-                            {
-                                q3Spell.Spell.Cast(pred.CastPosition);
-                            }
+                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.Medium);
                             break;
                         case 1:
-                            if (pred.Hitchance >= HitChance.High)
-                            {
-                                q3Spell.Spell.Cast(pred.CastPosition);
-                            }
+                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.High);
                             break;
                         case 2:
-                            if (pred.Hitchance >= HitChance.VeryHigh)
-                            {
-                                q3Spell.Spell.Cast(pred.CastPosition);
-                            }
+                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.VeryHigh);
                             break;
                     }
                 }
                 else
                 {
-                    qSpell.Spell.Cast(m);
+                    switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
+                    {
+                        case 0:
+                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.Medium);
+                            break;
+                        case 1:
+                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.High);
+                            break;
+                        case 2:
+                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.VeryHigh);
+                            break;
+                    }
                 }
             }
         }
@@ -99,7 +98,7 @@
 
             dashPos = new DashPosition();
 
-            Menu.AddItem(new MenuItem("LHitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
+            Menu.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
         }
     }
 }

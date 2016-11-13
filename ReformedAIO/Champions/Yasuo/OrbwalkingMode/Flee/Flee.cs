@@ -1,4 +1,4 @@
-﻿namespace ReformedAIO.Champions.Yasuo.OrbwalkingMode.Lane
+﻿namespace ReformedAIO.Champions.Yasuo.OrbwalkingMode.Flee
 {
     using System;
     using System.Linq;

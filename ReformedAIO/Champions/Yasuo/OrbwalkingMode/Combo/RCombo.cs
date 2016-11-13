@@ -17,8 +17,6 @@
     {
         public override string Name { get; set; } = "R";
 
-        private HeroInfo heroInfo;
-
         private readonly RSpell spell;
 
         private readonly YasuoDamage damage;
@@ -37,7 +35,7 @@
                 || !CheckGuardians()
                 || (Menu.Item("Turret").GetValue<bool>() && Target.UnderTurret(true))
                 || (Menu.Item("Enemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(spell.Spell.Range))
-                || (Menu.Item("Killable").GetValue<bool>() && Target.Health < damage.GetComboDamage(Target) && !Menu.Item("Always").GetValue<bool>()))
+                || (Menu.Item("Killable").GetValue<bool>() && Target.Health > damage.GetComboDamage(Target) && !Menu.Item("Always").GetValue<bool>()))
             {
                 return;
             }
@@ -67,8 +65,6 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnLoad(sender, eventArgs);
-
-            heroInfo = new HeroInfo();
 
             Menu.AddItem(new MenuItem("Always", "Use Always (1v1)").SetValue(true));
 

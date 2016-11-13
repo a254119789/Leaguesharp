@@ -21,6 +21,8 @@
 
         private readonly Q3Spell q3Spell;
 
+        private DashPosition dashPos;
+
         public QCombo(Q1Spell qSpell, Q3Spell q3Spell)
         {
             this.qSpell = qSpell;
@@ -38,7 +40,7 @@
                 return;
             }
 
-            if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(Target) > 475)
+            if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(dashPos.DashEndPosition(Target, 475)) > qSpell.Spell.Range)
             {
                 return;
             }
@@ -71,18 +73,7 @@
             }
             else
             {
-                switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
-                {
-                    case 0:
-                        qSpell.Spell.CastIfHitchanceEquals(Target, HitChance.Medium);
-                        break;
-                    case 1:
-                        qSpell.Spell.CastIfHitchanceEquals(Target, HitChance.High);
-                        break;
-                    case 2:
-                        qSpell.Spell.CastIfHitchanceEquals(Target, HitChance.VeryHigh);
-                        break;
-                }
+                qSpell.Spell.Cast(Target);
             }
         }
 
@@ -103,6 +94,8 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnLoad(sender, eventArgs);
+
+            dashPos = new DashPosition();
 
             Menu.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
         }

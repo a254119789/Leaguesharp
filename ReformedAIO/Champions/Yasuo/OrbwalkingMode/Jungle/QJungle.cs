@@ -48,38 +48,33 @@
 
                 if (q3Spell.Active)
                 {
-                    switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
+                    var pred = q3Spell.Spell.GetPrediction(m, true);
+
+                    switch (Menu.Item("JHitchance").GetValue<StringList>().SelectedIndex)
                     {
                         case 0:
-                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.Medium);
+                            if (pred.Hitchance >= HitChance.Medium)
+                            {
+                                q3Spell.Spell.Cast(pred.CastPosition);
+                            }
                             break;
                         case 1:
-                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.High);
+                            if (pred.Hitchance >= HitChance.High)
+                            {
+                                q3Spell.Spell.Cast(pred.CastPosition);
+                            }
                             break;
                         case 2:
-                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.VeryHigh);
+                            if (pred.Hitchance >= HitChance.VeryHigh)
+                            {
+                                q3Spell.Spell.Cast(pred.CastPosition);
+                            }
                             break;
                     }
                 }
                 else
                 {
-                    if (ObjectManager.Player.IsDashing())
-                    {
-                        return;
-                    }
-
-                    switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
-                    {
-                        case 0:
-                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.Medium);
-                            break;
-                        case 1:
-                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.High);
-                            break;
-                        case 2:
-                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.VeryHigh);
-                            break;
-                    }
+                    qSpell.Spell.Cast(m);
                 }
             }
         }
@@ -102,7 +97,7 @@
         {
             base.OnLoad(sender, eventArgs);
 
-            Menu.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
+            Menu.AddItem(new MenuItem("JHitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
         }
     }
 }
