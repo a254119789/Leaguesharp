@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
 
     using LeagueSharp;
@@ -36,7 +37,10 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (ObjectManager.Player.HasBuff("Recall") || ObjectManager.Player.HasBuff("YasuoQ3W") || ObjectManager.Player.CountEnemiesInRange(500) >= 1)
+            if (ObjectManager.Player.HasBuff("Recall")
+                || ObjectManager.Player.HasBuff("YasuoQ3W") 
+                || ObjectManager.Player.CountEnemiesInRange(500) >= 1 
+                || !Menu.Item("StackKeybind").GetValue<KeyBind>().Active)
             {
                 return;
             }
@@ -61,10 +65,29 @@
             }
         }
 
+        public void OnDraw(EventArgs args)
+        {
+            if (ObjectManager.Player.IsDead || !Menu.Item("StackDraw").GetValue<bool>())
+            {
+                return;
+            }
+
+            var pos = Drawing.WorldToScreen(ObjectManager.Player.Position);
+
+            Drawing.DrawText(pos.X - 30, pos.Y + 20,
+                Menu.Item("StackKeybind").GetValue<KeyBind>().Active 
+                ? Color.Cyan 
+                : Color.DarkSlateGray,
+                Menu.Item("StackKeybind").GetValue<KeyBind>().Active
+                ? "Stacking: On" 
+                : "Stacking: Off");
+        }
+
         protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnDisable(sender, eventArgs);
 
+            Drawing.OnDraw -= OnDraw;
             Game.OnUpdate -= OnUpdate;
         }
 
@@ -72,12 +95,17 @@
         {
             base.OnEnable(sender, eventArgs);
 
+            Drawing.OnDraw += OnDraw;
             Game.OnUpdate += OnUpdate;
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnLoad(sender, eventArgs);
+
+            Menu.AddItem(new MenuItem("StackKeybind", "Keybind: ").SetValue(new KeyBind('G', KeyBindType.Toggle)));
+
+            Menu.AddItem(new MenuItem("StackDraw", "Draw Notification").SetValue(true));
         }
     }
 }

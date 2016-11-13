@@ -26,7 +26,7 @@
         private DashPosition dashPos;
 
         private static Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position,
-                 700).LastOrDefault(m => m.Distance(Game.CursorPos) <= 400 && !m.HasBuff("YasuoDashWrapper"));
+                 700).LastOrDefault(m => m.Distance(Game.CursorPos) <= 400);
 
         private void OnUpdate(EventArgs args)
         {

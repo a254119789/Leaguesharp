@@ -135,8 +135,8 @@
                                      jungleParent,
                                      lasthitParent,
                                      killstealParnet,
-                                     new YasuoQStack(qSpell),
-                                     new Flee(eSpell),
+                                     new YasuoQStack(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
+                                     new Flee(eSpell).Guardian(eReadyGuardian),
                                      drawingParent,
                                   });
 

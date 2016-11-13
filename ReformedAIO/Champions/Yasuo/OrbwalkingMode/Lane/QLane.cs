@@ -45,7 +45,7 @@
                 {
                     var pred = q3Spell.Spell.GetPrediction(m, true);
 
-                    if (ObjectManager.Player.IsDashing() && (m.Health < qSpell.GetDamage(m) || dashPos.DashEndPosition(m, 475).Distance(pred.UnitPosition) > ObjectManager.Player.AttackRange))
+                    if (ObjectManager.Player.IsDashing() && (m.Health < qSpell.GetDamage(m) || dashPos.DashEndPosition(m, 475).Distance(pred.UnitPosition) > qSpell.Spell.Range))
                     {
                         return;
                     }

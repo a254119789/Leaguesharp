@@ -25,8 +25,10 @@
             this.spell = spell;
         }
 
-        private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position,
-                  spell.Spell.Range).LastOrDefault(m => m.Distance(Game.CursorPos) <= ObjectManager.Player.AttackRange && !m.HasBuff("YasuoDashWrapper"));
+        private Obj_AI_Base Minion
+            =>
+                MinionManager.GetMinions(ObjectManager.Player.Position, spell.Spell.Range)
+                    .LastOrDefault(m => m.Distance(Game.CursorPos) <= 350 && !m.HasBuff("YasuoDashWrapper"));
 
         public void OnDraw(EventArgs args)
         {
@@ -40,10 +42,13 @@
                 Minion.BoundingRadius,
                 spell.Spell.IsReady() ? Color.Cyan : Color.DarkSlateGray);
 
-            Render.Circle.DrawCircle(
-               dashPos.DashEndPosition(Minion, 475),
-               Minion.BoundingRadius,
-               spell.Spell.IsReady() ? Color.White : Color.DarkSlateGray);
+            if (Menu.Item("Path").GetValue<bool>())
+            {
+              Render.Circle.DrawCircle(
+              dashPos.DashEndPosition(Minion, 475),
+              Minion.BoundingRadius,
+              spell.Spell.IsReady() ? Color.White : Color.DarkSlateGray);
+            }
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
@@ -65,6 +70,8 @@
             base.OnLoad(sender, eventArgs);
 
             dashPos = new DashPosition();
+
+            Menu.AddItem(new MenuItem("Path", "Path").SetValue(true));
         }
     }
 }

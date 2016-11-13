@@ -42,15 +42,18 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (!CheckGuardians()
-                || (Menu.Item("Turret").GetValue<bool>() && Minion.UnderTurret(true))
-                || (Menu.Item("Enemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(750))
-                || !Menu.Item("Keybind").GetValue<KeyBind>().Active)
+            if (!Menu.Item("Keybind").GetValue<KeyBind>().Active)
             {
                 return;
             }
 
             ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+
+            if ((Menu.Item("Turret").GetValue<bool>() && Minion != null && dashPos.DashEndPosition(Minion, 475).UnderTurret(true))
+                || (Menu.Item("Enemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(750)))
+            {
+                return;
+            }
 
             if (Mob != null)
             {
