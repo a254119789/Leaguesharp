@@ -266,6 +266,7 @@
     <Compile Include="Champions\Yasuo\OrbwalkingMode\Lane\QLane.cs" />
     <Compile Include="Champions\Yasuo\OrbwalkingMode\Lasthit\ELasthit.cs" />
     <Compile Include="Champions\Yasuo\OrbwalkingMode\Lasthit\QLasthit.cs" />
+    <Compile Include="Champions\Yasuo\Stack\YasuoQStack.cs" />
     <Compile Include="Champions\Yasuo\Utility\YasuoSkinchanger.cs" />
     <Compile Include="Champions\Yasuo\YasuoLoader.cs" />
     <Compile Include="Library\Dash Handler\DashPosition.cs" />

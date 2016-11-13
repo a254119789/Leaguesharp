@@ -47,33 +47,19 @@
 
                 if (q3Spell.Active)
                 {
-                    switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
+                    var pred = q3Spell.Spell.GetLineFarmLocation(Minion);
+
+                    if (Menu.Item("LhQ3").GetValue<Slider>().Value < pred.MinionsHit)
                     {
-                        case 0:
-                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.Medium);
-                            break;
-                        case 1:
-                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.High);
-                            break;
-                        case 2:
-                            q3Spell.Spell.CastIfHitchanceEquals(m, HitChance.VeryHigh);
-                            break;
+                        return;
                     }
+
+                    q3Spell.Spell.Cast(pred.Position);
+
                 }
                 else
                 {
-                    switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
-                    {
-                        case 0:
-                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.Medium);
-                            break;
-                        case 1:
-                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.High);
-                            break;
-                        case 2:
-                            qSpell.Spell.CastIfHitchanceEquals(m, HitChance.VeryHigh);
-                            break;
-                    }
+                    qSpell.Spell.Cast(m);
                 }
             }
         }
@@ -98,7 +84,7 @@
 
             dashPos = new DashPosition();
 
-            Menu.AddItem(new MenuItem("Hitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
+            Menu.AddItem(new MenuItem("LhQ3", "Use Q3 If X Hit Count").SetValue(new Slider(4, 0, 7)));
         }
     }
 }

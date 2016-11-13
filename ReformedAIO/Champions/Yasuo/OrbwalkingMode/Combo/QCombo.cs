@@ -1,6 +1,8 @@
 ﻿namespace ReformedAIO.Champions.Yasuo.OrbwalkingMode.Combo
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -33,6 +35,8 @@
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Range, TargetSelector.DamageType.Physical);
 
+        private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position, Range).FirstOrDefault();
+
         private void OnUpdate(EventArgs args)
         {
             if (Target == null || !CheckGuardians())
@@ -40,14 +44,17 @@
                 return;
             }
 
-            if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(dashPos.DashEndPosition(Target, 475)) > qSpell.Spell.Range)
-            {
-                return;
-            }
-
             if (q3Spell.Active)
             {
                 var pred = q3Spell.Spell.GetPrediction(Target, true);
+
+                if (ObjectManager.Player.IsDashing()
+                    && Minion != null
+                    && (dashPos.DashEndPosition(Minion, 475).Distance(pred.UnitPosition) > ObjectManager.Player.AttackRange
+                    || dashPos.DashEndPosition(Target, 475).Distance(pred.UnitPosition) > ObjectManager.Player.AttackRange))
+                {
+                    return;
+                }
 
                 switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
                 {

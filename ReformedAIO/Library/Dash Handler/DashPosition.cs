@@ -9,7 +9,7 @@
     {
         public Vector3 DashEndPosition(Obj_AI_Base target, float range)
         {
-            return ObjectManager.Player.Position.Extend(target.Position, range - ObjectManager.Player.Distance(target)).To2D().To3D();
+            return ObjectManager.Player.Position.Extend(target.Position, range).To2D().To3D();
         }
     }
 }

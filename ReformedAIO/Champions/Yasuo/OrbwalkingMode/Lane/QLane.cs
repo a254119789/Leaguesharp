@@ -41,14 +41,19 @@
 
             foreach (var m in Minion)
             {
-                if (ObjectManager.Player.IsDashing() && ObjectManager.Player.Distance(dashPos.DashEndPosition(m, 475)) > qSpell.Spell.Range)
-                {
-                    return;
-                }
-
                 if (q3Spell.Active)
                 {
                     var pred = q3Spell.Spell.GetPrediction(m, true);
+
+                    if (ObjectManager.Player.IsDashing() && (m.Health < qSpell.GetDamage(m) || dashPos.DashEndPosition(m, 475).Distance(pred.UnitPosition) > ObjectManager.Player.AttackRange))
+                    {
+                        return;
+                    }
+
+                    if (Menu.Item("LQ3").GetValue<Slider>().Value < pred.AoeTargetsHitCount)
+                    {
+                        return;
+                    }
 
                     switch (Menu.Item("LHitchance").GetValue<StringList>().SelectedIndex)
                     {
@@ -98,6 +103,8 @@
             base.OnLoad(sender, eventArgs);
 
             dashPos = new DashPosition();
+
+            Menu.AddItem(new MenuItem("LQ3", "Use Q3 If X Hit Count").SetValue(new Slider(4, 0, 7)));
 
             Menu.AddItem(new MenuItem("LHitchance", "Hitchance").SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 1)));
         }

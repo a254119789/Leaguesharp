@@ -30,7 +30,9 @@
         private static Obj_AI_Hero Target => TargetSelector.GetTarget(1500, TargetSelector.DamageType.Physical);
 
         private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position,
-                 spell.Spell.Range).LastOrDefault(m => m.Distance(ObjectManager.Player.Position.Extend(Target.Position, 475)) <= 400);
+                 spell.Spell.Range).LastOrDefault(m =>
+                 m.Distance(ObjectManager.Player.Position.Extend(Target.Position, 475))
+                 <= ObjectManager.Player.AttackRange && !m.HasBuff("YasuoDashWrapper"));
 
         private void OnUpdate(EventArgs args)
         {

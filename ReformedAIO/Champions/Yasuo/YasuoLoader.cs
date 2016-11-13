@@ -17,6 +17,7 @@
     using ReformedAIO.Champions.Yasuo.OrbwalkingMode.Lane;
     using ReformedAIO.Champions.Yasuo.OrbwalkingMode.Jungle;
     using ReformedAIO.Champions.Yasuo.OrbwalkingMode.Lasthit;
+    using ReformedAIO.Champions.Yasuo.Stack;
     using ReformedAIO.Champions.Yasuo.Utility;
 
     using ReformedAIO.Library.SpellParent;
@@ -133,8 +134,9 @@
                                      laneParent,
                                      jungleParent,
                                      lasthitParent,
-                                     new Flee(eSpell),
                                      killstealParnet,
+                                     new YasuoQStack(qSpell),
+                                     new Flee(eSpell),
                                      drawingParent,
                                   });
 
