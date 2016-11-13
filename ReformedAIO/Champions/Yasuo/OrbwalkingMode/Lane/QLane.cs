@@ -50,7 +50,7 @@
                         return;
                     }
 
-                    if (Menu.Item("LQ3").GetValue<Slider>().Value >= pred.AoeTargetsHitCount)
+                    if (pred.AoeTargetsHitCount >= Menu.Item("LQ3").GetValue<Slider>().Value)
                     {
                         switch (Menu.Item("LHitchance").GetValue<StringList>().SelectedIndex)
                         {

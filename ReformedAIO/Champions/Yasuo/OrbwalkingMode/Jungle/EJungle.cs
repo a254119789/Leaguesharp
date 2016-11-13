@@ -7,6 +7,7 @@
     using LeagueSharp.Common;
 
     using ReformedAIO.Champions.Yasuo.Core.Spells;
+    using ReformedAIO.Library.Dash_Handler;
     using ReformedAIO.Library.WallExtension;
 
     using RethoughtLib.FeatureSystem.Implementations;
@@ -14,6 +15,8 @@
     internal sealed class EJungle : OrbwalkingChild
     {
         public override string Name { get; set; } = "E";
+
+        private DashPosition dashPos;
 
         private readonly ESpell spell;
 
@@ -39,9 +42,9 @@
 
             foreach (var m in Mob)
             {
-                var wallPoint = wall.FirstWallPoint(ObjectManager.Player.Position, m.Position);
+                var wallPoint = wall.FirstWallPoint(ObjectManager.Player.Position, dashPos.DashEndPosition(m, spell.Spell.Range));
 
-                if (wall.IsWallDash(wallPoint, spell.Spell.Range / 2))
+                if (wall.IsWallDash(wallPoint, spell.Spell.Range))
                 {
                     return;
                 }
@@ -67,6 +70,8 @@
         protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnLoad(sender, eventArgs);
+
+            dashPos = new DashPosition();
 
             wall = new WallExtension();
         }
