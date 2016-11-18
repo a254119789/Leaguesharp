@@ -30,7 +30,7 @@
         {
             base.OnLoad(sender, eventArgs);
 
-            Spell = new Spell(SpellSlot.Q, 470);
+            Spell = new Spell(SpellSlot.Q, 474);
 
             Spell.SetSkillshot(.2f, 20, float.MaxValue, false, SkillshotType.SkillshotLine);
         }

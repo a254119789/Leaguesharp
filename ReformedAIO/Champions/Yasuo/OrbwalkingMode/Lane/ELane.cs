@@ -25,7 +25,7 @@
 
         private DashPosition dashPos;
 
-        private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position, spell.Spell.Range).FirstOrDefault(m => m.Distance(Game.CursorPos) <= 500);
+        private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position, spell.Spell.Range).FirstOrDefault(m => m.Distance(Game.CursorPos) <= 475);
 
         private void OnUpdate(EventArgs args)
         {

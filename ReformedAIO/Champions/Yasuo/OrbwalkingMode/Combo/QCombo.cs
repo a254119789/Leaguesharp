@@ -35,25 +35,18 @@
 
         private Obj_AI_Hero Target => TargetSelector.GetTarget(Range, TargetSelector.DamageType.Physical);
 
-        private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position, Range).FirstOrDefault();
+       // private Obj_AI_Base Minion => MinionManager.GetMinions(ObjectManager.Player.Position, Range).FirstOrDefault();
 
         private void OnUpdate(EventArgs args)
         {
-            if (Target == null || !CheckGuardians())
+            if (Target == null || !CheckGuardians() || (ObjectManager.Player.IsDashing() && !qSpell.EqRange(Target.Position)))
             {
                 return;
             }
 
             if (q3Spell.Active)
             {
-                var pred = q3Spell.Spell.GetPrediction(Target, true);
-
-                if (ObjectManager.Player.IsDashing()
-                    && Minion != null
-                    && !qSpell.EqRange(dashPos.DashEndPosition(Target, 475)))
-                {
-                    return;
-                }
+                var pred = q3Spell.Spell.GetPrediction(Target);
 
                 switch (Menu.Item("Hitchance").GetValue<StringList>().SelectedIndex)
                 {
@@ -79,7 +72,7 @@
             }
             else
             {
-                qSpell.Spell.Cast(Target);
+                Utility.DelayAction.Add(2, ()=> qSpell.Spell.CastOnUnit(Target));
             }
         }
 

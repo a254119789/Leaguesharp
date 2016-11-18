@@ -44,7 +44,7 @@
             {
                 var wallPoint = wall.FirstWallPoint(ObjectManager.Player.Position, dashPos.DashEndPosition(m, spell.Spell.Range));
 
-                if (wall.IsWallDash(wallPoint, spell.Spell.Range))
+                if (wall.IsWallDash(wallPoint, 475))
                 {
                     return;
                 }

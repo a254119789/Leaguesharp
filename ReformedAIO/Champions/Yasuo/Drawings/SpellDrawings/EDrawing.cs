@@ -46,7 +46,7 @@
             {
                 Render.Circle.DrawCircle(
                 dashPos.DashEndPosition(Minion, 475),
-                Minion.BoundingRadius,
+                25,
                 spell.Spell.IsReady() 
                 ? Color.White
                 : Color.DarkSlateGray);

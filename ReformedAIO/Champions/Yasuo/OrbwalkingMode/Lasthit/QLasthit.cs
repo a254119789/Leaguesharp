@@ -49,13 +49,15 @@
                 {
                     var pred = q3Spell.Spell.GetLineFarmLocation(Minion);
 
-                    if (Menu.Item("LhQ3").GetValue<Slider>().Value < pred.MinionsHit)
+                    if (ObjectManager.Player.IsDashing() && (m.Health < qSpell.GetDamage(m) || !qSpell.EqRange(dashPos.DashEndPosition(m, 475))))
                     {
                         return;
                     }
 
-                    q3Spell.Spell.Cast(pred.Position);
-
+                    if (pred.MinionsHit >= Menu.Item("LhQ3").GetValue<Slider>().Value)
+                    {
+                        q3Spell.Spell.Cast(pred.Position);
+                    }
                 }
                 else
                 {

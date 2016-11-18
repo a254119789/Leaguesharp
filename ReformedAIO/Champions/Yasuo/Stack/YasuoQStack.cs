@@ -39,8 +39,9 @@
         {
             if (ObjectManager.Player.HasBuff("Recall")
                 || ObjectManager.Player.HasBuff("YasuoQ3W") 
-                || ObjectManager.Player.CountEnemiesInRange(500) >= 1 
-                || !Menu.Item("StackKeybind").GetValue<KeyBind>().Active)
+                || ObjectManager.Player.CountEnemiesInRange(600) >= 1 
+                || !Menu.Item("StackKeybind").GetValue<KeyBind>().Active
+                || ObjectManager.Player.IsDashing())
             {
                 return;
             }

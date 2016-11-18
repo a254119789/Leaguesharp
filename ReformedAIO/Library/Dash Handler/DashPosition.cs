@@ -5,7 +5,7 @@
 
     using SharpDX;
 
-    class DashPosition
+    internal sealed class DashPosition
     {
         public Vector3 DashEndPosition(Obj_AI_Base target, float range)
         {

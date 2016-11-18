@@ -44,7 +44,7 @@
 
             foreach (var m in Mob)
             {
-                if (ObjectManager.Player.IsDashing() && !qSpell.EqRange(dashPos.DashEndPosition(m, 475)))
+                if (ObjectManager.Player.IsDashing() && !qSpell.EqRange(m.Position))
                 {
                     return;
                 }
