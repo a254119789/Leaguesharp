@@ -66,7 +66,7 @@
 
         private void OnUpdate(EventArgs args)
         {
-            if (!Menu.Item(Menu.Name + "FleeKey").GetValue<KeyBind>().Active) return;
+            if (!Menu.Item("FleeKey").GetValue<KeyBind>().Active) return;
 
             var jump =
                 fleeLogic.JumpPos.FirstOrDefault(
@@ -79,7 +79,7 @@
 
             var mobs = MinionManager.GetMinions(900, MinionTypes.All, MinionTeam.NotAlly);
 
-            if (jump.Value.IsValid() && Menu.Item(Menu.Name + "FleeVector").GetValue<bool>())
+            if (jump.Value.IsValid() && Menu.Item("FleeVector").GetValue<bool>())
             {
                 Variables.Player.IssueOrder(GameObjectOrder.MoveTo, jump.Value);
 

@@ -107,7 +107,7 @@
                 || !Variable.Spells[SpellSlot.R].IsReady() 
                 || args.DangerLevel < Interrupter2.DangerLevel.High) return;
 
-            if (sender.IsValidTarget(1200)) Variable.Spells[SpellSlot.R].CastIfHitchanceEquals(sender, HitChance.VeryHigh);
+            if (sender.IsValidTarget(900)) Variable.Spells[SpellSlot.R].Cast(sender);
         }
 
         private void OnUpdate(EventArgs args)

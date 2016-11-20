@@ -32,7 +32,7 @@
             {
                 return;
             }
-          
+
             if (this.gnarState.Mini)
             {
                 Mini();

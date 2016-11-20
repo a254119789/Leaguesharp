@@ -76,7 +76,7 @@
             foreach (var m in MinionManager.GetMinions(Menu.Item(menu.Name + "Q2Range").GetValue<Slider>().Value, MinionTypes.All, MinionTeam.Neutral))
             {
                 var prediction = Spells.Q2.GetPrediction(m, true);
-              
+
                 if (prediction.Hitchance >= HitChance.Medium)
                 {
                     Utility.DelayAction.Add(1, () => Spells.Q2.Cast(prediction.CastPosition));

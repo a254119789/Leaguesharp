@@ -207,7 +207,9 @@
     <Compile Include="Champions\Gnar\OrbwalkingMode\Jungle\W2Jungle.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Lane\QLane.cs" />
     <Compile Include="Champions\Gnar\OrbwalkingMode\Lane\W2Lane.cs" />
+    <Compile Include="Champions\Gnar\PermaActive\Antigapcloser\W.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Flee.cs" />
+    <Compile Include="Champions\Gnar\PermaActive\Interrupter\W.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Gnar\PermaActive\Killsteal\WKillsteal.cs" />
     <Compile Include="Champions\Gnar\Utility\GnarSkinchanger.cs" />
