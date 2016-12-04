@@ -17,7 +17,6 @@
     using PermaActive.Killsteal;
 
     using ReformedAIO.Champions.Gnar.PermaActive.Interrupter;
-    using ReformedAIO.Champions.Gnar.Utility;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Abstract_Classes;

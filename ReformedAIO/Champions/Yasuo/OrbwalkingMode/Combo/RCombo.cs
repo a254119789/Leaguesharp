@@ -11,6 +11,7 @@
 
     using Yasuo.Core.Spells;
 
+    using RethoughtLib.Extensions;
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class RCombo : OrbwalkingChild
@@ -40,11 +41,10 @@
                 return;
             }
             
-            var validtargets = Target.HasBuffOfType(BuffType.Knockback) || Target.HasBuffOfType(BuffType.Knockup);
-
-            if (validtargets)
+          
+            if (spell.IsAirbone(Target) && spell.RemainingAirboneTime(Target) < 5)
             {
-                Utility.DelayAction.Add(Menu.Item("cDelay").GetValue<Slider>().Value, ()=> spell.Spell.Cast());
+                spell.Spell.Cast();
             }
         }
 

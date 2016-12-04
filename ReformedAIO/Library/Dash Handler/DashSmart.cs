@@ -16,7 +16,7 @@
         /// <param name="targetPosition"></param>
         /// <param name="distance"></param>
         /// <returns></returns>
-        public Vector3 ToSafePosition(Obj_AI_Hero target, Vector3 targetPosition, double distance)
+        public Vector3 ToSafePosition(Obj_AI_Base target, Vector3 targetPosition, double distance)
         {
             return IsDangerous(target) 
                 ? Kite(target.Position.To2D(), distance).To3D()
@@ -31,7 +31,7 @@
         /// <returns></returns>
         public Vector2 Kite(Vector2 targetPos, double angle)
         {
-            angle *= Math.PI / 200.0;
+            angle *= Math.PI / 180.0;
             var temp = Vector2.Subtract(targetPos, ObjectManager.Player.Position.To2D());
             var result = new Vector2(0)
             {

@@ -15,6 +15,7 @@
     using ReformedAIO.Champions.Gragas;
     using ReformedAIO.Champions.Lucian;
     using ReformedAIO.Champions.Olaf;
+    using ReformedAIO.Champions.Vayne;
     using ReformedAIO.Champions.Yasuo;
 
     using RethoughtLib.Bootstraps.Abstract_Classes;
@@ -38,6 +39,7 @@
                 new EzrealLoader(),
                 new LucianLoader(),
                 new OlafLoader(),
+                new VayneLoader(),
                 new YasuoLoader()
             });
 
