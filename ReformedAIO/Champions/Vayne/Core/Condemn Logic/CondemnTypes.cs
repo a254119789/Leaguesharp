@@ -14,6 +14,11 @@
 
         private static Vector3 ReformedPosition(Obj_AI_Base target, float range, Spell spell)
         {
+            if (!Orbwalking.CanMove(5) || !Orbwalking.CanAttack())
+            {
+                return Vector3.Zero;
+            }
+
             var prediction = spell.GetPrediction(target).UnitPosition;
 
             var finalPosition = prediction.Extend(ObjectManager.Player.ServerPosition, -range);
