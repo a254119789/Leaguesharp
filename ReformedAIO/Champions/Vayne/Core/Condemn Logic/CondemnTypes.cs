@@ -21,16 +21,7 @@
 
             var prediction = spell.GetPrediction(target).UnitPosition;
 
-            var finalPosition = prediction.Extend(ObjectManager.Player.ServerPosition, -range);
-
-            if (NavMesh.GetCollisionFlags(finalPosition) == CollisionFlags.Wall
-                || NavMesh.GetCollisionFlags(finalPosition) == CollisionFlags.Building
-                || finalPosition.IsWall())
-            {
-                return finalPosition;
-            }
-
-            for (float i = 0; i < range; i += (int)target.BoundingRadius)
+            for (float i = 0; i < range; i += range / 5f)
             {
                 var newprediction = prediction.Extend(ObjectManager.Player.ServerPosition, -i);
 
@@ -42,6 +33,14 @@
                 }
             }
 
+            var finalPosition = prediction.Extend(ObjectManager.Player.ServerPosition, -range);
+
+            if (NavMesh.GetCollisionFlags(finalPosition) == CollisionFlags.Wall
+                || NavMesh.GetCollisionFlags(finalPosition) == CollisionFlags.Building
+                || finalPosition.IsWall())
+            {
+                return finalPosition;
+            }
             return Vector3.Zero;
         }
 

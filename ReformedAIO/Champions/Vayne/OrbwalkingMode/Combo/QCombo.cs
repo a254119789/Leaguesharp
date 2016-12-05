@@ -29,7 +29,7 @@
             if (Target == null
                  || !sender.IsMe 
                  || Menu.Item("Vayne.Combo.Q.Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
-                 || (Menu.Item("Vayne.Combo.Q.Stack").GetValue<bool>() && !spell.WStack(Target))
+                 || (Menu.Item("Vayne.Combo.Q.Stack").GetValue<bool>() && !spell.WStack(Target) && ObjectManager.Player.Level > 1)
                  || !CheckGuardians())
             {
                 return;
