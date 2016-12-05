@@ -2,12 +2,10 @@
 {
     using System;
     using System.Drawing;
-    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using ReformedAIO.Champions.Vayne.Core.Condemn_Logic;
     using ReformedAIO.Champions.Vayne.Core.Spells;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
@@ -15,8 +13,6 @@
     internal sealed class EDraw : ChildBase
     {
         public override string Name { get; set; } = "E";
-
-        private CondemnTypes condemnTypes;
 
         private readonly ESpell spell;
 

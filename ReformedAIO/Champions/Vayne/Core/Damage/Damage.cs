@@ -24,7 +24,7 @@
             this.eSpell = eSpell;
         }
 
-        public float GetComboDamage(Obj_AI_Hero target)
+        public float GetComboDamage(Obj_AI_Base target)
         {
             if (target == null) return 0;
 
@@ -35,10 +35,10 @@
                 comboDmg += qSpell.GetDamage(target);
             }
 
-            if (eSpell.Spell.IsReady())
-            {
-                comboDmg += eSpell.Spell.GetDamage(target);
-            }
+            //if (eSpell.Spell.IsReady())
+            //{
+            //    comboDmg += eSpell.Spell.GetDamage(target);
+            //}
 
             if (eSpell.WStack(target))
             {

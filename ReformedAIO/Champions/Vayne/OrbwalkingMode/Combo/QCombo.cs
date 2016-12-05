@@ -34,6 +34,11 @@
             {
                 return;
             }
+           
+            if (Menu.Item("Vayne.Combo.Q.Melee").GetValue<bool>() && Target.Distance(ObjectManager.Player) <= ObjectManager.Player.AttackRange / 2 - (int)Target.BoundingRadius)
+            {
+                spell.Spell.Cast(ObjectManager.Player.ServerPosition + (ObjectManager.Player.ServerPosition - Target.ServerPosition).Normalized() * 300);
+            }
 
             switch (Menu.Item("Vayne.Combo.Q.Mode").GetValue<StringList>().SelectedIndex)
             {
@@ -68,6 +73,8 @@
             base.OnLoad(sender, eventArgs);
 
             Menu.AddItem(new MenuItem("Vayne.Combo.Q.Mode", "Mode").SetValue(new StringList(new[] { "Cursor", "Kite", "Automatic" })));
+
+            Menu.AddItem(new MenuItem("Vayne.Combo.Q.Melee", "Anti-Melee").SetValue(true));
 
             Menu.AddItem(new MenuItem("Vayne.Combo.Q.Stack", "Only Q To Proc W").SetValue(false));
 

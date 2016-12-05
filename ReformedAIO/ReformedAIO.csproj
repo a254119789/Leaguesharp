@@ -245,7 +245,12 @@
     <Compile Include="Champions\Olaf\OrbwalkingMode\Mixed\WMixed.cs" />
     <Compile Include="Champions\Olaf\Utility\OlafSkinchanger.cs" />
     <Compile Include="Champions\Vayne\Antigapcloser\VayneAntiGapcloser.cs" />
+    <Compile Include="Champions\Vayne\Core\Condemn Logic\Condemn.cs" />
     <Compile Include="Champions\Vayne\Core\Condemn Logic\CondemnTypes.cs" />
+    <Compile Include="Champions\Vayne\Core\Condemn Logic\ICondemnType.cs" />
+    <Compile Include="Champions\Vayne\Core\Condemn Logic\MarksmanCondemn.cs" />
+    <Compile Include="Champions\Vayne\Core\Condemn Logic\ReformedCondemn.cs" />
+    <Compile Include="Champions\Vayne\Core\Condemn Logic\SharpshooterCondemn.cs" />
     <Compile Include="Champions\Vayne\Core\Damage\Damage.cs" />
     <Compile Include="Champions\Vayne\Core\Spells\ESpell.cs" />
     <Compile Include="Champions\Vayne\Core\Spells\QSpell.cs" />
