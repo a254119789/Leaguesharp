@@ -8,7 +8,7 @@
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using NechritoRiven.Core;
+    using Core;
 
     using Orbwalking = Orbwalking;
 
@@ -17,10 +17,20 @@
     internal class Animation : Core
     {
         #region Public Methods and Operators
+        private static bool NoStunsActive => !ObjectManager.Player.HasBuffOfType(BuffType.Stun)
+                                           && !ObjectManager.Player.HasBuffOfType(BuffType.Snare)
+                                           && !ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
+                                           && !ObjectManager.Player.HasBuffOfType(BuffType.Knockup);
 
-        private static Obj_AI_Hero Target => TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50, TargetSelector.DamageType.Physical);
+        private static bool ExtraDelay => (Target != null && Target.IsMoving)
+                                        || (Mob != null && Mob.IsMoving)
+                                        || IsGameObject;
 
-        private static Obj_AI_Minion Mob => (Obj_AI_Minion)MinionManager.GetMinions(ObjectManager.Player.AttackRange + 50, MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
+        private static Obj_AI_Hero Target => TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50,
+            TargetSelector.DamageType.Physical);
+
+        private static Obj_AI_Minion Mob => (Obj_AI_Minion)MinionManager.GetMinions(ObjectManager.Player.AttackRange + 50,
+            MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
 
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
@@ -62,7 +72,7 @@
                         Utility.DelayAction.Add(ResetDelay(MenuConfig.Qld), Reset);
 
                         Console.WriteLine("Q3 Delay: " 
-                         + ResetDelay( MenuConfig.Qld)
+                         + ResetDelay(MenuConfig.Qld)
                          + Environment.NewLine + ">----END----<");
                     }
                     break;
@@ -78,38 +88,37 @@
             switch (MenuConfig.EmoteList.SelectedIndex)
             {
                 case 0:
-                    Game.Say("/l");
+                    Game.SendEmote(Emote.Laugh);
+                    //Game.Say("/l");
                     break;
                 case 1:
-                    Game.Say("/t");
+                    Game.SendEmote(Emote.Taunt);
+                    //Game.Say("/t");
                     break;
                 case 2:
-                    Game.Say("/j");
+                    Game.SendEmote(Emote.Joke);
+                    //Game.Say("/j");
                     break;
                 case 3:
-                    Game.Say("/d");
+                    Game.SendEmote(Emote.Dance);
+                    //Game.Say("/d");
                     break;
             }
         }
 
         private static int ResetDelay(int qDelay)
         {
-            if (MenuConfig.CancelPing)
+            if (MenuConfig.CancelPing || ExtraDelay)
             {
                 return qDelay + Game.Ping / 2;
             }
-
-            if ((Target != null && Target.IsMoving) || (Mob != null && Mob.IsMoving) || IsGameObject)
-            {
-                return (int)(qDelay * 1.15);
-            }
-
             return qDelay;
         }
         
         private static void Reset()
         {
             Emotes();
+            Orbwalking.LastAaTick = 0;
             Orbwalking.ResetAutoAttackTimer();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
@@ -121,13 +130,8 @@
             {
                 return false;
             }
-
-            return !ObjectManager.Player.HasBuffOfType(BuffType.Stun)
-                && !ObjectManager.Player.HasBuffOfType(BuffType.Snare) 
-                && !ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
-                && !ObjectManager.Player.HasBuffOfType(BuffType.Knockup);
+            return NoStunsActive;
         }
-
         #endregion
     }
 }

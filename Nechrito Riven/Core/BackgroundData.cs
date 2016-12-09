@@ -76,6 +76,8 @@
                 ? 3748 
                  : 0;
 
+        private static bool CanUseItem => Items.CanUseItem(Item) && Item != 0;
+
         public static bool R1 { get; set; }
 
 
@@ -98,7 +100,7 @@
 
             if (canQ)
             {
-                if (Items.CanUseItem(Item) && Item != 0 && Qstack == 3)
+                if (CanUseItem && Qstack == 3)
                 {
                     Items.UseItem(Item);
                     Utility.DelayAction.Add(1, () => Spells.Q.Cast(Unit.Position));
@@ -113,7 +115,7 @@
             {
                 Spells.W.Cast();
 
-                if (doublecastQ && Spells.Q.IsReady() && Qstack == 1)
+                if (doublecastQ && Spells.Q.IsReady() && Qstack == 1 && MenuConfig.Doublecast)
                 {
                     var delay = Spells.R.IsReady() ? 190 : 90;
 
@@ -153,7 +155,7 @@
 
             Spells.W.Cast();
             Utility.DelayAction.Add(10, () => Player.Spellbook.CastSpell(Spells.Flash, target.Position));
-            Utility.DelayAction.Add(30, ()=> DoubleCastQ(target));
+            Utility.DelayAction.Add(15, ()=> DoubleCastQ(target));
         }
 
         public static void CastW(Obj_AI_Base x)

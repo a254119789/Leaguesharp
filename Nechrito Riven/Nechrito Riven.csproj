@@ -88,8 +88,7 @@
     <Compile Include="Draw\DrawMisc.cs" />
     <Compile Include="Draw\DrawWallSpot.cs" />
     <Compile Include="Draw\HpBarIndicator.cs" />
-    <Compile Include="Event\OrbwalkingModes\BurstMode.cs" />
-    <Compile Include="Event\OrbwalkingModes\ComboMode.cs" />
+    <Compile Include="Event\OrbwalkingModes\Combos.cs" />
     <Compile Include="Event\OrbwalkingModes\FastHarassMode.cs" />
     <Compile Include="Event\OrbwalkingModes\FleeMode.cs" />
     <Compile Include="Event\OrbwalkingModes\JungleClearMode.cs" />

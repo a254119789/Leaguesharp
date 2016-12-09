@@ -131,8 +131,8 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(220, 220, 340)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(220, 220, 340)));
+            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(205, 205, 340)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(205, 205, 340)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(330, 330, 380)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
@@ -215,7 +215,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.22").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.24").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 
