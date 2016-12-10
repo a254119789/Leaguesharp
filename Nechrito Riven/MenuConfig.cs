@@ -28,7 +28,7 @@
 
         public static bool AlwaysF => config.Item("AlwaysF").GetValue<KeyBind>().Active;
 
-        public static bool AlwaysR => config.Item("AlwaysR").GetValue<KeyBind>().Active;
+        public static bool UseR1 => config.Item("UseR1").GetValue<KeyBind>().Active;
 
         public static bool LaneQFast => config.Item("laneQFast").GetValue<bool>();
 
@@ -70,8 +70,6 @@
 
         public static bool KsR2 => config.Item("ksR2").GetValue<bool>();
 
-        public static bool KsQ => config.Item("ksQ").GetValue<bool>();
-
         public static bool InterruptMenu => config.Item("InterruptMenu").GetValue<bool>();
 
         public static bool IreliaLogic => config.Item("IreliaLogic").GetValue<bool>();
@@ -87,6 +85,8 @@
         public static bool LaneE => config.Item("LaneE").GetValue<bool>();
 
         public static bool LaneEnemy => config.Item("LaneEnemy").GetValue<bool>();
+
+        public static bool SafeR1 => config.Item("SafeR1").GetValue<bool>();
 
         public static bool LaneQ => config.Item("LaneQ").GetValue<bool>();
 
@@ -139,11 +139,12 @@
             config.AddSubMenu(animation);
 
             var combo = new Menu("Combo", "Combo");
-            combo.AddItem(new MenuItem("Q3Wall", "Q3 Over Wall").SetValue(true));
+            combo.AddItem(new MenuItem("Q3Wall", "Walljump").SetValue(true));
             combo.AddItem(new MenuItem("FlashOften", "Flash Burst Frequently").SetValue(false).SetTooltip("Will flash if killable, always."));
             combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true));
             combo.AddItem(new MenuItem("Doublecast", "Doublecast").SetValue(true)).SetTooltip("Fast Combo, less dmg");
-            combo.AddItem(new MenuItem("AlwaysR", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle)));
+            combo.AddItem(new MenuItem("SafeR1", "Don't waste R1").SetValue(true));
+            combo.AddItem(new MenuItem("UseR1", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle)));
             combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle)));
             config.AddSubMenu(combo);
 
@@ -165,7 +166,6 @@
             killsteal.AddItem(new MenuItem("ignite", "Use Ignite").SetValue(true));
             killsteal.AddItem(new MenuItem("ksW", "Use W").SetValue(true));
             killsteal.AddItem(new MenuItem("ksR2", "Use R2").SetValue(true));
-            killsteal.AddItem(new MenuItem("ksQ", "Use Q").SetValue(true));
             config.AddSubMenu(killsteal);
 
             var misc = new Menu("Misc", "Misc");
@@ -215,7 +215,7 @@
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "Version: 6.24").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.24.1").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
             config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 

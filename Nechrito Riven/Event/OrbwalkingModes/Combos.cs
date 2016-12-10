@@ -21,8 +21,7 @@
             {
                 BurstCastR2(Target);
             }
-
-            if (Spells.Flash.IsReady() && MenuConfig.AlwaysF)
+           else if (Spells.Flash.IsReady() && MenuConfig.AlwaysF)
             {
                 if (SelectedTarget == null
                     || !SelectedTarget.IsValidTarget(Player.AttackRange + 625)
@@ -56,13 +55,23 @@
                 ComboCastR2(Target);
             }
 
-           else if (Spells.E.IsReady() && MenuConfig.Q3Wall && Qstack >= 3)
+           if (Spells.E.IsReady() && MenuConfig.Q3Wall && Qstack >= 3)
             {
                 Q3Wall(Target);
             }
-           else if (Spells.E.IsReady())
+
+            if (Spells.E.IsReady())
             {
-                CastER(Target);
+                Spells.E.Cast(Target.Position);
+            }
+
+            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR && MenuConfig.UseR1)
+            {
+                if (MenuConfig.SafeR1 && Target.HealthPercent < 15 && Spells.Q.IsReady())
+                {
+                    return;
+                }
+                Spells.R.Cast();
             }
            else if (!Spells.W.IsReady() || !BackgroundData.InRange(Target))
             {
@@ -97,26 +106,13 @@
 
             if (pred.Hitchance < HitChance.High 
                 || target.HasBuff(BackgroundData.InvulnerableList.ToString())
-                || Player.IsWindingUp)
+                || Player.IsWindingUp
+                || Qstack == 1)
             {
                 return;
             }
 
             Spells.R.Cast(pred.CastPosition);
-        }
-
-        private static void CastER(Obj_AI_Hero target)
-        {
-            Spells.E.Cast(target.Position);
-
-            if (MenuConfig.AlwaysR)
-            {
-                Spells.R.Cast();
-            }
-            else
-            {
-                Utility.DelayAction.Add(10, Usables.CastHydra);
-            }
         }
 
         private static void DoublecastWQ(Obj_AI_Hero target)

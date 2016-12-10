@@ -85,11 +85,11 @@
             {
                 Drawing.DrawText(pos.X - 20, pos.Y + 20, Color.DodgerBlue, "Use R1  (     )");
 
-                Drawing.DrawText(pos.X + 43, pos.Y + 20, MenuConfig.AlwaysR 
+                Drawing.DrawText(pos.X + 43, pos.Y + 20, MenuConfig.UseR1 
                      ? Color.Yellow
                        : Color.Red,
 
-                    MenuConfig.AlwaysR 
+                    MenuConfig.UseR1 
                      ? "On"
                        : "Off");
             }

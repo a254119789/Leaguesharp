@@ -43,11 +43,6 @@
                 }
             }
 
-            if (target.Health < Spells.Q.GetDamage(target) && Spells.Q.IsReady() && Qstack != 3)
-            {
-                Spells.Q.Cast(target.Position);
-            }
-
             if (!Spells.Ignite.IsReady() || !MenuConfig.Ignite)
             {
                 return;

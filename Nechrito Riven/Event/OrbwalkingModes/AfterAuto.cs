@@ -16,8 +16,6 @@
     internal class AfterAuto : Core
     {
         #region Public Methods and Operators
-
-        // Jungle, Combo etc.
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsMe || !Orbwalking.IsAutoAttack(args.SData.Name))
@@ -36,36 +34,40 @@
                     return;
                 }
 
-                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                switch (Orbwalker.ActiveMode)
                 {
-                    if (Spells.Q.IsReady())
-                    {
-                        Usables.CastYoumoo();
-                        BackgroundData.CastQ(target);
-                    }
-                }
+                        case Orbwalking.OrbwalkingMode.Combo:
 
-                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
-                {
-                    if (Qstack == 2)
-                    {
-                        BackgroundData.CastQ(target);
-                    }
-                }
+                        if (Spells.Q.IsReady())
+                        {
+                            Usables.CastYoumoo();
+                            BackgroundData.CastQ(target);
+                        }
 
-                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.FastHarass)
-                {
-                    if (Spells.Q.IsReady() && Qstack == 2)
-                    {
-                        BackgroundData.CastQ(target);
-                    }
-                }
+                        break;
+                        case Orbwalking.OrbwalkingMode.Burst:
 
-                if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Burst) return;
+                        if (Spells.Q.IsReady())
+                        {
+                            BackgroundData.CastQ(target);
+                        }
 
-                if (Spells.Q.IsReady())
-                {
-                    BackgroundData.CastQ(target);
+                        break;
+                        case Orbwalking.OrbwalkingMode.Mixed:
+
+                        if (Qstack == 2)
+                        {
+                            BackgroundData.CastQ(target);
+                        }
+                        break;
+                        case Orbwalking.OrbwalkingMode.FastHarass:
+
+                        if (Spells.Q.IsReady() && Qstack == 2)
+                        {
+                            BackgroundData.CastQ(target);
+                        }
+
+                        break;
                 }
             }
 
@@ -96,7 +98,7 @@
                     }
                 }
 
-                var mobs = MinionManager.GetMinions(Player.Position, 360f, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.None); // Cheese lvl 1, Ex. Small Gromp 
+                var mobs = MinionManager.GetMinions(Player.Position, 360f, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.None);
 
                 if (mobs == null)
                 {
