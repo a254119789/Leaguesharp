@@ -48,7 +48,6 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\Sharp
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\SharpDX.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\SPrediction.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\clipper_library.dll
-C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.Common.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\LeagueSharp.SDKEx.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\RethoughtLib.pdb

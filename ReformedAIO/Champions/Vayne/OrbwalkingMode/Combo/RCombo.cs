@@ -54,7 +54,7 @@
 
                     if (info.Unkillable(Target)
                         || target.Health < damages.GetComboDamage(Target) * 3
-                        || ObjectManager.Player.CountAlliesInRange(1000) < ObjectManager.Player.CountEnemiesInRange(1000))
+                        || ObjectManager.Player.CountAlliesInRange(1000) < ObjectManager.Player.CountEnemiesInRange(1000) + 1)
                     {
                         return;
                     }
