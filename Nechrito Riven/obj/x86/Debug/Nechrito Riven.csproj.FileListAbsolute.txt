@@ -29,3 +29,4 @@ C:\Users\Nechr\Desktop\Nechrito Riven\obj\x86\Debug\Nechrito Riven.csprojResolve
 C:\Users\Nechr\Desktop\Nechrito Riven\obj\x86\Debug\Nechrito Riven.exe
 C:\Users\Nechr\Desktop\Nechrito Riven\obj\x86\Debug\Nechrito Riven.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Debug\LeagueSharp.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Debug\Newtonsoft.Json.dll

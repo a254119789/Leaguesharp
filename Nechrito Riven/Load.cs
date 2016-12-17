@@ -23,6 +23,8 @@
     {
         #region Public Methods and Operators
 
+        private const string OnInjection = "<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Loaded!</font></b>";
+
         public static void LoadAssembly()
         {
             MenuConfig.LoadMenu();
@@ -32,7 +34,7 @@
             Obj_AI_Base.OnProcessSpellCast += ProcessSpell.OnProcessSpell;
             Obj_AI_Base.OnProcessSpellCast += BackgroundData.OnCast;
             Obj_AI_Base.OnPlayAnimation += Animation.OnPlay;
-
+           
             Drawing.OnEndScene += DrawDmg.DmgDraw;
             Drawing.OnDraw += DrawMisc.RangeDraw;
             Drawing.OnDraw += DrawWallSpot.WallDraw;
@@ -44,8 +46,7 @@
             Interrupter2.OnInterruptableTarget += Interrupt2.OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += Gapclose.Gapcloser;
 
-            Game.PrintChat("<b><font color=\"#FFFFFF\">[</font></b><b><font color=\"#00e5e5\">Nechrito Riven</font></b><b><font color=\"#FFFFFF\">]</font></b><b><font color=\"#FFFFFF\"> Loaded!</font></b>");
-            Console.WriteLine("Nechrito Riven: Loaded");
+            Game.PrintChat(OnInjection);
         }
 
         #endregion
