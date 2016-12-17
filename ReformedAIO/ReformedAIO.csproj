@@ -67,7 +67,7 @@
     </Reference>
     <Reference Include="RethoughtLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\RethoughtLib\bin\Debug\RethoughtLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Software\rP1k9gpY1\References\RethoughtLib.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.dll</HintPath>
