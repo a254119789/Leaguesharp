@@ -11,8 +11,6 @@
 
     using RethoughtLib.FeatureSystem.Implementations;
 
-    using SharpDX;
-
     internal sealed class EHarass : OrbwalkingChild
     {
         public override string Name { get; set; } = "E";

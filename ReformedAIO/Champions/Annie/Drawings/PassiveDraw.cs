@@ -4,11 +4,8 @@
     using System.Drawing;
 
     using LeagueSharp;
-    using LeagueSharp.Common;
 
     using ReformedAIO.Champions.Annie.Core;
-    using ReformedAIO.Champions.Annie.Core.Spells;
-    using ReformedAIO.Library.Spell_Information;
 
     using RethoughtLib.FeatureSystem.Abstract_Classes;
 

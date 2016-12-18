@@ -1,7 +1,5 @@
 ﻿namespace ReformedAIO.Champions.Vayne.OrbwalkingMode.Combo
 {
-    using System;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 

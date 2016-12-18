@@ -1,7 +1,5 @@
 ﻿namespace ReformedAIO.Champions.Gnar.Logic
 {
-    using System;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 

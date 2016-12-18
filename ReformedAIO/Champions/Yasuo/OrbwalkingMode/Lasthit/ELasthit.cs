@@ -8,7 +8,6 @@
 
     using ReformedAIO.Champions.Yasuo.Core.Spells;
     using ReformedAIO.Library.Dash_Handler;
-    using ReformedAIO.Library.WallExtension;
 
     using RethoughtLib.FeatureSystem.Implementations;
 

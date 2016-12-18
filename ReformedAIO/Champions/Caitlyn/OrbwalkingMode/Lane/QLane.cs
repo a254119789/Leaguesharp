@@ -1,7 +1,6 @@
 ﻿namespace ReformedAIO.Champions.Caitlyn.OrbwalkingMode.Lane
 {
     using System;
-    using System.Linq;
 
     using LeagueSharp;
     using LeagueSharp.Common;

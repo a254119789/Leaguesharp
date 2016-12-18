@@ -1,7 +1,5 @@
 ﻿namespace ReformedAIO.Champions.Lucian.OrbwalkingMode.JungleClear
 {
-    using System.Linq;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 

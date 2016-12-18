@@ -11,13 +11,13 @@
     {
         public override string Name { get; set; } = "Damage";
 
-        private readonly Q1Spell qSpell;
+        private readonly QSpell qSpell;
 
         private readonly ESpell eSpell;
 
         private readonly RSpell rSpell;
 
-        public YasuoDamage(Q1Spell qSpell, ESpell eSpell, RSpell rSpell)
+        public YasuoDamage(QSpell qSpell, ESpell eSpell, RSpell rSpell)
         {
             this.qSpell = qSpell;
             this.eSpell = eSpell;

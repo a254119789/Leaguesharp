@@ -1,7 +1,5 @@
 ﻿namespace ReformedAIO.Champions.Yasuo.Core.Spells
 {
-    using System;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 

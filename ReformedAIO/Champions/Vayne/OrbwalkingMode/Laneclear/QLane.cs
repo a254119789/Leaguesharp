@@ -1,6 +1,5 @@
 ﻿namespace ReformedAIO.Champions.Vayne.OrbwalkingMode.Laneclear
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 

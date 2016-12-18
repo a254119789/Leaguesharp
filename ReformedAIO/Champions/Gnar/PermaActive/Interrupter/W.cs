@@ -1,15 +1,10 @@
-﻿using System;
-namespace ReformedAIO.Champions.Gnar.PermaActive.Interrupter
+﻿namespace ReformedAIO.Champions.Gnar.PermaActive.Interrupter
 {
-    using System;
-    using System.Linq;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
     using ReformedAIO.Champions.Gnar.Core;
 
-    using RethoughtLib.FeatureSystem.Abstract_Classes;
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class W : OrbwalkingChild

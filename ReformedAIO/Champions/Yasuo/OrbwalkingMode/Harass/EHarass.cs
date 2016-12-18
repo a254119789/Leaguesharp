@@ -37,8 +37,8 @@
         private void OnUpdate(EventArgs args)
         {
             if (Target == null || !CheckGuardians()
-                || (Menu.Item("Turret").GetValue<bool>() && dashPos.DashEndPosition(Target, spell.Spell.Range).UnderTurret(true))
-                || (Menu.Item("Enemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(1000)))
+                || (Menu.Item("Harras.E.Turret").GetValue<bool>() && dashPos.DashEndPosition(Target, spell.Spell.Range).UnderTurret(true))
+                || (Menu.Item("Harras.E.Enemies").GetValue<Slider>().Value < ObjectManager.Player.CountEnemiesInRange(1000)))
             {
                 return;
             }
@@ -74,9 +74,9 @@
             dashPos = new DashPosition();
             wall = new WallExtension();
 
-            Menu.AddItem(new MenuItem("Enemies", "Don't E Into X Enemies").SetValue(new Slider(3, 1, 5)));
+            Menu.AddItem(new MenuItem("Harras.E.Enemies", "Don't E Into X Enemies").SetValue(new Slider(3, 1, 5)));
 
-            Menu.AddItem(new MenuItem("Turret", "Turret Check").SetValue(true));
+            Menu.AddItem(new MenuItem("Harras.E.Turret", "Turret Check").SetValue(true));
         }
     }
 }

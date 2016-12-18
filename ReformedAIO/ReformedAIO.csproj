@@ -67,7 +67,7 @@
     </Reference>
     <Reference Include="RethoughtLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Software\rP1k9gpY1\References\RethoughtLib.dll</HintPath>
+      <HintPath>C:\Software\rP1k9gpY1\References\RethoughtLib.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>C:\Software\rP1k9gpY1\References\SharpDX.dll</HintPath>
@@ -275,8 +275,7 @@
     <Compile Include="Champions\Vayne\VayneLoader.cs" />
     <Compile Include="Champions\Yasuo\Core\Damage\YasuoDamage.cs" />
     <Compile Include="Champions\Yasuo\Core\Spells\ESpell.cs" />
-    <Compile Include="Champions\Yasuo\Core\Spells\Q1Spell.cs" />
-    <Compile Include="Champions\Yasuo\Core\Spells\Q3Spell.cs" />
+    <Compile Include="Champions\Yasuo\Core\Spells\QSpell.cs" />
     <Compile Include="Champions\Yasuo\Core\Spells\RSpell.cs" />
     <Compile Include="Champions\Yasuo\Core\Spells\WSpell.cs" />
     <Compile Include="Champions\Yasuo\Drawings\Damage\YasuoDamageDrawing.cs" />

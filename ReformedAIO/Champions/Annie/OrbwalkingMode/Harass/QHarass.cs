@@ -7,8 +7,6 @@
 
     using Core.Spells;
 
-    using ReformedAIO.Library.Spell_Information;
-
     using RethoughtLib.FeatureSystem.Implementations;
 
     internal sealed class QHarass : OrbwalkingChild

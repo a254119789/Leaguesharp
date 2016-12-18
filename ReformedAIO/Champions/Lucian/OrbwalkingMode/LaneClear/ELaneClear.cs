@@ -1,6 +1,5 @@
 ﻿namespace ReformedAIO.Champions.Lucian.OrbwalkingMode.LaneClear
 {
-    using System;
     using System.Linq;
 
     using LeagueSharp;
