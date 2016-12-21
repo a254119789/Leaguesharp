@@ -38,9 +38,9 @@
             return Spell.GetDamage(target);
         }
 
-        public bool CanEQ(Vector3 position)
+        public bool CanEQ(Obj_AI_Base target)
         {
-            return position.Distance(dashEndPos.To3D()) < 200;
+            return target.Position.Distance(ObjectManager.Player.Position) < 250 - target.BoundingRadius;
         }
 
         protected override void OnLoad(object sender, FeatureBaseEventArgs eventArgs)
@@ -87,7 +87,6 @@
                 return;
             }
 
-
             SetStandard();
         }
 
@@ -96,8 +95,7 @@
             if (!sender.IsMe) return;
 
             Spellstate = SpellState.DashQ;
-            Spell.Range = 200;
-
+           
             if (ObjectManager.Player.HasBuff(YasuoQ3W))
             {
                 Utility.DelayAction.Add(EDelay, SetWhirlwhind);

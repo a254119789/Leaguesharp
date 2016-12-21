@@ -85,7 +85,7 @@
                                 {
                                     new QCombo(qSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(qReadyGuardian),
                                     new ECombo(eSpell).Guardian(mustNotBeWindingUpGuardian).Guardian(eReadyGuardian),
-                                    new RCombo(rSpell, yasuoDmg).Guardian(mustNotBeWindingUpGuardian).Guardian(rReadyGuardian)
+                                    new RCombo(rSpell, yasuoDmg).Guardian(rReadyGuardian)
                                 });
             harassParent.Add(new List<Base>()
                                  {
