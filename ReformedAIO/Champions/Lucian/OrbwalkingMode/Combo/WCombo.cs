@@ -32,7 +32,7 @@
 
             if (target == null
                 || ObjectManager.Player.Distance(target) <= ObjectManager.Player.AttackRange + 75
-                || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
+                || Menu.Item("Combo.W.Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
@@ -50,7 +50,7 @@
             if (!sender.IsMe
                 || !Orbwalking.IsAutoAttack(args.SData.Name)
                 || !CheckGuardians()
-                || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
+                || Menu.Item("Combo.W.Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
@@ -59,7 +59,7 @@
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {
-                if (Menu.Item("WPred").GetValue<bool>())
+                if (Menu.Item("Combo.W.Pred").GetValue<bool>())
                 {
                     wSpell.Spell.Cast(target.Position);
                 }
@@ -79,8 +79,8 @@
         {
             base.OnLoad(sender, eventArgs);
 
-            Menu.AddItem(new MenuItem("WPred", "Disable Prediction").SetValue(true));
-            Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
+            Menu.AddItem(new MenuItem("Combo.W.Pred", "Disable Prediction").SetValue(true));
+            Menu.AddItem(new MenuItem("Combo.W.Mana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
 
         }
 

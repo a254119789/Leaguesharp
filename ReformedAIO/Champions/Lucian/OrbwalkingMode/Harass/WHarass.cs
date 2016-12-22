@@ -1,5 +1,6 @@
 ﻿namespace ReformedAIO.Champions.Lucian.OrbwalkingMode.Harass
 {
+    using System;
     using System.Linq;
 
     using LeagueSharp;
@@ -20,10 +21,36 @@
             this.wSpell = wSpell;
         }
 
-        private void AfterAttack(AttackableUnit unit, AttackableUnit attackableunit)
+        private void OnUpdate(EventArgs args)
         {
-            if (!CheckGuardians()
-                || Menu.Item("WMana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
+            if (!CheckGuardians())
+            {
+                return;
+            }
+
+            var target = TargetSelector.GetTarget(wSpell.Spell.Range, TargetSelector.DamageType.Physical);
+
+            if (target == null
+                || ObjectManager.Player.Distance(target) <= ObjectManager.Player.AttackRange + 75
+                || Menu.Item("Harass.W.Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
+            {
+                return;
+            }
+
+            var wPred = wSpell.Spell.GetPrediction(target);
+
+            if (wPred.Hitchance >= HitChance.Medium)
+            {
+                wSpell.Spell.Cast(wPred.CastPosition);
+            }
+        }
+
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (!sender.IsMe
+                || !Orbwalking.IsAutoAttack(args.SData.Name)
+                || !CheckGuardians()
+                || Menu.Item("Harass.W.Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent)
             {
                 return;
             }
@@ -32,13 +59,13 @@
 
             foreach (var target in heroes as Obj_AI_Hero[] ?? heroes.ToArray())
             {
-                if (Menu.Item("WPred").GetValue<bool>())
+                if (Menu.Item("Harass.W.Pred").GetValue<bool>())
                 {
                     wSpell.Spell.Cast(target.Position);
                 }
                 else
                 {
-                    var wPred = wSpell.Spell.GetPrediction(target, true);
+                    var wPred = wSpell.Spell.GetPrediction(target);
 
                     if (wPred.Hitchance > HitChance.Medium)
                     {
@@ -52,22 +79,25 @@
         {
             base.OnLoad(sender, eventArgs);
 
-            Menu.AddItem(new MenuItem("WPred", "Disable Prediction").SetValue(true));
-            Menu.AddItem(new MenuItem("WMana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
+            Menu.AddItem(new MenuItem("Harass.W.Pred", "Disable Prediction").SetValue(true));
+            Menu.AddItem(new MenuItem("Harass.W.Mana", "Min Mana %").SetValue(new Slider(20, 0, 100)));
+
         }
 
         protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
-             base.OnDisable(sender, eventArgs);
+            base.OnDisable(sender, eventArgs);
 
-             Orbwalking.AfterAttack -= AfterAttack;
+            Game.OnUpdate -= OnUpdate;
+            Obj_AI_Base.OnDoCast -= OnDoCast;
         }
 
         protected override void OnEnable(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnEnable(sender, eventArgs);
 
-            Orbwalking.AfterAttack += AfterAttack;
+            Game.OnUpdate += OnUpdate;
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
     }
 }

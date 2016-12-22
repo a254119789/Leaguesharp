@@ -47,7 +47,7 @@
 
         private void EQCombo()
         {
-            if (spell.CanEQ(Target.Position))
+            if (spell.CanEQ(Target))
             {
                 spell.Spell.Cast(Target);
             }

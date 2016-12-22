@@ -76,7 +76,7 @@
 
         private void EQHarass()
         {
-            if (spell.CanEQ(Target.Position))
+            if (spell.CanEQ(Target))
             {
                 spell.Spell.Cast();
             }

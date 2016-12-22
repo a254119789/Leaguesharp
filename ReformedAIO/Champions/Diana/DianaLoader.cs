@@ -73,7 +73,7 @@
 
             comboParent.Add(new Base[]
             {
-                new CrescentStrike().Guardian(qReady).Guardian(rMustNotBeReady), 
+                new CrescentStrike().Guardian(qReady), 
                 new LunarRush().Guardian(wReady),
                 new Moonfall().Guardian(eReady),
                 new PaleCascade().Guardian(rReady), 

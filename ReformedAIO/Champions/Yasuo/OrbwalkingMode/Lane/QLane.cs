@@ -49,7 +49,7 @@
 
                     case QSpell.SpellState.DashQ:
 
-                        if (spell.CanEQ(m.Position) && Minion.Count >= Menu.Item("Lane.Q.Hit").GetValue<Slider>().Value)
+                        if (spell.CanEQ(m) && Minion.Count >= Menu.Item("Lane.Q.Hit").GetValue<Slider>().Value)
                         {
                             spell.Spell.Cast(m);
                         }

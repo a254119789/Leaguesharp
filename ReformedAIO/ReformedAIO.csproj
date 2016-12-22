@@ -144,6 +144,7 @@
     <Compile Include="Champions\Caitlyn\Drawings\DmgDraw.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\QDraw.cs" />
     <Compile Include="Champions\Caitlyn\Drawings\RDraw.cs" />
+    <Compile Include="Champions\Caitlyn\Drawings\WDraw.cs" />
     <Compile Include="Champions\Caitlyn\Killsteal\QKillsteal.cs" />
     <Compile Include="Champions\Caitlyn\Killsteal\RKillsteal.cs" />
     <Compile Include="Champions\Caitlyn\Logic\ComboLogic.cs" />

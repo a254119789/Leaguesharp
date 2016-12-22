@@ -84,3 +84,4 @@ C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\Leagu
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\obj\Debug\ReformedAIO.exe
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\obj\Debug\ReformedAIO.pdb
 C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\bin\Debug\clipper_library.pdb
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\ReformedAIO\obj\Debug\ReformedAIO.csprojResolveAssemblyReference.cache

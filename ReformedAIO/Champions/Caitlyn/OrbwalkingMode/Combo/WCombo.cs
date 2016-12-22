@@ -25,6 +25,8 @@
 
         private bool ewq;
 
+        private Obj_AI_Turret Obj_AI_Turret;
+
         protected override void OnDisable(object sender, FeatureBaseEventArgs eventArgs)
         {
             base.OnDisable(sender, eventArgs);
@@ -47,15 +49,15 @@
         {
             base.OnLoad(sender, eventArgs);
 
-            Menu.AddItem(new MenuItem("Mana", "Mana %").SetValue(new Slider(5, 0, 100)));
+            Menu.AddItem(new MenuItem("Combo.W.Mana", "Mana %").SetValue(new Slider(5, 0, 100)));
 
-            Menu.AddItem(new MenuItem("AntiGapcloser", "Anti-Gapcloser").SetValue(true));
+            Menu.AddItem(new MenuItem("Combo.W.AntiGapcloser", "Anti-Gapcloser").SetValue(true));
 
-            Menu.AddItem(new MenuItem("Target", "W Behind Target").SetValue(true));
+            Menu.AddItem(new MenuItem("Combo.W.Target", "W Behind Target").SetValue(true));
 
-            Menu.AddItem(new MenuItem("Immobile", "W On Immobile").SetValue(true));
+            Menu.AddItem(new MenuItem("Combo.W.Immobile", "W On Immobile").SetValue(true));
 
-            Menu.AddItem(new MenuItem("Bush", "Auto W On Bush").SetValue(false));
+            Menu.AddItem(new MenuItem("Combo.W.Bush", "Auto W On Bush").SetValue(false));
         }
 
         private void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -64,13 +66,13 @@
             {
                 return;
             }
-          
+
             this.ewq = args.SData.Name == "CaitlynPiltoverPeacemaker";
         }
 
         private void Gapcloser(ActiveGapcloser gapcloser)
         {
-            if (!Menu.Item("AntiGapcloser").GetValue<bool>() || !CheckGuardians() || !gapcloser.Sender.IsEnemy) return;
+            if (!Menu.Item("Combo.W.AntiGapcloser").GetValue<bool>() || !CheckGuardians() || !gapcloser.Sender.IsEnemy) return;
 
             wSpell.Spell.Cast(gapcloser.End);
         }
@@ -83,7 +85,7 @@
                 return;
             }
 
-            if (Menu.Item("Bush").GetValue<bool>()
+            if (Menu.Item("Combo.W.Bush").GetValue<bool>()
                 && Utils.TickCount - wSpell.Spell.LastCastAttemptT < 2500
                 && !ObjectManager.Player.IsRecalling())
             {
@@ -98,15 +100,15 @@
             }
 
             if (Target == null 
-                || Menu.Item("Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
-                || Utils.TickCount - wSpell.Spell.LastCastAttemptT < 1100)
+                || Menu.Item("Combo.W.Mana").GetValue<Slider>().Value > ObjectManager.Player.ManaPercent
+                || Utils.TickCount - wSpell.Spell.LastCastAttemptT < 1500)
             {
                 return;
             }
 
             var wPrediction = wSpell.Spell.GetPrediction(Target);
 
-            if (Menu.Item("Target").GetValue<bool>()) 
+            if (Menu.Item("Combo.W.Target").GetValue<bool>()) 
             {
                 if (wPrediction.Hitchance < HitChance.VeryHigh)
                 {
@@ -116,7 +118,7 @@
                 wSpell.Spell.Cast(wPrediction.CastPosition);
             }
 
-            if (wPrediction.Hitchance < HitChance.Immobile || !Menu.Item("Immobile").GetValue<bool>()) return;
+            if (wPrediction.Hitchance < HitChance.Immobile || !Menu.Item("Combo.W.Immobile").GetValue<bool>()) return;
 
             wSpell.Spell.Cast(wPrediction.CastPosition);
         }

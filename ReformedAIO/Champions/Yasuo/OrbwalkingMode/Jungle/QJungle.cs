@@ -38,7 +38,7 @@
 
             foreach (var m in Mob)
             {
-                if (ObjectManager.Player.IsDashing() && !spell.CanEQ(m.Position))
+                if (ObjectManager.Player.IsDashing() && !spell.CanEQ(m))
                 {
                     return;
                 }

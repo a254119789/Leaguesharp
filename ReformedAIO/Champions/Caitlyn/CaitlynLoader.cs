@@ -106,6 +106,7 @@
             {
                 new DmgDraw(logic),
                 new QDraw(qSpell),
+                new WDraw(wSpell),
                 new RDraw(rSpell)
             });
 
