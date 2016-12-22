@@ -298,8 +298,9 @@ namespace NechritoRiven
         /// <returns><c>true</c> if the name is an auto attack; otherwise, <c>false</c>.</returns>
         public static bool IsAutoAttack(string name)
         {
-            return (name.ToLower().Contains("attack") && !NoAttacks.Contains(name.ToLower())) ||
-                   Attacks.Contains(name.ToLower());
+            return (name.ToLower().Contains("attack") 
+                   && !NoAttacks.Contains(name.ToLower()))
+                   || Attacks.Contains(name.ToLower());
         }
 
         /// <summary>
@@ -318,14 +319,9 @@ namespace NechritoRiven
 
             var aiBase = target as Obj_AI_Base;
 
-            if (aiBase == null || Player.ChampionName != "Caitlyn")
+            if (aiBase == null)
             {
                 return result + target.BoundingRadius;
-            }
-
-            if (aiBase.HasBuff("caitlynyordletrapinternal"))
-            {
-                result += 650;
             }
 
             return result + target.BoundingRadius;
@@ -354,10 +350,8 @@ namespace NechritoRiven
                 return false;
             }
             var myRange = GetRealAutoAttackRange(target);
-            return
-                Vector2.DistanceSquared(
-                    (target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(),
-                    Player.ServerPosition.To2D()) <= myRange * myRange;
+
+            return Vector2.DistanceSquared((target as Obj_AI_Base)?.ServerPosition.To2D() ?? target.Position.To2D(), Player.ServerPosition.To2D()) <= myRange * myRange;
         }
 
         /// <summary>
@@ -366,7 +360,6 @@ namespace NechritoRiven
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack()
         {
-
             return Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 && Attack;
         }
 
@@ -387,7 +380,7 @@ namespace NechritoRiven
                 return true;
             }
 
-            return (Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup);
+            return (Utils.GameTimeTickCount >= LastAaTick + 5 + Player.AttackCastDelay * 1000 + extraWindup);
         }
 
         /// <summary>
@@ -462,6 +455,7 @@ namespace NechritoRiven
             {
                 point = playerPosition.Extend(position, (randomizeMinDistance ? (Random.NextFloat(0.6f, 1) + 0.2f) * minDistance : minDistance));
             }
+
             var angle = 0f;
             var currentPath = Player.GetWaypoints();
             if (currentPath.Count > 1 && currentPath.PathLength() > 100)
@@ -508,12 +502,12 @@ namespace NechritoRiven
         /// <param name="randomizeMinDistance">if set to <c>true</c> [randomize minimum distance].</param>
         public static void Orbwalk(AttackableUnit target,
             Vector3 position,
-            float extraWindup = 90,
+            float extraWindup = 40,
             float holdAreaRadius = 0,
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
         {
-            if (Utils.GameTimeTickCount - LastAttackCommandT < (70 + Math.Min(60, Game.Ping)))
+            if (Utils.GameTimeTickCount - LastAttackCommandT < 50 + Math.Min(40, Game.Ping))
             {
                 return;
             }
@@ -628,9 +622,10 @@ namespace NechritoRiven
                     missileLaunched = false;
                     LastMoveCommandT = 0;
 
-                    if (spell.Target is Obj_AI_Base)
+                    var @base = spell.Target as Obj_AI_Base;
+                    if (@base != null)
                     {
-                        var target = (Obj_AI_Base)spell.Target;
+                        var target = @base;
                         if (target.IsValid)
                         {
                             FireOnTargetSwitch(target);
@@ -742,24 +737,25 @@ namespace NechritoRiven
                 config = attachToMenu;
                 /* Drawings submenu */
                 var drawings = new Menu("Drawings", "drawings");
-                drawings.AddItem(
-                    new MenuItem("AACircle", "AACircle").SetShared()
+
+                drawings.AddItem(new MenuItem("AACircle", "AACircle").SetShared()
                         .SetValue(new Circle(true, Color.FromArgb(155, 255, 255, 0))));
-                drawings.AddItem(
-                    new MenuItem("AACircle2", "Enemy AA circle").SetShared()
+
+                drawings.AddItem(new MenuItem("AACircle2", "Enemy AA circle").SetShared()
                         .SetValue(new Circle(false, Color.FromArgb(155, 255, 255, 0))));
-                drawings.AddItem(
-                    new MenuItem("HoldZone", "HoldZone").SetShared()
+
+                drawings.AddItem(new MenuItem("HoldZone", "HoldZone").SetShared()
                         .SetValue(new Circle(false, Color.FromArgb(155, 255, 255, 0))));
-                drawings.AddItem(
-                    new MenuItem("AALineWidth", "Line Width")).SetShared()
+
+                drawings.AddItem(new MenuItem("AALineWidth", "Line Width")).SetShared()
                         .SetValue(new Slider(2, 1, 6));
+
                 config.AddSubMenu(drawings);
 
                 /* Misc options */
                 var misc = new Menu("Misc", "Misc");
-                misc.AddItem(
-                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetShared().SetValue(new Slider(50, 50, 250)));
+
+                misc.AddItem(new MenuItem("HoldPosRadius", "Hold Position Radius").SetShared().SetValue(new Slider(50, 50, 250)));
                 misc.AddItem(new MenuItem("PriorizeFarm", "Priorize farm over harass").SetShared().SetValue(true));
                 misc.AddItem(new MenuItem("AttackWards", "Auto attack wards").SetShared().SetValue(false));
                 misc.AddItem(new MenuItem("AttackPetsnTraps", "Auto attack pets & traps").SetShared().SetValue(true));
@@ -778,33 +774,24 @@ namespace NechritoRiven
                 config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(0)));
 
                 /*Load the menu*/
+                
+                config.AddItem(new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("Flee", "Flee").SetShared().SetValue(new KeyBind('Z', KeyBindType.Press)));
+                config.AddItem(new MenuItem("LastHit", "Last hit").SetShared().SetValue(new KeyBind('X', KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("LastHit", "Last hit").SetShared().SetValue(new KeyBind('X', KeyBindType.Press)));
+                config.AddItem(new MenuItem("Farm", "Mixed").SetShared().SetValue(new KeyBind('C', KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("Farm", "Mixed").SetShared().SetValue(new KeyBind('C', KeyBindType.Press)));
+                config.AddItem(new MenuItem("LWH", "Last Hit While Harass").SetShared().SetValue(false));
 
-                config.AddItem(
-                    new MenuItem("LWH", "Last Hit While Harass").SetShared().SetValue(false));
+                config.AddItem(new MenuItem("LaneClear", "LaneClear").SetShared().SetValue(new KeyBind('V', KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("LaneClear", "LaneClear").SetShared().SetValue(new KeyBind('V', KeyBindType.Press)));
+                config.AddItem(new MenuItem("Orbwalk", "Combo").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("Orbwalk", "Combo").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));
+                config.AddItem(new MenuItem("Burst", "Burst").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("Burst", "Burst").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
+                config.AddItem(new MenuItem("FastHarass", "Fast Harass").SetShared().SetValue(new KeyBind('Y', KeyBindType.Press)));
 
-                config.AddItem(
-                    new MenuItem("FastHarass", "Fast Harass").SetShared().SetValue(new KeyBind('Y', KeyBindType.Press)));
-
-                config.AddItem(
-                    new MenuItem("StillCombo", "Combo without moving").SetShared().SetValue(new KeyBind('N', KeyBindType.Press)));
+                config.AddItem(new MenuItem("StillCombo", "Combo without moving").SetShared().SetValue(new KeyBind('N', KeyBindType.Press)));
 
                 player = ObjectManager.Player;
                 Game.OnUpdate += GameOnOnGameUpdate;
@@ -845,8 +832,7 @@ namespace NechritoRiven
                 customModeName = name;
                 if (config.Item(name) == null)
                 {
-                    config.AddItem(
-                        new MenuItem(name, displayname).SetShared().SetValue(new KeyBind(key, KeyBindType.Press)));
+                    config.AddItem(new MenuItem(name, displayname).SetShared().SetValue(new KeyBind(key, KeyBindType.Press)));
                 }
             }
 
@@ -1153,10 +1139,12 @@ namespace NechritoRiven
                     }
 
                     var target = GetTarget();
-                    Orbwalk(
-                        target, (orbwalkingPoint.To2D().IsValid()) ? orbwalkingPoint : Game.CursorPos,
-                        config.Item("ExtraWindup").GetValue<Slider>().Value,
-                        Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
+
+                    Orbwalk(target, 
+                           (orbwalkingPoint.To2D().IsValid())
+                           ? orbwalkingPoint : Game.CursorPos,
+                           config.Item("ExtraWindup").GetValue<Slider>().Value,
+                           Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
                 }
                 catch (Exception e)
                 {

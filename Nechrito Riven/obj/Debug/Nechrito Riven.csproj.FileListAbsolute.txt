@@ -29,3 +29,4 @@ C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Common.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.Data.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\clipper_library.pdb
 C:\Users\Nechr\Desktop\Nechrito Riven\bin\Release\LeagueSharp.dll
+C:\Users\Nechr\Documents\Visual Studio 2015\Projects\Nechrito Riven\bin\Release\Newtonsoft.Json.dll
