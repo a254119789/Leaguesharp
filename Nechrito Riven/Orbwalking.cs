@@ -360,7 +360,12 @@ namespace NechritoRiven
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack()
         {
-            return Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 && Attack;
+            if (Player.HasBuffOfType(BuffType.Blind))
+            {
+                return false;
+            }
+
+            return Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAaTick + Player.AttackDelay * 1000;
         }
 
         /// <summary>
@@ -380,7 +385,7 @@ namespace NechritoRiven
                 return true;
             }
 
-            return (Utils.GameTimeTickCount >= LastAaTick + 5 + Player.AttackCastDelay * 1000 + extraWindup);
+            return (Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup);
         }
 
         /// <summary>
