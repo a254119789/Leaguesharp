@@ -18,19 +18,19 @@
     {
         #region Public Methods and Operators
         private static bool NoStunsActive => !ObjectManager.Player.HasBuffOfType(BuffType.Stun)
-                                           && !ObjectManager.Player.HasBuffOfType(BuffType.Snare)
-                                           && !ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
-                                           && !ObjectManager.Player.HasBuffOfType(BuffType.Knockup);
+                                          && !ObjectManager.Player.HasBuffOfType(BuffType.Snare)
+                                          && !ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
+                                          && !ObjectManager.Player.HasBuffOfType(BuffType.Knockup);
 
         private static bool ExtraDelay => (Target != null && Target.IsMoving)
-                                        || (Mob != null && Mob.IsMoving)
-                                        || IsGameObject;
+                                       || (Mob != null && Mob.IsMoving)
+                                       || IsGameObject;
 
-        private static Obj_AI_Hero Target => TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 50,
-            TargetSelector.DamageType.Physical);
+        private static Obj_AI_Hero Target => TargetSelector.GetTarget(ObjectManager.Player.AttackRange + 65,
+                                             TargetSelector.DamageType.Physical);
 
-        private static Obj_AI_Minion Mob => (Obj_AI_Minion)MinionManager.GetMinions(ObjectManager.Player.AttackRange + 50,
-            MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
+        private static Obj_AI_Minion Mob => (Obj_AI_Minion)MinionManager.GetMinions(ObjectManager.Player.AttackRange + 65,
+                                                           MinionTypes.All, MinionTeam.Neutral).FirstOrDefault();
 
         public static void OnPlay(Obj_AI_Base sender, GameObjectPlayAnimationEventArgs args)
         {
@@ -52,6 +52,7 @@
                         Console.WriteLine("Q1 Delay: " + ResetDelay(MenuConfig.Qd));
                     }
                     break;
+
                 case "c39a37be":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 3;
@@ -63,6 +64,7 @@
                         Console.WriteLine("Q2 Delay: " + ResetDelay(MenuConfig.Q2D));
                     }
                     break;
+
                 case "c49a3951":
                     LastQ = Utils.GameTimeTickCount;
                     Qstack = 1;
@@ -89,47 +91,50 @@
             {
                 case 0:
                     Game.SendEmote(Emote.Laugh);
-                    //Game.Say("/l");
                     break;
                 case 1:
                     Game.SendEmote(Emote.Taunt);
-                    //Game.Say("/t");
                     break;
                 case 2:
                     Game.SendEmote(Emote.Joke);
-                    //Game.Say("/j");
                     break;
                 case 3:
                     Game.SendEmote(Emote.Dance);
-                    //Game.Say("/d");
                     break;
             }
         }
 
         private static int ResetDelay(int qDelay)
         {
-            if (MenuConfig.CancelPing || ExtraDelay)
+            var delay = qDelay;
+
+            if (MenuConfig.CancelPing)
             {
-                return qDelay + Game.Ping / 2;
+                delay += Game.Ping / 2;
             }
-            return qDelay;
+
+            if (ExtraDelay)
+            {
+                delay += 15;
+            }
+
+            return delay;
         }
         
         private static void Reset()
         {
             Emotes();
-            //Orbwalking.LastAaTick = 0;
             Orbwalking.ResetAutoAttackTimer();
             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
         }
 
         private static bool SafeReset()
         {
-            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Flee
-                || Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
+            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Flee || Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
             {
                 return false;
             }
+
             return NoStunsActive;
         }
         #endregion

@@ -385,7 +385,7 @@ namespace NechritoRiven
                 return true;
             }
 
-            return (Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup);
+            return Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup;
         }
 
         /// <summary>
@@ -481,7 +481,7 @@ namespace NechritoRiven
                 }
             }
 
-            if (Utils.GameTimeTickCount - LastMoveCommandT < (70 + Math.Min(60, Game.Ping)) && !overrideTimer && angle < 60)
+            if (Utils.GameTimeTickCount - LastMoveCommandT < 70 + Math.Min(60, Game.Ping) && !overrideTimer && angle < 60)
             {
                 return;
             }
@@ -506,11 +506,11 @@ namespace NechritoRiven
         /// <param name="useFixedDistance">if set to <c>true</c> [use fixed distance].</param>
         /// <param name="randomizeMinDistance">if set to <c>true</c> [randomize minimum distance].</param>
         public static void Orbwalk(AttackableUnit target,
-            Vector3 position,
-            float extraWindup = 40,
-            float holdAreaRadius = 0,
-            bool useFixedDistance = true,
-            bool randomizeMinDistance = true)
+                                   Vector3 position,
+                                   float extraWindup = 20,
+                                   float holdAreaRadius = 0,
+                                   bool useFixedDistance = true,
+                                   bool randomizeMinDistance = true)
         {
             if (Utils.GameTimeTickCount - LastAttackCommandT < 50 + Math.Min(40, Game.Ping))
             {
@@ -686,7 +686,7 @@ namespace NechritoRiven
         /// This class allows you to add an instance of "Orbwalker" to your assembly in order to control the orbwalking in an
         /// easy way.
         /// </summary>
-        public class Orbwalker
+        public class Orbwalker : IDisposable
         {
             /// <summary>
             /// The lane clear wait time modifier.
@@ -1055,6 +1055,7 @@ namespace NechritoRiven
                 if (ActiveMode != OrbwalkingMode.LastHit && ActiveMode != OrbwalkingMode.Flee)
                 {
                     var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
+
                     if (target.IsValidTarget() && InAutoAttackRange(target))
                     {
                         return target;
@@ -1064,12 +1065,11 @@ namespace NechritoRiven
                 /*Jungle minions*/
                 if (ActiveMode == OrbwalkingMode.LaneClear || ActiveMode == OrbwalkingMode.Mixed)
                 {
-                    var jminions =
-                        ObjectManager.Get<Obj_AI_Minion>()
-                            .Where(
-                                mob =>
-                                mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && this.InAutoAttackRange(mob)
-                                && mob.CharData.BaseSkinName != "gangplankbarrel");
+                    var jminions = ObjectManager.Get<Obj_AI_Minion>().Where(mob =>
+                                                                            mob.IsValidTarget() 
+                                                                            && mob.Team == GameObjectTeam.Neutral 
+                                                                            && this.InAutoAttackRange(mob)
+                                                                            && mob.CharData.BaseSkinName != "gangplankbarrel");
 
                     result = config.Item("Smallminionsprio").GetValue<bool>()
                                  ? jminions.MinOrDefault(mob => mob.MaxHealth)
@@ -1088,27 +1088,29 @@ namespace NechritoRiven
                     {
                         if (prevMinion.IsValidTarget() && InAutoAttackRange(prevMinion))
                         {
-                            var predHealth = HealthPrediction.LaneClearHealthPrediction(
-                                prevMinion, (int)((player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay);
-                            if (predHealth >= 2 * player.GetAutoAttackDamage(prevMinion) ||
-                                Math.Abs(predHealth - prevMinion.Health) < float.Epsilon)
+                            var predHealth = HealthPrediction.LaneClearHealthPrediction(prevMinion,
+                                                                                       (int)(player.AttackDelay
+                                                                                             * 1000
+                                                                                             * LaneClearWaitTimeMod),
+                                                                                             FarmDelay);
+
+                            if (predHealth >= 2 * player.GetAutoAttackDamage(prevMinion) || Math.Abs(predHealth - prevMinion.Health) < float.Epsilon)
                             {
                                 return prevMinion;
                             }
                         }
 
-                        result = (from minion in
-                                      ObjectManager.Get<Obj_AI_Minion>()
-                                          .Where(minion => minion.IsValidTarget() && InAutoAttackRange(minion) &&
-                                          (config.Item("AttackWards").GetValue<bool>() || !MinionManager.IsWard(minion)) &&
-                                          (config.Item("AttackPetsnTraps").GetValue<bool>() && minion.CharData.BaseSkinName != "jarvanivstandard" || MinionManager.IsMinion(minion, config.Item("AttackWards").GetValue<bool>())) &&
-                                          minion.CharData.BaseSkinName != "gangplankbarrel")
-                                  let predHealth =
-                                      HealthPrediction.LaneClearHealthPrediction(
-                                          minion, (int)((player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
-                                  where
-                                      predHealth >= 2 * player.GetAutoAttackDamage(minion) ||
-                                      Math.Abs(predHealth - minion.Health) < float.Epsilon
+                        result = (from minion in ObjectManager.Get<Obj_AI_Minion>()
+                                          .Where(minion => minion.IsValidTarget()
+                                          && InAutoAttackRange(minion) 
+                                          && (config.Item("AttackWards").GetValue<bool>() || !MinionManager.IsWard(minion))
+                                          && (config.Item("AttackPetsnTraps").GetValue<bool>() && minion.CharData.BaseSkinName != "jarvanivstandard" || MinionManager.IsMinion(minion, config.Item("AttackWards").GetValue<bool>()))
+                                          && minion.CharData.BaseSkinName != "gangplankbarrel")
+
+                                  let predHealth = HealthPrediction.LaneClearHealthPrediction(minion, (int)((player.AttackDelay * 1000) * LaneClearWaitTimeMod), FarmDelay)
+
+                                  where predHealth >= 2 * player.GetAutoAttackDamage(minion) || Math.Abs(predHealth - minion.Health) < float.Epsilon 
+
                                   select minion).MaxOrDefault(m => !MinionManager.IsMinion(m, true) ? float.MaxValue : m.Health);
 
                         if (result != null)
@@ -1146,10 +1148,11 @@ namespace NechritoRiven
                     var target = GetTarget();
 
                     Orbwalk(target, 
-                           (orbwalkingPoint.To2D().IsValid())
-                           ? orbwalkingPoint : Game.CursorPos,
-                           config.Item("ExtraWindup").GetValue<Slider>().Value,
-                           Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
+                            orbwalkingPoint.To2D().IsValid()
+                            ? orbwalkingPoint 
+                            : Game.CursorPos,
+                            config.Item("ExtraWindup").GetValue<Slider>().Value,
+                            Math.Max(config.Item("HoldPosRadius").GetValue<Slider>().Value, 30));
                 }
                 catch (Exception e)
                 {
@@ -1165,21 +1168,18 @@ namespace NechritoRiven
             {
                 if (config.Item("AACircle").GetValue<Circle>().Active)
                 {
-                    Render.Circle.DrawCircle(
-                        player.Position, GetRealAutoAttackRange(null) + 65,
-                        config.Item("AACircle").GetValue<Circle>().Color,
-                        config.Item("AALineWidth").GetValue<Slider>().Value);
+                    Render.Circle.DrawCircle(player.Position, GetRealAutoAttackRange(null) + 65,
+                                             config.Item("AACircle").GetValue<Circle>().Color,
+                                             config.Item("AALineWidth").GetValue<Slider>().Value);
                 }
 
                 if (config.Item("AACircle2").GetValue<Circle>().Active)
                 {
-                    foreach (var target in
-                        HeroManager.Enemies.FindAll(target => target.IsValidTarget(1175)))
+                    foreach (var target in HeroManager.Enemies.FindAll(target => target.IsValidTarget(1175)))
                     {
-                        Render.Circle.DrawCircle(
-                            target.Position, GetAttackRange(target),
-                            config.Item("AACircle2").GetValue<Circle>().Color,
-                            config.Item("AALineWidth").GetValue<Slider>().Value);
+                        Render.Circle.DrawCircle(target.Position, GetAttackRange(target),
+                                                 config.Item("AACircle2").GetValue<Circle>().Color,
+                                                 config.Item("AALineWidth").GetValue<Slider>().Value);
                     }
                 }
 
@@ -1191,6 +1191,15 @@ namespace NechritoRiven
                         config.Item("AALineWidth").GetValue<Slider>().Value, true);
                 }
                 config.Item("FocusMinionsOverTurrets").Permashow(config.Item("FocusMinionsOverTurrets").GetValue<KeyBind>().Active);
+            }
+
+            /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+            public void Dispose()
+            {
+                Menu.Remove(config);
+                Game.OnUpdate -= this.GameOnOnGameUpdate;
+                Drawing.OnDraw -= this.DrawingOnOnDraw;
+                Instances.Remove(this);
             }
         }
     }

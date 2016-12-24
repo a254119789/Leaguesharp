@@ -44,6 +44,11 @@
             }
 
             Spells.E.Cast(Game.CursorPos);
+
+            if (Spells.R.IsReady() && Spells.R.Instance.Name == IsFirstR && MenuConfig.UltHarass && target.Health < Dmg.GetComboDamage(target) * 1.2)
+            {
+                Spells.R.Cast(target);
+            }
             
             Utility.DelayAction.Add(190, () => Spells.Q.Cast(target.Position));
         }

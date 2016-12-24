@@ -118,6 +118,8 @@
 
         public static bool Q3Wall => config.Item("Q3Wall").GetValue<bool>();
 
+        public static bool UltHarass => config.Item("UltHarass").GetValue<bool>();
+
         public static int WallWidth => config.Item("WallWidth").GetValue<Slider>().Value;
 
         #endregion
@@ -133,9 +135,9 @@
             config.AddSubMenu(orbwalker);
 
             var animation = new Menu("Animations", "Animation");
-            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(205, 205, 340)));
-            animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(205, 205, 340)));
-            animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(330, 330, 380)));
+            animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(210, 210, 340)));
+            animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(210, 210, 340)));
+            animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(340, 340, 380)));
             animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
             animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
             config.AddSubMenu(animation);
@@ -145,7 +147,7 @@
             combo.AddItem(new MenuItem("FlashOften", "Flash Burst Frequently").SetValue(false).SetTooltip("Will flash if killable, always."));
             combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true));
             combo.AddItem(new MenuItem("Doublecast", "Doublecast").SetValue(true)).SetTooltip("Fast Combo, less dmg");
-            combo.AddItem(new MenuItem("SafeR1", "Don't waste R1").SetValue(true));
+            combo.AddItem(new MenuItem("UltHarass", "Use Ult In Harass (Killable only)").SetValue(false));
             combo.AddItem(new MenuItem("UseR1", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle)));
             combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle)));
             config.AddSubMenu(combo);
